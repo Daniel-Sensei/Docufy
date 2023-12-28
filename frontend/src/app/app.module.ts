@@ -18,6 +18,7 @@ import { NewsUpdateComponent } from './dashboard_folder/news-update/news-update.
 import { FooterComponent } from './footer/footer.component';
 import { DashboardComponent } from './dashboard_folder/dashboard/dashboard.component';
 import { LoginComponent } from './login/login.component';
+import { RegisterComponent } from './register/register.component';
 
 @NgModule({
   declarations: [
@@ -36,7 +37,8 @@ import { LoginComponent } from './login/login.component';
     NewsUpdateComponent,
     FooterComponent,
     DashboardComponent,
-    LoginComponent
+    LoginComponent,
+    RegisterComponent
   ],
   imports: [
     BrowserModule,
