@@ -21,6 +21,7 @@ import { LoginComponent } from './login/login.component';
 import { RegisterComponent } from './register/register.component';
 import { ContactComponent } from './contact/contact.component';
 import { QuestionComponent } from './question/question.component';
+import { ProfileComponent } from './profile/profile.component';
 
 @NgModule({
   declarations: [
@@ -42,7 +43,8 @@ import { QuestionComponent } from './question/question.component';
     LoginComponent,
     RegisterComponent,
     ContactComponent,
-    QuestionComponent
+    QuestionComponent,
+    ProfileComponent
   ],
   imports: [
     BrowserModule,
