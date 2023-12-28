@@ -17,6 +17,7 @@ import { WebsiteTrafficComponent } from './dashboard_folder/website-traffic/webs
 import { NewsUpdateComponent } from './dashboard_folder/news-update/news-update.component';
 import { FooterComponent } from './footer/footer.component';
 import { DashboardComponent } from './dashboard_folder/dashboard/dashboard.component';
+import { LoginComponent } from './login/login.component';
 
 @NgModule({
   declarations: [
@@ -34,7 +35,8 @@ import { DashboardComponent } from './dashboard_folder/dashboard/dashboard.compo
     WebsiteTrafficComponent,
     NewsUpdateComponent,
     FooterComponent,
-    DashboardComponent
+    DashboardComponent,
+    LoginComponent
   ],
   imports: [
     BrowserModule,
