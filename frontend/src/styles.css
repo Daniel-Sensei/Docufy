@@ -218,7 +218,9 @@
   
   /* Card */
   .card {
-    margin-bottom: 30px;
+    margin-bottom: 20px;
+    margin-left: 20px;
+    margin-right: 20px;
     border: none;
     border-radius: 5px;
     box-shadow: 0px 0 30px rgba(1, 41, 112, 0.1);
@@ -229,7 +231,7 @@
     border-color: #ebeef4;
     background-color: #fff;
     color: #798eb3;
-    padding: 15px;
+    padding: 10px;
   }
   
   .card-title {
@@ -247,11 +249,11 @@
   }
   
   .card-body {
-    padding: 0 20px 20px 20px;
+    padding: 0 15px 15px 15px;
   }
   
   .card-img-overlay {
-    background-color: rgba(255, 255, 255, 0.6);
+    background-color: rgba(139, 207, 231, 0.6);
   }
   
   /* Alerts */
