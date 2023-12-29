@@ -1,0 +1,112 @@
+<div id="main" class="main ">
+
+    <div class="pagetitle">
+        <h1>Dipendenti</h1>
+        <nav>
+            <ol class="breadcrumb">
+                <li class="breadcrumb-item"><a routerLink="/">Dashboard</a></li>
+                <li class="breadcrumb-item active">Dipendenti</li>
+            </ol>
+        </nav>
+    </div><!-- End Page Title -->
+
+    <div class="mb-3">
+        <button type="button" class="btn btn-primary" data-bs-toggle="modal" data-bs-target="#addEmployeeModal">
+            Aggiungi Dipendente
+        </button>
+    </div>
+
+
+    <div class="card">
+        <div class="card-body">
+            <div class="table-responsive">
+                <table class="table align-middle mb-0 bg-white" matSort (matSortChange)="onSortChange($event)">
+                    <thead class="bg-light">
+                        <tr>
+                            <th mat-sort-header="nome">Nome</th>
+                            <th mat-sort-header="ruolo">Ruolo</th>
+                            <th mat-sort-header="dataAssunzione">Data Assunzione</th>
+                            <th>Azioni</th>
+                        </tr>
+                    </thead>
+                    <tbody>
+                        <!-- Dati Dipendente 1-->
+                        <tr>
+                            <td>
+                                <div class="d-flex align-items-center">
+                                    <img src="https://mdbootstrap.com/img/new/avatars/8.jpg" alt=""
+                                        style="width: 45px; height: 45px" class="rounded-circle" />
+                                    <div class="ms-3">
+                                        <p class="fw-bold mb-1">Mario Rossi</p>
+                                        <p class="text-muted mb-0">mario.rossi&#64;gmail.com</p>
+                                    </div>
+                                </div>
+                            </td>
+                            <td>
+                                <p class="fw-normal mb-1">Software engineer</p>
+                                <p class="text-muted mb-0">Angular Developer</p>
+                            </td>
+                            <td>01/12/2023</td>
+                            <td>
+                                <button type="button" class="btn btn-link btn-rounded btn-sm fw-bold"
+                                    data-mdb-ripple-color="dark" routerLink="/dipendenti/1">
+                                    Dettagli
+                                </button>
+                            </td>
+                        </tr>
+                        <!-- Dati Dipendente 2-->
+                        <tr>
+                            <td>
+                                <div class="d-flex align-items-center">
+                                    <img src="https://mdbootstrap.com/img/new/avatars/7.jpg" alt=""
+                                        style="width: 45px; height: 45px" class="rounded-circle" />
+                                    <div class="ms-3">
+                                        <p class="fw-bold mb-1">Giulia Bianchi</p>
+                                        <p class="text-muted mb-0">giulia.bianchi&#64;gmail.com</p>
+                                    </div>
+                                </div>
+                            </td>
+                            <td>
+                                <p class="fw-normal mb-1">Graphic Designer</p>
+                                <p class="text-muted mb-0">UI/UX Specialist</p>
+                            </td>
+                            <td>15/05/2023</td>
+                            <td>
+                                <button type="button" class="btn btn-link btn-rounded btn-sm fw-bold"
+                                    data-mdb-ripple-color="dark">
+                                    Dettagli
+                                </button>
+                            </td>
+                        </tr>
+
+                        <!-- Dati Dipendente 3-->
+                        <tr>
+                            <td>
+                                <div class="d-flex align-items-center">
+                                    <img src="https://mdbootstrap.com/img/new/avatars/3.jpg" alt=""
+                                        style="width: 45px; height: 45px" class="rounded-circle" />
+                                    <div class="ms-3">
+                                        <p class="fw-bold mb-1">Luca Verdi</p>
+                                        <p class="text-muted mb-0">luca.verdi&#64;gmail.com</p>
+                                    </div>
+                                </div>
+                            </td>
+                            <td>
+                                <p class="fw-normal mb-1">Project Manager</p>
+                                <p class="text-muted mb-0">Scrum Master</p>
+                            </td>
+                            <td>22/07/2023</td>
+                            <td>
+                                <button type="button" class="btn btn-link btn-rounded btn-sm fw-bold"
+                                    data-mdb-ripple-color="dark">
+                                    Dettagli
+                                </button>
+                            </td>
+                        </tr>
+                    </tbody>
+                </table>
+            </div>
+        </div>
+    </div>
+
+</div>
