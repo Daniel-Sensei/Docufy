@@ -1,0 +1,17 @@
+.table .badge-success {
+    background-color: #28a745; 
+    color: #fff; 
+    padding: 0.2rem 0.5rem; 
+}
+
+.table .badge-danger {
+    background-color: #dc3545;
+    color: #fff;
+    padding: 0.2rem 0.5rem;
+}
+
+.table .badge-warning {
+    background-color: #ffc107;
+    color: #fff;
+    padding: 0.2rem 0.5rem;
+}

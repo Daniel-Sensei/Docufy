@@ -9,11 +9,13 @@ import { ProfileComponent } from './profile/profile.component';
 import { CorsiComponent } from './corsi/corsi.component';
 import { DettaglioCorsoComponent } from './dettaglio-corso/dettaglio-corso.component';
 
+import { DocumentiComponent } from './documenti/documenti.component';
 import { DipendentiComponent } from './dipendenti/dipendenti.component';
 import { DipendentiDettagliComponent } from './dipendenti-dettagli/dipendenti-dettagli.component';
 
 const routes: Routes = [
   { path: '', component: DashboardComponent },
+  { path: 'documenti', component: DocumentiComponent },
   { path: 'dipendenti', component: DipendentiComponent},
   { path: 'dipendenti/:id', component: DipendentiDettagliComponent},
   { path: 'login', component: LoginComponent },
