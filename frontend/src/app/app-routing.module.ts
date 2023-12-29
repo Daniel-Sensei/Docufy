@@ -6,14 +6,11 @@ import { RegisterComponent } from './register/register.component';
 import { ContactComponent } from './contact/contact.component';
 import { QuestionComponent } from './question/question.component';
 import { ProfileComponent } from './profile/profile.component';
-<<<<<<< HEAD
 import { CorsiComponent } from './corsi/corsi.component';
 import { DettaglioCorsoComponent } from './dettaglio-corso/dettaglio-corso.component';
-
-=======
-import { DipendentiComponent } from './dipendenti/dipendenti.component';
 import { DipendentiDettagliComponent } from './dipendenti-dettagli/dipendenti-dettagli.component';
->>>>>>> d1a491680197f8cdf4497f4483b11f5850725df5
+import { DipendentiComponent } from './dipendenti/dipendenti.component';
+
 
 const routes: Routes = [
   { path: '', component: DashboardComponent },
