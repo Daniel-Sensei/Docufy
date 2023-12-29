@@ -22,6 +22,11 @@ import { RegisterComponent } from './register/register.component';
 import { ContactComponent } from './contact/contact.component';
 import { QuestionComponent } from './question/question.component';
 import { ProfileComponent } from './profile/profile.component';
+import { DipendentiComponent } from './dipendenti/dipendenti.component';
+import { BrowserAnimationsModule } from '@angular/platform-browser/animations';
+
+import { MatSortModule } from '@angular/material/sort';
+import { DipendentiDettagliComponent } from './dipendenti-dettagli/dipendenti-dettagli.component';
 
 @NgModule({
   declarations: [
@@ -44,11 +49,15 @@ import { ProfileComponent } from './profile/profile.component';
     RegisterComponent,
     ContactComponent,
     QuestionComponent,
-    ProfileComponent
+    ProfileComponent,
+    DipendentiComponent,
+    DipendentiDettagliComponent
   ],
   imports: [
     BrowserModule,
-    AppRoutingModule
+    AppRoutingModule,
+    BrowserAnimationsModule,
+    MatSortModule
   ],
   providers: [],
   bootstrap: [AppComponent]

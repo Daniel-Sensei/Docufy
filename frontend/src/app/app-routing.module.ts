@@ -6,9 +6,13 @@ import { RegisterComponent } from './register/register.component';
 import { ContactComponent } from './contact/contact.component';
 import { QuestionComponent } from './question/question.component';
 import { ProfileComponent } from './profile/profile.component';
+import { DipendentiComponent } from './dipendenti/dipendenti.component';
+import { DipendentiDettagliComponent } from './dipendenti-dettagli/dipendenti-dettagli.component';
 
 const routes: Routes = [
   { path: '', component: DashboardComponent },
+  { path: 'dipendenti', component: DipendentiComponent},
+  { path: 'dipendenti/:id', component: DipendentiDettagliComponent},
   { path: 'login', component: LoginComponent },
   { path: 'register', component: RegisterComponent},
   { path: 'contact', component: ContactComponent },
