@@ -22,6 +22,8 @@ import { RegisterComponent } from './register/register.component';
 import { ContactComponent } from './contact/contact.component';
 import { QuestionComponent } from './question/question.component';
 import { ProfileComponent } from './profile/profile.component';
+import { CorsiComponent } from './corsi/corsi.component';
+import { DettaglioCorsoComponent } from './dettaglio-corso/dettaglio-corso.component';
 
 @NgModule({
   declarations: [
@@ -44,7 +46,9 @@ import { ProfileComponent } from './profile/profile.component';
     RegisterComponent,
     ContactComponent,
     QuestionComponent,
-    ProfileComponent
+    ProfileComponent,
+    CorsiComponent,
+    DettaglioCorsoComponent
   ],
   imports: [
     BrowserModule,

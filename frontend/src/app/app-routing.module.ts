@@ -6,6 +6,9 @@ import { RegisterComponent } from './register/register.component';
 import { ContactComponent } from './contact/contact.component';
 import { QuestionComponent } from './question/question.component';
 import { ProfileComponent } from './profile/profile.component';
+import { CorsiComponent } from './corsi/corsi.component';
+import { DettaglioCorsoComponent } from './dettaglio-corso/dettaglio-corso.component';
+
 
 const routes: Routes = [
   { path: '', component: DashboardComponent },
@@ -13,7 +16,9 @@ const routes: Routes = [
   { path: 'register', component: RegisterComponent},
   { path: 'contact', component: ContactComponent },
   { path: 'question', component: QuestionComponent},
-  { path: 'profile', component: ProfileComponent}
+  { path: 'profile', component: ProfileComponent},
+  { path : 'corsi', component: CorsiComponent},
+  { path: 'dettaglio_corso', component:DettaglioCorsoComponent}
 ];
 
 @NgModule({
