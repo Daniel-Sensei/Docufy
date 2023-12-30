@@ -32,8 +32,11 @@ import { DipendentiDettagliComponent } from './dipendenti-dettagli/dipendenti-de
 import { DocumentiComponent } from './documenti/documenti.component';
 import { DocumentiTabellaComponent } from './documenti-tabella/documenti-tabella.component';
 import { AddDocumentModalComponent } from './add-document-modal/add-document-modal.component';
-import { NgbModule } from '@ng-bootstrap/ng-bootstrap';
-import { ReactiveFormsModule } from '@angular/forms';
+import { NgbDate, NgbModule } from '@ng-bootstrap/ng-bootstrap';
+import { FormsModule, ReactiveFormsModule } from '@angular/forms';
+import { NgbDatepickerConfig, NgbDateParserFormatter } from '@ng-bootstrap/ng-bootstrap';
+import { NgbDateITParserFormatter } from './NgbDateParserFormatter';
+import { ToastrModule } from 'ngx-toastr';
 
 @NgModule({
   declarations: [
@@ -71,9 +74,14 @@ import { ReactiveFormsModule } from '@angular/forms';
     BrowserAnimationsModule,
     MatSortModule,
     NgbModule,
-    ReactiveFormsModule
+    ReactiveFormsModule,
+    FormsModule,
+    ToastrModule.forRoot()
   ],
-  providers: [],
+  providers: [
+    NgbDatepickerConfig,
+    { provide: NgbDateParserFormatter, useClass: NgbDateITParserFormatter}
+  ],
   bootstrap: [AppComponent]
 })
 export class AppModule { }

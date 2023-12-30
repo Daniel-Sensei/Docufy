@@ -1,6 +1,8 @@
 import { Component } from '@angular/core';
-import { NgbActiveModal } from '@ng-bootstrap/ng-bootstrap';
+import { NgbActiveModal, NgbDateStruct } from '@ng-bootstrap/ng-bootstrap';
 import { FormBuilder, FormGroup, Validators } from '@angular/forms';
+import { AlertService } from '../alert.service';
+
 
 @Component({
   selector: 'app-add-document-modal',
@@ -10,18 +12,23 @@ import { FormBuilder, FormGroup, Validators } from '@angular/forms';
 export class AddDocumentModalComponent {
 
   addDocumentForm: FormGroup;
+  model: NgbDateStruct | undefined;
 
   constructor(
     public activeModal: NgbActiveModal,
-    private fb: FormBuilder
-  ) {
+    private fb: FormBuilder,
+    private alert: AlertService,
+    ) {
     this.addDocumentForm = this.fb.group({
       tipoDocumento: ['', Validators.required],
-      tipoDocumentoAltro: ['']
-    }, { validators: this.checkAltroNome });
+      tipoDocumentoAltro: [''],
+      dataRilascio: ['', Validators.required],
+      dataScadenza: ['', Validators.required],
+      file: ['', Validators.required],
+    }, { validators: this.customValidation });
   }
 
-  checkAltroNome(group: FormGroup) {
+  customValidation(group: FormGroup) {
     const tipoDocumentoControl = group.get('tipoDocumento');
     const tipoDocumentoAltroControl = group.get('tipoDocumentoAltro');
 
@@ -37,5 +44,11 @@ export class AddDocumentModalComponent {
   submitForm() {
     // Puoi anche aggiungere qui la logica per chiudere la finestra modale, se necessario
     this.activeModal.close('Save click');
+
+    //stampa a console i valori del form
+    console.log(this.addDocumentForm.value);
+  
+    // Imposta la variabile per mostrare l'alert di successo
+    this.alert.setSuccessAlert();
   }
 }

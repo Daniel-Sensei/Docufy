@@ -1,7 +1,7 @@
 <div class="modal-header">
     <h4 class="modal-title">Aggiungi Nuovo Documento</h4>
     <button type="button" class="close" aria-label="Close" (click)="activeModal.dismiss('Cross click')">
-      <span aria-hidden="true">&times;</span>
+        <span aria-hidden="true">&times;</span>
     </button>
 </div>
 <div class="modal-body">
@@ -18,20 +18,56 @@
                 <!-- Aggiungi altre opzioni per diversi tipi di documento -->
             </select>
         </div>
-        
+
         <!-- Seleziona il nome di documento se clicco su altro -->
         <div class="col-md-12" *ngIf="addDocumentForm.get('tipoDocumento')?.value === 'altro'">
             <label for="tipoDocumentoAltro" class="form-label">Nome</label>
             <input formControlName="tipoDocumentoAltro" type="text" class="form-control" id="tipoDocumentoAltro"
                 [class.is-invalid]="addDocumentForm.get('tipoDocumentoAltro')?.invalid && addDocumentForm.get('tipoDocumentoAltro')?.touched">
-            <div *ngIf="addDocumentForm.get('tipoDocumentoAltro')?.invalid && addDocumentForm.get('tipoDocumentoAltro')?.touched" class="invalid-feedback">
+            <div *ngIf="addDocumentForm.get('tipoDocumentoAltro')?.invalid && addDocumentForm.get('tipoDocumentoAltro')?.touched"
+                class="invalid-feedback">
                 Nome è obbligatorio
             </div>
         </div>
 
+        <!-- Data di rilascio documento -->
+        <div class="col-md-12">
+            <label for="dataRilascio" class="form-label">Data di rilascio</label>
+            <div class="input-group">
+                <input readonly formControlName="dataRilascio" class="form-control" ngbDatepicker #dpRilascio="ngbDatepicker"
+                    placeholder="gg-mm-aaaa" />
+                <button class="btn btn-outline-secondary bi bi-calendar3" (click)="dpRilascio.toggle()"
+                    type="button"></button>
+            </div>
+        </div>
+
+        <!-- Data di scadenza documento -->
+        <div class="col-md-12">
+            <label for="dataScadenza" class="form-label">Data di scadenza</label>
+            <div class="input-group">
+                <input readonly formControlName="dataScadenza" class="form-control" ngbDatepicker #dpScadenza="ngbDatepicker"
+                    placeholder="gg-mm-aaaa" />
+                <button class="btn btn-outline-secondary bi bi-calendar3" (click)="dpScadenza.toggle()"
+                    type="button"></button>
+            </div>
+        </div>
+
+        <!-- Carica file -->
+        <div class="col-md-12">
+            <label for="file" class="form-label">Carica file</label>
+            <input formControlName="file" type="file" class="form-control" id="file"
+                [class.is-invalid]="addDocumentForm.get('file')?.invalid && addDocumentForm.get('file')?.touched">
+            <div *ngIf="addDocumentForm.get('file')?.invalid && addDocumentForm.get('file')?.touched"
+                class="invalid-feedback">
+                File è obbligatorio
+            </div>
+        </div>
+
     </form><!-- End Angular Reactive Form Validation -->
+
 </div>
 <div class="modal-footer">
     <button type="button" class="btn btn-secondary" (click)="activeModal.dismiss('Cancel click')">Chiudi</button>
-    <button type="button" class="btn btn-primary" [disabled]="addDocumentForm.invalid" (click)="submitForm()">Salva</button>
+    <button type="button" class="btn btn-primary" [disabled]="addDocumentForm.invalid"
+        (click)="submitForm()">Salva</button>
 </div>
