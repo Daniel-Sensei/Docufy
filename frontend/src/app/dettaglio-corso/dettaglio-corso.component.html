@@ -10,16 +10,26 @@
             </nav>
                  
         </div><!-- End Page Title -->
+
+        <div class="margin">
+            <div class="mb-3">
+                <button type="button" class="btn btn-primary" routerLink="/corsi">
+                    Iscriviti Al Corso
+                </button>
+            </div>
+    
+            <!--<div *ngIf="alert.getSuccessAlert()" class="alert alert-success alert-dismissible fade show" role="alert">
+                Dipendente aggiunto con successo
+                <button type="button" class="btn-close" data-bs-dismiss="alert" aria-label="Close"></button>
+            </div>-->
+        </div> 
     
         <section>
             <div class="row ">
                 <div class="col col-lg-12 mb-4 mb-lg-0">
                     <div class="card mb-0" style="border-radius: .5rem;">
                         <div class="row g-0">
-                            <div class="col-md-4">
-                                <button type="button" class="btn btn-primary" data-mdb-ripple-init>Iscriviti al corso</button>
-                            </div>
-                            <div class="col-md-6">
+                            <div class="col-md-11">
                                 <div class="card-body p-4">
                                     <h6>Informazioni coso: </h6>
                                     <hr class="mt-0 mb-4">
@@ -34,7 +44,7 @@
                                         </div>
                                         <div class="col-6 mb-3">
                                             <h6>Posti disponibili:</h6>
-                                            <p class="text-muted">120 posti</p>
+                                            <p class="text-muted">12 posti</p>
                                         </div>
                                         <div class="col-6 mb-3">
                                             <h6>costo:</h6>
@@ -72,16 +82,37 @@
                 </div>
             </div>
 
-            <div >
-                <button type="button" class="btn btn-primary" data-mdb-ripple-init>Iscriviti al corso</button>
-            </div>
         </section>
 
+
         <section>
-            <div class="pagetitle">
-                <h1>Altri Corsi Disponibili</h1>
+            
+            <div class="pagetitle" style="padding-top: 25px ;">
+                <h1>Dipendenti Iscritti</h1>
             </div>
            <div>
+            <nav>
+                <ol class="breadcrumb">
+                    <li class="breadcrumb-item"><a routerLink="/">Dashboard</a></li>
+                    <li class="breadcrumb-item"><a routerLink="/corsi">Corsi</a></li>
+                    <li class="breadcrumb-item active">Dipendenti Iscritti</li>
+                </ol> 
+            </nav>
+            <div class="margin">
+                <div class="mb-3">
+                    <button type="button" class="btn btn-primary" routerLink="/corsi">
+                        Aggiungi Dipendente
+                    </button>
+                </div>
+        
+                <!--<div *ngIf="alert.getSuccessAlert()" class="alert alert-success alert-dismissible fade show" role="alert">
+                    Dipendente aggiunto con successo
+                    <button type="button" class="btn-close" data-bs-dismiss="alert" aria-label="Close"></button>
+                </div>-->
+            </div> 
+            <app-dipendenti-tabella></app-dipendenti-tabella>
+
+          
 
            </div> 
         </section>

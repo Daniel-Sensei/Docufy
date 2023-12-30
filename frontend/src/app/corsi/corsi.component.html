@@ -8,72 +8,76 @@
             </ol>
         </nav>
     </div>
+    <div class="margin">
+      <div class="mb-3">
+          <button type="button" class="btn btn-primary" routerLink="/dettaglio_corso">
+              Aggiungi Corso
+          </button>
+      </div>
+
+      <!--<div *ngIf="alert.getSuccessAlert()" class="alert alert-success alert-dismissible fade show" role="alert">
+          Dipendente aggiunto con successo
+          <button type="button" class="btn-close" data-bs-dismiss="alert" aria-label="Close"></button>
+      </div>-->
+  </div> 
 
   <div class="row row-cols-1 row-cols-md-3 g-4">
-    <div class="col">
-      <div class="card h-70" >
+    
+    <div class="col" type="button" routerLink="/dettaglio_corso">
+      
+
+      <div class="card h-70 " >
         
           <!--<img src="https://mdbcdn.b-cdn.net/img/new/standard/city/041.webp" class="card-img-top"/>
           <div class="card-img-overlay">
             <h5 class="card-title text-center">Corso 1</h5>
             
           </div>-->
-        
         <div class="card-body">
          <h5 class="card-title bw-bold text-center">Corso 1</h5>
           <p class="card-text">
             This is a longer card with supporting text below as a natural lead-in to
             additional content. This content is a little bit longer.
           </p>
-          <button type="button" class="btn btn-primary" data-mdb-ripple-init routerLink="/dettaglio_corso">Dettagli Corso</button>
         </div>
       </div>
     </div>
-    <div class="col">
+
+    <div class="col" type="button" routerLink="/dettaglio_corso">
       <div class="card h-70" >
-        <!--<img src="https://mdbcdn.b-cdn.net/img/new/standard/city/042.webp" class="card-img-top"/>-->
         <div class="card-body">
           <h5 class="card-title bw-bold text-center">Corso 2</h5>
           <p class="card-text">This is a short card.</p>
-          <button type="button" class="btn btn-primary" data-mdb-ripple-init routerLink="/dettaglio_corso">Dettagli Corso</button>
         </div>
       </div>
     </div>
   
 
-    <div class="col">
+    <div class="col"type="button" routerLink="/dettaglio_corso">
       <div class="card h-70">
-        <!--<img src="https://mdbcdn.b-cdn.net/img/new/standard/city/043.webp" class="card-img-top" />-->
         <div class="card-body ">
           <h5 class="card-title bw-bold text-center ">Corso 3</h5>
           <p class="card-text">This is a longer card with supporting text below as a natural lead-in to additional content.</p>
-          <button type="button" class="btn btn-primary" data-mdb-ripple-init routerLink="/dettaglio_corso">Dettagli Corso</button>
         </div>
       </div>
     </div>
-    <div class="col">
+    <div class="col" type="button" routerLink="/dettaglio_corso">
       <div class="card h-70">
-        <!--<img src="https://mdbcdn.b-cdn.net/img/new/standard/city/044.webp" class="card-img-top"/>-->
         <div class="card-body">
           <h5 class="card-title bw-bold text-center">Corso 4</h5>
           <p class="card-text">
             This is a longer card with supporting text below as a natural lead-in to
             additional content. This content is a little bit longer.
           </p>
-          <button type="button" class="btn btn-primary" data-mdb-ripple-init routerLink="/dettaglio_corso">Dettagli Corso</button>
+          
         </div>
       </div>
     </div>
-    <div class="col" >
-      <div class="align-items-center justify-content-center" style="height: 100%; display: flex;">
-        <button type="button" class="btn btn-primary btn-rounded" data-mdb-ripple-init style="width: initial; height: initial">Aggiungi Nuovo Corso</button>
-      </div>
-  </div>
+   
   </div>
   
   </main>
   
-
 
 
  <!-- 
