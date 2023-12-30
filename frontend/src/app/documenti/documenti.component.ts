@@ -1,13 +1,18 @@
 import { Component } from '@angular/core';
 import { NgbModal } from '@ng-bootstrap/ng-bootstrap';
-import { AddDocumentModalComponent } from '../add-document-modal/add-document-modal.component';
+import { AddDocumentModalComponent } from '../add-documento-modal/add-document-modal.component';
+import { AlertService } from '../alert.service';
+
+
 @Component({
   selector: 'app-documenti',
   templateUrl: './documenti.component.html',
   styleUrl: './documenti.component.css'
 })
 export class DocumentiComponent {
-  constructor(private modalService: NgbModal) {}
+  constructor(
+    private modalService: NgbModal,
+    public alert: AlertService) {}
 
   openAddDocumentModal() {
     const modalRef = this.modalService.open(AddDocumentModalComponent, {

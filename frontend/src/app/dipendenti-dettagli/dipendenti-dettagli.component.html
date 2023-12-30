@@ -11,10 +11,12 @@
         </nav>
     </div><!-- End Page Title -->
 
-    <div class="mb-3">
-        <button type="button" class="btn btn-primary" data-bs-toggle="modal" data-bs-target="#addEmployeeModal">
-            Modifica dati
-        </button>
+    <div class="margin">
+        <div class="mb-3">
+            <button type="button" class="btn btn-primary" data-bs-toggle="modal" data-bs-target="#addEmployeeModal">
+                Modifica dati
+            </button>
+        </div>
     </div>
 
     <section class="mb-3">
@@ -80,13 +82,22 @@
 
     <div class="pagetitle">
         <h1>Documenti Dipendente</h1>
+        <nav>
+            <ol class="breadcrumb">
+                <li class="breadcrumb-item"><a routerLink="/">Dashboard</a></li>
+                <li class="breadcrumb-item"><a routerLink="/dipendenti">Dipendenti</a></li>
+                <li class="breadcrumb-item active">Documenti Dipendente</li>
+            </ol>
+        </nav>
     </div><!-- End Page Title -->
 
-    <div class="mb-3">
-        <button type="button" class="btn btn-primary" data-bs-toggle="modal" data-bs-target="#addEmployeeModal">
-            Aggiungi Documento
-        </button>
-    </div>
+    <div class="margin">
+        <div class="mb-3">
+            <button type="button" class="btn btn-primary" data-bs-toggle="modal" data-bs-target="#addEmployeeModal">
+                Aggiungi Documento
+            </button>
+        </div>
+    </div> <!-- End Margin -->
 
     <app-documenti-tabella></app-documenti-tabella>
 
