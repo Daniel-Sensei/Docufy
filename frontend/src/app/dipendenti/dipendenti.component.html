@@ -12,9 +12,14 @@
 
     <div class="margin">
         <div class="mb-3">
-            <button type="button" class="btn btn-primary" data-bs-toggle="modal" data-bs-target="#addEmployeeModal">
+            <button type="button" class="btn btn-primary" (click)="openAddDocumentModal()">
                 Aggiungi Dipendente
             </button>
+        </div>
+
+        <div *ngIf="alert.getSuccessAlert()" class="alert alert-success alert-dismissible fade show" role="alert">
+            Dipendente aggiunto con successo
+            <button type="button" class="btn-close" data-bs-dismiss="alert" aria-label="Close"></button>
         </div>
     </div> <!-- End Margin -->
 

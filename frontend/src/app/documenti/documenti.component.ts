@@ -1,6 +1,6 @@
 import { Component } from '@angular/core';
 import { NgbModal } from '@ng-bootstrap/ng-bootstrap';
-import { AddDocumentModalComponent } from '../add-document-modal/add-document-modal.component';
+import { AddDocumentModalComponent } from '../add-documento-modal/add-document-modal.component';
 import { AlertService } from '../alert.service';
 
 

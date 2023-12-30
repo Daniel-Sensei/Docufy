@@ -31,12 +31,13 @@ import { MatSortModule } from '@angular/material/sort';
 import { DipendentiDettagliComponent } from './dipendenti-dettagli/dipendenti-dettagli.component';
 import { DocumentiComponent } from './documenti/documenti.component';
 import { DocumentiTabellaComponent } from './documenti-tabella/documenti-tabella.component';
-import { AddDocumentModalComponent } from './add-document-modal/add-document-modal.component';
+import { AddDocumentModalComponent } from './add-documento-modal/add-document-modal.component';
 import { NgbDate, NgbModule } from '@ng-bootstrap/ng-bootstrap';
 import { FormsModule, ReactiveFormsModule } from '@angular/forms';
 import { NgbDatepickerConfig, NgbDateParserFormatter } from '@ng-bootstrap/ng-bootstrap';
 import { NgbDateITParserFormatter } from './NgbDateParserFormatter';
 import { ToastrModule } from 'ngx-toastr';
+import { AddDipendenteModalComponent } from './add-dipendente-modal/add-dipendente-modal.component';
 
 @NgModule({
   declarations: [
@@ -67,6 +68,7 @@ import { ToastrModule } from 'ngx-toastr';
     DocumentiComponent,
     DocumentiTabellaComponent,
     AddDocumentModalComponent,
+    AddDipendenteModalComponent,
   ],
   imports: [
     BrowserModule,

@@ -13,10 +13,10 @@ export class AlertService {
 
   setSuccessAlert() {
     this.showSuccessAlert = true;
-    //imposta this.showSuccessAlert a false dopo 3 secondi
+    //imposta this.showSuccessAlert a false dopo 5 secondi
     setTimeout(() => {
       this.showSuccessAlert = false;
-    }, 3000);
+    }, 5000);
   }
 
   setWarningAlert() {
