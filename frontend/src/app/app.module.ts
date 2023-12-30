@@ -40,6 +40,8 @@ import { ToastrModule } from 'ngx-toastr';
 import { AddDipendenteModalComponent } from './add-dipendente-modal/add-dipendente-modal.component';
 import { DipendentiTabellaComponent } from './dipendenti-tabella/dipendenti-tabella.component';
 
+import { DoughnutChartDirective } from './doughnut-chart.directives';
+
 @NgModule({
   declarations: [
     AppComponent,
@@ -71,6 +73,7 @@ import { DipendentiTabellaComponent } from './dipendenti-tabella/dipendenti-tabe
     AddDocumentModalComponent,
     AddDipendenteModalComponent,
     DipendentiTabellaComponent,
+    DoughnutChartDirective
   ],
   imports: [
     BrowserModule,
