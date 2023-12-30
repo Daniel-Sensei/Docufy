@@ -30,6 +30,7 @@ import { BrowserAnimationsModule } from '@angular/platform-browser/animations';
 import { MatSortModule } from '@angular/material/sort';
 import { DipendentiDettagliComponent } from './dipendenti-dettagli/dipendenti-dettagli.component';
 import { DocumentiComponent } from './documenti/documenti.component';
+import { DocumentiTabellaComponent } from './documenti-tabella/documenti-tabella.component';
 
 @NgModule({
   declarations: [
@@ -57,7 +58,8 @@ import { DocumentiComponent } from './documenti/documenti.component';
     DettaglioCorsoComponent,
     DipendentiComponent,
     DipendentiDettagliComponent,
-    DocumentiComponent
+    DocumentiComponent,
+    DocumentiTabellaComponent
   ],
   imports: [
     BrowserModule,
