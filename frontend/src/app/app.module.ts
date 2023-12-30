@@ -31,6 +31,9 @@ import { MatSortModule } from '@angular/material/sort';
 import { DipendentiDettagliComponent } from './dipendenti-dettagli/dipendenti-dettagli.component';
 import { DocumentiComponent } from './documenti/documenti.component';
 import { DocumentiTabellaComponent } from './documenti-tabella/documenti-tabella.component';
+import { AddDocumentModalComponent } from './add-document-modal/add-document-modal.component';
+import { NgbModule } from '@ng-bootstrap/ng-bootstrap';
+import { ReactiveFormsModule } from '@angular/forms';
 
 @NgModule({
   declarations: [
@@ -59,13 +62,16 @@ import { DocumentiTabellaComponent } from './documenti-tabella/documenti-tabella
     DipendentiComponent,
     DipendentiDettagliComponent,
     DocumentiComponent,
-    DocumentiTabellaComponent
+    DocumentiTabellaComponent,
+    AddDocumentModalComponent,
   ],
   imports: [
     BrowserModule,
     AppRoutingModule,
     BrowserAnimationsModule,
-    MatSortModule
+    MatSortModule,
+    NgbModule,
+    ReactiveFormsModule
   ],
   providers: [],
   bootstrap: [AppComponent]
