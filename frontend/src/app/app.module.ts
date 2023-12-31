@@ -42,6 +42,8 @@ import { DipendentiTabellaComponent } from './dipendenti-tabella/dipendenti-tabe
 import { AddDipendenteCorsoModalComponent } from './add-dipendente-corso-modal/add-dipendente-corso-modal.component';
 
 import { DoughnutChartDirective } from './doughnut-chart.directives';
+import { NgMultiSelectDropDownModule } from 'ng-multiselect-dropdown';
+
 
 @NgModule({
   declarations: [
@@ -85,7 +87,8 @@ import { DoughnutChartDirective } from './doughnut-chart.directives';
     NgbModule,
     ReactiveFormsModule,
     FormsModule,
-    ToastrModule.forRoot()
+    ToastrModule.forRoot(),
+    NgMultiSelectDropDownModule.forRoot()
   ],
   providers: [
     NgbDatepickerConfig,

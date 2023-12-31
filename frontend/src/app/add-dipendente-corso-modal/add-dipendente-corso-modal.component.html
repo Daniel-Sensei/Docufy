@@ -1,41 +1,14 @@
-<div class="container">
-    <div class="select-btn">
-     <span class="btn-text">Seleziona dipendenti</span>
-     <span class="arrow-dwn">
-         <i class="bx bx-chevron-down"></i>
-     </span>
-    </div> 
-    <ul class="list-items">
-     <li class="item">
-         <span class="checkbox">
-             <i class="bx bx-check check-icon"></i>
-         </span>
-         <span class="item-text"> Primo dipendente </span>
-     </li>
-     <li class="item">
-        <span class="checkbox">
-            <i class="bx bx-check check-icon"></i>
-        </span>
-        <span class="item-text"> Secondo dipendente </span>
-    </li>
-    <li class="item">
-        <span class="checkbox">
-            <i class="bx bx-check check-icon"></i>
-        </span>
-        <span class="item-text"> Terzo dipendente </span>
-    </li>
-    <li class="item">
-        <span class="checkbox">
-            <i class="bx bx-check check-icon"></i>
-        </span>
-        <span class="item-text"> Quarto dipendente </span>
-    </li>
-    <li class="item">
-        <span class="checkbox">
-            <i class="bx bx-check check-icon"></i>
-        </span>
-        <span class="item-text"> Quinto dipendente </span>
-    </li>
-    </ul>
- </div>
- 
+<div class="container" style="display: flex; align-items: center;">
+<ng-multiselect-dropdown style="width: inherit;"
+  [placeholder]="'Seleziona dipendenti'"
+  [settings]="dropdownSettings"
+  [data]="dropdownList"
+  [(ngModel)]="selectedItems"
+  (onSelect)="onItemSelect($event)"
+  (onSelectAll)="onSelectAll($event)"
+>
+</ng-multiselect-dropdown>
+  
+<button class="btn btn-primary" style="margin-left: 40px; padding: 5px;" (click)="addDipendenteCorso()">Salva</button>
+
+</div>
