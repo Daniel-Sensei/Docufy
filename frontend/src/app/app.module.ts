@@ -41,6 +41,8 @@ import { AddDipendenteModalComponent } from './add-dipendente-modal/add-dipenden
 import { DipendentiTabellaComponent } from './dipendenti-tabella/dipendenti-tabella.component';
 import { AddDipendenteCorsoModalComponent } from './add-dipendente-corso-modal/add-dipendente-corso-modal.component';
 
+import { DoughnutChartDirective } from './doughnut-chart.directives';
+
 @NgModule({
   declarations: [
     AppComponent,
@@ -73,6 +75,7 @@ import { AddDipendenteCorsoModalComponent } from './add-dipendente-corso-modal/a
     AddDipendenteModalComponent,
     DipendentiTabellaComponent,
     AddDipendenteCorsoModalComponent,
+    DoughnutChartDirective
   ],
   imports: [
     BrowserModule,

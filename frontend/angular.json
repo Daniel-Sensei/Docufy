@@ -57,6 +57,7 @@
               "./src/assets/vendor/simple-datatables/simple-datatables.js",
               "./src/assets/vendor/tinymce/tinymce.min.js",
               "./src/assets/vendor/php-email-form/validate.js",
+              "./node_modules/chart.js/dist/chart.umd.js",
               "src/main.js"
             ]
           },
