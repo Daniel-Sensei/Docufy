@@ -52,3 +52,11 @@ body {
 .text2 {
     color: #a5aec0
 }
+
+/* CARD */
+.card-header{
+    background-color: #fff;
+    border-bottom: 1px solid #e6e6e6;
+    position: relative;
+    border-radius: 10px 10px 0 0;
+}
