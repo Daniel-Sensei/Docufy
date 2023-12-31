@@ -100,8 +100,8 @@
             </nav>
             <div class="margin">
                 <div class="mb-3">
-                    <button type="button" class="btn btn-primary" routerLink="/corsi">
-                        Aggiungi Dipendente
+                    <button type="button" class="btn btn-primary" (click)="openAddDipendenteCorso()">
+                        Aggiungi Dipendenti
                     </button>
                 </div>
         
@@ -110,7 +110,7 @@
                     <button type="button" class="btn-close" data-bs-dismiss="alert" aria-label="Close"></button>
                 </div>-->
             </div> 
-            <app-dipendenti-tabella></app-dipendenti-tabella>
+            <app-add-dipendente-corso-modal></app-add-dipendente-corso-modal>
 
           
 

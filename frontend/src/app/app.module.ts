@@ -39,6 +39,7 @@ import { NgbDateITParserFormatter } from './NgbDateParserFormatter';
 import { ToastrModule } from 'ngx-toastr';
 import { AddDipendenteModalComponent } from './add-dipendente-modal/add-dipendente-modal.component';
 import { DipendentiTabellaComponent } from './dipendenti-tabella/dipendenti-tabella.component';
+import { AddDipendenteCorsoModalComponent } from './add-dipendente-corso-modal/add-dipendente-corso-modal.component';
 
 @NgModule({
   declarations: [
@@ -71,6 +72,7 @@ import { DipendentiTabellaComponent } from './dipendenti-tabella/dipendenti-tabe
     AddDocumentModalComponent,
     AddDipendenteModalComponent,
     DipendentiTabellaComponent,
+    AddDipendenteCorsoModalComponent,
   ],
   imports: [
     BrowserModule,
