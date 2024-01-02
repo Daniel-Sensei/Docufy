@@ -2,6 +2,7 @@ export interface Corso{
     id: number;
     nome: string;
     tipo: string; 
+    aziendaErogatrice: string;
     costo:number;
     descrizione: string;
     breveDescrizione: string;
@@ -9,4 +10,5 @@ export interface Corso{
     dataFine: string;
     posti: number;
     postiDisponibili: number;
+    esameFinale: boolean;
 }
