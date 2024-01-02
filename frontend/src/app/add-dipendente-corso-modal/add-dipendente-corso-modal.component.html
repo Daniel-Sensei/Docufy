@@ -1,3 +1,10 @@
+<div class="modal-header">
+    <h4 class="modal-title">Aggiungi Dipendenti</h4>
+    <button type="button" class="close" aria-label="Close" (click)="activeModal.dismiss('Cross click')">
+        <span aria-hidden="true">&times;</span>
+    </button>
+</div>
+
 <div class="container" style="display: flex; align-items: center;">
 <ng-multiselect-dropdown style="width: inherit;"
   [placeholder]="'Seleziona dipendenti'"
@@ -5,10 +12,12 @@
   [data]="dropdownList"
   [(ngModel)]="selectedItems"
   (onSelect)="onItemSelect($event)"
-  (onSelectAll)="onSelectAll($event)"
+  (onSelectAll)="onSelectAll($event)" 
 >
 </ng-multiselect-dropdown>
   
-<button class="btn btn-primary" style="margin-left: 40px; padding: 5px;" (click)="addDipendenteCorso()">Salva</button>
+<button class="btn btn-primary" style="margin-left: 2 0px; padding-left: 15px; padding-right: 15px;" (click)="addDipendenteCorso()">Salva
+</button>
 
 </div>
+

@@ -1,5 +1,6 @@
 import { Component, OnInit } from '@angular/core';
 import { IDropdownSettings } from 'ng-multiselect-dropdown';
+import { NgbActiveModal } from '@ng-bootstrap/ng-bootstrap';
 
 @Component({
   selector: 'app-add-dipendente-corso-modal',
@@ -11,7 +12,8 @@ export class AddDipendenteCorsoModalComponent implements OnInit {
   selectedItems: { item_id: number, item_text: string}[] = [];
   dropdownSettings: IDropdownSettings = {};
 
-  constructor(){}
+  constructor(public activeModal: NgbActiveModal) {
+  }
   
 
       ngOnInit(){
@@ -43,7 +45,15 @@ export class AddDipendenteCorsoModalComponent implements OnInit {
 
     addDipendenteCorso(){
       
-      console.log('addDipendenteCorso');
+      console.log(this.selectedItems);
+
+      this.activeModal.close();
+      
+
+      this.selectedItems.forEach(element => console.log(element.item_text));
+
     }
+
+    
 
 }
