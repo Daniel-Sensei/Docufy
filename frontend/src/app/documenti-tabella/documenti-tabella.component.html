@@ -12,166 +12,25 @@
                     </tr>
                 </thead>
                 <tbody>
+
                     <!-- Dati Documento 1-->
-                    <tr>
+                    <tr *ngFor="let documento of documenti">
                         <td>
                             <div class="d-flex align-items-center">
                                 <h3 class="bi bi-file-earmark-pdf"></h3>
                                 <div class="ms-3">
-                                    <p class="fw-bold mb-1">Camera di commercio - 0928276240</p>
+                                    <p class="fw-bold mb-1">{{documento.nome}}</p>
                                 </div>
                             </div>
                         </td>
-                        <td>01/12/2023</td>
+                        <td>{{documento.dataScadenza}}</td>
                         <td>
-                            <span class="badge badge-pill badge-warning">In Scadenza</span>
+                            <span *ngIf="documento.stato=='valido'" class="badge badge-pill badge-success">{{documento.stato}}</span>
+                            <span *ngIf="documento.stato=='scaduto'" class="badge badge-pill badge-danger">{{documento.stato}}</span>
+                            <span *ngIf="documento.stato=='in scadenza'" class="badge badge-pill badge-warning">{{documento.stato}}</span>
                         </td>
                         <td>
-                            <p class="fw-normal mb-1">PDF</p>
-                        </td>
-                        <td>
-                            <a class="fw-bold small" data-mdb-ripple-color="dark" href="#">Aggiorna/</a>
-                            <a class="fw-bold small" data-mdb-ripple-color="dark" href="#">Scarica/</a>
-                            <a class="fw-bold small" data-mdb-ripple-color="dark" href="#">Elimina</a>
-                        </td>
-                    </tr>
-
-                    <!-- Dati Documento 2-->
-                    <tr>
-                        <td>
-                            <div class="d-flex align-items-center">
-                                <h3 class="bi bi-file-earmark-richtext"></h3>
-                                <div class="ms-3">
-                                    <p class="fw-bold mb-1">Camera di commercio - 0928276240</p>
-                                </div>
-                            </div>
-                        </td>
-                        <td>01/12/2023</td>
-                        <td>
-                            <span class="badge badge-pill badge-success">Valido</span>
-                        </td>
-                        <td>
-                            <p class="fw-normal mb-1">PNG</p>
-                        </td>
-                        <td>
-                            <a class="fw-bold small" data-mdb-ripple-color="dark" href="#">Aggiorna/</a>
-                            <a class="fw-bold small" data-mdb-ripple-color="dark" href="#">Scarica/</a>
-                            <a class="fw-bold small" data-mdb-ripple-color="dark" href="#">Elimina</a>
-                        </td>
-                    </tr>
-
-                    <!-- Dati Documento 3-->
-                    <tr>
-                        <td>
-                            <div class="d-flex align-items-center">
-                                <h3 class="bi bi-file-earmark-pdf"></h3>
-                                <div class="ms-3">
-                                    <p class="fw-bold mb-1">Camera di commercio - 0928276240</p>
-                                </div>
-                            </div>
-                        </td>
-                        <td>01/12/2023</td>
-                        <td>
-                            <span class="badge badge-pill badge-success">Valido</span>
-                        </td>
-                        <td>
-                            <p class="fw-normal mb-1">PDF</p>
-                        </td>
-                        <td>
-                            <a class="fw-bold small" data-mdb-ripple-color="dark" href="#">Aggiorna/</a>
-                            <a class="fw-bold small" data-mdb-ripple-color="dark" href="#">Scarica/</a>
-                            <a class="fw-bold small" data-mdb-ripple-color="dark" href="#">Elimina</a>
-                        </td>
-                    </tr>
-
-                    <!-- Dati Documento 4-->
-                    <tr>
-                        <td>
-                            <div class="d-flex align-items-center">
-                                <h3 class="bi bi-file-earmark-pdf"></h3>
-                                <div class="ms-3">
-                                    <p class="fw-bold mb-1">Camera di commercio - 0928276240</p>
-                                </div>
-                            </div>
-                        </td>
-                        <td>01/12/2023</td>
-                        <td>
-                            <span class="badge badge-pill badge-danger">Scaduto</span>
-                        </td>
-                        <td>
-                            <p class="fw-normal mb-1">PDF</p>
-                        </td>
-                        <td>
-                            <a class="fw-bold small" data-mdb-ripple-color="dark" href="#">Aggiorna/</a>
-                            <a class="fw-bold small" data-mdb-ripple-color="dark" href="#">Scarica/</a>
-                            <a class="fw-bold small" data-mdb-ripple-color="dark" href="#">Elimina</a>
-                        </td>
-                    </tr>
-
-                    <!-- Dati Documento 5-->
-                    <tr>
-                        <td>
-                            <div class="d-flex align-items-center">
-                                <h3 class="bi bi-file-earmark-pdf"></h3>
-                                <div class="ms-3">
-                                    <p class="fw-bold mb-1">Camera di commercio - 0928276240</p>
-                                </div>
-                            </div>
-                        </td>
-                        <td>01/12/2023</td>
-                        <td>
-                            <span class="badge badge-pill badge-warning">In Scadenza</span>
-                        </td>
-                        <td>
-                            <p class="fw-normal mb-1">PDF</p>
-                        </td>
-                        <td>
-                            <a class="fw-bold small" data-mdb-ripple-color="dark" href="#">Aggiorna/</a>
-                            <a class="fw-bold small" data-mdb-ripple-color="dark" href="#">Scarica/</a>
-                            <a class="fw-bold small" data-mdb-ripple-color="dark" href="#">Elimina</a>
-                        </td>
-                    </tr>
-
-                    <!-- Dati Documento 6-->
-                    <tr>
-                        <td>
-                            <div class="d-flex align-items-center">
-                                <h3 class="bi bi-file-earmark-pdf"></h3>
-                                <div class="ms-3">
-                                    <p class="fw-bold mb-1">Camera di commercio - 0928276240</p>
-                                </div>
-                            </div>
-                        </td>
-                        <td>01/12/2023</td>
-                        <td>
-                            <span class="badge badge-pill badge-success">Valido</span>
-                        </td>
-                        <td>
-                            <p class="fw-normal mb-1">PDF</p>
-                        </td>
-                        <td>
-                            <a class="fw-bold small" data-mdb-ripple-color="dark" href="#">Aggiorna/</a>
-                            <a class="fw-bold small" data-mdb-ripple-color="dark" href="#">Scarica/</a>
-                            <a class="fw-bold small" data-mdb-ripple-color="dark" href="#">Elimina</a>
-                        </td>
-                    </tr>
-
-                    <!-- Dati Documento 7-->
-                    <tr>
-                        <td>
-                            <div class="d-flex align-items-center">
-                                <h3 class="bi bi-file-earmark-pdf"></h3>
-                                <div class="ms-3">
-                                    <p class="fw-bold mb-1">Camera di commercio - 0928276240</p>
-                                </div>
-                            </div>
-                        </td>
-                        <td>01/12/2023</td>
-                        <td>
-                            <span class="badge badge-pill badge-success">Valido</span>
-                        </td>
-                        <td>
-                            <p class="fw-normal mb-1">PDF</p>
+                            <p class="fw-normal mb-1">{{documento.formato}}</p>
                         </td>
                         <td>
                             <a class="fw-bold small" data-mdb-ripple-color="dark" href="#">Aggiorna/</a>

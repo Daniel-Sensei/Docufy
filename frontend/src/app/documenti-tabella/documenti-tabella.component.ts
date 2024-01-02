@@ -1,4 +1,7 @@
 import { Component } from '@angular/core';
+import { Documento } from '../model/Documento';
+
+import { DocumentiService } from '../service/documenti.service';
 
 @Component({
   selector: 'app-documenti-tabella',
@@ -7,4 +10,11 @@ import { Component } from '@angular/core';
 })
 export class DocumentiTabellaComponent {
 
+  constructor(private documentiService: DocumentiService) { }
+
+  documenti: Documento[] = [];
+
+  ngOnInit(): void {
+    this.documentiService.getAllDocumenti().subscribe(result => this.documenti = result);
+  }
 }
