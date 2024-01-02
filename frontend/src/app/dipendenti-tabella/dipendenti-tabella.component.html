@@ -1,10 +1,10 @@
 <div class="card">
     <div class="card-body">
         <div class="table-responsive">
-            <table class="table align-middle mb-0 bg-white" matSort >
+            <table class="table align-middle mb-0 bg-white" matSort (matSortChange)="sortData($event)">
                 <thead class="bg-light">
                     <tr>
-                        <th mat-sort-header="nome">Nome</th>
+                        <th mat-sort-header="cognome">Nome</th>
                         <th mat-sort-header="ruolo">Ruolo</th>
                         <th mat-sort-header="dataAssunzione">Data Assunzione</th>
                         <th>Azioni</th>
@@ -12,7 +12,7 @@
                 </thead>
                 <tbody>
                     <!-- Dati Dipendente 1-->
-                    <tr *ngFor="let dipendente of dipendenti">
+                    <tr *ngFor="let dipendente of sortedData">
                         <td>
                             <div class="d-flex align-items-center">
                                 <img src="https://mdbootstrap.com/img/new/avatars/8.jpg" alt=""
@@ -33,7 +33,6 @@
                             </a>
                         </td>
                     </tr>
-
                 </tbody>
             </table>
         </div>

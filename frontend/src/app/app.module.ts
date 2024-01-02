@@ -26,6 +26,7 @@ import { DettaglioCorsoComponent } from './dettaglio-corso/dettaglio-corso.compo
 import { DipendentiComponent } from './dipendenti/dipendenti.component';
 import { BrowserAnimationsModule } from '@angular/platform-browser/animations';
 
+import { MatTableModule } from '@angular/material/table';
 import { MatSortModule } from '@angular/material/sort';
 import { DipendentiDettagliComponent } from './dipendenti-dettagli/dipendenti-dettagli.component';
 import { DocumentiComponent } from './documenti/documenti.component';
@@ -89,6 +90,7 @@ import { CorsiCardComponent } from './corsi-card/corsi-card.component';
     BrowserModule,
     AppRoutingModule,
     BrowserAnimationsModule,
+    MatTableModule,
     MatSortModule,
     NgbModule,
     ReactiveFormsModule,
