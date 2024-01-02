@@ -1275,13 +1275,12 @@ body { margin: 0; font-family: Roboto, "Helvetica Neue", sans-serif; }
 }
 
 /* CHART */
-.custom-chart-size{
+.custom-chart-size {
   min-height: 400px;
 }
 
 @media screen and (max-width: 768px) {
-  .custom-chart-size{
-    min-height: 190px;
+  .custom-chart-size {
+    min-height: 200px;
   }
-  
 }
