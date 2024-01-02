@@ -45,6 +45,7 @@ import { BarChartDirective } from './bar-chart-directive';
 import { NgMultiSelectDropDownModule } from 'ng-multiselect-dropdown';
 import { SelettoreAziendaComponent } from './selettore-azienda/selettore-azienda.component';
 import { RiepilogoCorsiComponent } from './riepilogo-corsi/riepilogo-corsi.component';
+import { CorsiCardComponent } from './corsi-card/corsi-card.component';
 
 
 @NgModule({
@@ -81,7 +82,8 @@ import { RiepilogoCorsiComponent } from './riepilogo-corsi/riepilogo-corsi.compo
     DoughnutChartDirective,
     BarChartDirective,
     SelettoreAziendaComponent,
-    RiepilogoCorsiComponent
+    RiepilogoCorsiComponent,
+    CorsiCardComponent
   ],
   imports: [
     BrowserModule,
