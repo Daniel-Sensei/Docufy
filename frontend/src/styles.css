@@ -1284,3 +1284,9 @@ body { margin: 0; font-family: Roboto, "Helvetica Neue", sans-serif; }
     min-height: 200px;
   }
 }
+
+/* DROPDOWN */
+
+.multiselect-dropdown {
+  background-color: blue;
+}
