@@ -1273,3 +1273,15 @@ body { margin: 0; font-family: Roboto, "Helvetica Neue", sans-serif; }
   /* ingrandisci size della "x" */
   font-size: 22px;
 }
+
+/* CHART */
+.custom-chart-size{
+  min-height: 400px;
+}
+
+@media screen and (max-width: 768px) {
+  .custom-chart-size{
+    min-height: 190px;
+  }
+  
+}

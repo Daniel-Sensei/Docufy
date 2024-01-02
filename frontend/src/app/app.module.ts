@@ -5,7 +5,6 @@ import { AppRoutingModule } from './app-routing.module';
 import { AppComponent } from './app.component';
 import { HeaderComponent } from './header/header.component';
 import { SidebarComponent } from './sidebar/sidebar.component';
-import { SalesCardComponent } from './dashboard_folder/sales-card/sales-card.component';
 import { RevenueCardComponent } from './dashboard_folder/revenue-card/revenue-card.component';
 import { CustomersCardComponent } from './dashboard_folder/customers-card/customers-card.component';
 import { ReportsComponent } from './dashboard_folder/reports/reports.component';
@@ -41,8 +40,10 @@ import { AddDipendenteModalComponent } from './add-dipendente-modal/add-dipenden
 import { DipendentiTabellaComponent } from './dipendenti-tabella/dipendenti-tabella.component';
 import { AddDipendenteCorsoModalComponent } from './add-dipendente-corso-modal/add-dipendente-corso-modal.component';
 
-import { DoughnutChartDirective } from './doughnut-chart.directives';
+import { DoughnutChartDirective } from './doughnut-chart.directive';
+import { BarChartDirective } from './bar-chart-directive';
 import { NgMultiSelectDropDownModule } from 'ng-multiselect-dropdown';
+import { SelettoreAziendaComponent } from './selettore-azienda/selettore-azienda.component';
 
 
 @NgModule({
@@ -50,7 +51,6 @@ import { NgMultiSelectDropDownModule } from 'ng-multiselect-dropdown';
     AppComponent,
     HeaderComponent,
     SidebarComponent,
-    SalesCardComponent,
     RevenueCardComponent,
     CustomersCardComponent,
     ReportsComponent,
@@ -77,7 +77,9 @@ import { NgMultiSelectDropDownModule } from 'ng-multiselect-dropdown';
     AddDipendenteModalComponent,
     DipendentiTabellaComponent,
     AddDipendenteCorsoModalComponent,
-    DoughnutChartDirective
+    DoughnutChartDirective,
+    BarChartDirective,
+    SelettoreAziendaComponent
   ],
   imports: [
     BrowserModule,
