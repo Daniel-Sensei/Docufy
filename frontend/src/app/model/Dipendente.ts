@@ -1,4 +1,5 @@
 export interface Dipendente{
+    id: number;
     cf: string;
     nome: string;
     cognome: string;
@@ -8,4 +9,5 @@ export interface Dipendente{
     telefono: string;
     ruolo: string;
     dataAssunzione: string;
+    img: string;
 }

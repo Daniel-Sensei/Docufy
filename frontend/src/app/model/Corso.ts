@@ -1,13 +1,10 @@
 export interface Corso{
     id: number;
     nome: string;
-    tipo: string; 
-    aziendaErogatrice: string;
-    costo:number;
+    categoria: string;
+    prezzo: number;
     descrizione: string;
-    breveDescrizione: string;
-    dataInizio: string;
-    dataFine: string;
+    durata: number;
     posti: number;
     postiDisponibili: number;
     esameFinale: boolean;
