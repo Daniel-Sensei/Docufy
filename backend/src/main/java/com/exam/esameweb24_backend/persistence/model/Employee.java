@@ -2,7 +2,7 @@ package com.exam.esameweb24_backend.persistence.model;
 
 import javax.xml.crypto.Data;
 
-public class Employees {
+public class Employee {
 
     private Long id;
 
