@@ -13,6 +13,8 @@ public class Agency {
 
     private String imagePath;
 
+    private Consultant consultant;
+
     public String getpIva() {
         return pIva;
     }
@@ -59,5 +61,13 @@ public class Agency {
 
     public void setImagePath(String imagePath) {
         this.imagePath = imagePath;
+    }
+
+    public Consultant getConsultant() {
+        return consultant;
+    }
+
+    public void setConsultant(Consultant consultant) {
+        this.consultant = consultant;
     }
 }
