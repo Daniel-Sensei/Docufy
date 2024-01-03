@@ -1,6 +1,6 @@
 package com.exam.esameweb24_backend.persistence.model;
 
-import javax.xml.crypto.Data;
+import java.util.Date;
 
 public class Employee {
 
@@ -10,7 +10,7 @@ public class Employee {
 
     private String surname;
 
-    private Data birthDate;
+    private Date birthDate;
 
     private String email;
 
@@ -20,7 +20,7 @@ public class Employee {
 
     private String role;
 
-    private Data hireDate;
+    private Date hireDate;
 
     public Long getId() {
         return id;
@@ -46,11 +46,11 @@ public class Employee {
         this.surname = surname;
     }
 
-    public Data getBirthDate() {
+    public Date getBirthDate() {
         return birthDate;
     }
 
-    public void setBirthDate(Data birthDate) {
+    public void setBirthDate(Date birthDate) {
         this.birthDate = birthDate;
     }
 
@@ -86,11 +86,11 @@ public class Employee {
         this.role = role;
     }
 
-    public Data getHireDate() {
+    public Date getHireDate() {
         return hireDate;
     }
 
-    public void setHireDate(Data hireDate) {
+    public void setHireDate(Date hireDate) {
         this.hireDate = hireDate;
     }
 }
