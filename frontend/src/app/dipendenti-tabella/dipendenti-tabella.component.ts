@@ -1,58 +1,38 @@
-import { Component } from '@angular/core';
+import { AfterViewInit, Component, ViewChild, Input, ChangeDetectorRef } from '@angular/core';
 
 import { Dipendente } from '../model/Dipendente';
-import { DipendentiService } from '../service/dipendenti.service';
 
-import {Sort} from '@angular/material/sort';
+import {MatPaginator} from '@angular/material/paginator';
+import {MatSort} from '@angular/material/sort';
+import {MatTableDataSource} from '@angular/material/table';
+
 
 @Component({
   selector: 'app-dipendenti-tabella',
   templateUrl: './dipendenti-tabella.component.html',
   styleUrl: './dipendenti-tabella.component.css'
 })
-export class DipendentiTabellaComponent {
+export class DipendentiTabellaComponent implements AfterViewInit{
+  displayedColumns: string[] = ['cognome', 'ruolo', 'dataAssunzione', 'azioni'];
+  dataSource: MatTableDataSource<Dipendente>;
 
-  dipendenti: Dipendente[] = [];
-  sortedData: Dipendente[] = [];
+  @ViewChild(MatPaginator) paginator!: MatPaginator;
+  @ViewChild(MatSort) sort!: MatSort;
 
-  constructor(private dipendentiService: DipendentiService,) {}
+  @Input() dipendenti: Dipendente[] = [];
 
-
-  ngOnInit(): void {
-    this.dipendentiService.getAllDipendenti().subscribe(dipendenti => {
-      this.dipendenti = dipendenti;
-      this.sortedData = this.dipendenti.slice(); // Aggiungi questo per assicurarti che sortedData sia inizializzato correttamente
-    });
+  constructor(private cdr: ChangeDetectorRef) {
+    this.dataSource = new MatTableDataSource(this.dipendenti);
   }
-  
-  
 
-  sortData(sort: Sort) {
-    const compare = (a: number | string, b: number | string, isAsc: boolean): number => {
-      if (a < b) {
-        return isAsc ? -1 : 1;
-      } else if (a > b) {
-        return isAsc ? 1 : -1;
-      } else {
-        return 0;
-      }
-    };
-
-    const data = this.dipendenti.slice();
-    if (!sort.active || sort.direction === '') {
-      this.sortedData = data;
-      return;
+  ngAfterViewInit() {
+    // If necessario per aspettare che il componente sia caricato
+    if (this.dipendenti.length > 0) {
+      this.dataSource.data = this.dipendenti;
+      this.dataSource.paginator = this.paginator;
+      this.dataSource.sort = this.sort;
     }
-
-    this.sortedData = data.sort((a, b) => {
-      const isAsc = sort.direction === 'asc';
-      switch (sort.active) {
-        case 'cognome': return compare(a.cognome, b.cognome, isAsc);
-        case 'ruolo': return compare(a.ruolo, b.ruolo, isAsc);
-        case 'dataAssunzione': return compare(a.dataAssunzione, b.dataAssunzione, isAsc);
-        default: return 0;
-      }
-    });
+    this.cdr.detectChanges();
   }
 }
 

@@ -3,6 +3,9 @@ import { NgbModal } from '@ng-bootstrap/ng-bootstrap';
 import { AlertService } from '../alert.service';
 import { AddDipendenteCorsoModalComponent } from '../add-dipendente-corso-modal/add-dipendente-corso-modal.component';
 
+import { Dipendente } from '../model/Dipendente';
+import { DipendentiService } from '../service/dipendenti.service';
+
 @Component({
   selector: 'app-dettaglio-corso',
   templateUrl: './dettaglio-corso.component.html',
@@ -10,9 +13,12 @@ import { AddDipendenteCorsoModalComponent } from '../add-dipendente-corso-modal/
 })
 
 export class DettaglioCorsoComponent {
+  dipendentiIscritti: Dipendente[] = [];
+
   constructor(
     private modalService: NgbModal,
-    public alert: AlertService
+    public alert: AlertService,
+    private dipendentiService: DipendentiService
     ) { }
 
   openAddDipendenteCorso(){
@@ -20,6 +26,10 @@ export class DettaglioCorsoComponent {
       size: 'md' // 'lg' sta per grande, puoi utilizzare anche 'sm' per piccolo
     });
   
+  }
+
+  ngOnInit(): void {
+    this.dipendentiService.getAllDipendenti().subscribe(dipendenti => { this.dipendentiIscritti = dipendenti; });
   }
 
 }
