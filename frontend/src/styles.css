@@ -1304,7 +1304,6 @@ body { margin: 0; font-family: Roboto, "Helvetica Neue", sans-serif; }
 }
 
 .multiselect-dropdown .selected-item {
-  display: inline-flex !important; 
   border: 1px solid #6e93f7 !important;
   background: #6e93f7 !important;
 
