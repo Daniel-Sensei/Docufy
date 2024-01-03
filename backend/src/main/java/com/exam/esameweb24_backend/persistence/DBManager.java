@@ -62,4 +62,6 @@ public class DBManager {
     public DocumentDao getDocumentDao() {return DocumentDaoPostgres.getInstance();}
 
     public EmployeeDao getEmployeeDao() {return EmployeeDaoPostgres.getInstance();}
+
+    public UserDao getStudentDao() {return UserDaoPostgres.getInstance();}
 }
