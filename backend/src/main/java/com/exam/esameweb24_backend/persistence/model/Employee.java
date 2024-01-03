@@ -6,6 +6,8 @@ public class Employee {
 
     private Long id;
 
+    private String cf;
+
     private String name;
 
     private String surname;
@@ -28,6 +30,14 @@ public class Employee {
 
     public void setId(Long id) {
         this.id = id;
+    }
+
+    public String getCF() {
+        return cf;
+    }
+
+    public void setCF(String cf) {
+        this.cf = cf;
     }
 
     public String getName() {
