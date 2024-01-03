@@ -6,10 +6,7 @@ import com.exam.esameweb24_backend.persistence.model.Agency;
 import com.exam.esameweb24_backend.persistence.model.Document;
 import com.exam.esameweb24_backend.persistence.model.Employee;
 
-import java.sql.Connection;
-import java.sql.PreparedStatement;
-import java.sql.ResultSet;
-import java.sql.SQLException;
+import java.sql.*;
 import java.util.ArrayList;
 import java.util.List;
 
@@ -116,8 +113,8 @@ public class DocumentDaoPostgres implements DocumentDao {
             PreparedStatement st = conn.prepareStatement(query);
             st.setString(1, document.getName());
             st.setString(2, document.getUrl());
-            st.setDate(3, document.getReleaseDate());
-            st.setDate(4, document.getExpirationDate());
+            st.setDate(3, (Date) document.getReleaseDate());
+            st.setDate(4, (Date) document.getExpirationDate());
             if(document.getEmployee() != null) {
                 st.setLong(5, document.getEmployee().getId());
                 st.setNull(6, java.sql.Types.VARCHAR);
