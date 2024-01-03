@@ -5,6 +5,7 @@ import com.exam.esameweb24_backend.persistence.model.User;
 public interface UserDao {
     public User findByEmail(String passcode);
     public User findByToken(String token);
+    public User findByPIva(String pIva);
     public Boolean insert(User user);
     public Boolean update(User user);
 }
