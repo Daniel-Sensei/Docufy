@@ -2,9 +2,15 @@ package com.exam.esameweb24_backend.persistence.dao.postgres;
 
 import com.exam.esameweb24_backend.persistence.DBManager;
 import com.exam.esameweb24_backend.persistence.dao.CourseDao;
+import com.exam.esameweb24_backend.persistence.model.Agency;
+import com.exam.esameweb24_backend.persistence.model.Consultant;
 import com.exam.esameweb24_backend.persistence.model.Course;
 
 import java.sql.Connection;
+import java.sql.PreparedStatement;
+import java.sql.ResultSet;
+import java.sql.SQLException;
+import java.util.ArrayList;
 import java.util.List;
 
 public class CourseDaoPostgres implements CourseDao {
@@ -22,22 +28,92 @@ public class CourseDaoPostgres implements CourseDao {
     }
 
     @Override
-    public Course findById(Long id) {
-        return null;
+    public List<Course> findByConsultant(String consultantPIva) {
+        Consultant consultant = DBManager.getInstance().getConsultantDao().findByPIva(consultantPIva);
+        List<Course> courses = new ArrayList<>();
+        String query = "SELECT * FROM corsi WHERE consulente  = ?";
+        try {
+            PreparedStatement st = conn.prepareStatement(query);
+            st.setString(1, consultant.getpIva());
+            ResultSet rs = st.executeQuery();
+            while (rs.next()){
+                Course course = new Course();
+                course.setId(rs.getLong("id"));
+                course.setName(rs.getString("nome"));
+                course.setPrice(rs.getDouble("prezzo"));
+                course.setDescription(rs.getString("descrizione"));
+                course.setDuration(rs.getInt("durata"));
+                course.setConsultant(consultant);
+                course.setCategory(rs.getString("categoria"));
+                course.setSeats(rs.getInt("posti"));
+                course.setAvailableSeats(rs.getInt("postidisponibili"));
+                course.setFinalExam(rs.getBoolean("esamefinale"));
+                courses.add(course);
+            }
+        } catch (SQLException e) {
+            throw new RuntimeException(e);
+        }
+        return courses;
     }
 
     @Override
-    public List<Course> findByConsultant(String consultant) {
+    public Course findById(Long id) {
+        String query = "SELECT * FROM corsi WHERE id = ?";
+        try {
+            PreparedStatement st = conn.prepareStatement(query);
+            st.setLong(1, id);
+            ResultSet rs = st.executeQuery();
+            if (rs.next()) {
+                Course course = new Course();
+                course.setId(rs.getLong("id"));
+                course.setName(rs.getString("nome"));
+                course.setPrice(rs.getDouble("prezzo"));
+                course.setDescription(rs.getString("descrizione"));
+                course.setDuration(rs.getInt("durata"));
+                course.setConsultant(DBManager.getInstance().getConsultantDao().findByPIva(rs.getString("consulente")));
+                course.setCategory(rs.getString("categoria"));
+                course.setSeats(rs.getInt("posti"));
+                course.setAvailableSeats(rs.getInt("postidisponibili"));
+                course.setFinalExam(rs.getBoolean("esamefinale"));
+                return course;
+            }
+        } catch (SQLException e) {
+            throw new RuntimeException(e);
+        }
         return null;
     }
 
     @Override
     public boolean insert(Course course) {
-        return false;
+        String query = "INSERT INTO corsi (nome, prezzo, descrizione, durata, consulente, categoria, posti, postidisponibili, esamefinale) VALUES (?, ?, ?, ?, ?, ?, ?, ?, ?)";
+        try {
+            PreparedStatement st = conn.prepareStatement(query);
+            st.setString(1, course.getName());
+            st.setDouble(2, course.getPrice());
+            st.setString(3, course.getDescription());
+            st.setInt(4, course.getDuration());
+            st.setString(5, course.getConsultant().getpIva());
+            st.setString(6, course.getCategory());
+            st.setInt(7, course.getSeats());
+            st.setInt(8, course.getAvailableSeats());
+            st.setBoolean(9, course.isFinalExam());
+            st.executeUpdate();
+            return true;
+        } catch (SQLException e) {
+            throw new RuntimeException(e);
+        }
     }
 
     @Override
     public boolean delete(Long id) {
-        return false;
+        String query = "DELETE FROM corsi WHERE id = ?";
+        try {
+            PreparedStatement st = conn.prepareStatement(query);
+            st.setLong(1, id);
+            st.executeUpdate();
+            return true;
+        } catch (SQLException e) {
+            throw new RuntimeException(e);
+        }
     }
 }
