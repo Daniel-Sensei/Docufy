@@ -5,6 +5,7 @@ import com.exam.esameweb24_backend.persistence.dao.EmployeeDao;
 import com.exam.esameweb24_backend.persistence.model.Employee;
 
 import java.sql.Connection;
+import java.util.List;
 
 public class EmployeeDaoPostgres implements EmployeeDao{
 
@@ -21,12 +22,12 @@ public class EmployeeDaoPostgres implements EmployeeDao{
     }
 
     @Override
-    public Employee findById(Long id) {
+    public List<Employee> findByAgency(String agency) {
         return null;
     }
 
     @Override
-    public Employee findByAgency(String agency) {
+    public Employee findById(Long id) {
         return null;
     }
 
