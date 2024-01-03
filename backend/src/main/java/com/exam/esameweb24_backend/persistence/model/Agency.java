@@ -11,6 +11,8 @@ public class Agency {
 
     private String address;
 
+    private String imagePath;
+
     public String getpIva() {
         return pIva;
     }
@@ -26,7 +28,6 @@ public class Agency {
     public void setEmail(String email) {
         this.email = email;
     }
-
 
     public String getRagioneSociale() {
         return ragioneSociale;
@@ -50,5 +51,13 @@ public class Agency {
 
     public void setAddress(String address) {
         this.address = address;
+    }
+
+    public String getImagePath() {
+        return imagePath;
+    }
+
+    public void setImagePath(String imagePath) {
+        this.imagePath = imagePath;
     }
 }

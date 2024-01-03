@@ -5,8 +5,6 @@ public class Course {
 
     private String name;
 
-    private Integer capacity;
-
     private Double price;
 
     private String description;
@@ -14,6 +12,12 @@ public class Course {
     private Integer duration;
 
     private String category;
+
+    private Integer seats;
+
+    private Integer availableSeats;
+
+    private Boolean finalExam;
 
     public Long getId() {
         return id;
@@ -29,14 +33,6 @@ public class Course {
 
     public void setName(String name) {
         this.name = name;
-    }
-
-    public Integer getCapacity() {
-        return capacity;
-    }
-
-    public void setCapacity(Integer capacity) {
-        this.capacity = capacity;
     }
 
     public Double getPrice() {
@@ -69,5 +65,29 @@ public class Course {
 
     public void setCategory(String category) {
         this.category = category;
+    }
+
+    public Integer getSeats() {
+        return seats;
+    }
+
+    public void setSeats(Integer seats) {
+        this.seats = seats;
+    }
+
+    public Integer getAvailableSeats() {
+        return availableSeats;
+    }
+
+    public void setAvailableSeats(Integer availableSeats) {
+        this.availableSeats = availableSeats;
+    }
+
+    public Boolean getFinalExam() {
+        return finalExam;
+    }
+
+    public void setFinalExam(Boolean finalExam) {
+        this.finalExam = finalExam;
     }
 }

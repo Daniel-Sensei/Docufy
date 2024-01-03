@@ -11,6 +11,8 @@ public class Consultant {
 
     private String address;
 
+    private String imagePath;
+
     public String getpIva() {
         return pIva;
     }
@@ -49,5 +51,13 @@ public class Consultant {
 
     public void setAddress(String address) {
         this.address = address;
+    }
+
+    public String getImagePath() {
+        return imagePath;
+    }
+
+    public void setImagePath(String imagePath) {
+        this.imagePath = imagePath;
     }
 }
