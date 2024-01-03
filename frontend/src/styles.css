@@ -1292,10 +1292,11 @@ body { margin: 0; font-family: Roboto, "Helvetica Neue", sans-serif; }
 /* DROPDOWN */
 .multiselect-dropdown {
   background-color: #fff;
-  box-shadow: 0 5px 10px rgb(0, 0, 0, 0.2);
+  box-shadow: 0 5px 10px rgba(0, 0, 0, 0.2);
   cursor: pointer;
   border-radius: 8px;
   outline: none;
+  position: relative; /* Aggiunto position: relative per l'assoluto posizionamento dell'elenco */
 }
 
 .multiselect-dropdown .dropdown-btn {
@@ -1304,17 +1305,26 @@ body { margin: 0; font-family: Roboto, "Helvetica Neue", sans-serif; }
 }
 
 .multiselect-dropdown .selected-item {
-  border: 1px solid #6e93f7 !important;
+  border: 1px solid #fff !important;
+  border-radius: 4px !important;
   background: #6e93f7 !important;
-
-  width: auto !important; 
-  height: auto !important; 
-
+  white-space: nowrap;
+  overflow: hidden;
+  text-overflow: ellipsis;
+  margin-bottom: 5px;
 }
 
 .dropdown-list {
   border: 1px solid #fff !important;
-  border-radius: px !important;
-  box-shadow: 0 5px 10px rgb(0, 0, 0, 0.2) !important;
+  border-radius: 8px !important;
+  box-shadow: 0 5px 10px rgba(0, 0, 0, 0.2) !important;
 }
+
+.dropdown-list .dropdown-item {
+  padding: 8px 16px; /* Aggiunto spazio interno per distanziare gli elementi */
+  white-space: nowrap;
+  overflow: hidden;
+  text-overflow: ellipsis;
+}
+
 

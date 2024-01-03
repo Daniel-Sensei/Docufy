@@ -31,7 +31,7 @@ export class AddDipendenteCorsoModalComponent implements OnInit {
           textField: 'item_text',
           selectAllText: 'Select All',
           unSelectAllText: 'Unselect All',
-          itemsShowLimit: 3,
+          itemsShowLimit: 5,
           allowSearchFilter: true
         };
     }
