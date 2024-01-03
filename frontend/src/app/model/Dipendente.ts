@@ -1,4 +1,5 @@
 export interface Dipendente{
+    id: number;
     cf: string;
     nome: string;
     cognome: string;
