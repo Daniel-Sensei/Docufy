@@ -113,8 +113,8 @@ public class DocumentDaoPostgres implements DocumentDao {
             PreparedStatement st = conn.prepareStatement(query);
             st.setString(1, document.getName());
             st.setString(2, document.getUrl());
-            st.setDate(3, (Date) document.getReleaseDate());
-            st.setDate(4, (Date) document.getExpirationDate());
+            st.setDate(3,  new java.sql.Date(document.getReleaseDate().getTime()));
+            st.setDate(4, new java.sql.Date(document.getExpirationDate().getTime()));
             if(document.getEmployee() != null) {
                 st.setLong(5, document.getEmployee().getId());
                 st.setNull(6, java.sql.Types.VARCHAR);
