@@ -2,9 +2,7 @@ package com.exam.esameweb24_backend.persistence.dao.postgres;
 
 import com.exam.esameweb24_backend.persistence.DBManager;
 import com.exam.esameweb24_backend.persistence.dao.CourseDao;
-import com.exam.esameweb24_backend.persistence.model.Agency;
-import com.exam.esameweb24_backend.persistence.model.Consultant;
-import com.exam.esameweb24_backend.persistence.model.Course;
+import com.exam.esameweb24_backend.persistence.model.*;
 
 import java.sql.Connection;
 import java.sql.PreparedStatement;
@@ -48,6 +46,51 @@ public class CourseDaoPostgres implements CourseDao {
                 course.setSeats(rs.getInt("posti"));
                 course.setAvailableSeats(rs.getInt("postidisponibili"));
                 course.setFinalExam(rs.getBoolean("esamefinale"));
+                courses.add(course);
+            }
+        } catch (SQLException e) {
+            throw new RuntimeException(e);
+        }
+        return courses;
+    }
+
+    @Override
+    public List<CourseBought> findByAgency(String agencyPIva) {
+        Agency agency = DBManager.getInstance().getAgencyDao().findByPIva(agencyPIva);
+        List<CourseBought> courses = new ArrayList<>();
+        String query = "SELECT * FROM corsi_aziende WHERE azienda = ?";
+        try {
+            PreparedStatement st = conn.prepareStatement(query);
+            st.setString(1, agency.getpIva());
+            ResultSet rs = st.executeQuery();
+            while (rs.next()){
+                CourseBought course = new CourseBought();
+                course.setCourse(DBManager.getInstance().getCourseDao().findById(rs.getLong("corso")));
+                course.setAgency(agency);
+                course.setDate(rs.getDate("data_acquisto"));
+                courses.add(course);
+            }
+        } catch (SQLException e) {
+            throw new RuntimeException(e);
+        }
+        return courses;
+    }
+
+    @Override
+    public List<CourseAttended> findByEmployee(Long employeeID) {
+        Employee employee = DBManager.getInstance().getEmployeeDao().findById(employeeID);
+        List<CourseAttended> courses = new ArrayList<>();
+        String query = "SELECT * FROM corsi_dipendenti WHERE dipendente = ?";
+        try {
+            PreparedStatement st = conn.prepareStatement(query);
+            st.setLong(1, employeeID);
+            ResultSet rs = st.executeQuery();
+            while (rs.next()){
+                CourseAttended course = new CourseAttended();
+                course.setCourse(DBManager.getInstance().getCourseDao().findById(rs.getLong("corso")));
+                course.setEmployee(employee);
+                course.setStartingDate(rs.getDate("data_inizio"));
+                course.setEndingDate(rs.getDate("data_fine"));
                 courses.add(course);
             }
         } catch (SQLException e) {
