@@ -1,6 +1,6 @@
 import { AfterViewInit, Component, ViewChild, Input, ChangeDetectorRef } from '@angular/core';
 
-import { Dipendente } from '../model/Dipendente';
+import { Dipendente } from '../../../model/Dipendente';
 
 import {MatPaginator} from '@angular/material/paginator';
 import {MatSort} from '@angular/material/sort';

@@ -1,17 +1,17 @@
 import { NgModule } from '@angular/core';
 import { RouterModule, Routes } from '@angular/router';
-import { LoginComponent } from './login/login.component';
-import { DashboardComponent } from './dashboard_folder/dashboard/dashboard.component';
-import { RegisterComponent } from './register/register.component';
-import { ContactComponent } from './contact/contact.component';
-import { QuestionComponent } from './question/question.component';
-import { ProfileComponent } from './profile/profile.component';
-import { CorsiComponent } from './corsi/corsi.component';
-import { DettaglioCorsoComponent } from './dettaglio-corso/dettaglio-corso.component';
+import { LoginComponent } from './view/_LOGIN/login/login.component';
+import { DashboardComponent } from './view/_DASHBOARD/dashboard/dashboard.component';
+import { RegisterComponent } from './view/_LOGIN/register/register.component';
+import { ContactComponent } from './view/_STATIC/contact/contact.component';
+import { QuestionComponent } from './view/_STATIC/question/question.component';
+import { ProfileComponent } from './view/_STATIC/profile/profile.component';
+import { CorsiComponent } from './view/_CORSI/corsi/corsi.component';
+import { DettaglioCorsoComponent } from './view/_CORSI/dettaglio-corso/dettaglio-corso.component';
 
-import { DocumentiComponent } from './documenti/documenti.component';
-import { DipendentiComponent } from './dipendenti/dipendenti.component';
-import { DipendentiDettagliComponent } from './dipendenti-dettagli/dipendenti-dettagli.component';
+import { DocumentiComponent } from './view/_DOCUMENTI/documenti/documenti.component';
+import { DipendentiComponent } from './view/_DIPENDENTI/dipendenti/dipendenti.component';
+import { DipendentiDettagliComponent } from './view/_DIPENDENTI/dipendenti-dettagli/dipendenti-dettagli.component';
 
 const routes: Routes = [
   { path: '', component: DashboardComponent },

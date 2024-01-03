@@ -1,6 +1,6 @@
 import { AfterViewInit, Component, ViewChild, Input, ChangeDetectorRef } from '@angular/core';
 
-import { Documento } from '../model/Documento';
+import { Documento } from '../../../model/Documento';
 
 import {MatPaginator} from '@angular/material/paginator';
 import {MatSort} from '@angular/material/sort';
