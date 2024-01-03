@@ -27,12 +27,13 @@ public class AgencyDaoPostgres implements AgencyDao {
     }
 
     @Override
-    public List<Agency> findByConsultant(Consultant consultant) {
+    public List<Agency> findByConsultant(String consultantPIva) {
+        Consultant consultant = DBManager.getInstance().getConsultantDao().findByPIva(consultantPIva);
         List<Agency> agencies = new ArrayList<>();
         String query = "SELECT * FROM aziende WHERE consulente  = ?";
         try {
             PreparedStatement st = conn.prepareStatement(query);
-            st.setString(1, consultant.getpIva());
+            st.setString(1, consultantPIva);
             ResultSet rs = st.executeQuery();
             while (rs.next()){
                 Agency agency = new Agency();
@@ -56,7 +57,7 @@ public class AgencyDaoPostgres implements AgencyDao {
         String query = "SELECT * FROM aziende WHERE consulente  = ?";
         try {
             PreparedStatement st = conn.prepareStatement(query);
-            st.setString(1, consultant.getpIva());
+            st.setString(1, pIva);
             ResultSet rs = st.executeQuery();
             if (rs.next()) {
                 Agency agency = new Agency();
