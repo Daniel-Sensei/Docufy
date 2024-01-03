@@ -16,13 +16,17 @@ public class Employee {
 
     private String email;
 
+    private String phoneNumber;
+
     private String residence;
 
-    private String phoneNumber;
+    private Agency agency;
+
+    private Date hireDate;
 
     private String role;
 
-    private Date hireDate;
+    private String imagePath;
 
     public Long getId() {
         return id;
@@ -88,6 +92,14 @@ public class Employee {
         this.phoneNumber = phoneNumber;
     }
 
+    public Agency getAgency() {
+        return agency;
+    }
+
+    public void setAgency(Agency agency) {
+        this.agency = agency;
+    }
+
     public String getRole() {
         return role;
     }
@@ -102,5 +114,13 @@ public class Employee {
 
     public void setHireDate(Date hireDate) {
         this.hireDate = hireDate;
+    }
+
+    public String getImagePath() {
+        return imagePath;
+    }
+
+    public void setImagePath(String imagePath) {
+        this.imagePath = imagePath;
     }
 }
