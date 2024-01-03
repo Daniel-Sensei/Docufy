@@ -1,7 +1,7 @@
 import { Component } from '@angular/core';
 import { NgbActiveModal, NgbDateStruct } from '@ng-bootstrap/ng-bootstrap';
 import { FormBuilder, FormGroup, Validators } from '@angular/forms';
-import { AlertService } from '../alert.service';
+import { AlertService } from '../../../alert.service';
 
 @Component({
   selector: 'app-add-dipendente-modal',
