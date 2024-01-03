@@ -6,5 +6,4 @@ import { Component } from '@angular/core';
   styleUrl: './corsi.component.css'
 })
 export class CorsiComponent {
-
 }

@@ -28,6 +28,7 @@ import { BrowserAnimationsModule } from '@angular/platform-browser/animations';
 
 import { MatTableModule } from '@angular/material/table';
 import { MatSortModule } from '@angular/material/sort';
+import { MatPaginatorModule } from '@angular/material/paginator';
 import { DipendentiDettagliComponent } from './dipendenti-dettagli/dipendenti-dettagli.component';
 import { DocumentiComponent } from './documenti/documenti.component';
 import { DocumentiTabellaComponent } from './documenti-tabella/documenti-tabella.component';
@@ -47,6 +48,9 @@ import { NgMultiSelectDropDownModule } from 'ng-multiselect-dropdown';
 import { SelettoreAziendaComponent } from './selettore-azienda/selettore-azienda.component';
 import { RiepilogoCorsiComponent } from './riepilogo-corsi/riepilogo-corsi.component';
 import { CorsiCardComponent } from './corsi-card/corsi-card.component';
+
+import { MatPaginatorIntl } from '@angular/material/paginator';
+import { CustomPaginatorIntl } from './CustomPaginatorIntl';
 
 
 @NgModule({
@@ -90,17 +94,19 @@ import { CorsiCardComponent } from './corsi-card/corsi-card.component';
     BrowserModule,
     AppRoutingModule,
     BrowserAnimationsModule,
-    MatTableModule,
     MatSortModule,
+    MatTableModule,
+    MatPaginatorModule,
     NgbModule,
     ReactiveFormsModule,
     FormsModule,
     ToastrModule.forRoot(),
-    NgMultiSelectDropDownModule.forRoot()
+    NgMultiSelectDropDownModule.forRoot(),
   ],
   providers: [
     NgbDatepickerConfig,
-    { provide: NgbDateParserFormatter, useClass: NgbDateITParserFormatter}
+    { provide: NgbDateParserFormatter, useClass: NgbDateITParserFormatter},
+    { provide: MatPaginatorIntl, useClass: CustomPaginatorIntl }
   ],
   bootstrap: [AppComponent]
 })

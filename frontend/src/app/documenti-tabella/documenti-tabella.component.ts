@@ -1,20 +1,37 @@
-import { Component } from '@angular/core';
+import { AfterViewInit, Component, ViewChild, Input, ChangeDetectorRef } from '@angular/core';
+
 import { Documento } from '../model/Documento';
 
-import { DocumentiService } from '../service/documenti.service';
+import {MatPaginator} from '@angular/material/paginator';
+import {MatSort} from '@angular/material/sort';
+import {MatTableDataSource} from '@angular/material/table';
 
 @Component({
   selector: 'app-documenti-tabella',
   templateUrl: './documenti-tabella.component.html',
   styleUrl: './documenti-tabella.component.css'
 })
-export class DocumentiTabellaComponent {
+export class DocumentiTabellaComponent implements AfterViewInit{
+  displayedColumns: string[] = ['nome', 'dataScadenza', 'stato', 'formato', 'azioni'];
+  dataSource: MatTableDataSource<Documento>;
 
-  constructor(private documentiService: DocumentiService) { }
+  @ViewChild(MatPaginator) paginator!: MatPaginator;
+  @ViewChild(MatSort) sort!: MatSort;
+  
+  @Input() documenti: Documento[] = [];
 
-  documenti: Documento[] = [];
+  constructor(private cdr: ChangeDetectorRef) {
+    this.dataSource = new MatTableDataSource(this.documenti);
+  }
 
-  ngOnInit(): void {
-    this.documentiService.getAllDocumenti().subscribe(result => this.documenti = result);
+  ngAfterViewInit() {
+    // If necessario per aspettare che il componente sia caricato
+    if (this.documenti.length > 0) {
+      this.dataSource.data = this.documenti;
+      this.dataSource.paginator = this.paginator;
+      this.dataSource.sort = this.sort;
+    }
+
+    this.cdr.detectChanges();
   }
 }
