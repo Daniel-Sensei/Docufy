@@ -1298,7 +1298,6 @@ body { margin: 0; font-family: Roboto, "Helvetica Neue", sans-serif; }
   outline: none;
 }
 
-
 .multiselect-dropdown .dropdown-btn {
   border: 1px solid #fff !important;
   border-radius: 8px !important;
@@ -1311,8 +1310,10 @@ body { margin: 0; font-family: Roboto, "Helvetica Neue", sans-serif; }
   padding: 5px 5px;
 }
 
-.multiselect-dropdown .selected-item .remove-btn {
-  color: #fff;
-  font-size: 12px;
-  margin-left: 5px;
+
+.dropdown-list {
+  border: 1px solid #fff !important;
+  border-radius: 4px !important;
+  box-shadow: 0 5px 10px rgb(0, 0, 0, 0.2) !important;
 }
+
