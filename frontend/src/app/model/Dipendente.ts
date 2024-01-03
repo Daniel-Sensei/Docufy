@@ -9,4 +9,5 @@ export interface Dipendente{
     telefono: string;
     ruolo: string;
     dataAssunzione: string;
+    img: string;
 }
