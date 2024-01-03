@@ -1285,8 +1285,34 @@ body { margin: 0; font-family: Roboto, "Helvetica Neue", sans-serif; }
   }
 }
 
-/* DROPDOWN */
 
+
+
+
+/* DROPDOWN */
 .multiselect-dropdown {
-  background-color: blue;
+  background-color: #fff;
+  box-shadow: 0 5px 10px rgb(0, 0, 0, 0.2);
+  cursor: pointer;
+  border-radius: 8px;
+  outline: none;
+}
+
+
+.multiselect-dropdown .dropdown-btn {
+  border: 1px solid #fff !important;
+  border-radius: 8px !important;
+}
+
+.multiselect-dropdown .selected-item {
+  border: 1px solid #6e93f7 !important; /*rgb(65,84,241) !important;*/
+  margin-right: 4px;
+  background: #6e93f7 !important;
+  padding: 5px 5px;
+}
+
+.multiselect-dropdown .selected-item .remove-btn {
+  color: #fff;
+  font-size: 12px;
+  margin-left: 5px;
 }
