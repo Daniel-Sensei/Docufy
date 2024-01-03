@@ -11,6 +11,8 @@ public class Course {
 
     private Integer duration;
 
+    private Consultant consultant;
+
     private String category;
 
     private Integer seats;
@@ -59,6 +61,14 @@ public class Course {
         this.duration = duration;
     }
 
+    public Consultant getConsultant() {
+        return consultant;
+    }
+
+    public void setConsultant(Consultant consultant) {
+        this.consultant = consultant;
+    }
+
     public String getCategory() {
         return category;
     }
@@ -83,7 +93,7 @@ public class Course {
         this.availableSeats = availableSeats;
     }
 
-    public Boolean getFinalExam() {
+    public Boolean isFinalExam() {
         return finalExam;
     }
 
