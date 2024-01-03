@@ -11,7 +11,11 @@ public class Document {
 
     private Date releaseDate;
 
-    private Date expiration;
+    private Date expirationDate;
+
+    private Employee employee;
+
+    private Agency agency;
 
     private String state;
 
@@ -49,12 +53,28 @@ public class Document {
         this.releaseDate = releaseDate;
     }
 
-    public Date getExpiration() {
-        return expiration;
+    public Date getExpirationDate() {
+        return expirationDate;
     }
 
-    public void setExpiration(Date expiration) {
-        this.expiration = expiration;
+    public void setExpirationDate(Date expiration) {
+        this.expirationDate = expiration;
+    }
+
+    public Employee getEmployee() {
+        return employee;
+    }
+
+    public void setEmployee(Employee employee) {
+        this.employee = employee;
+    }
+
+    public Agency getAgency() {
+        return agency;
+    }
+
+    public void setAgency(Agency agency) {
+        this.agency = agency;
     }
 
     public String getState() {
