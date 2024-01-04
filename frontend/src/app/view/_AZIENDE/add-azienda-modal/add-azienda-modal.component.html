@@ -1,8 +1,8 @@
 <div class="modal-header">
     <h4 class="modal-title">Aggiungi Nuova Azienda</h4>
-    <button type="button" class="close" aria-label="Close" (click)="activeModal.dismiss('Cross click')">
+    <!--<button type="button" class="close" aria-label="Close" (click)="activeModal.dismiss('Cross click')">
         <span aria-hidden="true">&times;</span>
-    </button>
+    </button>-->
 </div>
 <div class="modal-body">
 
@@ -60,10 +60,10 @@
 
         <div class="col-md-6">
             <!--<label for="immagine" class="form-label">Immagine</label>-->
-            <button formControlName="img" type="button" class="btn btn-secondary">Aggiungi immagine</button>
+            <button type="button" class="btn btn-secondary">Aggiungi immagine</button>
             
             <!--<input formControlName="img" type="text" class="form-control">-->
-           <!-- <div *ngIf="addAziendaForm.get('nome')?.invalid"
+           <!--<div *ngIf="addAziendaForm.get('img')?.invalid"
                 class="invalid-feedback">
                 formato non valido
             </div>-->
@@ -74,7 +74,7 @@
 
 </div>
 <div class="modal-footer">
-    <button type="button" class="btn btn-secondary" (click)="activeModal.dismiss('Cancel click')">Chiudi</button>
+    <!--<button type="button" class="btn btn-secondary" (click)="activeModal.dismiss('Cancel click')">Chiudi</button>-->
     <button type="button" class="btn btn-primary" [disabled]="addAziendaForm.invalid"
         (click)="submitForm()">Salva</button>
 </div>
