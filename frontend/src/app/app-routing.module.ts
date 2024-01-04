@@ -12,19 +12,22 @@ import { DettaglioCorsoComponent } from './view/_CORSI/dettaglio-corso/dettaglio
 import { DocumentiComponent } from './view/_DOCUMENTI/documenti/documenti.component';
 import { DipendentiComponent } from './view/_DIPENDENTI/dipendenti/dipendenti.component';
 import { DipendentiDettagliComponent } from './view/_DIPENDENTI/dipendenti-dettagli/dipendenti-dettagli.component';
+import { AuthGuard } from './auth.guard';
 
 const routes: Routes = [
-  { path: '', component: DashboardComponent },
-  { path: 'documenti', component: DocumentiComponent },
-  { path: 'dipendenti', component: DipendentiComponent},
-  { path: 'dipendenti/:id', component: DipendentiDettagliComponent},
   { path: 'login', component: LoginComponent },
-  { path: 'register', component: RegisterComponent},
-  { path: 'contact', component: ContactComponent },
-  { path: 'question', component: QuestionComponent},
-  { path: 'profile', component: ProfileComponent},
-  { path : 'corsi', component: CorsiComponent},
-  { path: 'dettaglio_corso', component:DettaglioCorsoComponent}
+  
+  { path: '', component: DashboardComponent, canActivate: [AuthGuard] },
+  { path: 'documenti', component: DocumentiComponent, canActivate: [AuthGuard] },
+  { path: 'dipendenti', component: DipendentiComponent, canActivate: [AuthGuard] },
+  { path: 'dipendenti/:id', component: DipendentiDettagliComponent, canActivate: [AuthGuard] },
+  { path: 'register', component: RegisterComponent, canActivate: [AuthGuard] },
+  { path: 'contact', component: ContactComponent, canActivate: [AuthGuard] },
+  { path: 'question', component: QuestionComponent, canActivate: [AuthGuard] },
+  { path: 'profile', component: ProfileComponent, canActivate: [AuthGuard] },
+  { path: 'corsi', component: CorsiComponent, canActivate: [AuthGuard] },
+  { path: 'dettaglio_corso', component:DettaglioCorsoComponent, canActivate: [AuthGuard] },
+  { path: '**', redirectTo: ''}
 ];
 
 @NgModule({
