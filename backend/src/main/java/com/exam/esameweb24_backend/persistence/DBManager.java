@@ -63,5 +63,5 @@ public class DBManager {
 
     public EmployeeDao getEmployeeDao() {return EmployeeDaoPostgres.getInstance();}
 
-    public UserDao getStudentDao() {return UserDaoPostgres.getInstance();}
+    public UserDao getUserDao() {return UserDaoPostgres.getInstance();}
 }
