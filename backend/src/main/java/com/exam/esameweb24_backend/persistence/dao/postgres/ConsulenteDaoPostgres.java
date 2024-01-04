@@ -1,8 +1,8 @@
 package com.exam.esameweb24_backend.persistence.dao.postgres;
 
 import com.exam.esameweb24_backend.persistence.DBManager;
-import com.exam.esameweb24_backend.persistence.dao.ConsultantDao;
-import com.exam.esameweb24_backend.persistence.model.Consultant;
+import com.exam.esameweb24_backend.persistence.dao.ConsulenteDao;
+import com.exam.esameweb24_backend.persistence.model.Consulente;
 
 import java.sql.Connection;
 import java.sql.PreparedStatement;
@@ -11,59 +11,59 @@ import java.sql.SQLException;
 import java.util.ArrayList;
 import java.util.List;
 
-public class ConsultantDaoPostgres implements ConsultantDao {
+public class ConsulenteDaoPostgres implements ConsulenteDao {
 
     private static Connection conn = null;
 
-    private static ConsultantDaoPostgres instance = null;
+    private static ConsulenteDaoPostgres instance = null;
 
-    public static ConsultantDaoPostgres getInstance() {
+    public static ConsulenteDaoPostgres getInstance() {
         if (instance == null) {
-            instance = new ConsultantDaoPostgres();
+            instance = new ConsulenteDaoPostgres();
             conn = DBManager.getInstance().getConnection();
         }
         return instance;
     }
 
     @Override
-    public List<Consultant> findAll() {
-        List<Consultant> consultants = new ArrayList<>();
+    public List<Consulente> findAll() {
+        List<Consulente> consulenti = new ArrayList<>();
         String query = "SELECT * FROM consulenti";
         try {
             PreparedStatement st = conn.prepareStatement(query);
             ResultSet rs = st.executeQuery();
             while (rs.next()){
-                Consultant consultant = new Consultant();
-                consultant.setpIva(rs.getString("piva"));
-                consultant.setRagioneSociale(rs.getString("ragionesociale"));
-                consultant.setEmail(rs.getString("email"));
-                consultant.setPhoneNumber(rs.getString("telefono"));
-                consultant.setAddress(rs.getString("indirizzo"));
-                consultant.setImagePath(rs.getString("immagine"));
-                consultants.add(consultant);
+                Consulente consulente = new Consulente();
+                consulente.setPIva(rs.getString("piva"));
+                consulente.setRagioneSociale(rs.getString("ragionesociale"));
+                consulente.setEmail(rs.getString("email"));
+                consulente.setTelefono(rs.getString("telefono"));
+                consulente.setIndirizzo(rs.getString("indirizzo"));
+                consulente.setImg(rs.getString("immagine"));
+                consulenti.add(consulente);
             }
         } catch (SQLException e) {
             throw new RuntimeException(e);
         }
-        return consultants;
+        return consulenti;
     }
 
     @Override
-    public Consultant findByPIva(String pIva) {
+    public Consulente findByPIva(String pIva) {
         String query = "SELECT * FROM consulenti WHERE piva = ?";
         try {
             PreparedStatement st = conn.prepareStatement(query);
             st.setString(1, pIva);
             ResultSet rs = st.executeQuery();
             if (rs.next()){
-                Consultant consultant = new Consultant();
-                consultant.setpIva(rs.getString("piva"));
-                consultant.setRagioneSociale(rs.getString("ragionesociale"));
-                consultant.setEmail(rs.getString("email"));
-                consultant.setPhoneNumber(rs.getString("telefono"));
-                consultant.setAddress(rs.getString("indirizzo"));
-                consultant.setImagePath(rs.getString("immagine"));
-                return consultant;
+                Consulente consulente = new Consulente();
+                consulente.setPIva(rs.getString("piva"));
+                consulente.setRagioneSociale(rs.getString("ragionesociale"));
+                consulente.setEmail(rs.getString("email"));
+                consulente.setTelefono(rs.getString("telefono"));
+                consulente.setIndirizzo(rs.getString("indirizzo"));
+                consulente.setImg(rs.getString("immagine"));
+                return consulente;
             }
         } catch (SQLException e) {
             throw new RuntimeException(e);
@@ -72,16 +72,16 @@ public class ConsultantDaoPostgres implements ConsultantDao {
     }
 
     @Override
-    public boolean insert(Consultant consultant) {
+    public boolean insert(Consulente consulente) {
         String query = "INSERT INTO consulenti (piva, ragionesociale, email, telefono, indirizzo, immagine) VALUES (?, ?, ?, ?, ?, ?)";
         try {
             PreparedStatement st = conn.prepareStatement(query);
-            st.setString(1, consultant.getpIva());
-            st.setString(2, consultant.getRagioneSociale());
-            st.setString(3, consultant.getEmail());
-            st.setString(4, consultant.getPhoneNumber());
-            st.setString(5, consultant.getAddress());
-            st.setString(6, consultant.getImagePath());
+            st.setString(1, consulente.getPIva());
+            st.setString(2, consulente.getRagioneSociale());
+            st.setString(3, consulente.getEmail());
+            st.setString(4, consulente.getTelefono());
+            st.setString(5, consulente.getIndirizzo());
+            st.setString(6, consulente.getImg());
             st.executeUpdate();
             return true;
         } catch (SQLException e) {

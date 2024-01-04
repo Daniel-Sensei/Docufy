@@ -87,12 +87,12 @@ public class UserDaoPostgres implements UserDao {
     }
 
     @Override
-    public Boolean isConsultant(User user) {
-        return DBManager.getInstance().getConsultantDao().findByPIva(user.getPIva()) != null;
+    public boolean isConsultant(User user) {
+        return DBManager.getInstance().getConsulenteDao().findByPIva(user.getPIva()) != null;
     }
 
     @Override
-    public Boolean insert(User user) {
+    public boolean insert(User user) {
         String query = "INSERT INTO users (piva, email, password) VALUES (?, ?, ?)";
         try {
             PreparedStatement st = conn.prepareStatement(query);
@@ -107,7 +107,7 @@ public class UserDaoPostgres implements UserDao {
     }
 
     @Override
-    public Boolean update(User user) {
+    public boolean update(User user) {
         String query = "UPDATE users SET email = ?, password = ? WHERE piva = ?";
         try {
             PreparedStatement st = conn.prepareStatement(query);
@@ -122,7 +122,7 @@ public class UserDaoPostgres implements UserDao {
     }
 
     @Override
-    public Boolean delete(User user) {
+    public boolean delete(User user) {
         String query = "DELETE FROM users WHERE piva = ?";
         try {
             PreparedStatement st = conn.prepareStatement(query);

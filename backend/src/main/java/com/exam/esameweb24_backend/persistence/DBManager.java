@@ -53,15 +53,15 @@ public class DBManager {
         return properties;
     }
 
-    public AgencyDao getAgencyDao() {return AgencyDaoPostgres.getInstance();}
+    public AziendaDao getAgencyDao() {return AziendaDaoPostgres.getInstance();}
 
-    public ConsultantDao getConsultantDao() {return ConsultantDaoPostgres.getInstance();}
+    public ConsulenteDao getConsulenteDao() {return ConsulenteDaoPostgres.getInstance();}
 
-    public CourseDao getCourseDao() {return CourseDaoPostgres.getInstance();}
+    public CorsoDao getCorsoDao() {return CorsoDaoPostgres.getInstance();}
 
-    public DocumentDao getDocumentDao() {return DocumentDaoPostgres.getInstance();}
+    public DocumentoDao getDocumentoDao() {return DocumentoDaoPostgres.getInstance();}
 
-    public EmployeeDao getEmployeeDao() {return EmployeeDaoPostgres.getInstance();}
+    public DipendenteDao getDipendenteDao() {return DipendenteDaoPostgres.getInstance();}
 
     public UserDao getUserDao() {return UserDaoPostgres.getInstance();}
 }

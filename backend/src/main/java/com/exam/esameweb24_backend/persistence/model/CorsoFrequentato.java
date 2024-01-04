@@ -2,26 +2,26 @@ package com.exam.esameweb24_backend.persistence.model;
 
 import java.util.Date;
 
-public class CourseAttended {
-    private Course course;
-    private Employee employee;
+public class CorsoFrequentato {
+    private Corso corso;
+    private Dipendente dipendente;
     private Date startingDate;
     private Date endingDate;
 
-    public Course getCourse() {
-        return course;
+    public Corso getCourse() {
+        return corso;
     }
 
-    public void setCourse(Course course) {
-        this.course = course;
+    public void setCourse(Corso corso) {
+        this.corso = corso;
     }
 
-    public Employee getEmployee() {
-        return employee;
+    public Dipendente getEmployee() {
+        return dipendente;
     }
 
-    public void setEmployee(Employee employee) {
-        this.employee = employee;
+    public void setEmployee(Dipendente dipendente) {
+        this.dipendente = dipendente;
     }
 
     public Date getStartingDate() {
