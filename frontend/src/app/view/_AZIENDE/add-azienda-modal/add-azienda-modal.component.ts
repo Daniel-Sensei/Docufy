@@ -58,21 +58,6 @@ export class AddAziendaModalComponent {
   }
 
 
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
   submitForm() { 
     if (this.addAziendaForm.valid) {
       (this.alert as any).success('Azienda aggiunta con successo');
