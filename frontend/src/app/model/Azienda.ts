@@ -9,4 +9,5 @@ export interface Azienda{
 
 export interface AuthToken{
     token: string;
+    role: string;
 }
