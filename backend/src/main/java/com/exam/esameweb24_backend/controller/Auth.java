@@ -36,7 +36,6 @@ public class Auth {
     }
 
     private AuthToken generateToken(User user, String a){
-
         String token = encodeBase64(user.getEmail() + ":" + user.getPassword() + ":" + a);
         AuthToken auth = new AuthToken();
         auth.setToken(token);
