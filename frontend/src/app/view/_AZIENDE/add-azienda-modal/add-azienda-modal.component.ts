@@ -21,7 +21,7 @@ export class AddAziendaModalComponent {
     this.addAziendaForm = this.fb.group({
       ragione_sociale: ['', Validators.required],
       partita_iva: ['', Validators.required],
-      email : ['', Validators.required],
+      email: ['', [Validators.required, Validators.email, Validators.pattern('^[a-zA-Z0-9._%+-]+@[a-zA-Z0-9.-]+\\.[a-zA-Z]{2,}$')]],
       telefono: ['', Validators.required],
       indirizzo: ['',Validators.required],
       img: ['', ],
@@ -29,38 +29,31 @@ export class AddAziendaModalComponent {
   }
   
   customValidation(group: FormGroup) {
-    const ragione_socialeControllo = group.get('Ragione_sociale');
     const partita_ivaControllo = group.get('partita_iva');
-    const emailControllo = group.get('email');
-    const telefonoControllo = group.get('telefono');
-    const indirizzoControllo = group.get('indirizzo');
+
   
-    if (ragione_socialeControllo?.value && partita_ivaControllo?.value && emailControllo?.value && telefonoControllo?.value && indirizzoControllo?.value) {
-
+    if (partita_ivaControllo?.value) {
       const partita_iva = partita_ivaControllo.value;
-      const indirizzo = indirizzoControllo.value;
-      const email = emailControllo.value;
-
-
+      //Controlla la lunghezza della partita iva
       if (partita_ivaControllo && partita_iva.length !== 11) {
         partita_ivaControllo.setErrors({ 'invalidPIvaLength': true });
       } else {
-        //Rimuovi l'errore se la lunghezza del codice fiscale è corretta
         if (partita_iva.hasError('invalidCFLength')) {
           partita_iva.setErrors(null);
         }
       }
-  
-      const emailRegex = /^[^\s@]+@[^\s@]+\.[^\s@]+$/;
-  
-      if (email && !emailRegex.test(email)) {
-        emailControllo.setErrors({ 'invalidEmail': true });
+
+      //Controlla che la partita iva sia composta solo da numeri
+      if (partita_ivaControllo && !/^[0-9]*$/.test(partita_iva)) {
+        partita_ivaControllo.setErrors({ 'invalidPIva': true });
       } else {
-        // Rimuovi l'errore se l'email è valida
-        if (emailControllo.hasError('invalidEmail')) {
-          emailControllo.setErrors(null);
+        if (partita_iva.hasError('invalidPIva')) {
+          partita_iva.setErrors(null);
         }
       }
+      
+      //Controlla che la partita iva sia valida
+
     }
   }
 
