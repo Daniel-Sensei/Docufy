@@ -34,7 +34,7 @@ public class UserDaoPostgres implements UserDao {
             ResultSet rs = st.executeQuery();
             if (rs.next()){
                 User user = new User();
-                user.setpIva(rs.getString("piva"));
+                user.setPIva(rs.getString("piva"));
                 user.setEmail(rs.getString("email"));
                 user.setPassword(rs.getString("password"));
                 return user;
@@ -55,7 +55,7 @@ public class UserDaoPostgres implements UserDao {
             ResultSet rs = st.executeQuery();
             if (rs.next()){
                 User user = new User();
-                user.setpIva(rs.getString("piva"));
+                user.setPIva(rs.getString("piva"));
                 user.setEmail(rs.getString("email"));
                 user.setPassword(rs.getString("password"));
                 return user;
@@ -75,7 +75,7 @@ public class UserDaoPostgres implements UserDao {
             ResultSet rs = st.executeQuery();
             if (rs.next()){
                 User user = new User();
-                user.setpIva(rs.getString("piva"));
+                user.setPIva(rs.getString("piva"));
                 user.setEmail(rs.getString("email"));
                 user.setPassword(rs.getString("password"));
                 return user;
@@ -91,7 +91,7 @@ public class UserDaoPostgres implements UserDao {
         String query = "INSERT INTO users (piva, email, password) VALUES (?, ?, ?)";
         try {
             PreparedStatement st = conn.prepareStatement(query);
-            st.setString(1, user.getpIva());
+            st.setString(1, user.getPIva());
             st.setString(2, user.getEmail());
             st.setString(3, BCrypt.hashpw(user.getPassword(), BCrypt.gensalt(10)));
             st.executeUpdate();
@@ -108,7 +108,7 @@ public class UserDaoPostgres implements UserDao {
             PreparedStatement st = conn.prepareStatement(query);
             st.setString(1, user.getEmail());
             st.setString(2, BCrypt.hashpw(user.getPassword(), BCrypt.gensalt(10)));
-            st.setString(3, user.getpIva());
+            st.setString(3, user.getPIva());
             st.executeUpdate();
             return true;
         } catch (SQLException e) {
@@ -121,7 +121,7 @@ public class UserDaoPostgres implements UserDao {
         String query = "DELETE FROM users WHERE piva = ?";
         try {
             PreparedStatement st = conn.prepareStatement(query);
-            st.setString(1, user.getpIva());
+            st.setString(1, user.getPIva());
             st.executeUpdate();
             return true;
         } catch (SQLException e) {

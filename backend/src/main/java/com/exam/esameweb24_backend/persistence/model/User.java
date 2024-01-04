@@ -23,11 +23,11 @@ public class User {
         this.password = password;
     }
 
-    public String getpIva() {
+    public String getPIva() {
         return pIva;
     }
 
-    public void setpIva(String pIva) {
+    public void setPIva(String pIva) {
         this.pIva = pIva;
     }
 }
