@@ -53,6 +53,8 @@ import { CorsiCardComponent } from './view/_CORSI/corsi-card/corsi-card.componen
 import { MatPaginatorIntl } from '@angular/material/paginator';
 import { CustomPaginatorIntl } from './CustomPaginatorIntl';
 
+import { HttpClientModule } from '@angular/common/http';
+
 
 @NgModule({
   declarations: [
@@ -103,6 +105,7 @@ import { CustomPaginatorIntl } from './CustomPaginatorIntl';
     FormsModule,
     ToastrModule.forRoot(),
     NgMultiSelectDropDownModule.forRoot(),
+    HttpClientModule
   ],
   providers: [
     NgbDatepickerConfig,

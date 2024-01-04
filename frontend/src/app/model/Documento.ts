@@ -1,7 +1,7 @@
 export interface Documento {
     id: number;
     nome: string;
-    img: string;
+    url: string;
     dataRilascio: string;
     dataScadenza: string;
     stato: string;

@@ -28,7 +28,8 @@
                     <div class="input-group has-validation">
                       <span class="input-group-text" id="inputGroupPrepend">&#64;</span>
                       <input formControlName="email" type="text" name="username" class="form-control" id="yourUsername" required>
-                      <div class="invalid-feedback">Please enter your username.</div>
+                      <div *ngIf="loginForm.get('email')?.hasError('pattern')" class="invalid-feedback">Please enter a valid email address.</div>
+                      <div class="invalid-feedback" *ngIf="loginForm.get('email')?.hasError('required')">Please enter your username.</div>
                     </div>
                   </div>
 
@@ -44,6 +45,15 @@
                       <label class="form-check-label" for="rememberMe">Remember me</label>
                     </div>
                   </div>
+
+                  <!-- Messaggio di errore quando login fallisce -->
+                  <div *ngIf="!success" class="col-12">
+                    <div class="alert alert-danger" role="alert">
+                      <strong>Email o password errati.</strong>
+                      <p>Prova a modificare i dati e a rieseguire l'accesso</p>
+                    </div>
+                  </div>
+
                   <div class="col-12">
                     <button class="btn btn-primary w-100" type="submit" [disabled]="loginForm.invalid">Login</button>
                   </div>
