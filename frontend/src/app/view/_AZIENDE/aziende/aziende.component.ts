@@ -3,6 +3,8 @@ import { AlertService } from '../../../alert.service';
 
 import { AziendeService } from '../../../service/aziende.service';
 import { Azienda } from '../../../model/Azienda';
+import { AddAziendaModalComponent } from '../add-azienda-modal/add-azienda-modal.component';
+import { NgbModal } from '@ng-bootstrap/ng-bootstrap';
 
 @Component({
   selector: 'app-aziende',
@@ -13,8 +15,9 @@ export class AziendeComponent {
 
   constructor(
     public alert: AlertService,
-    private aziendeService: AziendeService
-    ) { }
+    private aziendeService: AziendeService,
+    private modalService: NgbModal
+  ) { }
 
   aziende: Azienda[] = [];
 
@@ -22,6 +25,11 @@ export class AziendeComponent {
     this.aziendeService.getAllAziende().subscribe(aziende => { this.aziende = aziende; });
   }
 
-  openAddAzienda(){}
+  openAddAzienda(){
+    const modalRef = this.modalService.open(AddAziendaModalComponent, {
+      size: 'md' 
+  });
+
+}
 
 }
