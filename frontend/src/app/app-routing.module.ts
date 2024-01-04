@@ -13,11 +13,13 @@ import { DocumentiComponent } from './view/_DOCUMENTI/documenti/documenti.compon
 import { DipendentiComponent } from './view/_DIPENDENTI/dipendenti/dipendenti.component';
 import { DipendentiDettagliComponent } from './view/_DIPENDENTI/dipendenti-dettagli/dipendenti-dettagli.component';
 import { AuthGuard } from './auth.guard';
+import { AziendeComponent } from './view/_AZIENDE/aziende/aziende.component';
 
 const routes: Routes = [
   { path: 'login', component: LoginComponent },
   
   { path: '', component: DashboardComponent, canActivate: [AuthGuard] },
+  { path: 'aziende', component: AziendeComponent, canActivate: [AuthGuard] },
   { path: 'documenti', component: DocumentiComponent, canActivate: [AuthGuard] },
   { path: 'dipendenti', component: DipendentiComponent, canActivate: [AuthGuard] },
   { path: 'dipendenti/:id', component: DipendentiDettagliComponent, canActivate: [AuthGuard] },

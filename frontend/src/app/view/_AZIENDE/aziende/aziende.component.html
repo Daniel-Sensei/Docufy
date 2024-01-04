@@ -1,0 +1,28 @@
+<div id="main" class="main ">
+
+    <div class="pagetitle">
+        <h1>Aziende</h1>
+        <nav>
+            <ol class="breadcrumb">
+                <li class="breadcrumb-item"><a routerLink="/">Dashboard</a></li>
+                <li class="breadcrumb-item active">Aziende</li>
+            </ol>
+        </nav>
+    </div><!-- End Page Title -->
+
+    <div class="margin">
+        <div class="mb-3">
+            <button type="button" class="btn btn-primary" (click)="openAddAzienda()">
+                Aggiungi Azienda
+            </button>
+        </div>
+
+        <div *ngIf="alert.getSuccessAlert()" class="alert alert-success alert-dismissible fade show" role="alert">
+            Documento aggiunto con successo
+            <button type="button" class="btn-close" data-bs-dismiss="alert" aria-label="Close"></button>
+        </div>
+    </div> <!-- End Margin -->
+
+    <app-aziende-tabella [aziende]="aziende"></app-aziende-tabella>
+
+</div>

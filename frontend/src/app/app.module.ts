@@ -54,6 +54,8 @@ import { MatPaginatorIntl } from '@angular/material/paginator';
 import { CustomPaginatorIntl } from './CustomPaginatorIntl';
 
 import { HttpClientModule } from '@angular/common/http';
+import { AziendeComponent } from './view/_AZIENDE/aziende/aziende.component';
+import { AziendeTabellaComponent } from './view/_AZIENDE/aziende-tabella/aziende-tabella.component';
 
 
 @NgModule({
@@ -91,7 +93,9 @@ import { HttpClientModule } from '@angular/common/http';
     BarChartDirective,
     SelettoreAziendaComponent,
     RiepilogoCorsiComponent,
-    CorsiCardComponent
+    CorsiCardComponent,
+    AziendeComponent,
+    AziendeTabellaComponent
   ],
   imports: [
     BrowserModule,
