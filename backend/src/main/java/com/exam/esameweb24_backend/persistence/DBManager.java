@@ -53,7 +53,7 @@ public class DBManager {
         return properties;
     }
 
-    public AziendaDao getAgencyDao() {return AziendaDaoPostgres.getInstance();}
+    public AziendaDao getAziendaDao() {return AziendaDaoPostgres.getInstance();}
 
     public ConsulenteDao getConsulenteDao() {return ConsulenteDaoPostgres.getInstance();}
 
