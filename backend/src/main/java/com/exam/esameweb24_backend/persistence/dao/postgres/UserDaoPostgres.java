@@ -87,6 +87,11 @@ public class UserDaoPostgres implements UserDao {
     }
 
     @Override
+    public Boolean isConsultant(User user) {
+        return DBManager.getInstance().getConsultantDao().findByPIva(user.getPIva()) != null;
+    }
+
+    @Override
     public Boolean insert(User user) {
         String query = "INSERT INTO users (piva, email, password) VALUES (?, ?, ?)";
         try {
