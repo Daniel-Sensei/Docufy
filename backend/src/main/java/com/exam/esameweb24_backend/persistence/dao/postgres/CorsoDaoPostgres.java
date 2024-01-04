@@ -56,7 +56,7 @@ public class CorsoDaoPostgres implements CorsoDao {
 
     @Override
     public List<CorsoAcquistato> findByAgency(String agencyPIva) {
-        Azienda azienda = DBManager.getInstance().getAgencyDao().findByPIva(agencyPIva);
+        Azienda azienda = DBManager.getInstance().getAziendaDao().findByPIva(agencyPIva);
         List<CorsoAcquistato> courses = new ArrayList<>();
         String query = "SELECT * FROM corsi_aziende WHERE azienda = ?";
         try {

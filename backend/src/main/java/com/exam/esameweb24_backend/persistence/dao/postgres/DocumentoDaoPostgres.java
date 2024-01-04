@@ -53,7 +53,7 @@ public class DocumentoDaoPostgres implements DocumentoDao {
 
     @Override
     public List<Documento> findByAgency(String agencyPIva) {
-        Azienda azienda = DBManager.getInstance().getAgencyDao().findByPIva(agencyPIva);
+        Azienda azienda = DBManager.getInstance().getAziendaDao().findByPIva(agencyPIva);
         List<Documento> documenti = new ArrayList<>();
         String query = "SELECT * FROM documenti WHERE agenzia  = ?";
         try {
@@ -95,7 +95,7 @@ public class DocumentoDaoPostgres implements DocumentoDao {
                 if(rs.getInt("dipendente") != 0)
                     documento.setEmployee(DBManager.getInstance().getDipendenteDao().findById(rs.getLong("dipendente")));
                 if(rs.getString("agenzia") != null)
-                    documento.setAgency(DBManager.getInstance().getAgencyDao().findByPIva(rs.getString("agenzia")));
+                    documento.setAgency(DBManager.getInstance().getAziendaDao().findByPIva(rs.getString("agenzia")));
                 documento.setStato(rs.getString("stato"));
                 documento.setFormato(rs.getString("formato"));
                 return documento;

@@ -32,7 +32,7 @@ public class DBManager {
                         properties.getProperty("db.user"),
                         properties.getProperty("db.password")
                 );
-                // System.out.println("Connected to database"); OK!
+                System.out.println("Connected to database");
             } catch (SQLException e) {
                 throw new RuntimeException(e);
             }

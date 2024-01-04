@@ -35,17 +35,16 @@ public class Auth {
         return BCrypt.checkpw(user.getPassword(), storedUser.getPassword());
     }
 
-    private AuthToken generateToken(User user, String a){
-        String token = encodeBase64(user.getEmail() + ":" + user.getPassword() + ":" + a);
+    private AuthToken generateToken(User user, String role){
+        String token = encodeBase64(user.getEmail() + ":" + user.getPassword() + ":" + role);
         AuthToken auth = new AuthToken();
         auth.setToken(token);
+        auth.setRole(role);
         return auth;
     }
 
     public static String encodeBase64(String value){
         return Base64.getEncoder().encodeToString(value.getBytes());
     }
-
-
 }
 

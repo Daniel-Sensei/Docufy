@@ -28,7 +28,7 @@ public class DipendenteDaoPostgres implements DipendenteDao {
 
     @Override
     public List<Dipendente> findByAgency(String agencyPIva) {
-        Azienda azienda = DBManager.getInstance().getAgencyDao().findByPIva(agencyPIva);
+        Azienda azienda = DBManager.getInstance().getAziendaDao().findByPIva(agencyPIva);
         List<Dipendente> dipendenti = new ArrayList<>();
         String query = "SELECT * FROM dipendenti WHERE agenzia  = ?";
         try {
@@ -74,7 +74,7 @@ public class DipendenteDaoPostgres implements DipendenteDao {
                 dipendente.setEmail(rs.getString("email"));
                 dipendente.setTelefono(rs.getString("telefono"));
                 dipendente.setResidenza(rs.getString("indirizzo"));
-                dipendente.setAgency(DBManager.getInstance().getAgencyDao().findByPIva(rs.getString("azienda")));
+                dipendente.setAgency(DBManager.getInstance().getAziendaDao().findByPIva(rs.getString("azienda")));
                 dipendente.setDataAssunzione(rs.getDate("data_assunzione"));
                 dipendente.setRuolo(rs.getString("ruolo"));
                 dipendente.setImg(rs.getString("foto"));
