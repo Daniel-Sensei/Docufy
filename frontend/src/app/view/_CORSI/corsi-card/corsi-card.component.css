@@ -25,14 +25,14 @@ body {
 
 .badge span {
     background-color: #fffbec;
-    width: 60px;
-    height: 25px;
-    padding-bottom: 3px;
+    width: fit-content;
+    height: fit-content;
+    padding: 5px 10px;
     border-radius: 5px;
     display: flex;
     color: #ffc55a;
     justify-content: center;
-    align-items: center
+    align-items: center;
 }
 
 .progress {
