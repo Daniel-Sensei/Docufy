@@ -4,7 +4,26 @@
         <div class="card p-3 mb-2 h-100">
         <div class="card-header">
             <div class="row align-items-center">
-            <div class="col-xl-2 col-md-2 icon ms-2"> <i class="bx bxl-mailchimp"></i> </div>
+            <div class="col-xl-2 col-md-2 icon ms-2">
+
+                <div *ngIf="corso.categoria=='salute e benessere'">
+                    <i class="bx bx-heart-circle"></i> 
+                </div>
+                <div *ngIf="corso.categoria=='formazione'">
+                    <i class="bxs-book-open"></i> 
+                </div>
+                <div *ngIf="corso.categoria=='aggiornamento'">
+                    <i class="bx bxl-mailchimp"></i> 
+                </div>
+                <div *ngIf="corso.categoria=='marketing'">
+                    <i class="bx bxs-game"></i> 
+                </div>
+                <div *ngIf="corso.categoria=='sicurezza'">
+                    <i class="bx bxl-mailchimp"></i> 
+                </div>
+                
+
+            </div> 
             <div class="col-xl-9 col-md-10 c-details">
                 <h6 class="card-title text-wrap">{{corso.nome}}</h6>
             </div>
