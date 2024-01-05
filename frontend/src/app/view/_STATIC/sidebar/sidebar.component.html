@@ -12,7 +12,7 @@
   
       <li class="nav-heading">Pagine</li>
 
-      <li class="nav-item">
+      <li *ngIf="role=='C'" class="nav-item">
         <a class="nav-link collapsed" routerLink="/aziende">
           <i class="bi bi-dash-circle"></i>
           <span>Aziende</span>
@@ -62,7 +62,7 @@
       </li><!-- End Contact Page Nav -->
   
       <li class="nav-item">
-        <a class="nav-link collapsed" routerLink="/login">
+        <a class="nav-link collapsed" routerLink="/login" (click)="logout()">
           <i class="bi bi-box-arrow-in-right"></i>
           <span>Logout</span>
         </a>

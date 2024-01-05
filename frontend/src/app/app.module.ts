@@ -36,7 +36,7 @@ import { AddDocumentModalComponent } from './view/_DOCUMENTI/add-documento-modal
 import { NgbDate, NgbModule } from '@ng-bootstrap/ng-bootstrap';
 import { FormsModule, ReactiveFormsModule } from '@angular/forms';
 import { NgbDatepickerConfig, NgbDateParserFormatter } from '@ng-bootstrap/ng-bootstrap';
-import { NgbDateITParserFormatter } from './NgbDateParserFormatter';
+import { NgbDateITParserFormatter } from './NgbDateITParserFormatter';
 import { ToastrModule } from 'ngx-toastr';
 import { AddDipendenteModalComponent } from './view/_DIPENDENTI/add-dipendente-modal/add-dipendente-modal.component';
 import { DipendentiTabellaComponent } from './view/_DIPENDENTI/dipendenti-tabella/dipendenti-tabella.component';
