@@ -1,18 +1,18 @@
 import { ComponentFixture, TestBed } from '@angular/core/testing';
 
-import { CustomersCardComponent } from './customers-card.component';
+import { LogoutModalComponent } from './logout-modal.component';
 
-describe('CustomersCardComponent', () => {
-  let component: CustomersCardComponent;
-  let fixture: ComponentFixture<CustomersCardComponent>;
+describe('LogoutModalComponent', () => {
+  let component: LogoutModalComponent;
+  let fixture: ComponentFixture<LogoutModalComponent>;
 
   beforeEach(async () => {
     await TestBed.configureTestingModule({
-      declarations: [CustomersCardComponent]
+      declarations: [LogoutModalComponent]
     })
     .compileComponents();
     
-    fixture = TestBed.createComponent(CustomersCardComponent);
+    fixture = TestBed.createComponent(LogoutModalComponent);
     component = fixture.componentInstance;
     fixture.detectChanges();
   });

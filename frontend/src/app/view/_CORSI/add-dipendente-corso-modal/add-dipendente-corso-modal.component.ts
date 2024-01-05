@@ -39,19 +39,14 @@ export class AddDipendenteCorsoModalComponent implements OnInit {
     onItemSelect(item: any) {
       console.log('onItemSelect', item);
     }
+    
     onSelectAll(items: any) {
       console.log('onSelectAll', items);
     }
 
-    addDipendenteCorso(){
-      
+    submit(){
       console.log(this.selectedItems);
-
       this.activeModal.close();
-      
-
-      this.selectedItems.forEach(element => console.log(element.item_text));
-
     }
 
     

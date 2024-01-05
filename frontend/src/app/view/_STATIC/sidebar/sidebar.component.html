@@ -5,7 +5,7 @@
   
       <li class="nav-item">
         <a class="nav-link " href="index.html">
-          <i class="bi bi-grid"></i>
+          <i class="bi bi-speedometer2"></i>
           <span>Dashboard</span>
         </a>
       </li><!-- End Dashboard Nav -->
@@ -14,28 +14,28 @@
 
       <li *ngIf="role=='C'" class="nav-item">
         <a class="nav-link collapsed" routerLink="/aziende">
-          <i class="bi bi-dash-circle"></i>
+          <i class="bi bi-building"></i>
           <span>Aziende</span>
         </a>
       </li><!-- End Aziende Page Nav -->
 
       <li class="nav-item">
         <a class="nav-link collapsed" routerLink="/documenti">
-          <i class="bi bi-dash-circle"></i>
+          <i class="bi bi-file-text"></i>
           <span>Documenti Aziendali</span>
         </a>
       </li><!-- End Documenti Page Nav -->
 
       <li class="nav-item">
         <a class="nav-link collapsed" routerLink="/dipendenti">
-          <i class="bi bi-dash-circle"></i>
+          <i class="bi bi-people"></i>
           <span>Dipendenti</span>
         </a>
       </li><!-- End Dipendenti Page Nav -->
 
       <li class="nav-item">
         <a class="nav-link collapsed" routerLink="/corsi">
-          <i class="bi bi-dash-circle"></i>
+          <i class="bi bi-grid"></i>
           <span>Corsi</span>
         </a>
       </li><!-- End Corsi Page Nav -->
@@ -62,8 +62,8 @@
       </li><!-- End Contact Page Nav -->
   
       <li class="nav-item">
-        <a class="nav-link collapsed" routerLink="/login" (click)="logout()">
-          <i class="bi bi-box-arrow-in-right"></i>
+        <a class="nav-link collapsed" type="button" (click)="logout()">
+          <i class="bi bi-box-arrow-right"></i>
           <span>Logout</span>
         </a>
       </li><!-- End Login Page Nav -->

@@ -5,15 +5,8 @@ import { AppRoutingModule } from './app-routing.module';
 import { AppComponent } from './app.component';
 import { HeaderComponent } from './view/_STATIC/header/header.component';
 import { SidebarComponent } from './view/_STATIC/sidebar/sidebar.component';
-import { RevenueCardComponent } from './view/_DASHBOARD/revenue-card/revenue-card.component';
-import { CustomersCardComponent } from './view/_DASHBOARD/customers-card/customers-card.component';
 import { ReportsComponent } from './view/_DASHBOARD/reports/reports.component';
-import { RecentSalesComponent } from './view/_DASHBOARD/recent-sales/recent-sales.component';
-import { TopSellingComponent } from './view/_DASHBOARD/top-selling/top-selling.component';
 import { RecentActivityComponent } from './view/_DASHBOARD/recent-activity/recent-activity.component';
-import { BudgetReportComponent } from './view/_DASHBOARD/budget-report/budget-report.component';
-import { WebsiteTrafficComponent } from './view/_DASHBOARD/website-traffic/website-traffic.component';
-import { NewsUpdateComponent } from './view/_DASHBOARD/news-update/news-update.component';
 import { FooterComponent } from './view/_STATIC/footer/footer.component';
 import { DashboardComponent } from './view/_DASHBOARD/dashboard/dashboard.component';
 import { LoginComponent } from './view/_LOGIN/login/login.component';
@@ -33,7 +26,7 @@ import { DipendentiDettagliComponent } from './view/_DIPENDENTI/dipendenti-detta
 import { DocumentiComponent } from './view/_DOCUMENTI/documenti/documenti.component';
 import { DocumentiTabellaComponent } from './view/_DOCUMENTI/documenti-tabella/documenti-tabella.component';
 import { AddDocumentModalComponent } from './view/_DOCUMENTI/add-documento-modal/add-document-modal.component';
-import { NgbDate, NgbModule } from '@ng-bootstrap/ng-bootstrap';
+import { NgbModule } from '@ng-bootstrap/ng-bootstrap';
 import { FormsModule, ReactiveFormsModule } from '@angular/forms';
 import { NgbDatepickerConfig, NgbDateParserFormatter } from '@ng-bootstrap/ng-bootstrap';
 import { NgbDateITParserFormatter } from './NgbDateITParserFormatter';
@@ -58,6 +51,8 @@ import { AziendeComponent } from './view/_AZIENDE/aziende/aziende.component';
 import { AziendeTabellaComponent } from './view/_AZIENDE/aziende-tabella/aziende-tabella.component';
 import { AddAziendaModalComponent } from './view/_AZIENDE/add-azienda-modal/add-azienda-modal.component';
 import { AddCorsoModalComponent } from './view/_CORSI/add-corso-modal/add-corso-modal.component';
+import { LogoutModalComponent } from './view/_LOGIN/logout-modal/logout-modal.component';
+import { RicercaComponent } from './view/_RICERCA/ricerca/ricerca.component';
 
 
 @NgModule({
@@ -65,15 +60,8 @@ import { AddCorsoModalComponent } from './view/_CORSI/add-corso-modal/add-corso-
     AppComponent,
     HeaderComponent,
     SidebarComponent,
-    RevenueCardComponent,
-    CustomersCardComponent,
     ReportsComponent,
-    RecentSalesComponent,
-    TopSellingComponent,
     RecentActivityComponent,
-    BudgetReportComponent,
-    WebsiteTrafficComponent,
-    NewsUpdateComponent,
     FooterComponent,
     DashboardComponent,
     LoginComponent,
@@ -99,7 +87,9 @@ import { AddCorsoModalComponent } from './view/_CORSI/add-corso-modal/add-corso-
     AziendeComponent,
     AziendeTabellaComponent,
     AddAziendaModalComponent,
-    AddCorsoModalComponent
+    AddCorsoModalComponent,
+    LogoutModalComponent,
+    RicercaComponent
   ],
   imports: [
     BrowserModule,

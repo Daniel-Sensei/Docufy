@@ -1247,23 +1247,29 @@ body { margin: 0; font-family: Roboto, "Helvetica Neue", sans-serif; }
   border: none;
 }
 
-/* DOCUMENTI */
+/* TABLE */
 .table .badge-success {
   background-color: #28a745; 
-  color: #fff; 
-  padding: 0.2rem 0.5rem; 
+  color: #fff;
+  font-weight: 550;
+  font-size: 11px;
+  padding-top: 5px;
 }
 
 .table .badge-danger {
   background-color: #dc3545;
   color: #fff;
-  padding: 0.2rem 0.5rem;
+  font-weight: 550;
+  font-size: 11px;
+  padding-top: 5px;
 }
 
 .table .badge-warning {
   background-color: #ffc107;
   color: #fff;
-  padding: 0.2rem 0.5rem;
+  font-weight: 550;
+  font-size: 11px;
+  padding-top: 5px;
 }
 
 /* MODAL */
