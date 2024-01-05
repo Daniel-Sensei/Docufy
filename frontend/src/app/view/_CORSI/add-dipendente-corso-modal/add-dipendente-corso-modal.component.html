@@ -11,7 +11,7 @@
 
     <div class="col-12">
       <ng-multiselect-dropdown class="custom-multiselect" [placeholder]="'Seleziona dipendenti'" [settings]="dropdownSettings"
-        [data]="dropdownList" [(ngModel)]="selectedItems" (onSelect)="onItemSelect($event)"
+        [data]="dropdownList" [(ngModel)]="selectedItems" [ngModelOptions]="{ standalone: true }" (onSelect)="onItemSelect($event)"
         (onSelectAll)="onSelectAll($event)">
       </ng-multiselect-dropdown>
     </div>
@@ -19,6 +19,6 @@
 
   <div class="modal-footer mt-3">
     <button type="button" class="btn btn-secondary" (click)="activeModal.dismiss('Cancel click')">Chiudi</button>
-    <button type="button" class="btn btn-primary" (click)="addDipendenteCorso()">Salva</button>
+    <button type="button" class="btn btn-primary" (click)="submit()">Salva</button>
   </div>
 </div>
