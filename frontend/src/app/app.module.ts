@@ -57,6 +57,7 @@ import { HttpClientModule } from '@angular/common/http';
 import { AziendeComponent } from './view/_AZIENDE/aziende/aziende.component';
 import { AziendeTabellaComponent } from './view/_AZIENDE/aziende-tabella/aziende-tabella.component';
 import { AddAziendaModalComponent } from './view/_AZIENDE/add-azienda-modal/add-azienda-modal.component';
+import { AddCorsoModalComponent } from './view/_CORSI/add-corso-modal/add-corso-modal.component';
 
 
 @NgModule({
@@ -97,7 +98,8 @@ import { AddAziendaModalComponent } from './view/_AZIENDE/add-azienda-modal/add-
     CorsiCardComponent,
     AziendeComponent,
     AziendeTabellaComponent,
-    AddAziendaModalComponent
+    AddAziendaModalComponent,
+    AddCorsoModalComponent
   ],
   imports: [
     BrowserModule,
