@@ -5,7 +5,6 @@ import { FormBuilder, FormGroup, Validators } from '@angular/forms';
 import { AuthService } from '../../../service/auth/auth.service';
 import { Router } from '@angular/router';
 
-
 @Component({
   selector: 'app-login',
   templateUrl: './login.component.html',
@@ -24,7 +23,7 @@ export class LoginComponent {
     private auth: AuthService,
     ) {
       this.loginForm = this.fb.group({
-        email: ['', [Validators.required, Validators.email, Validators.pattern('[a-zA-Z0-9._%+-]+@[a-zA-Z0-9.-]+\.[a-zA-Z]{2,}')]],
+        email: ['', [Validators.required, Validators.email]],
         password: ['', Validators.required],
         rememberMe: [false]
       });

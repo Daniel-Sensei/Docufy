@@ -1,6 +1,8 @@
 import { NgbDate } from '@ng-bootstrap/ng-bootstrap';
 
 export class FormCheck {
+    static emailRegex = /^[a-zA-Z0-9._%+-]+@[a-zA-Z0-9.-]+\\.[a-zA-Z]{2,}$/;
+
     static checkNome(nome: string): boolean {
         const regex = /^[a-zA-Z ]+$/;
         return regex.test(nome);

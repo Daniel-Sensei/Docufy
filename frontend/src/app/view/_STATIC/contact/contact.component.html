@@ -1,10 +1,9 @@
 <main id="main" class="main">
-<div class="pagetitle">
+  <div class="pagetitle">
     <h1>Contact</h1>
     <nav>
       <ol class="breadcrumb">
-        <li class="breadcrumb-item"><a href="index.html">Home</a></li>
-        <li class="breadcrumb-item">Pages</li>
+        <li class="breadcrumb-item"><a routerLink="/">Dashboard</a></li>
         <li class="breadcrumb-item active">Contact</li>
       </ol>
     </nav>
@@ -14,68 +13,71 @@
 
     <div class="row gy-4">
 
-      <div class="col-xl-6">
+      <div class="col-xl-12">
 
         <div class="row">
-          <div class="col-lg-6">
-            <div class="info-box card">
-              <i class="bi bi-geo-alt"></i>
-              <h3>Address</h3>
-              <p>A108 Adam Street,<br>New York, NY 535022</p>
-            </div>
-          </div>
-          <div class="col-lg-6">
-            <div class="info-box card">
-              <i class="bi bi-telephone"></i>
-              <h3>Call Us</h3>
-              <p>+1 5589 55488 55<br>+1 6678 254445 41</p>
-            </div>
-          </div>
-          <div class="col-lg-6">
+
+          <div class="col-lg-4">
             <div class="info-box card">
               <i class="bi bi-envelope"></i>
-              <h3>Email Us</h3>
-              <p>info chiocciola example.com<br>contact chiocciola example.com</p>
+              <h3>Email</h3>
+              <p><a href="mailto:email1@gmail.com">email1&#64;gmail.com</a></p>
+              <p><a href="mailto:email2@gmail.com">email2&#64;gmail.com</a></p>
+              <p><a href="mailto:email3@gmail.com">email3&#64;gmail.com</a></p>
+              <p><a href="mailto:email4@gmail.com">email4&#64;gmail.com</a></p>
             </div>
           </div>
-          <div class="col-lg-6">
+
+          <div class="col-lg-4">
             <div class="info-box card">
-              <i class="bi bi-clock"></i>
-              <h3>Open Hours</h3>
-              <p>Monday - Friday<br>9:00AM - 05:00PM</p>
+              <i class="bi bi-telephone"></i>
+              <h3>Telefono</h3>
+              <p>+39 123 4567890</p>
+              <p>+39 123 4567890</p>
+              <p>+39 123 4567890</p>
+              <p>+39 123 4567890</p>
             </div>
           </div>
+
+          <div class="col-lg-4">
+            <div class="info-box card">
+              <i class="bi bi-geo-alt"></i>
+              <h3>Università</h3>
+              <p>Università della Calabria,</p>
+              <p>via Pietro Bucci,</p>
+              <p>87036 Arcavacata di Rende CS</p>
+              <p>Italia</p>
+            </div>
+          </div>
+
+
         </div>
 
       </div>
 
-      <div class="col-xl-6">
+      <div class="col-xl-12">
         <div class="card p-4">
-          <form action="forms/contact.php" method="post" class="php-email-form">
+          <form [formGroup]="contactForm" (ngSubmit)="submitForm()" novalidate class="php-email-form">
             <div class="row gy-4">
 
               <div class="col-md-6">
-                <input type="text" name="name" class="form-control" placeholder="Your Name" required>
+                <input formControlName="nome" type="text" name="name" class="form-control" placeholder="Nome e Cognome" required>
               </div>
 
               <div class="col-md-6 ">
-                <input type="email" class="form-control" name="email" placeholder="Your Email" required>
+                <input formControlName="email" type="email" class="form-control" name="email" placeholder="Email" required>
               </div>
 
               <div class="col-md-12">
-                <input type="text" class="form-control" name="subject" placeholder="Subject" required>
+                <input formControlName="oggetto" type="text" class="form-control" name="subject" placeholder="Oggetto della richiesta" required>
               </div>
 
               <div class="col-md-12">
-                <textarea class="form-control" name="message" rows="6" placeholder="Message" required></textarea>
+                <textarea formControlName="messaggio" class="form-control" name="message" rows="6" placeholder="Messaggio" required></textarea>
               </div>
 
               <div class="col-md-12 text-center">
-                <div class="loading">Loading</div>
-                <div class="error-message"></div>
-                <div class="sent-message">Your message has been sent. Thank you!</div>
-
-                <button type="submit">Send Message</button>
+                <button class="btn btn-primary" [disabled]="contactForm.invalid" type="submit">Invia messaggio</button>
               </div>
 
             </div>

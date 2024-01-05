@@ -21,7 +21,7 @@ export class AddAziendaModalComponent {
     this.addAziendaForm = this.fb.group({
       ragione_sociale: ['', Validators.required],
       partita_iva: ['', Validators.required],
-      email: ['', [Validators.required, Validators.email, Validators.pattern('^[a-zA-Z0-9._%+-]+@[a-zA-Z0-9.-]+\\.[a-zA-Z]{2,}$')]],
+      email: ['', [Validators.required, Validators.email]],
       telefono: ['', Validators.required],
       indirizzo: ['',Validators.required]
     }, { validators: this.customValidation });
