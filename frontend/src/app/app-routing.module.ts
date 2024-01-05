@@ -14,6 +14,7 @@ import { DipendentiComponent } from './view/_DIPENDENTI/dipendenti/dipendenti.co
 import { DipendentiDettagliComponent } from './view/_DIPENDENTI/dipendenti-dettagli/dipendenti-dettagli.component';
 import { AuthGuard } from './auth.guard';
 import { AziendeComponent } from './view/_AZIENDE/aziende/aziende.component';
+import { RicercaComponent } from './view/_RICERCA/ricerca/ricerca.component';
 
 const routes: Routes = [
   { path: 'login', component: LoginComponent },
@@ -29,6 +30,8 @@ const routes: Routes = [
   { path: 'profile', component: ProfileComponent, canActivate: [AuthGuard] },
   { path: 'corsi', component: CorsiComponent, canActivate: [AuthGuard] },
   { path: 'dettaglio_corso', component:DettaglioCorsoComponent, canActivate: [AuthGuard] },
+
+  { path: 'search/:text', component: RicercaComponent, canActivate: [AuthGuard] },
   { path: '**', redirectTo: ''}
 ];
 
