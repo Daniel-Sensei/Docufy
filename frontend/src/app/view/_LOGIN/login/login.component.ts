@@ -3,6 +3,7 @@ import { NgbDateStruct } from '@ng-bootstrap/ng-bootstrap';
 import { FormBuilder, FormGroup, Validators } from '@angular/forms';
 
 import { AuthService } from '../../../service/auth/auth.service';
+import { Router } from '@angular/router';
 
 
 @Component({
@@ -18,6 +19,7 @@ export class LoginComponent {
   success: boolean = true;
 
   constructor(
+    private router: Router,
     private fb: FormBuilder,
     private auth: AuthService,
     ) {
@@ -29,10 +31,14 @@ export class LoginComponent {
   }
 
   submitForm() {
-    console.log(this.loginForm.value);
-    this.auth.loginFake().subscribe( result => {
-      console.log(result);
-      this.success = result;
+    this.auth.login(this.loginForm.get('email')?.value, this.loginForm.get('password')?.value, this.loginForm.get('rememberMe')?.value).
+    subscribe( result => {
+      if (result) {
+        this.router.navigate(['/']);
+      }
+      else {
+        this.success = false;
+      }
     });
   }
 

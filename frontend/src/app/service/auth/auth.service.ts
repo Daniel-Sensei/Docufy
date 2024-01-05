@@ -39,11 +39,14 @@ export class AuthService {
   }
 
   login(email: string, password: string, rememberMe: boolean): Observable<boolean> {
-    const user = { id: 0, email: email, password: password };
+    const user = { email: email, password: password };
 
     return this.http.post<AuthToken>(Settings.API_ENDPOINT + 'login', user)
       .pipe(
         map(response => {
+          if (response == undefined){
+            return false;
+          }
           this.setToken(response.token, rememberMe);
           return true;
         })
