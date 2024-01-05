@@ -1,5 +1,7 @@
 import { Component } from '@angular/core';
-import { AuthService } from '../../../service/auth/auth.service';
+
+import { NgbModal } from '@ng-bootstrap/ng-bootstrap';
+import { LogoutModalComponent } from '../../_LOGIN/logout-modal/logout-modal.component';
 
 @Component({
   selector: 'app-sidebar',
@@ -9,9 +11,11 @@ import { AuthService } from '../../../service/auth/auth.service';
 export class SidebarComponent {
   role: string = 'C'
 
-  constructor(private auth: AuthService) { }
+  constructor(private modalService: NgbModal,) { }
 
   logout() {
-    this.auth.logout();
+    const modalRef = this.modalService.open(LogoutModalComponent, {
+      size: 'md' // 'lg' sta per grande, puoi utilizzare anche 'sm' per piccolo
+    });
   }
 }
