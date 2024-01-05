@@ -16,29 +16,29 @@ public class DipendenteService {
     @GetMapping("/dipendenti")
     public List<Dipendente> getDipendenti(HttpServletRequest req){
         User user = DBManager.getInstance().getUserDao().findByToken(getToken(req));
-        List<Dipendente> dipendeti = DBManager.getInstance().getDipendenteDao().findByAgency(user.getPIva());
-        return dipendeti;
+        return DBManager.getInstance().getDipendenteDao().findByAgency(user.getPIva());
     }
-
-    @GetMapping("/dipendente")
-    public Dipendente getDipendente(@RequestParam Long id){
+        // l'autenticazione è finta
+        // bisogna gestire i poteri
+    @GetMapping ("/dipendente")
+    public Dipendente getDipendente(HttpServletRequest req, @RequestParam Long id){
+        DBManager.getInstance().getUserDao().findByToken(getToken(req));
         return DBManager.getInstance().getDipendenteDao().findById(id);
     }
 
-    @PostMapping("/nuovo-dipendente")
+    @PostMapping("/aggiungi-dipendente")
     public Boolean aggiuntaDipendete(@RequestBody Dipendente dipendente){
         return DBManager.getInstance().getDipendenteDao().insert(dipendente);
     }
 
-    @PostMapping("/eliminazione-dipendente")
+    @GetMapping("/rimuovi-dipendente")
     public Boolean eliminazioneDipendente(@RequestParam Long id){
         return DBManager.getInstance().getDipendenteDao().delete(id);
     }
 
     private String getToken(HttpServletRequest req){
         String auth = req.getHeader("Authorization");
-        String token = auth.substring("Basic ".length());
-        return token;
+        return auth.substring("Basic ".length());
     }
 }
 // domanda 1: ogni service deve avere una post o get per ogni cosa che fa il DAO?

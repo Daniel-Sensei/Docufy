@@ -30,7 +30,7 @@ public class DipendenteDaoPostgres implements DipendenteDao {
     public List<Dipendente> findByAgency(String agencyPIva) {
         Azienda azienda = DBManager.getInstance().getAziendaDao().findByPIva(agencyPIva);
         List<Dipendente> dipendenti = new ArrayList<>();
-        String query = "SELECT * FROM dipendenti WHERE agenzia  = ?";
+        String query = "SELECT * FROM dipendenti WHERE azienda  = ?";
         try {
             PreparedStatement st = conn.prepareStatement(query);
             st.setString(1, agencyPIva);
