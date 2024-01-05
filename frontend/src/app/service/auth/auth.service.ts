@@ -15,6 +15,7 @@ export class AuthService {
   constructor(@Inject(PLATFORM_ID) private platformId: Object, private http: HttpClient) { }
 
   token?: string | null;
+  role?: string | null;
 
   getToken(): string | null {
     if (isPlatformBrowser(this.platformId)) {
@@ -48,6 +49,7 @@ export class AuthService {
             return false;
           }
           this.setToken(response.token, rememberMe);
+          this.role = response.role;
           return true;
         })
       );
