@@ -13,7 +13,7 @@ import {MatTableDataSource} from '@angular/material/table';
   styleUrl: './dipendenti-tabella.component.css'
 })
 export class DipendentiTabellaComponent implements AfterViewInit{
-  displayedColumns: string[] = ['cognome', 'ruolo', 'dataAssunzione', 'azioni'];
+  displayedColumns: string[] = ['cognome', 'ruolo', 'dataNascita', 'azioni'];
   dataSource: MatTableDataSource<Dipendente>;
 
   @ViewChild(MatPaginator) paginator!: MatPaginator;

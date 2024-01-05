@@ -18,7 +18,7 @@
         </div>
 
         <div *ngIf="alert.getSuccessAlert()" class="alert alert-success alert-dismissible fade show" role="alert">
-            Dipendente aggiunto con successo
+            Dipendente <strong>{{alert.getMessage()}}</strong> aggiunto con successo
             <button type="button" class="btn-close" data-bs-dismiss="alert" aria-label="Close"></button>
         </div>
     </div> <!-- End Margin -->

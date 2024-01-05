@@ -46,9 +46,15 @@
             <label for="dataScadenza" class="form-label">Data di scadenza</label>
             <div class="input-group">
                 <input readonly formControlName="dataScadenza" class="form-control" ngbDatepicker #dpScadenza="ngbDatepicker"
-                    placeholder="gg-mm-aaaa" />
+                    placeholder="gg-mm-aaaa" 
+                    [class.is-invalid]="addDocumentForm.get('dataScadenza')?.invalid && addDocumentForm.get('dataScadenza')?.touched"/>
                 <button class="btn btn-outline-secondary bi bi-calendar3" (click)="dpScadenza.toggle()"
                     type="button"></button>
+
+                <div *ngIf="addDocumentForm.get('dataScadenza')?.invalid && addDocumentForm.get('dataScadenza')?.touched"
+                    class="invalid-feedback">
+                    La data di scadenza non può essere inferiore alla data di rilascio
+                </div>
             </div>
         </div>
 

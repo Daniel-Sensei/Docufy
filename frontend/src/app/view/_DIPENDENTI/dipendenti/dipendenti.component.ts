@@ -1,10 +1,10 @@
 import { Component } from '@angular/core';
-import { AlertService } from '../../../alert.service';
+import { AlertService } from '../../../service/alert/alert.service';
 import { NgbModal } from '@ng-bootstrap/ng-bootstrap';
 import { AddDipendenteModalComponent } from '../add-dipendente-modal/add-dipendente-modal.component';
 
 import { Dipendente } from '../../../model/Dipendente';
-import { DipendentiService } from '../../../service/dipendenti.service';
+import { DipendentiService } from '../../../service/dipendenti/dipendenti.service';
 
 @Component({
   selector: 'app-dipendenti',

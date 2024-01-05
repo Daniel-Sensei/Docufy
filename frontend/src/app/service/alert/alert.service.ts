@@ -9,6 +9,8 @@ export class AlertService {
   showWarningAlert = false;
   showDangerAlert = false;
 
+  message: string = '';
+
   constructor() { }
 
   setSuccessAlert() {
@@ -37,5 +39,13 @@ export class AlertService {
 
   getDangerAlert() {
     return this.showDangerAlert;
+  }
+
+  setMessage(message: string) {
+    this.message = message;
+  }
+
+  getMessage() {
+    return this.message;
   }
 }

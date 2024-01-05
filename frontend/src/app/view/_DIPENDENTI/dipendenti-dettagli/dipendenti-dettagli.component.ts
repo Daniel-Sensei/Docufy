@@ -2,7 +2,7 @@ import { Component } from '@angular/core';
 import { Dipendente } from '../../../model/Dipendente';
 
 import { ActivatedRoute } from '@angular/router';
-import { DipendentiService } from '../../../service/dipendenti.service';
+import { DipendentiService } from '../../../service/dipendenti/dipendenti.service';
 
 @Component({
   selector: 'app-dipendenti-dettagli',

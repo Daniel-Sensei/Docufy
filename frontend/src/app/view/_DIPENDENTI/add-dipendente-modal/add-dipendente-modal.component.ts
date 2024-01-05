@@ -1,7 +1,7 @@
 import { Component } from '@angular/core';
 import { NgbActiveModal, NgbDate, NgbDateStruct } from '@ng-bootstrap/ng-bootstrap';
 import { FormBuilder, FormGroup, Validators } from '@angular/forms';
-import { AlertService } from '../../../alert.service';
+import { AlertService } from '../../../service/alert/alert.service';
 
 import { FormCheck } from '../../../FormCheck';
 
@@ -116,6 +116,7 @@ export class AddDipendenteModalComponent {
     console.log(this.addDipendenteForm.value);
 
     // Imposta la variabile per mostrare l'alert di successo
+    this.alert.setMessage('Dipendente 1');
     this.alert.setSuccessAlert();
   }
 }

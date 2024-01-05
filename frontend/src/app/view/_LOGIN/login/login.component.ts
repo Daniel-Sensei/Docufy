@@ -2,7 +2,7 @@ import { Component } from '@angular/core';
 import { NgbDateStruct } from '@ng-bootstrap/ng-bootstrap';
 import { FormBuilder, FormGroup, Validators } from '@angular/forms';
 
-import { AuthService } from '../../../service/auth.service';
+import { AuthService } from '../../../service/auth/auth.service';
 
 
 @Component({

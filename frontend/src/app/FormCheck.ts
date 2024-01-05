@@ -32,4 +32,13 @@ export class FormCheck {
         }
         return true;
     }
+
+    static compareTwoDates(date1: NgbDate, date2: NgbDate): boolean{
+        if(date1.year < date2.year || 
+            (date1.year === date2.year && date1.month < date2.month) || 
+            (date1.year === date2.year && date1.month === date2.month && date1.day < date2.day)){
+                return false;
+        }
+        return true;
+    }
 }

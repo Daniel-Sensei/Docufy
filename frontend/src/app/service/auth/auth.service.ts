@@ -1,7 +1,7 @@
 import { Injectable, Inject, PLATFORM_ID } from '@angular/core';
 
-import { Settings } from '../Settings'
-import { AuthToken } from '../model/Azienda';
+import { Settings } from '../../Settings'
+import { AuthToken } from '../../model/Azienda';
 import { HttpClient } from '@angular/common/http';
 import { Observable, of } from 'rxjs';
 import { map } from 'rxjs/operators';

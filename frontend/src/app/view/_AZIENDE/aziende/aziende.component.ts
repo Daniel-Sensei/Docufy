@@ -1,7 +1,7 @@
 import { Component } from '@angular/core';
-import { AlertService } from '../../../alert.service';
+import { AlertService } from '../../../service/alert/alert.service';
 
-import { AziendeService } from '../../../service/aziende.service';
+import { AziendeService } from '../../../service/aziende/aziende.service';
 import { Azienda } from '../../../model/Azienda';
 import { AddAziendaModalComponent } from '../add-azienda-modal/add-azienda-modal.component';
 import { NgbModal } from '@ng-bootstrap/ng-bootstrap';

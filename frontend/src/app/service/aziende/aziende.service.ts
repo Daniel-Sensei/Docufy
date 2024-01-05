@@ -1,8 +1,8 @@
 import { Injectable } from '@angular/core';
 
 import { of, Observable } from 'rxjs';
-import { Azienda } from '../model/Azienda';
-import { AZIENDE } from '../model/mocks/mock-aziende';
+import { Azienda } from '../../model/Azienda';
+import { AZIENDE } from '../../model/mocks/mock-aziende';
 
 @Injectable({
   providedIn: 'root'

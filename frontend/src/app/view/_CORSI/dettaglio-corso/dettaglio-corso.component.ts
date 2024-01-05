@@ -1,10 +1,10 @@
 import { Component } from '@angular/core';
 import { NgbModal } from '@ng-bootstrap/ng-bootstrap';
-import { AlertService } from '../../../alert.service';
+import { AlertService } from '../../../service/alert/alert.service';
 import { AddDipendenteCorsoModalComponent } from '../add-dipendente-corso-modal/add-dipendente-corso-modal.component';
 
 import { Dipendente } from '../../../model/Dipendente';
-import { DipendentiService } from '../../../service/dipendenti.service';
+import { DipendentiService } from '../../../service/dipendenti/dipendenti.service';
 
 @Component({
   selector: 'app-dettaglio-corso',

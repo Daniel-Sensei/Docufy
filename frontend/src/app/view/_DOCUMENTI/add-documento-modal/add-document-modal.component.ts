@@ -1,7 +1,8 @@
 import { Component } from '@angular/core';
 import { NgbActiveModal, NgbDateStruct } from '@ng-bootstrap/ng-bootstrap';
 import { FormBuilder, FormGroup, Validators } from '@angular/forms';
-import { AlertService } from '../../../alert.service';
+import { AlertService } from '../../../service/alert/alert.service';
+import { FormCheck } from '../../../FormCheck';
 
 
 @Component({
@@ -38,7 +39,22 @@ export class AddDocumentModalComponent {
       tipoDocumentoAltroControl?.setErrors(null);
     }
 
-    return null;
+    const dataRilascioControl = group.get('dataRilascio');
+    const dataScadenzaControl = group.get('dataScadenza');
+
+    if (dataRilascioControl && dataScadenzaControl) {
+      const dataRilascio = dataRilascioControl.value;
+      const dataScadenza = dataScadenzaControl.value;
+
+      if (dataRilascio && dataScadenza && FormCheck.compareTwoDates(dataRilascio, dataScadenza)) {
+        dataScadenzaControl.setErrors({ 'invalidDate': true });
+      } else {
+        if (dataScadenzaControl.hasError('invalidDate')) {
+          dataScadenzaControl.setErrors(null);
+        }
+      }
+    }
+
   }
 
   submitForm() {
