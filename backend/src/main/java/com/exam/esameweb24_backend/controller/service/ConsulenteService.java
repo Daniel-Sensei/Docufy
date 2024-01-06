@@ -31,10 +31,5 @@ public class ConsulenteService {
     public Boolean eliminazioneConsulente(@RequestParam String Piva){
         return DBManager.getInstance().getConsulenteDao().delete(Piva);
     }
-
-    private String getToken(HttpServletRequest req){
-        String auth = req.getHeader("Authorization");
-        return auth.substring("Basic ".length());
-    }
 }
 

@@ -8,8 +8,6 @@ import org.springframework.web.bind.annotation.PostMapping;
 import org.springframework.web.bind.annotation.RequestBody;
 import org.springframework.web.bind.annotation.RestController;
 
-import java.util.Base64;
-
 @RestController
 @CrossOrigin("http://localhost:4200")
 public class Auth {
@@ -36,18 +34,11 @@ public class Auth {
     }
 
     private AuthToken generateToken(User user, String role){
-        String token = encodeBase64(user.getEmail() + ":" + user.getPassword() + ":" + role);
+        String token = Utility.encodeBase64(user.getEmail() + ":" + user.getPassword() + "-" + role + ":" + user.getPIva());
         AuthToken auth = new AuthToken();
         auth.setToken(token);
         auth.setRole(role);
         return auth;
-    }
-
-    public static String encodeBase64(String value){
-        return Base64.getEncoder().encodeToString(value.getBytes());
-    }
-    public static String decodeBase64(String value){
-        return new String(Base64.getDecoder().decode(value.getBytes()));
     }
 }
 

@@ -61,7 +61,7 @@ public class CorsoDaoPostgres implements CorsoDao {
         String query = "SELECT * FROM corsi_aziende WHERE azienda = ?";
         try {
             PreparedStatement st = conn.prepareStatement(query);
-            st.setString(1, azienda.getpIva());
+            st.setString(1, azienda.getPIva());
             ResultSet rs = st.executeQuery();
             while (rs.next()){
                 CorsoAcquistato course = new CorsoAcquistato();

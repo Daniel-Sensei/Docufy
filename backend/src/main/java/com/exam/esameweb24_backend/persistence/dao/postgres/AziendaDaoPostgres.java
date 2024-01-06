@@ -37,7 +37,7 @@ public class AziendaDaoPostgres implements AziendaDao {
             ResultSet rs = st.executeQuery();
             while (rs.next()){
                 Azienda azienda = new Azienda();
-                azienda.setpIva(rs.getString("piva"));
+                azienda.setPIva(rs.getString("piva"));
                 azienda.setRagioneSociale(rs.getString("ragionesociale"));
                 azienda.setEmail(rs.getString("email"));
                 azienda.setTelefono(rs.getString("telefono"));
@@ -54,14 +54,14 @@ public class AziendaDaoPostgres implements AziendaDao {
 
     @Override
     public Azienda findByPIva(String pIva) {
-        String query = "SELECT * FROM aziende WHERE consulente  = ?";
+        String query = "SELECT * FROM aziende WHERE piva  = ?";
         try {
             PreparedStatement st = conn.prepareStatement(query);
             st.setString(1, pIva);
             ResultSet rs = st.executeQuery();
             if (rs.next()) {
                 Azienda azienda = new Azienda();
-                azienda.setpIva(rs.getString("piva"));
+                azienda.setPIva(pIva);
                 azienda.setRagioneSociale(rs.getString("ragionesociale"));
                 azienda.setEmail(rs.getString("email"));
                 azienda.setTelefono(rs.getString("telefono"));
@@ -81,7 +81,7 @@ public class AziendaDaoPostgres implements AziendaDao {
         String query = "INSERT INTO aziende (piva, ragionesociale, email, telefono, indirizzo, immagine, consulente) VALUES (?, ?, ?, ?, ?, ?, ?)";
         try {
             PreparedStatement st = conn.prepareStatement(query);
-            st.setString(1, azienda.getpIva());
+            st.setString(1, azienda.getPIva());
             st.setString(2, azienda.getRagioneSociale());
             st.setString(3, azienda.getEmail());
             st.setString(4, azienda.getTelefono());

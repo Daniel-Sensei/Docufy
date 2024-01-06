@@ -39,9 +39,4 @@ public class DocumentoService {
     public Boolean eliminazioneDocumento(@RequestParam Long id){
         return DBManager.getInstance().getDocumentoDao().delete(id);
     }
-
-    private String getToken(HttpServletRequest req){
-        String auth = req.getHeader("Authorization");
-        return auth.substring("Basic ".length());
-    }
 }

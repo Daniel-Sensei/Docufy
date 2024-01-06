@@ -30,9 +30,4 @@ public class AziendaService {
     public Boolean eliminazioneAzienda(@RequestParam String pIva){
         return DBManager.getInstance().getAziendaDao().delete(pIva);
     }
-
-    private String getToken(HttpServletRequest req){
-        String auth = req.getHeader("Authorization");
-        return auth.substring("Basic ".length());
-    }
 }

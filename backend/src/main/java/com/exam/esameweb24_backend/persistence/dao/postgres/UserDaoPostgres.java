@@ -1,5 +1,6 @@
 package com.exam.esameweb24_backend.persistence.dao.postgres;
 
+import com.exam.esameweb24_backend.controller.Utility;
 import com.exam.esameweb24_backend.persistence.DBManager;
 import com.exam.esameweb24_backend.persistence.dao.UserDao;
 import com.exam.esameweb24_backend.persistence.model.User;
@@ -9,8 +10,6 @@ import java.sql.Connection;
 import java.sql.PreparedStatement;
 import java.sql.ResultSet;
 import java.sql.SQLException;
-
-import static com.exam.esameweb24_backend.controller.Auth.decodeBase64;
 
 public class UserDaoPostgres implements UserDao {
 
@@ -48,7 +47,7 @@ public class UserDaoPostgres implements UserDao {
 
     @Override
     public User findByToken(String token) {
-        String email = decodeBase64(token).split(":")[0];
+        String email = Utility.getTokenEmail(token);
         String query = "SELECT * FROM users WHERE email = ?";
         try {
             PreparedStatement st = conn.prepareStatement(query);

@@ -92,11 +92,11 @@ public class Dipendente {
         this.telefono = telefono;
     }
 
-    public Azienda getAgency() {
+    public Azienda getAzienda() {
         return azienda;
     }
 
-    public void setAgency(Azienda azienda) {
+    public void setAzienda(Azienda azienda) {
         this.azienda = azienda;
     }
 

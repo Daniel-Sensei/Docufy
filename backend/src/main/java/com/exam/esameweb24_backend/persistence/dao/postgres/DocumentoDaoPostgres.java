@@ -121,7 +121,7 @@ public class DocumentoDaoPostgres implements DocumentoDao {
             } else {
                 st.setNull(5, java.sql.Types.INTEGER);
                 if (documento.getAgency() != null)
-                    st.setString(6, documento.getAgency().getpIva());
+                    st.setString(6, documento.getAgency().getPIva());
                 else
                     return false;
             }

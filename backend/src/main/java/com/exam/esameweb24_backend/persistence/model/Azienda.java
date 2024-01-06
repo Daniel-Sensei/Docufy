@@ -1,6 +1,9 @@
 package com.exam.esameweb24_backend.persistence.model;
 
 public class Azienda {
+
+    public Azienda() {}
+
     private String pIva;
 
     private String email;
@@ -15,11 +18,11 @@ public class Azienda {
 
     private Consulente consulente;
 
-    public String getpIva() {
+    public String getPIva() {
         return pIva;
     }
 
-    public void setpIva(String pIva) {
+    public void setPIva(String pIva) {
         this.pIva = pIva;
     }
 

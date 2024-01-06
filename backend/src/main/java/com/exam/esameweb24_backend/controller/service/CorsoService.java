@@ -45,9 +45,4 @@ public class CorsoService {
     public Boolean eliminazioneCorso(@RequestParam Long id){
         return DBManager.getInstance().getCorsoDao().delete(id);
     }
-
-    private String getToken(HttpServletRequest req){
-        String auth = req.getHeader("Authorization");
-        return auth.substring("Basic ".length());
-    }
 }
