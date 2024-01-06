@@ -22,7 +22,7 @@ public class DipendenteService {
         // bisogna gestire i poteri
     @GetMapping ("/dipendente")
     public Dipendente getDipendente(HttpServletRequest req, @RequestParam Long id){
-        DBManager.getInstance().getUserDao().findByToken(getToken(req));
+        //DBManager.getInstance().getUserDao().findByToken(getToken(req));
         return DBManager.getInstance().getDipendenteDao().findById(id);
     }
 
@@ -41,8 +41,3 @@ public class DipendenteService {
         return auth.substring("Basic ".length());
     }
 }
-// domanda 1: ogni service deve avere una post o get per ogni cosa che fa il DAO?
-// domanda 2: è giusto quello che ho fatto per adesso?
-// domanda 3: non ho ben capito cosa sia la servletrequest
-// domanda 4: quando ti passo la lista dei dipendenti io te la passo in base all'utente, ma questa cosa è sbagliata
-//            visto che non sempre è un'azienda, quindi qua non so bene come fare e ne vorrei parlare con voi.
