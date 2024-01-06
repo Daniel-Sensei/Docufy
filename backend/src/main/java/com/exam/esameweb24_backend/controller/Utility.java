@@ -23,19 +23,15 @@ public class Utility {
     }
 
     public static String getTokenEmail(String token){
-        return (decodeBase64(token).split("-")[0]).split(":")[0];
+        return decodeBase64(token).split(":")[0];
     }
 
     public static String getTokenPassword(String token){
-        return (decodeBase64(token).split("-")[0]).split(":")[1];
+        return decodeBase64(token).split(":")[1];
     }
 
     public static String getTokenRole(String token){
-        return (decodeBase64(token).split("-")[1]).split(":")[0];
-    }
-
-    public static String getTokenPIva(String token){
-        return (decodeBase64(token).split("-")[1]).split(":")[1];
+        return decodeBase64(token).split(":")[2];
     }
 
     public static Boolean isConsultant(String token) {

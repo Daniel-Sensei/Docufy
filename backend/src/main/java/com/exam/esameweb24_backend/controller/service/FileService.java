@@ -1,6 +1,7 @@
 package com.exam.esameweb24_backend.controller.service;
 
 import com.exam.esameweb24_backend.controller.Utility;
+import com.exam.esameweb24_backend.persistence.model.User;
 import jakarta.servlet.http.HttpServletRequest;
 import org.springframework.beans.factory.annotation.Value;
 import org.springframework.core.io.ByteArrayResource;
@@ -17,7 +18,6 @@ import java.io.IOException;
 import java.nio.file.Files;
 import java.nio.file.Path;
 import java.nio.file.Paths;
-import java.util.UUID;
 
 @RestController
 public class FileService {
@@ -28,16 +28,19 @@ public class FileService {
     @PostMapping("/upload-file")
     public ResponseEntity<String> uploadFile(HttpServletRequest req, @RequestParam("file") MultipartFile file) {
 
+        String token = Utility.getToken(req);
+        User user = Utility.getRequestUser(req);
+
         // se l'utente è null (non è loggato) allora non può usare il servizio
-        if (Utility.getRequestUser(req) == null) return new ResponseEntity<>(HttpStatus.UNAUTHORIZED);
+        if (user == null) return new ResponseEntity<>(HttpStatus.UNAUTHORIZED);
 
         if (file.isEmpty()) {
             return new ResponseEntity<>("Nessun file selezionato", HttpStatus.BAD_REQUEST);
         }
 
         try {
-            String fileName = generateUniqueFileName(file);
-            String filePath = uploadDir + File.separator + fileName;
+            String fileName = generateFileName(user.getPIva(), file);
+            String filePath = uploadDir + "/" + fileName;
             Path destination = Paths.get(filePath);
 
             Files.write(destination, file.getBytes());
@@ -52,8 +55,21 @@ public class FileService {
     @GetMapping("/get-file")
     public ResponseEntity<Resource> getFile(HttpServletRequest req, @RequestParam("path") String path) {
 
-        // se l'utente è null (non è loggato) allora non può usare il servizio
-        if (Utility.getRequestUser(req) == null) return new ResponseEntity<>(HttpStatus.UNAUTHORIZED);
+        String token = Utility.getToken(req);
+        User user = Utility.getRequestUser(req);
+        String pIvaFile = path.substring(path.lastIndexOf("/") + 1, path.lastIndexOf("_"));
+
+        // restituisce NON AUTORIZZATO se:
+        // - l'utente non è loggato
+        // - l'utente è un'azienda, ma non è associato al file
+        // - l'utente è un consulente, ma non è associato all'azienda proprietaria del file o non è associato al file
+        if (user == null)
+            return new ResponseEntity<>(HttpStatus.UNAUTHORIZED);
+        if (!Utility.isConsultant(token) && !user.getPIva().equals(pIvaFile))
+            return new ResponseEntity<>(HttpStatus.UNAUTHORIZED);
+        if (Utility.isConsultant(token) && !Utility.checkConsultantAgency(user.getPIva(), pIvaFile) && !user.getPIva().equals(pIvaFile))
+            return new ResponseEntity<>(HttpStatus.UNAUTHORIZED);
+
 
         File file = new File(path);
         if (file.exists()) {
@@ -77,10 +93,12 @@ public class FileService {
         }
     }
 
-    private String generateUniqueFileName(MultipartFile file) {
+    private String generateFileName(String prefix, MultipartFile file) {
         String originalFileName = file.getOriginalFilename();
         assert originalFileName != null;
         String extension = originalFileName.substring(originalFileName.lastIndexOf("."));
-        return UUID.randomUUID() + extension;
+
+        return prefix + "_" + System.currentTimeMillis() + extension;
     }
+
 }

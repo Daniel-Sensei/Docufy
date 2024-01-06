@@ -21,6 +21,7 @@ public class Auth {
         if(!checkPassword(user, storedUser)){
             return null;
         }
+        user.setPIva(storedUser.getPIva());
         if(DBManager.getInstance().getUserDao().isConsultant(storedUser)) {
             return generateToken(user, "C");
         }
@@ -34,7 +35,7 @@ public class Auth {
     }
 
     private AuthToken generateToken(User user, String role){
-        String token = Utility.encodeBase64(user.getEmail() + ":" + user.getPassword() + "-" + role + ":" + user.getPIva());
+        String token = Utility.encodeBase64(user.getEmail() + ":" + user.getPassword() + ":" + role);
         AuthToken auth = new AuthToken();
         auth.setToken(token);
         auth.setRole(role);
