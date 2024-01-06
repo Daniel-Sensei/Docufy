@@ -9,7 +9,8 @@ import java.sql.Connection;
 import java.sql.PreparedStatement;
 import java.sql.ResultSet;
 import java.sql.SQLException;
-import java.util.Base64;
+
+import static com.exam.esameweb24_backend.controller.Auth.decodeBase64;
 
 public class UserDaoPostgres implements UserDao {
 
@@ -132,9 +133,5 @@ public class UserDaoPostgres implements UserDao {
         } catch (SQLException e) {
             throw new RuntimeException(e);
         }
-    }
-
-    public static String decodeBase64(String value){
-        return new String(Base64.getDecoder().decode(value.getBytes()));
     }
 }
