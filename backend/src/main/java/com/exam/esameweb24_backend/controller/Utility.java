@@ -18,6 +18,7 @@ public class Utility {
 
     public static String getToken(HttpServletRequest req){
         String auth = req.getHeader("Authorization");
+        if (auth == null) return "";
         return auth.substring("Basic ".length());
     }
 
