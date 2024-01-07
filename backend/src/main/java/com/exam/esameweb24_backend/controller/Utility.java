@@ -1,7 +1,5 @@
 package com.exam.esameweb24_backend.controller;
 
-
-import com.fasterxml.jackson.core.JsonProcessingException;
 import com.fasterxml.jackson.databind.ObjectMapper;
 
 import com.exam.esameweb24_backend.persistence.DBManager;
@@ -61,12 +59,17 @@ public class Utility {
     }
 
     public static String generateFileName(String prefix, MultipartFile file) {
+        // prende il nome del file originale
         String originalFileName = file.getOriginalFilename();
-        //TODO: gestire il caso in cui il file non abbia un'estensione
-        if(originalFileName.equals("blob")) return prefix + "_" + System.currentTimeMillis() + ".png";
+        // si assicura che il nome non sia nullo
         assert originalFileName != null;
+        // se il nome è "blob" allora il file viene salvato come png
+        if(originalFileName.equals("blob")) return prefix + "_" + System.currentTimeMillis() + ".png";
+        // si assicura che il file abbia un'estensione
+        assert originalFileName.contains(".");
+        // prende l'estensione del file
         String extension = originalFileName.substring(originalFileName.lastIndexOf("."));
-
+        // restituisce il nuovo nome del file
         return prefix + "_" + System.currentTimeMillis() + extension;
     }
 
