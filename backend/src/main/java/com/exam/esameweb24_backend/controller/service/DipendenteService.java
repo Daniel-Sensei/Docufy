@@ -13,10 +13,7 @@ import org.springframework.web.bind.annotation.*;
 import org.springframework.web.multipart.MultipartFile;
 
 import java.io.IOException;
-import java.util.Collections;
 import java.util.List;
-
-//VANNO AGGIORNATI PER FARE IN MODO CHE RESTITUISCANO TUTTI DELLE "ResponseEntity" -gian
 
 @RestController
 @CrossOrigin("http://localhost:4200/")
@@ -81,18 +78,26 @@ public class DipendenteService {
         User user = Utility.getRequestUser(req);
 
         // se l'utente è null (non è loggato) allora non può usare il servizio
-        if (user==null) return new ResponseEntity<>( "Utente non loggato...", HttpStatus.UNAUTHORIZED);
+        if (user==null) return new ResponseEntity<>(HttpStatus.UNAUTHORIZED);
 
         boolean thereIsFile = !file.isEmpty();
 
         // se il json è vuoto allora non può usare il servizio
-        if (json.isEmpty()) return new ResponseEntity<>("Nessun json selezionato", HttpStatus.BAD_REQUEST);
+        if (json.isEmpty()) return new ResponseEntity<>(HttpStatus.BAD_REQUEST);
 
         //controllo che l'utente sia un'azienda
         if (!Utility.isConsultant(token)) {
 
             // converto il json in un oggetto Dipendente
             Dipendente dipendente = Utility.jsonToDipendente(json);
+
+            // fornisco l'azienda al dipendente per poterlo inserire nel database
+            Azienda a = new Azienda();  // creo un'azienda vuota
+            a.setPIva(user.getPIva());  // gli assegno la partita iva dell'utente che ha effettuato la richiesta
+            dipendente.setAzienda(a);   // associo l'azienda al dipendente
+            // inserisco il dipendente nel database
+            if (!DBManager.getInstance().getDipendenteDao().insert(dipendente))
+                return new ResponseEntity<>(HttpStatus.INTERNAL_SERVER_ERROR);
 
             // salvo l'immagine solo se è stata caricata
             if (thereIsFile) {
@@ -101,26 +106,21 @@ public class DipendenteService {
                     //salvo il file nella cartella dei files
                     filePath = Utility.uploadFile(file, user);
                 } catch (IOException e) {
-                    return new ResponseEntity<>("Errore durante il caricamento del file", HttpStatus.INTERNAL_SERVER_ERROR);
+                    return new ResponseEntity<>(HttpStatus.INTERNAL_SERVER_ERROR);
                 }
 
                 // salvo il path del file nel dipendente
                 dipendente.setImg(filePath);
             }
 
-            // fornisco l'azienda al dipendente per poterlo inserire nel database
-            Azienda a = new Azienda();  // creo un'azienda vuota
-            a.setPIva(user.getPIva());  // gli assegno la partita iva dell'utente che ha effettuato la richiesta
-            dipendente.setAzienda(a);   // associo l'azienda al dipendente
-            // inserisco il dipendente nel database
-            if (DBManager.getInstance().getDipendenteDao().insert(dipendente)) {
-                // Ritorna un messaggio di successo sotto forma di stringa JSON
-                return new ResponseEntity<>("{\"success\": true}", HttpStatus.OK);
-            } else {
-                return new ResponseEntity<>("{\"success\": false}", HttpStatus.INTERNAL_SERVER_ERROR);
-            }
+            // aggiorno il dipendente nel database
+            if ( DBManager.getInstance().getDipendenteDao().update(dipendente) )
+                return new ResponseEntity<>(HttpStatus.OK);
+            else
+                return new ResponseEntity<>(HttpStatus.INTERNAL_SERVER_ERROR);
+
         }
-        return new ResponseEntity<>( "Utente non autorizzato!", HttpStatus.UNAUTHORIZED);
+        return new ResponseEntity<>(HttpStatus.UNAUTHORIZED);
     }
 
     // Questo servizio permette di modificare un dipendente
@@ -147,17 +147,17 @@ public class DipendenteService {
     // Questo servizio permette di eliminare un dipendente
     // Il suo utilizzo è riservato all'azienda per cui lavora il dipendente
     @GetMapping("/rimuovi-dipendente")
-    public String eliminazioneDipendente(HttpServletRequest req, @RequestParam Long id){
+    public boolean eliminazioneDipendente(HttpServletRequest req, @RequestParam Long id){
         User user = Utility.getRequestUser(req);
         // se l'utente è null (non è loggato) allora non può usare il servizio
-        if (user==null) return "false: utente non loggato";
+        if (user==null) return false;
         // controllo se il dipendente esiste
         Dipendente d = DBManager.getInstance().getDipendenteDao().findById(id);
-        if (d == null) return "false: dipendente non trovato";
+        if (d == null) return false;
         //controllo che l'azienda sia associata al dipendente da rimuovere
         if (user.getPIva().equals(d.getAzienda().getPIva()))
             // elimino il dipendente dal database
-            return DBManager.getInstance().getDipendenteDao().delete(id) ? "true" : "false: errore durante l'eliminazione";
-        return "false: utente non autorizzato";
+            return DBManager.getInstance().getDipendenteDao().delete(id);
+        return false;
     }
 }
