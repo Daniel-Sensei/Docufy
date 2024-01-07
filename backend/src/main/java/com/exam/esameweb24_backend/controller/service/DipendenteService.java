@@ -15,6 +15,8 @@ import org.springframework.web.multipart.MultipartFile;
 import java.io.IOException;
 import java.util.List;
 
+//VANNO AGGIORNATI PER FARE IN MODO CHE RESTITUISCANO TUTTI DELLE "ResponseEntity" -gian
+
 @RestController
 @CrossOrigin("http://localhost:4200/")
 public class DipendenteService {
@@ -80,8 +82,7 @@ public class DipendenteService {
         // se l'utente è null (non è loggato) allora non può usare il servizio
         if (user==null) return new ResponseEntity<>( "Utente non loggato...", HttpStatus.UNAUTHORIZED);
 
-        // se il file è vuoto allora non può usare il servizio
-        if (file.isEmpty()) return new ResponseEntity<>("Nessun file selezionato", HttpStatus.BAD_REQUEST);
+        boolean thereIsFile = !file.isEmpty();
 
         // se il json è vuoto allora non può usare il servizio
         if (json.isEmpty()) return new ResponseEntity<>("Nessun json selezionato", HttpStatus.BAD_REQUEST);
@@ -92,17 +93,19 @@ public class DipendenteService {
             // converto il json in un oggetto Dipendente
             Dipendente dipendente = Utility.jsonToDipendente(json);
 
-            String filePath;
+            // salvo l'immagine solo se è stata caricata
+            if (thereIsFile) {
+                String filePath;
+                try {
+                    //salvo il file nella cartella dei files
+                    filePath = Utility.uploadFile(file, user);
+                } catch (IOException e) {
+                    return new ResponseEntity<>("Errore durante il caricamento del file", HttpStatus.INTERNAL_SERVER_ERROR);
+                }
 
-            try {
-                //salvo il file nella cartella dei files
-                filePath = Utility.uploadFile(file, user);
-            } catch (IOException e) {
-                return new ResponseEntity<>("Errore durante il caricamento del file", HttpStatus.INTERNAL_SERVER_ERROR);
+                // salvo il path del file nel dipendente
+                dipendente.setImg(filePath);
             }
-
-            // salvo il path del file nel dipendente
-            dipendente.setImg(filePath);
 
             // fornisco l'azienda al dipendente per poterlo inserire nel database
             Azienda a = new Azienda();  // creo un'azienda vuota
