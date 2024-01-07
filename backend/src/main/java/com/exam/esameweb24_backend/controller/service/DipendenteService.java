@@ -97,29 +97,36 @@ public class DipendenteService {
             a.setPIva(user.getPIva());  // gli assegno la partita iva dell'utente che ha effettuato la richiesta
             dipendente.setAzienda(a);   // associo l'azienda al dipendente
             // inserisco il dipendente nel database
-            if (!DBManager.getInstance().getDipendenteDao().insert(dipendente))
+            Long id = DBManager.getInstance().getDipendenteDao().insert(dipendente);
+            if (id==null) {
+                System.out.println("errore durante la generazione dell'id");
                 return new ResponseEntity<>(HttpStatus.INTERNAL_SERVER_ERROR);
-
+            }
+            else
+                dipendente.setId(id);
             // salvo l'immagine solo se è stata caricata
             if (thereIsFile) {
+                System.out.println("there is file");
                 String filePath;
                 try {
                     //salvo il file nella cartella dei files
                     filePath = Utility.uploadFile(file, user);
+                    System.out.println("file path: " + filePath);
                 } catch (IOException e) {
                     return new ResponseEntity<>(HttpStatus.INTERNAL_SERVER_ERROR);
                 }
 
                 // salvo il path del file nel dipendente
                 dipendente.setImg(filePath);
+                System.out.println("dipendente: " + dipendente);
+                // aggiorno il dipendente nel database
+                if (!DBManager.getInstance().getDipendenteDao().update(dipendente) ) {
+                    System.out.println("errore durante l'aggiornamento del dipendente");
+                    return new ResponseEntity<>(HttpStatus.INTERNAL_SERVER_ERROR);
+                }
             }
-
-            // aggiorno il dipendente nel database
-            if ( DBManager.getInstance().getDipendenteDao().update(dipendente) )
-                return new ResponseEntity<>(HttpStatus.OK);
-            else
-                return new ResponseEntity<>(HttpStatus.INTERNAL_SERVER_ERROR);
-
+            // se tutto è andato a buon fine, restituisco l'OK
+            return new ResponseEntity<>(HttpStatus.OK);
         }
         return new ResponseEntity<>(HttpStatus.UNAUTHORIZED);
     }

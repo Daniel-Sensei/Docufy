@@ -28,7 +28,6 @@ public class DipendenteDaoPostgres implements DipendenteDao {
 
     @Override
     public List<Dipendente> findByAgency(String agencyPIva) {
-        Azienda azienda = DBManager.getInstance().getAziendaDao().findByPIva(agencyPIva);
         List<Dipendente> dipendenti = new ArrayList<>();
         String query = "SELECT * FROM dipendenti WHERE azienda  = ?";
         try {
@@ -118,9 +117,10 @@ public class DipendenteDaoPostgres implements DipendenteDao {
         return null;
     }
 
+    // viene inserito il dipendente, dopodiché viene assegnato l'id del dipendente appena inserito
     @Override
-    public boolean insert(Dipendente dipendente) {
-        String query = "INSERT INTO dipendenti (cf, nome, cognome, data_nascita, email, telefono, indirizzo, azienda, data_assunzione, ruolo, foto) VALUES (?, ?, ?, ?, ?, ?, ?, ?, ?, ?, ?)";
+    public Long insert(Dipendente dipendente) {
+        String query = "INSERT INTO dipendenti (cf, nome, cognome, data_nascita, email, telefono, indirizzo, azienda, data_assunzione, ruolo, foto) VALUES (?, ?, ?, ?, ?, ?, ?, ?, ?, ?, ?) RETURNING id";
         try {
             PreparedStatement st = conn.prepareStatement(query);
             st.setString(1, dipendente.getCF());
@@ -134,8 +134,12 @@ public class DipendenteDaoPostgres implements DipendenteDao {
             st.setDate(9, new java.sql.Date(dipendente.getDataAssunzione().getTime()));
             st.setString(10, dipendente.getRuolo());
             st.setString(11, dipendente.getImg());
-            st.executeUpdate();
-            return true;
+            ResultSet rs = st.executeQuery();
+
+            if (rs.next()) {
+                return rs.getLong(1);
+            }
+            return null;
         } catch (SQLException e) {
             throw new RuntimeException(e);
         }
