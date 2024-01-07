@@ -28,23 +28,31 @@ export class DipendentiService {
     return this.http.get<Dipendente>(Settings.API_ENDPOINT + 'dipendente?id=' + id, { headers: this.auth.headers });
   }
 
-  addDipendente(dipendente: Dipendente, file: File): Observable<any> {
+  addDipendente(dipendente: Dipendente, file: File | undefined): Observable<any> {
     const formData: FormData = new FormData();
-    
+
     // Aggiungi la parte 'dipendente' come Blob
     formData.append('dipendente', new Blob([JSON.stringify(dipendente)], { type: 'application/json' }));
-  
+
     // Assicurati che il file non sia nullo prima di aggiungerlo alla FormData
     if (file) {
       // Aggiungi la parte 'file' come Blob con il nome del file
-      formData.append('file', new Blob([file], { type: file.type }), file.name);
+      formData.append('file', file, file.name);
     }
-    else{
+    else {
       formData.append('file', new Blob());
     }
 
     return this.http.post(Settings.API_ENDPOINT + 'aggiungi-dipendente', formData, { headers: this.auth.headers });
   }
-  
-  
+
+  /*
+    uploadFile(file: File): Observable<boolean> {
+      const formData: FormData = new FormData();
+      formData.append('file', file, file.name);
+      return this.http.post<boolean>(Settings.API_ENDPOINT + 'add-file', formData, { headers: this.auth.headers });
+    }
+  */
+
+
 }

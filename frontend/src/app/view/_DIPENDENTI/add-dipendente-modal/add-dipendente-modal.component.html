@@ -109,7 +109,7 @@
             <label for="img" class="form-label">Carica Immagine</label>
             <input formControlName="img" type="file" class="form-control" id="file"
                 [class.is-invalid]="addDipendenteForm.get('img')?.invalid && addDipendenteForm.get('img')?.touched"
-                accept="image/*">
+                accept="image/*" (change)="onFileSelected($event)">
         </div>
 
     </form><!-- End Angular Reactive Form Validation -->

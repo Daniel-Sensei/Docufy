@@ -6,6 +6,7 @@ import { AlertService } from '../../../service/alert/alert.service';
 import { FormCheck } from '../../../FormCheck';
 import { DipendentiService } from '../../../service/dipendenti/dipendenti.service';
 import { Output, EventEmitter } from '@angular/core';
+import { FormControl } from '@angular/forms';
 
 
 @Component({
@@ -16,6 +17,7 @@ import { Output, EventEmitter } from '@angular/core';
 export class AddDipendenteModalComponent {
   @Output() refreshData: EventEmitter<void> = new EventEmitter<void>();
 
+  private file: File | undefined;
   private dataNascita: string = '';
   private dataAssunzione: string = '';
 
@@ -142,6 +144,9 @@ export class AddDipendenteModalComponent {
     }
   }
 
+  onFileSelected(event: any) {
+    this.file = event.target.files[0];
+  }
 
   submitForm() {
     // Puoi anche aggiungere qui la logica per chiudere la finestra modale, se necessario
@@ -156,9 +161,7 @@ export class AddDipendenteModalComponent {
     dipendenteData.dataNascita = this.dataNascita;
     dipendenteData.dataAssunzione = this.dataAssunzione;
 
-    const imgFile: File = this.addDipendenteForm.get('img')?.value;
-
-    this.dipendentiService.addDipendente(dipendenteData, imgFile).subscribe(
+    this.dipendentiService.addDipendente(dipendenteData, this.file).subscribe(
       response => {
         // Imposta la variabile per mostrare l'alert di successo
         this.alert.setMessage(dipendenteData.cf);
