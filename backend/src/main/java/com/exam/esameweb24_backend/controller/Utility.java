@@ -1,12 +1,26 @@
 package com.exam.esameweb24_backend.controller;
 
+
+import com.fasterxml.jackson.core.JsonProcessingException;
+import com.fasterxml.jackson.databind.ObjectMapper;
+
 import com.exam.esameweb24_backend.persistence.DBManager;
+import com.exam.esameweb24_backend.persistence.model.Dipendente;
 import com.exam.esameweb24_backend.persistence.model.User;
 import jakarta.servlet.http.HttpServletRequest;
+import org.springframework.beans.factory.annotation.Value;
+import org.springframework.web.multipart.MultipartFile;
 
+import java.io.IOException;
+import java.nio.file.Files;
+import java.nio.file.Path;
+import java.nio.file.Paths;
 import java.util.Base64;
 
 public class Utility {
+
+    @Value("${file.upload-dir}")
+    private static String uploadDir;
 
     public static String encodeBase64(String value){
         return Base64.getEncoder().encodeToString(value.getBytes());
@@ -46,4 +60,38 @@ public class Utility {
         return DBManager.getInstance().getUserDao().findByToken(getToken(req));
     }
 
+    public static String generateFileName(String prefix, MultipartFile file) {
+        String originalFileName = file.getOriginalFilename();
+        assert originalFileName != null;
+        String extension = originalFileName.substring(originalFileName.lastIndexOf("."));
+
+        return prefix + "_" + System.currentTimeMillis() + extension;
+    }
+
+    public static Dipendente jsonToDipendente(MultipartFile file){
+        try {
+            // Converti il MultipartFile in un array di byte
+            byte[] fileBytes = file.getBytes();
+
+            // Converti l'array di byte in una stringa JSON
+            String jsonString = new String(fileBytes);
+
+            // Deserializza il JSON in un oggetto Dipendente
+            ObjectMapper oM = new ObjectMapper();
+            return oM.readValue(jsonString, Dipendente.class);
+
+        } catch (IOException e) {
+            throw new RuntimeException(e);
+        }
+    }
+
+    public static String uploadFile(MultipartFile file, User user) throws IOException {
+        String fileName = Utility.generateFileName(user.getPIva(), file);
+        String filePath = uploadDir + "/" + fileName;
+
+        Path destination = Paths.get(filePath);
+        Files.write(destination, file.getBytes());
+
+        return filePath;
+    }
 }
