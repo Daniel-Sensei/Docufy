@@ -23,6 +23,6 @@
         </div>
     </div> <!-- End Margin -->
 
-    <app-dipendenti-tabella [dipendenti]="dipendenti"></app-dipendenti-tabella>
+    <app-dipendenti-tabella *ngIf="dipendenti && dipendenti.length > 0" [dipendenti]="dipendenti"></app-dipendenti-tabella>
 
 </div>

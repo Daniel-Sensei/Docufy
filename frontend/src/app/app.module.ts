@@ -53,6 +53,7 @@ import { AddAziendaModalComponent } from './view/_AZIENDE/add-azienda-modal/add-
 import { AddCorsoModalComponent } from './view/_CORSI/add-corso-modal/add-corso-modal.component';
 import { LogoutModalComponent } from './view/_LOGIN/logout-modal/logout-modal.component';
 import { RicercaComponent } from './view/_RICERCA/ricerca/ricerca.component';
+import { NotFoundComponent } from './view/_STATIC/not-found/not-found.component';
 
 
 @NgModule({
@@ -89,7 +90,8 @@ import { RicercaComponent } from './view/_RICERCA/ricerca/ricerca.component';
     AddAziendaModalComponent,
     AddCorsoModalComponent,
     LogoutModalComponent,
-    RicercaComponent
+    RicercaComponent,
+    NotFoundComponent,
   ],
   imports: [
     BrowserModule,

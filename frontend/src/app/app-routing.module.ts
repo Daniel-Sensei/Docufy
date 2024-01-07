@@ -15,6 +15,7 @@ import { DipendentiDettagliComponent } from './view/_DIPENDENTI/dipendenti-detta
 import { AuthGuard } from './auth.guard';
 import { AziendeComponent } from './view/_AZIENDE/aziende/aziende.component';
 import { RicercaComponent } from './view/_RICERCA/ricerca/ricerca.component';
+import { NotFoundComponent } from './view/_STATIC/not-found/not-found.component';
 
 const routes: Routes = [
   { path: 'login', component: LoginComponent },
@@ -32,6 +33,8 @@ const routes: Routes = [
   { path: 'dettaglio_corso', component:DettaglioCorsoComponent, canActivate: [AuthGuard] },
 
   { path: 'search/:text', component: RicercaComponent, canActivate: [AuthGuard] },
+
+  { path: '404', component: NotFoundComponent },
   { path: '**', redirectTo: ''}
 ];
 

@@ -21,9 +21,8 @@ export class DipendentiComponent {
   ) { }
 
   ngOnInit(): void {
-    this.dipendentiService.getAllDipendenti().subscribe(dipendenti => { this.dipendenti = dipendenti; });
+    this.dipendentiService.getMyDipendenti().subscribe(dipendenti => { this.dipendenti = dipendenti;});
   }
-
 
   openAddDocumentModal() {
     const modalRef = this.modalService.open(AddDipendenteModalComponent, {

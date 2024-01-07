@@ -7,6 +7,8 @@ import { Observable, of } from 'rxjs';
 import { map } from 'rxjs/operators';
 import { isPlatformBrowser } from '@angular/common';
 
+import { HttpHeaders } from '@angular/common/http';
+
 @Injectable({
   providedIn: 'root'
 })
@@ -16,6 +18,8 @@ export class AuthService {
 
   token?: string | null;
   role?: string | null;
+
+  headers = new HttpHeaders().set('Authorization', `Basic ${this.getToken()}`);
 
   getToken(): string | null {
     if (isPlatformBrowser(this.platformId)) {

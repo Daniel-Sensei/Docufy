@@ -1,8 +1,9 @@
 import { Component } from '@angular/core';
 import { Dipendente } from '../../../model/Dipendente';
 
-import { ActivatedRoute } from '@angular/router';
+import { Router, ActivatedRoute } from '@angular/router';
 import { DipendentiService } from '../../../service/dipendenti/dipendenti.service';
+
 
 @Component({
   selector: 'app-dipendenti-dettagli',
@@ -15,8 +16,9 @@ export class DipendentiDettagliComponent {
 
   constructor(
     private route: ActivatedRoute,
-    private dipendentiService: DipendentiService,  
-  ) {}
+    private dipendentiService: DipendentiService,
+    private router: Router
+  ) { }
 
   ngOnInit(): void {
     this.getDipendente();
@@ -24,6 +26,11 @@ export class DipendentiDettagliComponent {
 
   getDipendente(): void {
     const id = Number(this.route.snapshot.paramMap.get('id'));
-    // getDipendente(id: number): void //TODO: da implementare
+    this.dipendentiService.getDipendente(id).subscribe(dipendente => {
+      this.dipendente = dipendente;
+      if (this.dipendente == undefined) {
+        this.router.navigate(['/404']);
+      }
+    });
   }
 }
