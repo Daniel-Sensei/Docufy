@@ -13,6 +13,7 @@ import org.springframework.web.bind.annotation.*;
 import org.springframework.web.multipart.MultipartFile;
 
 import java.io.IOException;
+import java.util.Collections;
 import java.util.List;
 
 //VANNO AGGIORNATI PER FARE IN MODO CHE RESTITUISCANO TUTTI DELLE "ResponseEntity" -gian
@@ -112,10 +113,12 @@ public class DipendenteService {
             a.setPIva(user.getPIva());  // gli assegno la partita iva dell'utente che ha effettuato la richiesta
             dipendente.setAzienda(a);   // associo l'azienda al dipendente
             // inserisco il dipendente nel database
-            if (DBManager.getInstance().getDipendenteDao().insert(dipendente))
-                return new ResponseEntity<> ("Dipendente inserito correttamente", HttpStatus.OK);
-            else
-                return new ResponseEntity<> ("Errore durante l'inserimento del dipendente", HttpStatus.INTERNAL_SERVER_ERROR);
+            if (DBManager.getInstance().getDipendenteDao().insert(dipendente)) {
+                // Ritorna un messaggio di successo sotto forma di stringa JSON
+                return new ResponseEntity<>("{\"success\": true}", HttpStatus.OK);
+            } else {
+                return new ResponseEntity<>("{\"success\": false}", HttpStatus.INTERNAL_SERVER_ERROR);
+            }
         }
         return new ResponseEntity<>( "Utente non autorizzato!", HttpStatus.UNAUTHORIZED);
     }
