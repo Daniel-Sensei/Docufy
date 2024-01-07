@@ -21,7 +21,8 @@ export class DipendentiComponent {
   ) { }
 
   ngOnInit(): void {
-    this.dipendentiService.getMyDipendenti().subscribe(dipendenti => { this.dipendenti = dipendenti;});
+    this.dipendentiService.getMyDipendenti().subscribe(dipendenti => { this.dipendenti = dipendenti; });
+    console.log("ON INIT DIPENDENTI");
   }
 
   openAddDocumentModal() {
@@ -30,6 +31,12 @@ export class DipendentiComponent {
     });
 
     // Puoi gestire eventi o dati passati al modale qui
+    // Ascolta l'evento emesso dal componente figlio
+    modalRef.componentInstance.refreshData.subscribe(() => {
+      // Aggiorna i dati richiamando nuovamente ngOnInit
+      this.dipendenti = [];
+      this.ngOnInit();
+    });
   }
 
 }

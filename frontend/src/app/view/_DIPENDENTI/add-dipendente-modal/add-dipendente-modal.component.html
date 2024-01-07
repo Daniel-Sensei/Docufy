@@ -45,12 +45,37 @@
         </div>
 
         <div class="col-md-6">
+            <label for="dataAssunzione" class="form-label">Data di Assunzione</label>
+            <div class="input-group">
+                <input readonly formControlName="dataAssunzione" class="form-control" ngbDatepicker #dpAssunzione="ngbDatepicker"
+                    placeholder="gg-mm-aaaa" [minDate]="minDate"
+                    [class.is-invalid]="addDipendenteForm.get('dataAssunzione')?.invalid && addDipendenteForm.get('dataAssunzione')?.touched"/>
+                <button class="btn btn-outline-secondary bi bi-calendar3" (click)="dpAssunzione.toggle()"
+                    type="button"></button>
+                <div *ngIf="addDipendenteForm.get('dataAssunzione')?.invalid && addDipendenteForm.get('dataAssunzione')?.touched"
+                    class="invalid-feedback">
+                 Il dipendente deve essere maggiorenne al momento dell'assunzione.
+               </div>
+            </div>
+        </div>
+
+        <div class="col-md-6">
             <label for="cf" class="form-label">Codice Fiscale</label>
             <input formControlName="cf" type="text" class="form-control"
                 [class.is-invalid]="addDipendenteForm.get('cf')?.invalid && addDipendenteForm.get('cf')?.touched">
             <div *ngIf="addDipendenteForm.get('cf')?.invalid && addDipendenteForm.get('cf')?.touched"
                 class="invalid-feedback">
                 Codice Fiscale non valido
+            </div>
+        </div>
+
+        <div class="col-md-6">
+            <label for="ruolo" class="form-label">Ruolo</label>
+            <input formControlName="ruolo" type="text" class="form-control"
+                [class.is-invalid]="addDipendenteForm.get('ruolo')?.invalid && addDipendenteForm.get('ruolo')?.touched">
+            <div *ngIf="addDipendenteForm.get('ruolo')?.invalid && addDipendenteForm.get('ruolo')?.touched"
+                class="invalid-feedback">
+                Ruolo non valido
             </div>
         </div>
 
@@ -77,6 +102,14 @@
                 class="invalid-feedback">
                 Telefono non valido
             </div>
+        </div>
+
+        <!-- Carica file -->
+        <div class="col-md-12">
+            <label for="img" class="form-label">Carica Immagine</label>
+            <input formControlName="img" type="file" class="form-control" id="file"
+                [class.is-invalid]="addDipendenteForm.get('img')?.invalid && addDipendenteForm.get('img')?.touched"
+                accept="image/*">
         </div>
 
     </form><!-- End Angular Reactive Form Validation -->

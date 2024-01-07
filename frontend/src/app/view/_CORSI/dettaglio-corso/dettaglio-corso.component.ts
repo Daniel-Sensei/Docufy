@@ -29,7 +29,7 @@ export class DettaglioCorsoComponent {
   }
 
   ngOnInit(): void {
-    this.dipendentiService.getAllDipendenti().subscribe(dipendenti => { this.dipendentiIscritti = dipendenti; });
+    this.dipendentiService.getMyDipendenti().subscribe(dipendenti => { this.dipendentiIscritti = dipendenti; });
   }
 
 }
