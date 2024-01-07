@@ -61,8 +61,6 @@ public class Utility {
         String originalFileName = file.getOriginalFilename();
         // si assicura che il nome non sia nullo
         assert originalFileName != null;
-        // se il nome è "blob" allora il file viene salvato come png
-        if(originalFileName.equals("blob")) return prefix + "_" + System.currentTimeMillis() + ".png";
         // si assicura che il file abbia un'estensione
         assert originalFileName.contains(".");
         // prende l'estensione del file
