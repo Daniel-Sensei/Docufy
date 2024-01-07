@@ -28,7 +28,6 @@ public class AziendaDaoPostgres implements AziendaDao {
 
     @Override
     public List<Azienda> findByConsultant(String consultantPIva) {
-        Consulente consulente = DBManager.getInstance().getConsulenteDao().findByPIva(consultantPIva);
         List<Azienda> aziende = new ArrayList<>();
         String query = "SELECT * FROM aziende WHERE consulente  = ?";
         try {
@@ -43,7 +42,6 @@ public class AziendaDaoPostgres implements AziendaDao {
                 azienda.setTelefono(rs.getString("telefono"));
                 azienda.setIndirizzo(rs.getString("indirizzo"));
                 azienda.setImg(rs.getString("immagine"));
-                azienda.setConsultant(consulente);
                 aziende.add(azienda);
             }
         } catch (SQLException e) {

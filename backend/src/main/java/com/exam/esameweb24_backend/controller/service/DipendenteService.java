@@ -19,6 +19,8 @@ import java.util.List;
 @CrossOrigin("http://localhost:4200/")
 public class DipendenteService {
 
+    //TODO: rimuovere /my-dipendenti
+
     // Questo servizio fornisce i soli dipendenti associati alla partita iva passata come parametro
     // Il suo utilizzo è riservato al consulente associato a quella P.Iva
     @GetMapping("/dipendenti")
@@ -43,10 +45,9 @@ public class DipendenteService {
         User user = Utility.getRequestUser(req);
         // se l'utente è null (non è loggato) allora non può usare il servizio
         if (user==null) return null;
-        if(Utility.isConsultant(token))  // se è un consulente
-            return DBManager.getInstance().getDipendenteDao().findByConsultant(user.getPIva());
-        else // se è un'azienda
+        if(!Utility.isConsultant(token))  // se non è un consulente
             return DBManager.getInstance().getDipendenteDao().findByAgency(user.getPIva());
+        else return null;
     }
 
     // Questo servizio restituisce il dipendente con l'id passato come parametro

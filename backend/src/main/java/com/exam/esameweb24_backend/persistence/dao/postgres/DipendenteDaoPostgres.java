@@ -45,7 +45,6 @@ public class DipendenteDaoPostgres implements DipendenteDao {
                 dipendente.setEmail(rs.getString("email"));
                 dipendente.setTelefono(rs.getString("telefono"));
                 dipendente.setResidenza(rs.getString("indirizzo"));
-                dipendente.setAzienda(azienda);
                 dipendente.setDataAssunzione(rs.getDate("data_assunzione"));
                 dipendente.setRuolo(rs.getString("ruolo"));
                 dipendente.setImg(rs.getString("foto"));
@@ -77,10 +76,10 @@ public class DipendenteDaoPostgres implements DipendenteDao {
                     dipendente.setEmail(rs.getString("email"));
                     dipendente.setTelefono(rs.getString("telefono"));
                     dipendente.setResidenza(rs.getString("indirizzo"));
-                    dipendente.setAzienda(azienda);
                     dipendente.setDataAssunzione(rs.getDate("data_assunzione"));
                     dipendente.setRuolo(rs.getString("ruolo"));
                     dipendente.setImg(rs.getString("foto"));
+                    System.out.println(dipendente);
                     dipendenti.add(dipendente);
                 }
             } catch (SQLException e) {
