@@ -62,6 +62,8 @@ public class Utility {
 
     public static String generateFileName(String prefix, MultipartFile file) {
         String originalFileName = file.getOriginalFilename();
+        //TODO: gestire il caso in cui il file non abbia un'estensione
+        if(originalFileName.equals("blob")) return prefix + "_" + System.currentTimeMillis() + ".png";
         assert originalFileName != null;
         String extension = originalFileName.substring(originalFileName.lastIndexOf("."));
 
