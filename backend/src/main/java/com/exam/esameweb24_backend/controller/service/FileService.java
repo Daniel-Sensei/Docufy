@@ -64,7 +64,7 @@ public class FileService {
         }
     }
 
-    private boolean checkAuthorization(HttpServletRequest req, String path) {
+    private static boolean checkAuthorization(HttpServletRequest req, String path) {
         String token = Utility.getToken(req);
         User user = Utility.getRequestUser(req);
         String pIvaFile = path.substring(path.lastIndexOf("/") + 1, path.lastIndexOf("_"));
