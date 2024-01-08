@@ -16,6 +16,6 @@ export class FileService {
   ) { }
 
   getFile(path: String) : Observable<Blob> {
-    return this.http.get(Settings.API_ENDPOINT + 'get-file?path=' + path, { responseType: 'blob'});
+    return this.http.get(Settings.API_ENDPOINT + 'get-file?path=' + path, { responseType: 'blob', headers: this.auth.headers });
   }
 }

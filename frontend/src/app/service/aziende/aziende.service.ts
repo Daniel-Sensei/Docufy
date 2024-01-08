@@ -1,17 +1,25 @@
 import { Injectable } from '@angular/core';
 
-import { of, Observable } from 'rxjs';
+import { Observable } from 'rxjs';
 import { Azienda } from '../../model/Azienda';
-import { AZIENDE } from '../../model/mocks/mock-aziende';
+import { HttpClient } from '@angular/common/http';
+import { AuthService } from '../auth/auth.service';
+import { Settings } from '../../Settings';
 
 @Injectable({
   providedIn: 'root'
 })
 export class AziendeService {
 
-  constructor() { }
+  constructor(
+    private auth: AuthService,
+    private http: HttpClient) { }
 
-  getAllAziende(): Observable<Azienda[]>{
-    return of(AZIENDE);
+  getMyAziende(): Observable<Azienda[]> {
+    return this.http.get<Azienda[]>(Settings.API_ENDPOINT + 'aziende', { headers: this.auth.headers});
+  }
+
+  getAzienda(pIva: String): Observable<Azienda> {
+    return this.http.get<Azienda>(Settings.API_ENDPOINT + 'azienda?pIva=' + pIva, { headers: this.auth.headers});
   }
 }

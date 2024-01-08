@@ -23,9 +23,10 @@ export class DipendentiComponent {
   ) { }
 
   ngOnInit(): void {
-    this.dipendentiService.getMyDipendenti().subscribe(dipendenti => {
+    const pIva: string = '11111111111';
+    this.dipendentiService.getDipendenti(pIva).subscribe(
+      dipendenti => {
       this.dipendenti = dipendenti;
-
       this.dipendenti.forEach(dipendente => {
         if (dipendente.img != '') {
           this.fileService.getFile(dipendente.img).subscribe(img => {
@@ -35,7 +36,12 @@ export class DipendentiComponent {
         }
       });
 
-    });
+    },
+    error => {
+      console.error('Errore nel recupero dei dipendenti:', error);
+      // Puoi gestire l'errore qui, ad esempio mostrando un messaggio all'utente o reindirizzando a una pagina di errore.
+    }
+  );
   }
 
   openAddDocumentModal() {

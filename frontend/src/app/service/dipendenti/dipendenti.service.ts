@@ -6,6 +6,7 @@ import { Dipendente } from '../../model/Dipendente';
 import { HttpClient, HttpHeaders } from '@angular/common/http';
 import { AuthService } from '../auth/auth.service';
 import { Settings } from '../../Settings';
+import { PI } from '../../../assets/vendor/chart.js/helpers';
 
 @Injectable({
   providedIn: 'root'
@@ -18,8 +19,8 @@ export class DipendentiService {
     private auth: AuthService,
     private http: HttpClient) { }
 
-  getMyDipendenti(): Observable<Dipendente[]> {
-    return this.http.get<Dipendente[]>(Settings.API_ENDPOINT + 'my-dipendenti', { headers: this.auth.headers }).pipe(
+  getDipendenti(pIva: String): Observable<Dipendente[]> {
+    return this.http.get<Dipendente[]>(Settings.API_ENDPOINT + 'dipendenti?pIva=' + pIva, { headers: this.auth.headers }).pipe(
       tap(dipendenti => this.dipendenti = dipendenti)
     )
   }
@@ -46,8 +47,22 @@ export class DipendentiService {
     return this.http.post(Settings.API_ENDPOINT + 'aggiungi-dipendente', formData, { headers: this.auth.headers });
   }
 
-  updateDipendente(dipendente: Dipendente): Observable<String> {
-    return this.http.post<String>(Settings.API_ENDPOINT + 'modifica-dipendente', dipendente, { headers: this.auth.headers });
+  updateDipendente(dipendente: Dipendente, file: File | undefined): Observable<any> {
+    const formData: FormData = new FormData();
+
+    // Aggiungi la parte 'dipendente' come Blob
+    formData.append('dipendente', new Blob([JSON.stringify(dipendente)], { type: 'application/json' }));
+
+    // Assicurati che il file non sia nullo prima di aggiungerlo alla FormData
+    if (file) {
+      // Aggiungi la parte 'file' come Blob con il nome del file
+      formData.append('file', file, file.name);
+    }
+    else {
+      formData.append('file', new Blob(), '');
+    }
+
+    return this.http.post(Settings.API_ENDPOINT + 'modifica-dipendente', formData, { headers: this.auth.headers });
   }
 
 }

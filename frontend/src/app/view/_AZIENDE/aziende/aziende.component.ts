@@ -22,7 +22,7 @@ export class AziendeComponent {
   aziende: Azienda[] = [];
 
   ngOnInit(): void {
-    this.aziendeService.getAllAziende().subscribe(aziende => { this.aziende = aziende; });
+    this.aziendeService.getMyAziende().subscribe(aziende => { this.aziende = aziende; });
   }
 
   openAddAzienda(){

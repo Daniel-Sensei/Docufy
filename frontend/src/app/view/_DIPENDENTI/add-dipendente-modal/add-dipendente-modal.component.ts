@@ -148,7 +148,7 @@ export class AddDipendenteModalComponent {
           dataAssunzioneControl.setErrors(null);
         }
       }
-      if(dataAssunzione && !FormCheck.compareFutureDate(dataAssunzione)){
+      if (dataAssunzione && !FormCheck.compareFutureDate(dataAssunzione)) {
         dataAssunzioneControl.setErrors({ 'invalidDate': true });
       }
 
@@ -207,10 +207,10 @@ export class AddDipendenteModalComponent {
     dipendenteData.dataNascita = this.dataNascita;
     dipendenteData.dataAssunzione = this.dataAssunzione;
 
-    if(this.dipendente)
-    this.updateDipendente(dipendenteData);
+    if (this.dipendente)
+      this.updateDipendente(dipendenteData);
     else
-    this.addDipendente(dipendenteData);
+      this.addDipendente(dipendenteData);
   }
 
   private addDipendente(dipendenteData: any) {
@@ -231,23 +231,20 @@ export class AddDipendenteModalComponent {
   }
 
   private updateDipendente(dipendenteData: any) {
-    console.log("UPDATE");
     dipendenteData.id = this.dipendente?.id;
-    this.dipendentiService.updateDipendente(dipendenteData).subscribe( result => {
-      console.log(result);
-      if (result) {
+    this.dipendentiService.updateDipendente(dipendenteData, this.file).subscribe(
+      result => {
         // Imposta la variabile per mostrare l'alert di successo
         this.alert.setMessage(dipendenteData.cf);
         this.alert.setSuccessAlert();
         this.refreshData.emit();
-      }
-      else {
+      },
+      error => {
         // Gestisci eventuali errori
         this.alert.setMessage(dipendenteData.cf);
         this.alert.setDangerAlert();
         this.refreshData.emit();
-      }
-    });
+      });
   }
 
   NgbDateToDateString(ngbDate: NgbDate): string {
