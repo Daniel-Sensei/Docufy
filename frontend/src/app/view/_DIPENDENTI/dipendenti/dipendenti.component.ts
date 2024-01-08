@@ -5,6 +5,7 @@ import { AddDipendenteModalComponent } from '../add-dipendente-modal/add-dipende
 
 import { Dipendente } from '../../../model/Dipendente';
 import { DipendentiService } from '../../../service/dipendenti/dipendenti.service';
+import { FileService } from '../../../service/file/file.service';
 
 @Component({
   selector: 'app-dipendenti',
@@ -17,11 +18,25 @@ export class DipendentiComponent {
   constructor(
     private modalService: NgbModal,
     public alert: AlertService,
-    private dipendentiService: DipendentiService
+    private dipendentiService: DipendentiService,
+    private fileService: FileService
   ) { }
 
   ngOnInit(): void {
-    this.dipendentiService.getMyDipendenti().subscribe(dipendenti => { this.dipendenti = dipendenti; });
+    this.dipendentiService.getMyDipendenti().subscribe(dipendenti => {
+      this.dipendenti = dipendenti;
+
+      this.dipendenti.forEach(dipendente => {
+        if (dipendente.img != '') {
+          this.fileService.getFile(dipendente.img).subscribe(img => {
+            let objectURL = URL.createObjectURL(img);
+            dipendente.img = objectURL;
+            console.log(dipendente.img);
+          });
+        }
+      });
+
+    });
   }
 
   openAddDocumentModal() {

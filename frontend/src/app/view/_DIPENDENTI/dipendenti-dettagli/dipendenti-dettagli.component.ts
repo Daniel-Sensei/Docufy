@@ -4,8 +4,9 @@ import { Dipendente } from '../../../model/Dipendente';
 import { Router, ActivatedRoute } from '@angular/router';
 import { DipendentiService } from '../../../service/dipendenti/dipendenti.service';
 
-import { DomSanitizer } from '@angular/platform-browser';
-
+import { NgbModal } from '@ng-bootstrap/ng-bootstrap';
+import { AddDipendenteModalComponent } from '../add-dipendente-modal/add-dipendente-modal.component';
+import { FileService } from '../../../service/file/file.service';
 
 @Component({
   selector: 'app-dipendenti-dettagli',
@@ -20,7 +21,8 @@ export class DipendentiDettagliComponent {
     private route: ActivatedRoute,
     private dipendentiService: DipendentiService,
     private router: Router,
-    private sanitizer: DomSanitizer
+    private modalService: NgbModal,
+    private fileService: FileService
   ) { }
 
   ngOnInit(): void {
@@ -34,7 +36,21 @@ export class DipendentiDettagliComponent {
       if (this.dipendente == undefined) {
         this.router.navigate(['/404']);
       }
-      if (this.dipendente.img != '') this.dipendente.img = this.sanitizer.bypassSecurityTrustResourceUrl(this.dipendente.img) as string;
+      if (this.dipendente.img != ''){
+        this.fileService.getFile(this.dipendente.img).subscribe(img => {
+          let objectURL = URL.createObjectURL(img);
+          this.dipendente.img = objectURL;
+        });
+      }
     });
+  }
+
+  openUpdateDipendente(){
+    const modalRef = this.modalService.open(AddDipendenteModalComponent, {
+      size: 'md' // 'lg' sta per grande, puoi utilizzare anche 'sm' per piccolo
+    });
+
+    // Passa il this.dipendente al modal
+    modalRef.componentInstance.dipendente = this.dipendente;
   }
 }

@@ -5,9 +5,10 @@ import { AlertService } from '../../../service/alert/alert.service';
 
 import { FormCheck } from '../../../FormCheck';
 import { DipendentiService } from '../../../service/dipendenti/dipendenti.service';
-import { Output, EventEmitter } from '@angular/core';
-import { FormControl } from '@angular/forms';
+import { Input, Output, EventEmitter } from '@angular/core';
+import { Dipendente } from '../../../model/Dipendente';
 
+import { FileService } from '../../../service/file/file.service';
 
 @Component({
   selector: 'app-add-dipendente-modal',
@@ -15,6 +16,7 @@ import { FormControl } from '@angular/forms';
   styleUrl: './add-dipendente-modal.component.css'
 })
 export class AddDipendenteModalComponent {
+  @Input() dipendente: Dipendente | undefined;
   @Output() refreshData: EventEmitter<void> = new EventEmitter<void>();
 
   private file: File | undefined;
@@ -30,7 +32,8 @@ export class AddDipendenteModalComponent {
     public activeModal: NgbActiveModal,
     private fb: FormBuilder,
     private alert: AlertService,
-    private dipendentiService: DipendentiService
+    private dipendentiService: DipendentiService,
+    private fileService: FileService
   ) {
     this.addDipendenteForm = this.fb.group({
       nome: ['', Validators.required],
@@ -46,6 +49,46 @@ export class AddDipendenteModalComponent {
     }, { validators: this.customValidation });
 
     this.minDate = new NgbDate(1900, 1, 1);
+  }
+
+  ngOnInit(): void {
+    if (this.dipendente) {
+      this.initializeFormWithDipendente(this.dipendente);
+    }
+  }
+
+  private initializeFormWithDipendente(dipendente: Dipendente): void {
+    const dataNascitaArray = dipendente.dataNascita.split('-');
+    const dataAssunzioneArray = dipendente.dataAssunzione.split('-');
+
+    this.addDipendenteForm.patchValue({
+      nome: dipendente.nome,
+      cognome: dipendente.cognome,
+
+      dataNascita: {
+        year: +dataNascitaArray[0],
+        month: +dataNascitaArray[1],
+        day: +dataNascitaArray[2]
+      },
+      dataAssunzione: {
+        year: +dataAssunzioneArray[0],
+        month: +dataAssunzioneArray[1],
+        day: +dataAssunzioneArray[2]
+      },
+
+      cf: dipendente.cf,
+      ruolo: dipendente.ruolo,
+      email: dipendente.email,
+      residenza: dipendente.residenza,
+      telefono: dipendente.telefono,
+    });
+
+    // Puoi anche inizializzare il campo dataNascita come segue (se il tuo modello usa NgbDateStruct):
+    // this.addDipendenteForm.patchValue({
+    //   dataNascita: { year: dipendente.dataNascita.getFullYear(), month: dipendente.dataNascita.getMonth() + 1, day: dipendente.dataNascita.getDate() }
+    // });
+
+    // E così via...
   }
 
   customValidation(group: FormGroup) {
@@ -97,13 +140,16 @@ export class AddDipendenteModalComponent {
 
       // Data di assunzione
       var dataAssunzioneMaggiorenne = new NgbDate(dataNascita.year + 18, dataNascita.month, dataNascita.day);
-      if (dataAssunzione && FormCheck.compareTwoDates(dataAssunzioneMaggiorenne, dataAssunzione)) {
+      if (dataNascita && dataAssunzione && FormCheck.compareTwoDates(dataAssunzioneMaggiorenne, dataAssunzione)) {
         dataAssunzioneControl.setErrors({ 'invalidDate': true });
       }
       else {
         if (dataAssunzioneControl.hasError('invalidDate')) {
           dataAssunzioneControl.setErrors(null);
         }
+      }
+      if(dataAssunzione && !FormCheck.compareFutureDate(dataAssunzione)){
+        dataAssunzioneControl.setErrors({ 'invalidDate': true });
       }
 
       // CF
@@ -161,6 +207,13 @@ export class AddDipendenteModalComponent {
     dipendenteData.dataNascita = this.dataNascita;
     dipendenteData.dataAssunzione = this.dataAssunzione;
 
+    if(this.dipendente)
+    this.updateDipendente(dipendenteData);
+    else
+    this.addDipendente(dipendenteData);
+  }
+
+  private addDipendente(dipendenteData: any) {
     this.dipendentiService.addDipendente(dipendenteData, this.file).subscribe(
       response => {
         // Imposta la variabile per mostrare l'alert di successo
@@ -175,6 +228,23 @@ export class AddDipendenteModalComponent {
         this.refreshData.emit();
       }
     );
+  }
+
+  private updateDipendente(dipendenteData: any) {
+    console.log("UPDATE");
+    //TODO: update
+  
+    /* TEST GET-FILE
+    this.fileService.getFile(this.dipendente!.img).subscribe(
+      file => {
+        console.log("FILE");
+        const newFile: File = new File([file], this.dipendente!.img);
+        console.log(newFile);
+      },
+      error => {
+        console.log(error);
+      });
+    */
   }
 
   NgbDateToDateString(ngbDate: NgbDate): string {

@@ -43,4 +43,16 @@ export class FormCheck {
         }
         return true;
     }
+
+    static compareFutureDate(date: NgbDate): boolean{
+        const today = new Date();
+        const todayDate = new NgbDate(today.getFullYear(), today.getMonth() + 1 , today.getDate());
+
+        if(date.year > todayDate.year || 
+            (date.year === todayDate.year && date.month > todayDate.month) || 
+            (date.year === todayDate.year && date.month === todayDate.month && date.day > todayDate.day)){
+                return false;
+        }
+        return true;
+    }
 }

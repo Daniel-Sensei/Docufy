@@ -6,7 +6,7 @@ import {MatPaginator} from '@angular/material/paginator';
 import {MatSort} from '@angular/material/sort';
 import {MatTableDataSource} from '@angular/material/table';
 
-import { DomSanitizer } from '@angular/platform-browser';
+import { FileService } from '../../../service/file/file.service';
 
 
 @Component({
@@ -25,17 +25,13 @@ export class DipendentiTabellaComponent implements AfterViewInit{
 
   constructor(
     private cdr: ChangeDetectorRef,
-    private sanitizer: DomSanitizer) {
+    ) {
     this.dataSource = new MatTableDataSource(this.dipendenti);
   }
 
   ngAfterViewInit() {
     // If necessario per aspettare che il componente sia caricato
     if (this.dipendenti.length > 0) {
-      // Rendi sicuro l'URL "img" per ogni dipendente
-      this.dipendenti.forEach(dipendente => {
-        if (dipendente.img != '') dipendente.img = this.sanitizer.bypassSecurityTrustResourceUrl(dipendente.img) as string;
-      });
       this.dataSource.data = this.dipendenti;
       this.dataSource.paginator = this.paginator;
       this.dataSource.sort = this.sort;
