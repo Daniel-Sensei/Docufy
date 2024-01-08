@@ -100,16 +100,10 @@ public class Utility {
         return filePath;
     }
 
-    public static ResponseEntity<String> deleteFile(String path){
+    public static boolean deleteFile(String path) {
         File file = new File(path);
-        if (file.exists()) {
-            if (file.delete()) {
-                return new ResponseEntity<>(HttpStatus.OK);
-            } else {
-                return new ResponseEntity<>(HttpStatus.INTERNAL_SERVER_ERROR);
-            }
-        } else {
-            return new ResponseEntity<>(HttpStatus.NOT_FOUND);
-        }
+        if (file.exists())
+            return file.delete();
+        return false;
     }
 }

@@ -44,4 +44,9 @@ public class UserC extends User{
     public ResponseEntity<String> rimuoviDipendente(Long id) {
         return new ResponseEntity<>(HttpStatus.UNAUTHORIZED);
     }
+
+    @Override
+    public ResponseEntity<String> rimuoviImmagineDipendente(Long id) {
+        return new ResponseEntity<>(HttpStatus.UNAUTHORIZED);
+    }
 }

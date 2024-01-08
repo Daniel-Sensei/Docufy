@@ -49,4 +49,6 @@ public class User {
 
     public ResponseEntity<String> rimuoviDipendente(Long id){return null;}
 
+    public ResponseEntity<String> rimuoviImmagineDipendente(Long id){return null;}
+
 }

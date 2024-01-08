@@ -81,4 +81,15 @@ public class DipendenteService {
 
         return user.rimuoviDipendente(id);
     }
+
+    @GetMapping("/rimuovi-immagine-dipendente")
+    public ResponseEntity<String> rimuoviImmagineDipendente(HttpServletRequest req, @RequestParam Long id){
+
+        User user = Utility.getRequestUser(req);
+
+        // se l'utente è null (non è loggato) allora non può usare il servizio
+        if (user==null) return new ResponseEntity<>(HttpStatus.UNAUTHORIZED);
+
+        return user.rimuoviImmagineDipendente(id);
+    }
 }

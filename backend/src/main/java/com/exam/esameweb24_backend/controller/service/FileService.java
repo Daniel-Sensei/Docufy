@@ -52,7 +52,7 @@ public class FileService {
         if (!checkAuthorization(req, path))
             return new ResponseEntity<>(HttpStatus.UNAUTHORIZED);
 
-        return Utility.deleteFile(path);
+        return Utility.deleteFile(path) ? new ResponseEntity<String>(HttpStatus.OK) : new ResponseEntity<String>(HttpStatus.INTERNAL_SERVER_ERROR);
     }
 
     private static boolean checkAuthorization(HttpServletRequest req, String path) {

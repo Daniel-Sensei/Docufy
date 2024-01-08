@@ -116,7 +116,6 @@ public class UserA extends User{
         return new ResponseEntity<>(HttpStatus.UNAUTHORIZED);
     }
 
-    // da fare
     @Override
     public ResponseEntity<String> rimuoviDipendente(Long id) {
         // controllo se il dipendente esiste
@@ -128,6 +127,27 @@ public class UserA extends User{
             if(DBManager.getInstance().getDipendenteDao().delete(id))
                 return new ResponseEntity<> (HttpStatus.OK);
             else return new ResponseEntity<>(HttpStatus.INTERNAL_SERVER_ERROR);
+        return new ResponseEntity<>(HttpStatus.UNAUTHORIZED);
+    }
+
+    @Override
+    public ResponseEntity<String> rimuoviImmagineDipendente(Long id) {
+        // controllo se il dipendente esiste
+        Dipendente d = DBManager.getInstance().getDipendenteDao().findById(id);
+        if (d == null) return new ResponseEntity<>(HttpStatus.BAD_REQUEST);
+        //controllo che l'azienda sia associata al dipendente da rimuovere
+        if (this.pIva.equals(d.getAzienda().getPIva())) {
+            // elimino il file dal server
+            if (Utility.deleteFile(d.getImg())) {
+                // elimino il path del file dal dipendente
+                d.setImg("");
+                // aggiorno il dipendente nel database
+                if (DBManager.getInstance().getDipendenteDao().update(d))
+                    return new ResponseEntity<>(HttpStatus.OK);
+                else return new ResponseEntity<>(HttpStatus.INTERNAL_SERVER_ERROR);
+            }
+            else return new ResponseEntity<>(HttpStatus.INTERNAL_SERVER_ERROR);
+        }
         return new ResponseEntity<>(HttpStatus.UNAUTHORIZED);
     }
 }
