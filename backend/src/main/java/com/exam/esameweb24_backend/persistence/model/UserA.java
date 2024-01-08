@@ -33,7 +33,7 @@ public class UserA extends User{
     public ResponseEntity<String> aggiungiDipendete(MultipartFile json, MultipartFile file) {
 
         // controllo se è stata aggiunta un'immagine
-        boolean thereIsFile = !(file.getOriginalFilename() == null);
+        boolean thereIsFile = !(file.getOriginalFilename().isEmpty());
 
         // se il json è vuoto allora non può usare il servizio
         if (json.isEmpty()) return new ResponseEntity<>(HttpStatus.BAD_REQUEST);
@@ -77,7 +77,7 @@ public class UserA extends User{
     public ResponseEntity<String> modificaDipendente(MultipartFile json, MultipartFile file) {
 
         // controllo se è stata aggiunta un'immagine
-        boolean thereIsFile = !(file.getOriginalFilename() == null);
+        boolean thereIsFile = !(file.getOriginalFilename().isEmpty());
 
         // se il json è vuoto allora non può usare il servizio
         if (json.isEmpty()) return new ResponseEntity<>(HttpStatus.BAD_REQUEST);
@@ -106,6 +106,7 @@ public class UserA extends User{
                 // salvo il path del nuovo file nel dipendente
                 dipendente.setImg(filePath);
             }
+            else dipendente.setImg(d.getImg());
 
             // modifico il dipendente nel database
             if (DBManager.getInstance().getDipendenteDao().update(dipendente))
