@@ -11,7 +11,7 @@
                             <img *ngIf="row.img == ''" src="https://cdn.pixabay.com/photo/2018/11/13/21/43/avatar-3814049_960_720.png" alt=""
                                 style="width: 45px; height: 45px" class="rounded-circle" />
 
-                            <img *ngIf="row.img != ''" [src]="row.img" alt=""
+                            <img *ngIf="row.img && !row.img.startsWith('./')" [src]="row.img" alt=""
                                 style="width: 45px; height: 45px" class="rounded-circle" />
 
                             <div class="ms-3">

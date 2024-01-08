@@ -31,7 +31,6 @@ export class DipendentiComponent {
           this.fileService.getFile(dipendente.img).subscribe(img => {
             let objectURL = URL.createObjectURL(img);
             dipendente.img = objectURL;
-            console.log(dipendente.img);
           });
         }
       });
