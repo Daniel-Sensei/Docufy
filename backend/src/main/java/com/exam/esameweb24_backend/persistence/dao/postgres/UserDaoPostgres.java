@@ -4,6 +4,8 @@ import com.exam.esameweb24_backend.controller.Utility;
 import com.exam.esameweb24_backend.persistence.DBManager;
 import com.exam.esameweb24_backend.persistence.dao.UserDao;
 import com.exam.esameweb24_backend.persistence.model.User;
+import com.exam.esameweb24_backend.persistence.model.UserA;
+import com.exam.esameweb24_backend.persistence.model.UserC;
 import org.springframework.security.crypto.bcrypt.BCrypt;
 
 import java.sql.Connection;
@@ -54,27 +56,11 @@ public class UserDaoPostgres implements UserDao {
             st.setString(1, email);
             ResultSet rs = st.executeQuery();
             if (rs.next()){
-                User user = new User();
-                user.setPIva(rs.getString("piva"));
-                user.setEmail(rs.getString("email"));
-                user.setPassword(rs.getString("password"));
-                return user;
-            }
-        } catch (SQLException e) {
-            throw new RuntimeException(e);
-        }
-        return null;
-    }
-
-    @Override
-    public User findByPIva(String pIva) {
-        String query = "SELECT * FROM users WHERE piva = ?";
-        try {
-            PreparedStatement st = conn.prepareStatement(query);
-            st.setString(1, pIva);
-            ResultSet rs = st.executeQuery();
-            if (rs.next()){
-                User user = new User();
+                User user;
+                if(Utility.isConsultant(token))
+                    user = new UserC();
+                else
+                    user = new UserA();
                 user.setPIva(rs.getString("piva"));
                 user.setEmail(rs.getString("email"));
                 user.setPassword(rs.getString("password"));

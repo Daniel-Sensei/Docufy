@@ -47,7 +47,7 @@ public class FileService {
     }
 
     @DeleteMapping("/delete-file")
-    public ResponseEntity<String> deleteFile(HttpServletRequest req, @RequestParam("path") String path) {
+    public static ResponseEntity<String> deleteFile(HttpServletRequest req, @RequestParam("path") String path) {
 
         if (!checkAuthorization(req, path))
             return new ResponseEntity<>(HttpStatus.UNAUTHORIZED);

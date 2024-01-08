@@ -1,11 +1,15 @@
 package com.exam.esameweb24_backend.persistence.model;
 
+import org.springframework.http.ResponseEntity;
+
+import java.util.List;
+
 public class User {
-    private String email;
+    protected String email;
 
-    private String password;
+    protected String password;
 
-    private String pIva;
+    protected String pIva;
 
     public String getEmail() {
         return email;
@@ -30,4 +34,8 @@ public class User {
     public void setPIva(String pIva) {
         this.pIva = pIva;
     }
+
+    // Dipendente Service
+    public ResponseEntity<List<Dipendente>> getDipendentiByPIva(String pIva){return null;}
+
 }
