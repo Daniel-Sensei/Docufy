@@ -16,7 +16,7 @@ import java.util.Base64;
 
 public class Utility {
 
-    private static final String uploadDir = "./backend/src/main/resources/static";
+    private static final String uploadDir = "./backend/src/main/resources/files";
 
     public static String encodeBase64(String value){
         return Base64.getEncoder().encodeToString(value.getBytes());
@@ -93,6 +93,6 @@ public class Utility {
         Path destination = Paths.get(filePath);
         Files.write(destination, file.getBytes());
 
-        return "http://localhost:8080/static/" + fileName;
+        return filePath;
     }
 }

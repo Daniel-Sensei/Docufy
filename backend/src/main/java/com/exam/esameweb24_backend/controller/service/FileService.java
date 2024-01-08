@@ -16,6 +16,7 @@ import java.io.IOException;
 import java.nio.file.Files;
 
 @RestController
+@CrossOrigin("http://localhost:4200/")
 public class FileService {
 
     @GetMapping("/get-file")
