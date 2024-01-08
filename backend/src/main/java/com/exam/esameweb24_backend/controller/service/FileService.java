@@ -22,8 +22,7 @@ public class FileService {
     @GetMapping("/get-file")
     public ResponseEntity<Resource> getFile(HttpServletRequest req, @RequestParam("path") String path) {
 
-        if (!checkAuthorization(req, path))
-            return new ResponseEntity<>(HttpStatus.UNAUTHORIZED);
+        if (!checkAuthorization(req, path)) return new ResponseEntity<>(HttpStatus.UNAUTHORIZED);
 
         File file = new File(path);
         if (file.exists()) {

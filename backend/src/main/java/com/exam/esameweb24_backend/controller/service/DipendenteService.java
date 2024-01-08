@@ -40,14 +40,14 @@ public class DipendenteService {
     // Se è un'agenzia, allora può vedere solo i propri dipendenti
     // Se non è nessuno dei due, allora non può vedere nessun dipendente
     @GetMapping("/my-dipendenti")
-    public List<Dipendente> getDipendenti(HttpServletRequest req){
+    public ResponseEntity<List<Dipendente>> getDipendenti(HttpServletRequest req){
         String token = Utility.getToken(req);
         User user = Utility.getRequestUser(req);
         // se l'utente è null (non è loggato) allora non può usare il servizio
-        if (user==null) return null;
+        if (user==null) return new ResponseEntity<>(HttpStatus.UNAUTHORIZED);
         if(!Utility.isConsultant(token))  // se non è un consulente
-            return DBManager.getInstance().getDipendenteDao().findByAgency(user.getPIva());
-        else return null;
+            return new ResponseEntity<>(DBManager.getInstance().getDipendenteDao().findByAgency(user.getPIva()), HttpStatus.OK);
+        else return new ResponseEntity<>(HttpStatus.UNAUTHORIZED);
     }
 
     // Questo servizio restituisce il dipendente con l'id passato come parametro
@@ -103,7 +103,6 @@ public class DipendenteService {
                 dipendente.setId(id);
             // salvo l'immagine solo se è stata caricata
             if (thereIsFile) {
-                System.out.println("there is file");
                 String filePath;
                 try {
                     //salvo il file nella cartella dei files
