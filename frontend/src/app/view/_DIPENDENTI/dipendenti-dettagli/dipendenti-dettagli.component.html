@@ -13,10 +13,20 @@
 
     <div class="margin">
         <div class="mb-3">
-            <button (click)="openUpdateDipendente" type="button" class="btn btn-primary" data-bs-toggle="modal" data-bs-target="#addEmployeeModal">
+            <button (click)="openUpdateDipendente()" type="button" class="btn btn-primary" data-bs-toggle="modal" data-bs-target="#addEmployeeModal">
                 Modifica dati
             </button>
         </div>
+
+        <div *ngIf="alert.getSuccessAlert()" class="alert alert-success alert-dismissible fade show" role="alert">
+            Dipendente <strong>{{alert.getMessage()}}</strong> modificato con successo
+            <button type="button" class="btn-close" data-bs-dismiss="alert" aria-label="Close"></button>
+        </div>
+
+        <div *ngIf="alert.getDangerAlert()" class="alert alert-danger alert-dismissible fade show" role="alert">
+            Errore durante l'aggiornamento del dipendente <strong> {{alert.getMessage()}} </strong>
+            <button type="button" class="btn-close" data-bs-dismiss="alert" aria-label="Close"></button>
+        </div> <!-- End Margin -->
     </div>
 
     <section *ngIf="dipendente != null" class="mb-3">

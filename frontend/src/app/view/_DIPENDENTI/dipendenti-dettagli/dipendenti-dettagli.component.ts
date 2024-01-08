@@ -7,6 +7,7 @@ import { DipendentiService } from '../../../service/dipendenti/dipendenti.servic
 import { NgbModal } from '@ng-bootstrap/ng-bootstrap';
 import { AddDipendenteModalComponent } from '../add-dipendente-modal/add-dipendente-modal.component';
 import { FileService } from '../../../service/file/file.service';
+import { AlertService } from '../../../service/alert/alert.service';
 
 @Component({
   selector: 'app-dipendenti-dettagli',
@@ -22,7 +23,8 @@ export class DipendentiDettagliComponent {
     private dipendentiService: DipendentiService,
     private router: Router,
     private modalService: NgbModal,
-    private fileService: FileService
+    private fileService: FileService,
+    public alert: AlertService
   ) { }
 
   ngOnInit(): void {
@@ -52,5 +54,10 @@ export class DipendentiDettagliComponent {
 
     // Passa il this.dipendente al modal
     modalRef.componentInstance.dipendente = this.dipendente;
+
+    modalRef.componentInstance.refreshData.subscribe(() => {
+      // Aggiorna i dati richiamando nuovamente ngOnInit
+      this.ngOnInit();
+    });
   }
 }

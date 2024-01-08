@@ -46,13 +46,8 @@ export class DipendentiService {
     return this.http.post(Settings.API_ENDPOINT + 'aggiungi-dipendente', formData, { headers: this.auth.headers });
   }
 
-  /*
-    uploadFile(file: File): Observable<boolean> {
-      const formData: FormData = new FormData();
-      formData.append('file', file, file.name);
-      return this.http.post<boolean>(Settings.API_ENDPOINT + 'add-file', formData, { headers: this.auth.headers });
-    }
-  */
-
+  updateDipendente(dipendente: Dipendente): Observable<String> {
+    return this.http.post<String>(Settings.API_ENDPOINT + 'modifica-dipendente', dipendente, { headers: this.auth.headers });
+  }
 
 }

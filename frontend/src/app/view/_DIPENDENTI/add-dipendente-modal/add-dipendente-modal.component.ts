@@ -232,19 +232,22 @@ export class AddDipendenteModalComponent {
 
   private updateDipendente(dipendenteData: any) {
     console.log("UPDATE");
-    //TODO: update
-  
-    /* TEST GET-FILE
-    this.fileService.getFile(this.dipendente!.img).subscribe(
-      file => {
-        console.log("FILE");
-        const newFile: File = new File([file], this.dipendente!.img);
-        console.log(newFile);
-      },
-      error => {
-        console.log(error);
-      });
-    */
+    dipendenteData.id = this.dipendente?.id;
+    this.dipendentiService.updateDipendente(dipendenteData).subscribe( result => {
+      console.log(result);
+      if (result) {
+        // Imposta la variabile per mostrare l'alert di successo
+        this.alert.setMessage(dipendenteData.cf);
+        this.alert.setSuccessAlert();
+        this.refreshData.emit();
+      }
+      else {
+        // Gestisci eventuali errori
+        this.alert.setMessage(dipendenteData.cf);
+        this.alert.setDangerAlert();
+        this.refreshData.emit();
+      }
+    });
   }
 
   NgbDateToDateString(ngbDate: NgbDate): string {

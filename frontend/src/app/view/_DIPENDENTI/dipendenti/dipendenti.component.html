@@ -12,7 +12,8 @@
 
     <div class="margin">
         <div class="mb-3">
-            <button type="button" class="btn btn-primary" [disabled]="dipendenti.length==0" (click)="openAddDocumentModal()">
+            <button type="button" class="btn btn-primary" [disabled]="dipendenti.length==0"
+                (click)="openAddDocumentModal()">
                 Aggiungi Dipendente
             </button>
         </div>
@@ -23,10 +24,11 @@
         </div>
 
         <div *ngIf="alert.getDangerAlert()" class="alert alert-danger alert-dismissible fade show" role="alert">
-            Errore nell'inserimento del dipendente <strong> {{alert.getMessage()}} </strong> 
+            Errore nell'inserimento del dipendente <strong> {{alert.getMessage()}} </strong>
             <button type="button" class="btn-close" data-bs-dismiss="alert" aria-label="Close"></button>
-    </div> <!-- End Margin -->
+        </div> <!-- End Margin -->
 
-    <app-dipendenti-tabella *ngIf="dipendenti && dipendenti.length > 0" [dipendenti]="dipendenti"></app-dipendenti-tabella>
+        <app-dipendenti-tabella *ngIf="dipendenti && dipendenti.length > 0"
+            [dipendenti]="dipendenti"></app-dipendenti-tabella>
 
-</div>
+    </div>
