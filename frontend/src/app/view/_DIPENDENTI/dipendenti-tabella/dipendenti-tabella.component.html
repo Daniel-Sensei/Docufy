@@ -7,8 +7,13 @@
                     <th mat-header-cell *matHeaderCellDef mat-sort-header> Nome </th>
                     <td mat-cell *matCellDef="let row">
                         <div class="d-flex align-items-center">
-                            <img src="https://mdbootstrap.com/img/new/avatars/8.jpg" alt=""
+
+                            <img *ngIf="row.img == ''" src="https://cdn.pixabay.com/photo/2018/11/13/21/43/avatar-3814049_960_720.png" alt=""
                                 style="width: 45px; height: 45px" class="rounded-circle" />
+
+                            <img *ngIf="row.img != ''" [src]="row.img" alt=""
+                                style="width: 45px; height: 45px" class="rounded-circle" />
+
                             <div class="ms-3">
                                 <p class="fw-bold mb-1">{{row.cognome}} {{row.nome}}</p>
                                 <p class="text-muted mb-0">{{row.email}}</p>

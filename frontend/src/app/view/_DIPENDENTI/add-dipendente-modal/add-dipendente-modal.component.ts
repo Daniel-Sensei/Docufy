@@ -170,7 +170,9 @@ export class AddDipendenteModalComponent {
       },
       error => {
         // Gestisci eventuali errori
-        console.error(error);
+        this.alert.setMessage(dipendenteData.cf);
+        this.alert.setDangerAlert();
+        this.refreshData.emit();
       }
     );
   }

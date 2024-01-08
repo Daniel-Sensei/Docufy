@@ -4,6 +4,8 @@ import { Dipendente } from '../../../model/Dipendente';
 import { Router, ActivatedRoute } from '@angular/router';
 import { DipendentiService } from '../../../service/dipendenti/dipendenti.service';
 
+import { DomSanitizer } from '@angular/platform-browser';
+
 
 @Component({
   selector: 'app-dipendenti-dettagli',
@@ -17,7 +19,8 @@ export class DipendentiDettagliComponent {
   constructor(
     private route: ActivatedRoute,
     private dipendentiService: DipendentiService,
-    private router: Router
+    private router: Router,
+    private sanitizer: DomSanitizer
   ) { }
 
   ngOnInit(): void {
@@ -31,6 +34,7 @@ export class DipendentiDettagliComponent {
       if (this.dipendente == undefined) {
         this.router.navigate(['/404']);
       }
+      if (this.dipendente.img != '') this.dipendente.img = this.sanitizer.bypassSecurityTrustResourceUrl(this.dipendente.img) as string;
     });
   }
 }
