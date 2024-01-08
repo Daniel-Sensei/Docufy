@@ -17,17 +17,17 @@ import java.util.List;
 public class AziendaService {
 
     @GetMapping("/aziende")
-    public List<Azienda> getAziende(HttpServletRequest req){
+    public ResponseEntity<List<Azienda>> getAziende(HttpServletRequest req){
         String token = Utility.getToken(req);
         User user = Utility.getRequestUser(req);
 
-        if (user == null) return null;
+        if (user == null) return new ResponseEntity<>(HttpStatus.UNAUTHORIZED);
 
         if (Utility.isConsultant(token)) {
             List <Azienda> aziende = DBManager.getInstance().getAziendaDao().findByConsultant(user.getPIva());
-            return aziende;
+            return new ResponseEntity<>(aziende, HttpStatus.OK);
         }
-        return null;
+        return new ResponseEntity<>(HttpStatus.UNAUTHORIZED);
     }
 
     @GetMapping("/azienda")

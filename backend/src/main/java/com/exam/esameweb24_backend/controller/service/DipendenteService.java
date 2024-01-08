@@ -98,10 +98,7 @@ public class DipendenteService {
             dipendente.setAzienda(a);   // associo l'azienda al dipendente
             // inserisco il dipendente nel database
             Long id = DBManager.getInstance().getDipendenteDao().insert(dipendente);
-            if (id==null) {
-                System.out.println("errore durante la generazione dell'id");
-                return new ResponseEntity<>(HttpStatus.INTERNAL_SERVER_ERROR);
-            }
+            if (id==null) return new ResponseEntity<>(HttpStatus.INTERNAL_SERVER_ERROR);
             else
                 dipendente.setId(id);
             // salvo l'immagine solo se è stata caricata
@@ -111,17 +108,14 @@ public class DipendenteService {
                 try {
                     //salvo il file nella cartella dei files
                     filePath = Utility.uploadFile(file, user);
-                    System.out.println("file path: " + filePath);
                 } catch (IOException e) {
                     return new ResponseEntity<>(HttpStatus.INTERNAL_SERVER_ERROR);
                 }
 
                 // salvo il path del file nel dipendente
                 dipendente.setImg(filePath);
-                System.out.println("dipendente: " + dipendente);
                 // aggiorno il dipendente nel database
                 if (!DBManager.getInstance().getDipendenteDao().update(dipendente) ) {
-                    System.out.println("errore durante l'aggiornamento del dipendente");
                     return new ResponseEntity<>(HttpStatus.INTERNAL_SERVER_ERROR);
                 }
             }
@@ -134,22 +128,24 @@ public class DipendenteService {
     // Questo servizio permette di modificare un dipendente
     // Il suo utilizzo è riservato all'azienda per cui lavora il dipendente
     @PostMapping("/modifica-dipendente")
-    public String modificaDipendente(HttpServletRequest req, @RequestBody Dipendente dipendente){
+    public ResponseEntity<String> modificaDipendente(HttpServletRequest req, @RequestBody Dipendente dipendente){
         String token = Utility.getToken(req);
         User user = Utility.getRequestUser(req);
         // se l'utente è null (non è loggato) allora non può usare il servizio
-        if (user==null) return "false: utente non loggato";
+        if (user==null) return new ResponseEntity<>(HttpStatus.UNAUTHORIZED);
         //controllo che l'utente sia un'azienda
         if (!Utility.isConsultant(token)) {
             // controllo che il dipendente esista
             Dipendente d = DBManager.getInstance().getDipendenteDao().findById(dipendente.getId());
-            if (d == null) return "false: dipendente non trovato";
+            if (d == null) return new ResponseEntity<>(HttpStatus.BAD_REQUEST);
             //controllo che l'azienda sia associata al dipendente da modificare
             if (user.getPIva().equals(d.getAzienda().getPIva()))
                 // modifico il dipendente nel database
-                return DBManager.getInstance().getDipendenteDao().update(dipendente) ? "true" : "false: errore durante la modifica";
+                if(DBManager.getInstance().getDipendenteDao().update(dipendente))
+                    return new ResponseEntity<>(HttpStatus.OK);
+                else return new ResponseEntity<>(HttpStatus.INTERNAL_SERVER_ERROR);
         }
-        return "false: utente non autorizzato";
+        return new ResponseEntity<>(HttpStatus.UNAUTHORIZED);
     }
 
     // Questo servizio permette di eliminare un dipendente
