@@ -52,16 +52,7 @@ public class FileService {
         if (!checkAuthorization(req, path))
             return new ResponseEntity<>(HttpStatus.UNAUTHORIZED);
 
-        File file = new File(path);
-        if (file.exists()) {
-            if (file.delete()) {
-                return new ResponseEntity<>("File eliminato", HttpStatus.OK);
-            } else {
-                return new ResponseEntity<>("Errore durante l'eliminazione del file", HttpStatus.INTERNAL_SERVER_ERROR);
-            }
-        } else {
-            return new ResponseEntity<>("File non trovato", HttpStatus.NOT_FOUND);
-        }
+        return Utility.deleteFile(path);
     }
 
     private static boolean checkAuthorization(HttpServletRequest req, String path) {

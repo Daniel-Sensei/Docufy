@@ -6,8 +6,11 @@ import com.exam.esameweb24_backend.persistence.DBManager;
 import com.exam.esameweb24_backend.persistence.model.Dipendente;
 import com.exam.esameweb24_backend.persistence.model.User;
 import jakarta.servlet.http.HttpServletRequest;
+import org.springframework.http.HttpStatus;
+import org.springframework.http.ResponseEntity;
 import org.springframework.web.multipart.MultipartFile;
 
+import java.io.File;
 import java.io.IOException;
 import java.nio.file.Files;
 import java.nio.file.Path;
@@ -87,13 +90,26 @@ public class Utility {
         }
     }
 
-    public static String uploadFile(MultipartFile file, User user) throws IOException {
-        String fileName = Utility.generateFileName(user.getPIva(), file);
+    public static String uploadFile(String pIva, MultipartFile file) throws IOException {
+        String fileName = Utility.generateFileName(pIva, file);
         String filePath = uploadDir + "/" + fileName;
 
         Path destination = Paths.get(filePath);
         Files.write(destination, file.getBytes());
 
         return filePath;
+    }
+
+    public static ResponseEntity<String> deleteFile(String path){
+        File file = new File(path);
+        if (file.exists()) {
+            if (file.delete()) {
+                return new ResponseEntity<>(HttpStatus.OK);
+            } else {
+                return new ResponseEntity<>(HttpStatus.INTERNAL_SERVER_ERROR);
+            }
+        } else {
+            return new ResponseEntity<>(HttpStatus.NOT_FOUND);
+        }
     }
 }
