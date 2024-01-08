@@ -22,7 +22,7 @@ public class FileService {
     @GetMapping("/get-file")
     public ResponseEntity<Resource> getFile(HttpServletRequest req, @RequestParam("path") String path) {
 
-        if (checkAuthorization(req, path))
+        if (!checkAuthorization(req, path))
             return new ResponseEntity<>(HttpStatus.UNAUTHORIZED);
 
         File file = new File(path);
@@ -50,7 +50,7 @@ public class FileService {
     @DeleteMapping("/delete-file")
     public ResponseEntity<String> deleteFile(HttpServletRequest req, @RequestParam("path") String path) {
 
-        if (checkAuthorization(req, path))
+        if (!checkAuthorization(req, path))
             return new ResponseEntity<>(HttpStatus.UNAUTHORIZED);
 
         File file = new File(path);
