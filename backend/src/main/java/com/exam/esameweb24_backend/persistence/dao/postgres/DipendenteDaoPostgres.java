@@ -29,7 +29,7 @@ public class DipendenteDaoPostgres implements DipendenteDao {
     @Override
     public List<Dipendente> findByAgency(String agencyPIva) {
         List<Dipendente> dipendenti = new ArrayList<>();
-        String query = "SELECT * FROM dipendenti WHERE azienda  = ?";
+        String query = "SELECT * FROM dipendenti WHERE azienda  = ? ORDER BY cognome ASC";
         try {
             PreparedStatement st = conn.prepareStatement(query);
             st.setString(1, agencyPIva);
@@ -54,6 +54,9 @@ public class DipendenteDaoPostgres implements DipendenteDao {
         }
         return dipendenti;
     }
+
+    /**
+     *  UNUSED METHOD TO BE REMOVED BEFORE DELIVERY
 
     @Override
     public List<Dipendente> findByConsultant(String consultantPIva) {
@@ -87,6 +90,8 @@ public class DipendenteDaoPostgres implements DipendenteDao {
         }
         return dipendenti;
     }
+
+     **/
 
     @Override
     public Dipendente findById(Long id) {
