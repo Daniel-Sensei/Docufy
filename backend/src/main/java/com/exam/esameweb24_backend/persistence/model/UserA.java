@@ -4,12 +4,14 @@ import com.exam.esameweb24_backend.controller.Utility;
 import com.exam.esameweb24_backend.persistence.DBManager;
 import org.springframework.http.HttpStatus;
 import org.springframework.http.ResponseEntity;
+import org.springframework.web.bind.annotation.RequestBody;
 import org.springframework.web.multipart.MultipartFile;
 
 import java.io.IOException;
 import java.util.List;
 
 public class UserA extends User{
+
 
     // Azienda Service
 
@@ -95,6 +97,57 @@ public class UserA extends User{
         }
         return new ResponseEntity<>(HttpStatus.UNAUTHORIZED);
     }
+
+
+
+
+    // Corso Service
+
+    @Override
+    public ResponseEntity<List<Corso>> getCorsiProposti(String pIva) {
+        if(Utility.isConsultant(pIva))
+            return new ResponseEntity<>(DBManager.getInstance().getCorsoDao().findByConsultant(pIva), HttpStatus.OK);
+        return new ResponseEntity<>(HttpStatus.BAD_REQUEST);
+    }
+
+    @Override
+    public ResponseEntity<List<Corso>> getCorsiByAzienda(String pIva) {
+        if(this.pIva.equals(pIva))
+            return new ResponseEntity<>(DBManager.getInstance().getCorsoDao().findByAgency(pIva), HttpStatus.OK);
+        return new ResponseEntity<>(HttpStatus.UNAUTHORIZED);
+    }
+
+    @Override
+    public ResponseEntity<List<Corso>> getCorsiByDipendente(Long id) {
+        Dipendente dipendente = DBManager.getInstance().getDipendenteDao().findById(id);
+        if (dipendente==null) return new ResponseEntity<>(HttpStatus.BAD_REQUEST);
+        if (this.pIva.equals(dipendente.getAzienda().getPIva()))
+            return new ResponseEntity<>(DBManager.getInstance().getCorsoDao().findByEmployee(id), HttpStatus.OK);
+        return new ResponseEntity<>(HttpStatus.UNAUTHORIZED);
+    }
+
+    @Override
+    public ResponseEntity<Corso> getCorso(Long id) {
+        Corso corso = DBManager.getInstance().getCorsoDao().findById(id);
+        if (corso==null) return new ResponseEntity<>(HttpStatus.BAD_REQUEST);
+        return new ResponseEntity<>(corso, HttpStatus.OK);
+    }
+
+    @Override
+    public ResponseEntity<String> aggiungiCorso(Corso corso) {
+        return new ResponseEntity<>(HttpStatus.UNAUTHORIZED);
+    }
+
+    @Override
+    public ResponseEntity<String> modificaCorso(Corso corso) {
+        return new ResponseEntity<>(HttpStatus.UNAUTHORIZED);
+    }
+
+    @Override
+    public ResponseEntity<String> rimuoviCorso(Long id) {
+        return new ResponseEntity<>(HttpStatus.UNAUTHORIZED);
+    }
+
 
 
 

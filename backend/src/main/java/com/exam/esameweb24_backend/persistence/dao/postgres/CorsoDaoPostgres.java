@@ -41,7 +41,7 @@ public class CorsoDaoPostgres implements CorsoDao {
                 corso.setPrezzo(rs.getDouble("prezzo"));
                 corso.setDescrizione(rs.getString("descrizione"));
                 corso.setDurata(rs.getInt("durata"));
-                corso.setConsultant(consulente);
+                corso.setConsulente(consulente);
                 corso.setCategoria(rs.getString("categoria"));
                 corso.setPosti(rs.getInt("posti"));
                 corso.setPostiDisponibili(rs.getInt("postidisponibili"));
@@ -69,7 +69,7 @@ public class CorsoDaoPostgres implements CorsoDao {
                 corso.setPrezzo(rs.getDouble("prezzo"));
                 corso.setDescrizione(rs.getString("descrizione"));
                 corso.setDurata(rs.getInt("durata"));
-                corso.setConsultant(DBManager.getInstance().getConsulenteDao().findByPIva(rs.getString("consulente")));
+                corso.setConsulente(DBManager.getInstance().getConsulenteDao().findByPIva(rs.getString("consulente")));
                 corso.setCategoria(rs.getString("categoria"));
                 corso.setPosti(rs.getInt("posti"));
                 corso.setPostiDisponibili(rs.getInt("postidisponibili"));
@@ -97,7 +97,7 @@ public class CorsoDaoPostgres implements CorsoDao {
                 corso.setPrezzo(rs.getDouble("prezzo"));
                 corso.setDescrizione(rs.getString("descrizione"));
                 corso.setDurata(rs.getInt("durata"));
-                corso.setConsultant(DBManager.getInstance().getConsulenteDao().findByPIva(rs.getString("consulente")));
+                corso.setConsulente(DBManager.getInstance().getConsulenteDao().findByPIva(rs.getString("consulente")));
                 corso.setCategoria(rs.getString("categoria"));
                 corso.setPosti(rs.getInt("posti"));
                 corso.setPostiDisponibili(rs.getInt("postidisponibili"));
@@ -124,7 +124,7 @@ public class CorsoDaoPostgres implements CorsoDao {
                 corso.setPrezzo(rs.getDouble("prezzo"));
                 corso.setDescrizione(rs.getString("descrizione"));
                 corso.setDurata(rs.getInt("durata"));
-                corso.setConsultant(DBManager.getInstance().getConsulenteDao().findByPIva(rs.getString("consulente")));
+                corso.setConsulente(DBManager.getInstance().getConsulenteDao().findByPIva(rs.getString("consulente")));
                 corso.setCategoria(rs.getString("categoria"));
                 corso.setPosti(rs.getInt("posti"));
                 corso.setPostiDisponibili(rs.getInt("postidisponibili"));
@@ -146,7 +146,7 @@ public class CorsoDaoPostgres implements CorsoDao {
             st.setDouble(2, corso.getPrezzo());
             st.setString(3, corso.getDescrizione());
             st.setInt(4, corso.getDurata());
-            st.setString(5, corso.getConsultant().getPIva());
+            st.setString(5, corso.getConsulente().getPIva());
             st.setString(6, corso.getCategoria());
             st.setInt(7, corso.getPosti());
             st.setInt(8, corso.getPostiDisponibili());

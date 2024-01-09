@@ -61,11 +61,11 @@ public class Corso {
         this.durata = durata;
     }
 
-    public Consulente getConsultant() {
+    public Consulente getConsulente() {
         return consulente;
     }
 
-    public void setConsultant(Consulente consulente) {
+    public void setConsulente(Consulente consulente) {
         this.consulente = consulente;
     }
 

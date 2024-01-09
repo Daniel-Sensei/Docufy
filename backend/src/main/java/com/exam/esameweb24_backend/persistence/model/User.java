@@ -1,6 +1,7 @@
 package com.exam.esameweb24_backend.persistence.model;
 
 import org.springframework.http.ResponseEntity;
+import org.springframework.web.bind.annotation.RequestBody;
 import org.springframework.web.multipart.MultipartFile;
 
 import java.util.List;
@@ -96,9 +97,9 @@ public class User {
 
     public ResponseEntity<Corso> getCorso(Long id){return null;}
 
-    public ResponseEntity<String> aggiungiCorso(MultipartFile json, MultipartFile file){return null;}
+    public ResponseEntity<String> aggiungiCorso(Corso corso){return null;}
 
-    public ResponseEntity<String> modificaCorso(MultipartFile json, MultipartFile file){return null;}
+    public ResponseEntity<String> modificaCorso(Corso corso){return null;}
 
     public ResponseEntity<String> rimuoviCorso(Long id){return null;}
 }

@@ -53,23 +53,23 @@ public class CorsoService {
     }
 
     @PostMapping("/aggiungi-corso")
-    public ResponseEntity<String> aggiungiCorso(HttpServletRequest req, @RequestParam("corso") MultipartFile json, @RequestParam("file") MultipartFile file){
+    public ResponseEntity<String> aggiungiCorso(HttpServletRequest req, @RequestBody Corso corso){
 
         User user = Utility.getRequestUser(req);
 
         if (user == null) return new ResponseEntity<>(HttpStatus.UNAUTHORIZED);
 
-        return user.aggiungiCorso(json, file);
+        return user.aggiungiCorso(corso);
     }
 
     @PostMapping("/modifica-corso")
-    public ResponseEntity<String> modificaCorso(HttpServletRequest req, @RequestParam("corso") MultipartFile json, @RequestParam("file") MultipartFile file){
+    public ResponseEntity<String> modificaCorso(HttpServletRequest req, @RequestBody Corso corso){
 
         User user = Utility.getRequestUser(req);
 
         if(user == null) return new ResponseEntity<>(HttpStatus.UNAUTHORIZED);
 
-        return user.modificaCorso(json, file);
+        return user.modificaCorso(corso);
     }
 
     @DeleteMapping("/rimuovi-corso")

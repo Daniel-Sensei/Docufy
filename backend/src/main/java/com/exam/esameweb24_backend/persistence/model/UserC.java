@@ -199,6 +199,83 @@ public class UserC extends User{
 
 
 
+    // Corso Service
+
+    @Override
+    public ResponseEntity<List<Corso>> getCorsiProposti(String pIva) {
+        if(this.pIva.equals(pIva))
+            return new ResponseEntity<>(DBManager.getInstance().getCorsoDao().findByConsultant(pIva), HttpStatus.OK);
+        if (Utility.isConsultant(pIva))
+            return new ResponseEntity<>(HttpStatus.UNAUTHORIZED);
+        return new ResponseEntity<>(HttpStatus.BAD_REQUEST);
+    }
+
+    @Override
+    public ResponseEntity<List<Corso>> getCorsiByAzienda(String pIva) {
+        return new ResponseEntity<>(HttpStatus.UNAUTHORIZED);
+    }
+
+    @Override
+    public ResponseEntity<List<Corso>> getCorsiByDipendente(Long id) {
+        return new ResponseEntity<>(HttpStatus.UNAUTHORIZED);
+    }
+
+    @Override
+    public ResponseEntity<Corso> getCorso(Long id) {
+        Corso corso = DBManager.getInstance().getCorsoDao().findById(id);
+        if (corso==null) return new ResponseEntity<>(HttpStatus.BAD_REQUEST);
+        if (this.pIva.equals(corso.getConsulente().getPIva()))
+            return new ResponseEntity<>(corso, HttpStatus.OK);
+        return new ResponseEntity<>(HttpStatus.UNAUTHORIZED);
+    }
+
+    @Override
+    public ResponseEntity<String> aggiungiCorso(Corso corso) {
+
+        if(corso==null) return new ResponseEntity<>(HttpStatus.BAD_REQUEST);
+
+        if (DBManager.getInstance().getCorsoDao().insert(corso)!=null) return new ResponseEntity<>(HttpStatus.OK);
+        else return new ResponseEntity<>(HttpStatus.INTERNAL_SERVER_ERROR);
+    }
+
+    @Override
+    public ResponseEntity<String> modificaCorso(Corso corso) {
+
+        // controllo che il corso passato non sia null
+        if(corso==null) return new ResponseEntity<>(HttpStatus.BAD_REQUEST);
+
+        // controllo che il corso esista
+        Corso c = DBManager.getInstance().getCorsoDao().findById(corso.getId());
+        if (c==null) return new ResponseEntity<>(HttpStatus.BAD_REQUEST);
+
+        // controllo che il consulente sia associato al corso da modificare
+        if (this.pIva.equals(c.getConsulente().getPIva())) {
+            if (DBManager.getInstance().getCorsoDao().update(corso)) return new ResponseEntity<>(HttpStatus.OK);
+            else return new ResponseEntity<>(HttpStatus.INTERNAL_SERVER_ERROR);
+        }
+        return new ResponseEntity<>(HttpStatus.UNAUTHORIZED);
+    }
+
+    @Override
+    public ResponseEntity<String> rimuoviCorso(Long id) {
+
+        // controllo che il corso esista
+        Corso c = DBManager.getInstance().getCorsoDao().findById(id);
+        if (c==null) return new ResponseEntity<>(HttpStatus.BAD_REQUEST);
+
+        // controllo che il consulente sia associato al corso da eliminare
+        if (this.pIva.equals(c.getConsulente().getPIva())) {
+            if (DBManager.getInstance().getCorsoDao().delete(id)) return new ResponseEntity<>(HttpStatus.OK);
+            else return new ResponseEntity<>(HttpStatus.INTERNAL_SERVER_ERROR);
+        }
+        return new ResponseEntity<>(HttpStatus.UNAUTHORIZED);
+    }
+
+
+
+
+
+
     // Dipendente Service
 
     @Override
