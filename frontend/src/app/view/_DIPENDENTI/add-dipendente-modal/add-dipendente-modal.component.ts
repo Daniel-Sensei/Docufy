@@ -9,6 +9,7 @@ import { Input, Output, EventEmitter } from '@angular/core';
 import { Dipendente } from '../../../model/Dipendente';
 
 import { FileService } from '../../../service/file/file.service';
+import { Router } from '@angular/router';
 
 @Component({
   selector: 'app-add-dipendente-modal',
@@ -33,7 +34,8 @@ export class AddDipendenteModalComponent {
     private fb: FormBuilder,
     private alert: AlertService,
     private dipendentiService: DipendentiService,
-    private fileService: FileService
+    private fileService: FileService,
+    private router: Router
   ) {
     this.addDipendenteForm = this.fb.group({
       nome: ['', Validators.required],
@@ -231,12 +233,20 @@ export class AddDipendenteModalComponent {
         this.alert.setMessage(dipendenteData.cf);
         this.alert.setSuccessAlert();
         this.refreshData.emit();
+        // refresh page with the router
+        this.router.navigateByUrl('/', { skipLocationChange: true }).then(() => {
+          this.router.navigate(['/dipendenti']);
+        });
       },
       error => {
         // Gestisci eventuali errori
         this.alert.setMessage(dipendenteData.cf);
         this.alert.setDangerAlert();
         this.refreshData.emit();
+        // refresh page with the router
+        this.router.navigateByUrl('/', { skipLocationChange: true }).then(() => {
+          this.router.navigate(['/dipendenti']);
+        });
       }
     );
   }

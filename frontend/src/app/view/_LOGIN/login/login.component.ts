@@ -16,29 +16,34 @@ export class LoginComponent {
   model: NgbDateStruct | undefined;
 
   success: boolean = true;
+  serverError: boolean = false;
 
   constructor(
     private router: Router,
     private fb: FormBuilder,
     private auth: AuthService,
-    ) {
-      this.loginForm = this.fb.group({
-        email: ['', [Validators.required, Validators.email]],
-        password: ['', Validators.required],
-        rememberMe: [false]
-      });
+  ) {
+    this.loginForm = this.fb.group({
+      email: ['', [Validators.required, Validators.email]],
+      password: ['', Validators.required],
+      rememberMe: [false]
+    });
   }
 
   submitForm() {
     this.auth.login(this.loginForm.get('email')?.value, this.loginForm.get('password')?.value, this.loginForm.get('rememberMe')?.value).
-    subscribe( result => {
-      if (result) {
-        this.router.navigate(['/']);
-      }
-      else {
-        this.success = false;
-      }
-    });
+      subscribe(
+        result => {
+          if (result) {
+            this.router.navigate(['/']);
+          }
+          else {
+            this.success = false;
+          }
+        },
+        error => {
+          this.serverError = true;
+        });
   }
 
 }

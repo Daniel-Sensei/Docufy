@@ -8,11 +8,14 @@
                     <td mat-cell *matCellDef="let row">
                         <div class="d-flex align-items-center">
 
-                            <img *ngIf="row.img == ''" src="https://cdn.pixabay.com/photo/2018/11/13/21/43/avatar-3814049_960_720.png" alt=""
-                                style="width: 45px; height: 45px" class="rounded-circle" />
+                            <ng-container *ngIf="row.img && row.img.startsWith('blob'); else defaultImg">
+                                <img [src]="row.img" alt="" style="width: 45px; height: 45px" class="rounded-circle" />
+                            </ng-container>
 
-                            <img *ngIf="row.img && row.img.startsWith('blob')" [src]="row.img" alt=""
-                                style="width: 45px; height: 45px" class="rounded-circle" />
+                            <ng-template #defaultImg>
+                                <img src="https://cdn.pixabay.com/photo/2018/11/13/21/43/avatar-3814049_960_720.png"
+                                    alt="" style="width: 45px; height: 45px" class="rounded-circle" />
+                            </ng-template>
 
                             <div class="ms-3">
                                 <p class="fw-bold mb-1">{{row.cognome}} {{row.nome}}</p>

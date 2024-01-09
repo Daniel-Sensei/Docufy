@@ -31,6 +31,7 @@ export class DipendentiComponent {
         this.dipendenti = dipendenti;
         this.setDipendentiImages().subscribe(() => {
           this.isInitialized = true; // Set the flag to true after initialization
+          console.log('Dipendenti:', this.dipendenti);
         });
       },
       error => {

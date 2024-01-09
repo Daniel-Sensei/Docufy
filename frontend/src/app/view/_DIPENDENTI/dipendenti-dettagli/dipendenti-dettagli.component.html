@@ -12,9 +12,17 @@
     </div><!-- End Page Title -->
 
     <div class="margin">
-        <div class="mb-3">
+        <div class="mb-3 d-flex gap-2">
             <button (click)="openUpdateDipendente()" type="button" class="btn btn-primary" data-bs-toggle="modal" data-bs-target="#addEmployeeModal">
                 Modifica dati
+            </button>
+            
+            <button *ngIf="dipendente.img != '' " (click)="openDeleteImg()" type="button" class="btn btn-danger" data-bs-toggle="modal">
+                Elimina Immagine
+            </button>
+
+            <button (click)="openDeleteDipendente()" type="button" class="btn btn-danger" data-bs-toggle="modal">
+                Elimina Dipendente
             </button>
         </div>
 
@@ -70,11 +78,11 @@
 
                                     <div class="col-6 mb-3">
                                         <h6 class="text-bold">Data di Nascita</h6>
-                                        <p class="text-muted">{{dipendente.dataNascita}}</p>
+                                        <p class="text-muted">{{dataNascitaIT}}</p>
                                     </div>
                                     <div class="col-6 mb-3">
                                         <h6 class="text-bold">Data di Assuznione</h6>
-                                        <p class="text-muted">{{dipendente.dataAssunzione}}</p>
+                                        <p class="text-muted">{{dataAssunzioneIT}}</p>
                                     </div>
 
                                 </div>

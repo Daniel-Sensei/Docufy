@@ -18,6 +18,8 @@ import { DatePipe } from '@angular/common';
 export class DipendentiDettagliComponent {
 
   dipendente!: Dipendente;
+  public dataNascitaIT: string = '';
+  public dataAssunzioneIT: string = '';
 
   constructor(
     private route: ActivatedRoute,
@@ -47,8 +49,8 @@ export class DipendentiDettagliComponent {
         });
       }
 
-      dipendente.dataNascita = this.formatItalianDate(dipendente.dataNascita)
-      dipendente.dataAssunzione = this.formatItalianDate(dipendente.dataAssunzione)
+      this.dataNascitaIT = this.formatItalianDate(dipendente.dataNascita)
+      this.dataAssunzioneIT = this.formatItalianDate(dipendente.dataAssunzione)
     });
   }
 
@@ -65,6 +67,10 @@ export class DipendentiDettagliComponent {
       this.ngOnInit();
     });
   }
+
+  openDeleteImg(){}
+
+  openDeleteDipendente(){}
 
   private formatItalianDate(date: string): string {
     const formattedDate = this.datePipe.transform(date, 'dd/MM/yyyy');
