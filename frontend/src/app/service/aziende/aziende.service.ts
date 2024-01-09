@@ -26,4 +26,8 @@ export class AziendeService {
   getAzienda(pIva: String): Observable<Azienda> {
     return this.http.get<Azienda>(Settings.API_ENDPOINT + 'azienda?pIva=' + pIva, { headers: this.auth.headers});
   }
+
+  updateProfilo(azienda: Azienda): Observable<any> { //DA MODIFICARE
+    return this.http.put(Settings.API_ENDPOINT + 'profilo', azienda, { headers: this.auth.headers});
+  }
 }

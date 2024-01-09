@@ -1,5 +1,5 @@
 export interface Azienda{
-    pIva: string;
+    piva: string;
     email: string;
     telefono: string;
     ragioneSociale: string;
