@@ -272,4 +272,46 @@ public class UserC extends User{
             return new ResponseEntity<>(documento, HttpStatus.OK);
         return new ResponseEntity<>(HttpStatus.UNAUTHORIZED);
     }
+
+    @Override
+    public ResponseEntity<String> aggiungiDocumento(MultipartFile json, MultipartFile file) {
+
+        // controllo se è stato aggiunto il file e se è stato aggiunto un json del documento
+        if (json.isEmpty() || file.getOriginalFilename().isBlank() || file.getOriginalFilename().equals("blob") || file.isEmpty())
+            return new ResponseEntity<>(HttpStatus.BAD_REQUEST);
+
+        // converto il json in un documento
+        Documento documento = Utility.jsonToObject(json, Documento.class);
+
+        if (documento.getDipendente() == null && documento.getAzienda() == null) return new ResponseEntity<>(HttpStatus.BAD_REQUEST);
+        else if (documento.getDipendente() == null) {
+            Azienda a = DBManager.getInstance().getAziendaDao().findByPIva(this.pIva);
+            if (a == null) return new ResponseEntity<>(HttpStatus.BAD_REQUEST);
+            else if (!this.pIva.equals(a.getConsulente().getPIva())) return new ResponseEntity<>(HttpStatus.UNAUTHORIZED);
+        } else if (documento.getAzienda() == null){
+            Dipendente d = DBManager.getInstance().getDipendenteDao().findById(documento.getDipendente().getId());
+            if (d == null) return new ResponseEntity<>(HttpStatus.BAD_REQUEST);
+            else if (!this.pIva.equals(d.getAzienda().getConsulente().getPIva())) return new ResponseEntity<>(HttpStatus.UNAUTHORIZED);
+        }
+
+        Long id = DBManager.getInstance().getDocumentoDao().insert(documento);
+        if (id == null) return new ResponseEntity<>(HttpStatus.INTERNAL_SERVER_ERROR);
+
+        documento.setId(id);
+
+        String filePath;
+        try {
+            filePath = Utility.uploadFile(documento.getDipendente() == null ? documento.getAzienda().getPIva() : documento.getDipendente().getCF(), file);
+        } catch (IOException e) {
+            return new ResponseEntity<>(HttpStatus.INTERNAL_SERVER_ERROR);
+        }
+
+        documento.setFile(filePath);
+
+        if (!DBManager.getInstance().getDocumentoDao().update(documento)) {
+            return new ResponseEntity<>(HttpStatus.INTERNAL_SERVER_ERROR);
+        }
+
+        return new ResponseEntity<>(HttpStatus.OK);
+    }
 }
