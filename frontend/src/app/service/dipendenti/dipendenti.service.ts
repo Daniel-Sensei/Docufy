@@ -65,4 +65,12 @@ export class DipendentiService {
     return this.http.post(Settings.API_ENDPOINT + 'modifica-dipendente', formData, { headers: this.auth.headers });
   }
 
+  deleteImgDipendente(id: number): Observable<any> {
+    return this.http.delete(Settings.API_ENDPOINT + 'rimuovi-immagine-dipendente?id=' + id, { headers: this.auth.headers });
+  }
+
+  deleteDipendente(id: number): Observable<any> {
+    return this.http.delete(Settings.API_ENDPOINT + 'rimuovi-dipendente?id=' + id, { headers: this.auth.headers });
+  }
+
 }

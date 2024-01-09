@@ -56,6 +56,7 @@ import { RicercaComponent } from './view/_RICERCA/ricerca/ricerca.component';
 import { NotFoundComponent } from './view/_STATIC/not-found/not-found.component';
 
 import { DatePipe } from '@angular/common';
+import { ConfirmModalComponent } from './view/_STATIC/confirm-modal/confirm-modal.component';
 
 
 @NgModule({
@@ -94,6 +95,7 @@ import { DatePipe } from '@angular/common';
     LogoutModalComponent,
     RicercaComponent,
     NotFoundComponent,
+    ConfirmModalComponent,
   ],
   imports: [
     BrowserModule,

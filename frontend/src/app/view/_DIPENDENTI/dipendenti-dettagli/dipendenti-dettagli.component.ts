@@ -9,6 +9,7 @@ import { AddDipendenteModalComponent } from '../add-dipendente-modal/add-dipende
 import { FileService } from '../../../service/file/file.service';
 import { AlertService } from '../../../service/alert/alert.service';
 import { DatePipe } from '@angular/common';
+import { ConfirmModalComponent } from '../../_STATIC/confirm-modal/confirm-modal.component';
 
 @Component({
   selector: 'app-dipendenti-dettagli',
@@ -68,9 +69,25 @@ export class DipendentiDettagliComponent {
     });
   }
 
-  openDeleteImg(){}
+  openDeleteImg(){
+    const modalRef = this.modalService.open(ConfirmModalComponent, {
+      size: 'md' // 'lg' sta per grande, puoi utilizzare anche 'sm' per piccolo
+    });
 
-  openDeleteDipendente(){}
+    // Passa il this.dipendente al modal
+    modalRef.componentInstance.dipendente = this.dipendente;
+    modalRef.componentInstance.function = 'deleteImgDipendente';
+  }
+
+  openDeleteDipendente(){
+    const modalRef = this.modalService.open(ConfirmModalComponent, {
+      size: 'md' // 'lg' sta per grande, puoi utilizzare anche 'sm' per piccolo
+    });
+
+    // Passa il this.dipendente al modal
+    modalRef.componentInstance.dipendente = this.dipendente;
+    modalRef.componentInstance.function = 'deleteDipendente';
+  }
 
   private formatItalianDate(date: string): string {
     const formattedDate = this.datePipe.transform(date, 'dd/MM/yyyy');
