@@ -314,4 +314,48 @@ public class UserC extends User{
 
         return new ResponseEntity<>(HttpStatus.OK);
     }
+
+    @Override
+    public ResponseEntity<String> modificaDocumento(MultipartFile json, MultipartFile file) {
+
+        // controllo se è stato aggiunto il file e se è stato aggiunto un json del documento
+        if (json.isEmpty() || file.getOriginalFilename().isBlank() || file.getOriginalFilename().equals("blob") || file.isEmpty())
+            return new ResponseEntity<>(HttpStatus.BAD_REQUEST);
+
+        // converto il json in un documento
+        Documento documento = Utility.jsonToObject(json, Documento.class);
+
+        // controllo che il documento esista
+        Documento d = DBManager.getInstance().getDocumentoDao().findById(documento.getId());
+        if (d == null) return new ResponseEntity<>(HttpStatus.BAD_REQUEST);
+
+        Long dipID = documento.getDipendente().getId();
+        Dipendente dipendente = null;
+        if(dipID!=null) dipendente = DBManager.getInstance().getDipendenteDao().findById(dipID);
+
+        // controllo che l'azienda sia associata al documento da modificare
+        if ((d.getDipendente()==null && Utility.checkConsultantAgency(this.pIva, d.getAzienda().getPIva())) || (d.getDipendente()!=null && Utility.checkConsultantAgency(this.pIva, dipendente.getAzienda().getPIva()))) {
+
+            // salvo il file nella cartella dei files
+            String filePath;
+            try {
+                filePath = Utility.uploadFile(documento.getDipendente() == null ? this.pIva : documento.getDipendente().getCF(), file);
+                // elimino il vecchio file se esiste
+                if(d.getFile()!=null) Utility.deleteFile(d.getFile());
+            } catch (IOException e) {
+                return new ResponseEntity<>(HttpStatus.INTERNAL_SERVER_ERROR);
+            }
+
+            // salvo il path del nuovo file nel documento
+            documento.setFile(filePath);
+
+            // modifico il documento nel database
+            if (DBManager.getInstance().getDocumentoDao().update(documento))
+                return new ResponseEntity<>(HttpStatus.OK);
+            else return new ResponseEntity<>(HttpStatus.INTERNAL_SERVER_ERROR);
+        }
+        return new ResponseEntity<>(HttpStatus.UNAUTHORIZED);
+    }
+
+
 }
