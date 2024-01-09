@@ -25,7 +25,7 @@ public class CorsoService {
     }
 
     @GetMapping("/corsi-acquistati")
-    public ResponseEntity<List<CorsoAcquistato>> getCorsiByAzienda(HttpServletRequest req, @RequestParam String pIva){
+    public ResponseEntity<List<Corso>> getCorsiByAzienda(HttpServletRequest req, @RequestParam String pIva){
 
         User user = Utility.getRequestUser(req);
 
@@ -35,7 +35,7 @@ public class CorsoService {
     }
 
     @GetMapping("/corsi-frequentati")
-    public ResponseEntity<List<CorsoFrequentato>> getCorsiByEmployee(HttpServletRequest req, @RequestParam Long id){
+    public ResponseEntity<List<Corso>> getCorsiByEmployee(HttpServletRequest req, @RequestParam Long id){
         User user = Utility.getRequestUser(req);
 
         if(user == null) return new ResponseEntity<>(HttpStatus.UNAUTHORIZED);

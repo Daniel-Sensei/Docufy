@@ -55,43 +55,54 @@ public class CorsoDaoPostgres implements CorsoDao {
     }
 
     @Override
-    public List<CorsoAcquistato> findByAgency(String agencyPIva) {
-        Azienda azienda = DBManager.getInstance().getAziendaDao().findByPIva(agencyPIva);
-        List<CorsoAcquistato> courses = new ArrayList<>();
-        String query = "SELECT * FROM corsi_aziende WHERE azienda = ?";
+    public List<Corso> findByAgency(String pIva) {
+        List<Corso> corsi = new ArrayList<>();
+        String query = "SELECT * from aziende WHERE piva IN (SELECT * FROM corsi_aziende WHERE azienda = ?)";
         try {
             PreparedStatement st = conn.prepareStatement(query);
-            st.setString(1, azienda.getPIva());
+            st.setString(1, pIva);
             ResultSet rs = st.executeQuery();
             while (rs.next()){
-                CorsoAcquistato course = new CorsoAcquistato();
-                course.setCourse(DBManager.getInstance().getCorsoDao().findById(rs.getLong("corso")));
-                course.setAgency(azienda);
-                course.setDate(rs.getDate("data_acquisto"));
-                courses.add(course);
+                Corso corso = new Corso();
+                corso.setId(rs.getLong("id"));
+                corso.setNome(rs.getString("nome"));
+                corso.setPrezzo(rs.getDouble("prezzo"));
+                corso.setDescrizione(rs.getString("descrizione"));
+                corso.setDurata(rs.getInt("durata"));
+                corso.setConsultant(DBManager.getInstance().getConsulenteDao().findByPIva(rs.getString("consulente")));
+                corso.setCategoria(rs.getString("categoria"));
+                corso.setPosti(rs.getInt("posti"));
+                corso.setPostiDisponibili(rs.getInt("postidisponibili"));
+                corso.setEsameFinale(rs.getBoolean("esamefinale"));
+                corsi.add(corso);
             }
         } catch (SQLException e) {
             throw new RuntimeException(e);
         }
-        return courses;
+        return corsi;
     }
 
     @Override
-    public List<CorsoFrequentato> findByEmployee(Long employeeID) {
-        Dipendente dipendente = DBManager.getInstance().getDipendenteDao().findById(employeeID);
-        List<CorsoFrequentato> corsi = new ArrayList<>();
-        String query = "SELECT * FROM corsi_dipendenti WHERE dipendente = ?";
+    public List<Corso> findByEmployee(Long idDipendente) {
+        List<Corso> corsi = new ArrayList<>();
+        String query = "SELECT * FROM dipendenti WHERE id IN (SELECT * FROM corsi_dipendenti WHERE dipendente = ?)";
         try {
             PreparedStatement st = conn.prepareStatement(query);
-            st.setLong(1, employeeID);
+            st.setLong(1, idDipendente);
             ResultSet rs = st.executeQuery();
             while (rs.next()){
-                CorsoFrequentato course = new CorsoFrequentato();
-                course.setCourse(DBManager.getInstance().getCorsoDao().findById(rs.getLong("corso")));
-                course.setEmployee(dipendente);
-                course.setStartingDate(rs.getDate("data_inizio"));
-                course.setEndingDate(rs.getDate("data_fine"));
-                corsi.add(course);
+                Corso corso = new Corso();
+                corso.setId(rs.getLong("id"));
+                corso.setNome(rs.getString("nome"));
+                corso.setPrezzo(rs.getDouble("prezzo"));
+                corso.setDescrizione(rs.getString("descrizione"));
+                corso.setDurata(rs.getInt("durata"));
+                corso.setConsultant(DBManager.getInstance().getConsulenteDao().findByPIva(rs.getString("consulente")));
+                corso.setCategoria(rs.getString("categoria"));
+                corso.setPosti(rs.getInt("posti"));
+                corso.setPostiDisponibili(rs.getInt("postidisponibili"));
+                corso.setEsameFinale(rs.getBoolean("esamefinale"));
+                corsi.add(corso);
             }
         } catch (SQLException e) {
             throw new RuntimeException(e);

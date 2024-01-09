@@ -90,9 +90,9 @@ public class User {
 
     public ResponseEntity<List<Corso>> getCorsiProposti(String pIva){return null;}
 
-    public ResponseEntity<List<CorsoAcquistato>> getCorsiByAzienda(String pIva){return null;}
+    public ResponseEntity<List<Corso>> getCorsiByAzienda(String pIva){return null;}
 
-    public ResponseEntity<List<CorsoFrequentato>> getCorsiByDipendente(Long id){return null;}
+    public ResponseEntity<List<Corso>> getCorsiByDipendente(Long id){return null;}
 
     public ResponseEntity<Corso> getCorso(Long id){return null;}
 
