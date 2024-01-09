@@ -61,19 +61,19 @@ public class Documento {
         this.dataScadenza = dataScadenza;
     }
 
-    public Dipendente getEmployee() {
+    public Dipendente getDipendente() {
         return dipendente;
     }
 
-    public void setEmployee(Dipendente dipendente) {
+    public void setDipendente(Dipendente dipendente) {
         this.dipendente = dipendente;
     }
 
-    public Azienda getAgency() {
+    public Azienda getAzienda() {
         return azienda;
     }
 
-    public void setAgency(Azienda azienda) {
+    public void setAzienda(Azienda azienda) {
         this.azienda = azienda;
     }
 
