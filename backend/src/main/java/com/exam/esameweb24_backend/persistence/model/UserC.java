@@ -230,6 +230,26 @@ public class UserC extends User{
     }
 
     @Override
+    public ResponseEntity<String> aggiungiDipendentiCorso(Long idCorso, List<Long> dipendenti) {
+        return new ResponseEntity<>(HttpStatus.UNAUTHORIZED);
+    }
+
+    @Override
+    public ResponseEntity<String> aggiungiAziendaCorso(Long idCorso, String pIva) {
+        Corso corso = DBManager.getInstance().getCorsoDao().findById(idCorso);
+        if (corso==null) return new ResponseEntity<>(HttpStatus.BAD_REQUEST);
+        if (this.pIva.equals(corso.getConsulente().getPIva())) {
+            Azienda a = DBManager.getInstance().getAziendaDao().findByPIva(pIva);
+            if (a==null) return new ResponseEntity<>(HttpStatus.BAD_REQUEST);
+            if(Utility.checkConsultantAgency(this.pIva, pIva)){
+                if (DBManager.getInstance().getCorsoDao().addAzienda(idCorso, pIva)) return new ResponseEntity<>(HttpStatus.OK);
+                else return new ResponseEntity<>(HttpStatus.INTERNAL_SERVER_ERROR);
+            }
+        }
+        return new ResponseEntity<>(HttpStatus.UNAUTHORIZED);
+    }
+
+    @Override
     public ResponseEntity<String> aggiungiCorso(Corso corso) {
 
         if(corso==null) return new ResponseEntity<>(HttpStatus.BAD_REQUEST);
@@ -275,7 +295,6 @@ public class UserC extends User{
 
 
 
-
     // Dipendente Service
 
     @Override
@@ -293,6 +312,15 @@ public class UserC extends User{
         if (dipendente==null) return new ResponseEntity<>(HttpStatus.BAD_REQUEST);
         if (Utility.checkConsultantAgency(this.pIva, dipendente.getAzienda().getPIva()))
             return new ResponseEntity<>(dipendente, HttpStatus.OK);
+        return new ResponseEntity<>(HttpStatus.UNAUTHORIZED);
+    }
+
+    @Override
+    public ResponseEntity<List<Dipendente>> getDipendentiByCorso(Long id) {
+        Corso c = DBManager.getInstance().getCorsoDao().findById(id);
+        if (c==null) return new ResponseEntity<>(HttpStatus.BAD_REQUEST);
+        if (this.pIva.equals(c.getConsulente().getPIva()))
+            return new ResponseEntity<>(DBManager.getInstance().getDipendenteDao().findByCorsoFrequentato(id), HttpStatus.OK);
         return new ResponseEntity<>(HttpStatus.UNAUTHORIZED);
     }
 

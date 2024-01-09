@@ -1,12 +1,12 @@
 package com.exam.esameweb24_backend.persistence.model;
 
 import org.springframework.http.ResponseEntity;
-import org.springframework.web.bind.annotation.RequestBody;
 import org.springframework.web.multipart.MultipartFile;
 
 import java.util.List;
 
 public class User {
+
     protected String email;
 
     protected String password;
@@ -38,6 +38,8 @@ public class User {
     }
 
 
+
+
     // Azienda Service
 
     public ResponseEntity<List<Azienda>> getAziende(){return null;}
@@ -57,11 +59,38 @@ public class User {
     public ResponseEntity<String> rimuoviImmagineAzienda(String pIva){return null;}
 
 
+
+
+    // Corso Service
+
+    public ResponseEntity<List<Corso>> getCorsiProposti(String pIva){return null;}
+
+    public ResponseEntity<List<Corso>> getCorsiByAzienda(String pIva){return null;}
+
+    public ResponseEntity<List<Corso>> getCorsiByDipendente(Long id){return null;}
+
+    public ResponseEntity<Corso> getCorso(Long id){return null;}
+
+    public ResponseEntity<String> aggiungiDipendentiCorso(Long idCorso, List<Long> dipendenti){return null;}
+
+    public ResponseEntity<String> aggiungiAziendaCorso(Long idCorso, String pIva){return null;}
+
+    public ResponseEntity<String> aggiungiCorso(Corso corso){return null;}
+
+    public ResponseEntity<String> modificaCorso(Corso corso){return null;}
+
+    public ResponseEntity<String> rimuoviCorso(Long id){return null;}
+
+
+
+
     // Dipendente Service
 
     public ResponseEntity<List<Dipendente>> getDipendentiByPIva(String pIva){return null;}
 
     public ResponseEntity<Dipendente> getDipendente(Long id){return null;}
+
+    public ResponseEntity<List<Dipendente>> getDipendentiByCorso(Long idCorso){return null;}
 
     public ResponseEntity<String> aggiungiDipendete(MultipartFile json, MultipartFile file){return null;}
 
@@ -70,6 +99,8 @@ public class User {
     public ResponseEntity<String> rimuoviDipendente(Long id){return null;}
 
     public ResponseEntity<String> rimuoviImmagineDipendente(Long id){return null;}
+
+
 
 
     // Documento Service
@@ -85,21 +116,4 @@ public class User {
     public ResponseEntity<String> modificaDocumento(MultipartFile json, MultipartFile file){return null;}
 
     public ResponseEntity<String> rimuoviDocumento(Long id){return null;}
-
-
-    // Corso Service
-
-    public ResponseEntity<List<Corso>> getCorsiProposti(String pIva){return null;}
-
-    public ResponseEntity<List<Corso>> getCorsiByAzienda(String pIva){return null;}
-
-    public ResponseEntity<List<Corso>> getCorsiByDipendente(Long id){return null;}
-
-    public ResponseEntity<Corso> getCorso(Long id){return null;}
-
-    public ResponseEntity<String> aggiungiCorso(Corso corso){return null;}
-
-    public ResponseEntity<String> modificaCorso(Corso corso){return null;}
-
-    public ResponseEntity<String> rimuoviCorso(Long id){return null;}
 }

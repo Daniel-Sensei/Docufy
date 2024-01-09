@@ -52,6 +52,25 @@ public class CorsoService {
         return user.getCorso(id);
     }
 
+    @PostMapping("/dipendenti-corso")
+    public ResponseEntity<String> aggiungiDipendentiCorso(HttpServletRequest req, @RequestParam Long idCorso, @RequestBody List<Long> dipendenti){
+        User user = Utility.getRequestUser(req);
+
+        if(user == null) return new ResponseEntity<>(HttpStatus.UNAUTHORIZED);
+
+        return user.aggiungiDipendentiCorso(idCorso, dipendenti);
+    }
+
+    @PostMapping("/corso-azienda")
+    public ResponseEntity<String> aggiungiAziendaCorso(HttpServletRequest req, @RequestParam Long idCorso, @RequestParam String pIva){
+        User user = Utility.getRequestUser(req);
+
+        if(user == null) return new ResponseEntity<>(HttpStatus.UNAUTHORIZED);
+
+        return user.aggiungiAziendaCorso(idCorso, pIva);
+    }
+
+
     @PostMapping("/aggiungi-corso")
     public ResponseEntity<String> aggiungiCorso(HttpServletRequest req, @RequestBody Corso corso){
 

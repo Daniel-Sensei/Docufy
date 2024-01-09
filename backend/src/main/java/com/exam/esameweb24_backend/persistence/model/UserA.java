@@ -4,10 +4,10 @@ import com.exam.esameweb24_backend.controller.Utility;
 import com.exam.esameweb24_backend.persistence.DBManager;
 import org.springframework.http.HttpStatus;
 import org.springframework.http.ResponseEntity;
-import org.springframework.web.bind.annotation.RequestBody;
 import org.springframework.web.multipart.MultipartFile;
 
 import java.io.IOException;
+import java.util.ArrayList;
 import java.util.List;
 
 public class UserA extends User{
@@ -134,6 +134,26 @@ public class UserA extends User{
     }
 
     @Override
+    public ResponseEntity<String> aggiungiDipendentiCorso(Long idCorso, List<Long> dipendenti) {
+
+        Corso c = DBManager.getInstance().getCorsoDao().findById(idCorso);
+        if (c==null) return new ResponseEntity<>(HttpStatus.BAD_REQUEST);
+
+        for (Long id : dipendenti) {
+            Dipendente d = DBManager.getInstance().getDipendenteDao().findById(id);
+            if (d==null) return new ResponseEntity<>(HttpStatus.BAD_REQUEST);
+            if (!this.pIva.equals(d.getAzienda().getPIva())) return new ResponseEntity<>(HttpStatus.UNAUTHORIZED);
+            DBManager.getInstance().getCorsoDao().addDipendente(idCorso, id);
+        }
+        return new ResponseEntity<>(HttpStatus.OK);
+    }
+
+    @Override
+    public ResponseEntity<String> aggiungiAziendaCorso(Long idCorso, String pIva) {
+        return new ResponseEntity<>(HttpStatus.UNAUTHORIZED);
+    }
+
+    @Override
     public ResponseEntity<String> aggiungiCorso(Corso corso) {
         return new ResponseEntity<>(HttpStatus.UNAUTHORIZED);
     }
@@ -168,6 +188,19 @@ public class UserA extends User{
         if (this.pIva.equals(dipendente.getAzienda().getPIva()))
             return new ResponseEntity<>(dipendente, HttpStatus.OK);
         return new ResponseEntity<>(HttpStatus.UNAUTHORIZED);
+    }
+
+    @Override
+    public ResponseEntity<List<Dipendente>> getDipendentiByCorso(Long idCorso) {
+        Corso corso = DBManager.getInstance().getCorsoDao().findById(idCorso);
+        if (corso==null) return new ResponseEntity<>(HttpStatus.BAD_REQUEST);
+        List<Dipendente> d = DBManager.getInstance().getDipendenteDao().findByCorsoFrequentato(idCorso);
+        List<Dipendente> dipendenti = new ArrayList<>();
+        for (Dipendente dipendente : d) {
+            if (this.pIva.equals(dipendente.getAzienda().getPIva()))
+                dipendenti.add(dipendente);
+        }
+        return new ResponseEntity<>(dipendenti, HttpStatus.OK);
     }
 
     @Override

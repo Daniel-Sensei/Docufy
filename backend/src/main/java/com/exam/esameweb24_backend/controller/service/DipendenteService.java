@@ -43,6 +43,17 @@ public class DipendenteService {
         return user.getDipendente(id);
     }
 
+    @GetMapping ("/dipendenti-corso")
+    public ResponseEntity<List<Dipendente>> getDipendentiByCorso(HttpServletRequest req, @RequestParam Long id){
+
+        User user = Utility.getRequestUser(req);
+
+        // se l'utente è null (non è loggato) allora non può usare il servizio
+        if (user==null) return new ResponseEntity<>(HttpStatus.UNAUTHORIZED);
+
+        return user.getDipendentiByCorso(id);
+    }
+
     // Questo servizio permette di aggiungere un dipendente
     // Il suo utilizzo è riservato all'azienda per cui lavora il dipendente
     @PostMapping("/aggiungi-dipendente")

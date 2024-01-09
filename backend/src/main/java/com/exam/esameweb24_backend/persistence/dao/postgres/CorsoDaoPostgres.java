@@ -194,4 +194,34 @@ public class CorsoDaoPostgres implements CorsoDao {
             throw new RuntimeException(e);
         }
     }
+
+    @Override
+    public boolean addDipendente(Long idCorso, Long idDipendente) {
+        String query = "INSERT INTO corsi_dipendenti (corso, dipendente, data_iscrizione) VALUES (?, ?, ?)";
+        try {
+            PreparedStatement st = conn.prepareStatement(query);
+            st.setLong(1, idCorso);
+            st.setLong(2, idDipendente);
+            st.setDate(3, new java.sql.Date(System.currentTimeMillis()));
+            st.executeUpdate();
+            return true;
+        } catch (SQLException e) {
+            throw new RuntimeException(e);
+        }
+    }
+
+    @Override
+    public boolean addAzienda(Long idCorso, String pIva) {
+        String query = "INSERT INTO corsi_aziende (corso, azienda, data_acquisto) VALUES (?, ?, ?)";
+        try {
+            PreparedStatement st = conn.prepareStatement(query);
+            st.setLong(1, idCorso);
+            st.setString(2, pIva);
+            st.setDate(3, new java.sql.Date(System.currentTimeMillis()));
+            st.executeUpdate();
+            return true;
+        } catch (SQLException e) {
+            throw new RuntimeException(e);
+        }
+    }
 }
