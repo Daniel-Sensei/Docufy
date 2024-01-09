@@ -71,7 +71,7 @@ public class DipendenteService {
 
     // Questo servizio permette di eliminare un dipendente
     // Il suo utilizzo è riservato all'azienda per cui lavora il dipendente
-    @GetMapping("/rimuovi-dipendente")
+    @DeleteMapping("/rimuovi-dipendente")
     public ResponseEntity<String> rimuoviDipendente(HttpServletRequest req, @RequestParam Long id){
 
         User user = Utility.getRequestUser(req);
@@ -82,7 +82,7 @@ public class DipendenteService {
         return user.rimuoviDipendente(id);
     }
 
-    @GetMapping("/rimuovi-immagine-dipendente")
+    @DeleteMapping("/rimuovi-immagine-dipendente")
     public ResponseEntity<String> rimuoviImmagineDipendente(HttpServletRequest req, @RequestParam Long id){
 
         User user = Utility.getRequestUser(req);
