@@ -20,8 +20,9 @@ export class AuthService {
   role?: string | null;
 
   currentPIva?: string | null;
+  selectedPIva?: string | null;
 
-  headers = new HttpHeaders();
+  headers = new HttpHeaders().set('Authorization', `Basic ${this.getToken()}`);
 
   autologin(): Observable<boolean> {
     if (isPlatformBrowser(this.platformId)) {
@@ -198,5 +199,21 @@ export class AuthService {
     }
     sessionStorage.setItem('admin-email', email);
     sessionStorage.setItem('admin-password', password);
+  }
+
+  getSelectedPIva(): string | null {
+    if (isPlatformBrowser(this.platformId)) {
+      if (this.selectedPIva === undefined) {
+        this.selectedPIva = sessionStorage.getItem('admin-selectedPIva');
+      }
+      return this.selectedPIva;
+    } else {
+      return null;
+    }
+  }
+
+  setSelectedPIva(pIva: string): void {
+    this.selectedPIva = pIva;
+    sessionStorage.setItem('admin-selectedPIva', pIva);
   }
 }

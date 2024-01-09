@@ -1,4 +1,4 @@
-import { Component } from '@angular/core';
+import { Component, Input } from '@angular/core';
 
 import { NgbModal } from '@ng-bootstrap/ng-bootstrap';
 import { LogoutModalComponent } from '../../_LOGIN/logout-modal/logout-modal.component';
@@ -19,8 +19,8 @@ import { AuthService } from '../../../service/auth/auth.service';
 export class HeaderComponent {
   text = new FormControl('');
 
+  role?: string;
   azienda?: Azienda;
-  role?: string | undefined;
 
   constructor(
     private modalService: NgbModal,
@@ -36,19 +36,19 @@ export class HeaderComponent {
     this.getAzienda();
   }
 
+  getAzienda(): void {
+    this.aziendeService.getProfilo().subscribe(azienda => {
+      this.azienda = azienda;
+      this.role = this.auth.getRole() as string | undefined; // Fix: Update the type to allow undefined values
+    });
+  }
+
   search() {
     if (this.text.value === '') {
       this.router.navigate(['/']);
       return;
     }
     this.router.navigate(['/search/', this.text.value]);
-  }
-
-  /* PROFILE */
-  getAzienda() {
-    this.aziendeService.getProfilo().subscribe(
-      azienda => { this.azienda = azienda; this.role = this.auth.getRole()?.toString();},
-    );
   }
 
   logout() {

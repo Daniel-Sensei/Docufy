@@ -18,7 +18,7 @@
           <div class="row">
   
 
-            <app-selettore-azienda></app-selettore-azienda>
+            <app-selettore-azienda *ngIf="aziende!=undefined" [aziende]="aziende"></app-selettore-azienda>
 
             <app-reports></app-reports>
             <div class="pagetitle">

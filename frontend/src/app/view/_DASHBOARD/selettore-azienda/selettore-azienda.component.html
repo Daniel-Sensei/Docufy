@@ -2,7 +2,7 @@
 <div class="card info-card sales-card">
 
   <div class="card-body">
-    <h5 class="card-title">Azienda selezionata <span>| Null</span></h5>
+    <h5 class="card-title">Azienda selezionata <span>| {{aziendaSelezionata}}</span></h5>
 
     <div class="d-flex align-items-center">
 
@@ -11,11 +11,9 @@
       </div>
 
       <div class="ps-3 w-100 ">
-        <select class="form-select" id="aziendaSelect">
+        <select class="form-select" id="aziendaSelect" [(ngModel)]="aziendaSelezionata" (change)="onAziendaChange()">
           <option value="" disabled selected hidden>Seleziona azienda</option>
-          <option value="azienda1">Azienda 1</option>
-          <option value="azienda2">Azienda 2</option>
-          <option value="azienda3">Azienda 3</option>
+          <option *ngFor="let azienda of aziende" [value]="azienda.ragioneSociale">{{ azienda.ragioneSociale }}</option>
         </select>
       </div>
     </div>
