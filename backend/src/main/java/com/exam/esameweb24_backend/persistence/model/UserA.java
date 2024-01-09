@@ -208,13 +208,12 @@ public class UserA extends User{
         Dipendente d = DBManager.getInstance().getDipendenteDao().findById(id);
         if (d == null) return new ResponseEntity<>(HttpStatus.BAD_REQUEST);
         //controllo che l'azienda sia associata al dipendente da rimuovere
-        if (this.pIva.equals(d.getAzienda().getPIva()))
+        if (this.pIva.equals(d.getAzienda().getPIva())) {
             // elimino il dipendente dal database
-            if(DBManager.getInstance().getDipendenteDao().delete(id)) {
-                rimuoviImmagineDipendente(id);
-                return new ResponseEntity<>(HttpStatus.OK);
-            }
+            rimuoviImmagineDipendente(id);
+            if (DBManager.getInstance().getDipendenteDao().delete(id)) return new ResponseEntity<>(HttpStatus.OK);
             else return new ResponseEntity<>(HttpStatus.INTERNAL_SERVER_ERROR);
+        }
         return new ResponseEntity<>(HttpStatus.UNAUTHORIZED);
     }
 

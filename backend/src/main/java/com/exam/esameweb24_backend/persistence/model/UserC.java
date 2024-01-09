@@ -123,11 +123,10 @@ public class UserC extends User{
 
         // controllo che il consulente sia associato all'azienda da eliminare
         if(this.pIva.equals(a.getConsulente().getPIva())){
+            // elimino il file dell'immagine del dipendente
+            rimuoviImmagineAzienda(pIva);
             // elimino l'azienda dal database
-            if (DBManager.getInstance().getAziendaDao().delete(pIva)) {
-                rimuoviImmagineAzienda(pIva);
-                return new ResponseEntity<>(HttpStatus.OK);
-            }
+            if (DBManager.getInstance().getAziendaDao().delete(pIva)) return new ResponseEntity<>(HttpStatus.OK);
             else return new ResponseEntity<>(HttpStatus.INTERNAL_SERVER_ERROR);
         }
         return new ResponseEntity<>(HttpStatus.UNAUTHORIZED);
