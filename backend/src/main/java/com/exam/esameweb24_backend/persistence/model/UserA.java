@@ -135,8 +135,7 @@ public class UserA extends User{
         // inserisco il dipendente nel database
         Long id = DBManager.getInstance().getDipendenteDao().insert(dipendente);
         if (id==null) return new ResponseEntity<>(HttpStatus.INTERNAL_SERVER_ERROR);
-        else
-            dipendente.setId(id);
+        else dipendente.setId(id);
 
         // salvo l'immagine solo se è stata caricata
         if (thereIsFile) {
@@ -150,8 +149,9 @@ public class UserA extends User{
 
             // salvo il path del file nel dipendente
             dipendente.setImg(filePath);
+
             // aggiorno il dipendente nel database
-            if (!DBManager.getInstance().getDipendenteDao().update(dipendente) ) {
+            if (!DBManager.getInstance().getDipendenteDao().update(dipendente)) {
                 return new ResponseEntity<>(HttpStatus.INTERNAL_SERVER_ERROR);
             }
         }

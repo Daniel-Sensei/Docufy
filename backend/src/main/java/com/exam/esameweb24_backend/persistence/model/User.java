@@ -5,7 +5,7 @@ import org.springframework.web.multipart.MultipartFile;
 
 import java.util.List;
 
-public abstract class User {
+public class User {
     protected String email;
 
     protected String password;
