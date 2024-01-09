@@ -84,4 +84,21 @@ public class User {
     public ResponseEntity<String> modificaDocumento(MultipartFile json, MultipartFile file){return null;}
 
     public ResponseEntity<String> rimuoviDocumento(Long id){return null;}
+
+
+    // Corso Service
+
+    public ResponseEntity<List<Corso>> getCorsiProposti(String pIva){return null;}
+
+    public ResponseEntity<List<CorsoAcquistato>> getCorsiByAzienda(String pIva){return null;}
+
+    public ResponseEntity<List<CorsoFrequentato>> getCorsiByDipendente(Long id){return null;}
+
+    public ResponseEntity<Corso> getCorso(Long id){return null;}
+
+    public ResponseEntity<String> aggiungiCorso(MultipartFile json, MultipartFile file){return null;}
+
+    public ResponseEntity<String> modificaCorso(MultipartFile json, MultipartFile file){return null;}
+
+    public ResponseEntity<String> rimuoviCorso(Long id){return null;}
 }

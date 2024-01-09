@@ -1,11 +1,12 @@
 package com.exam.esameweb24_backend.controller.service;
 
 import com.exam.esameweb24_backend.controller.Utility;
-import com.exam.esameweb24_backend.persistence.DBManager;
 import com.exam.esameweb24_backend.persistence.model.*;
 import jakarta.servlet.http.HttpServletRequest;
-import org.apache.coyote.UpgradeToken;
+import org.springframework.http.HttpStatus;
+import org.springframework.http.ResponseEntity;
 import org.springframework.web.bind.annotation.*;
+import org.springframework.web.multipart.MultipartFile;
 
 import java.util.List;
 
@@ -13,77 +14,71 @@ import java.util.List;
 @CrossOrigin("http://localhost:4200/")
 public class CorsoService {
 
-    @GetMapping("/corsi-porposti")
-    public List<Corso> getCorsiProposti(HttpServletRequest req, @RequestParam String pIva){
+    @GetMapping("/corsi-proposti")
+    public ResponseEntity<List<Corso>> getCorsiProposti(HttpServletRequest req, @RequestParam String pIva){
+
         User user = Utility.getRequestUser(req);
 
-        if(user == null) return null;
+        if(user == null) return new ResponseEntity<>(HttpStatus.UNAUTHORIZED);
 
-            List<Corso> corsiProposti = DBManager.getInstance().getCorsoDao().findByConsultant(pIva);
-            return corsiProposti;
+        return user.getCorsiProposti(pIva);
     }
 
     @GetMapping("/corsi-acquistati")
-    public List<CorsoAcquistato> getCorsiAcquistati(HttpServletRequest req, @RequestParam String pIva){
-        String token = Utility.getToken(req);
+    public ResponseEntity<List<CorsoAcquistato>> getCorsiByAzienda(HttpServletRequest req, @RequestParam String pIva){
+
         User user = Utility.getRequestUser(req);
 
-        if(user == null) return null;
+        if(user == null) return new ResponseEntity<>(HttpStatus.UNAUTHORIZED);
 
-        if(!Utility.isConsultant(token)) {
-            List<CorsoAcquistato> corsiAcquistati = DBManager.getInstance().getCorsoDao().findByAgency(pIva);
-            return corsiAcquistati;
-        }
-        return null;
+        return user.getCorsiByAzienda(pIva);
     }
 
     @GetMapping("/corsi-frequentati")
-    public List<CorsoFrequentato> getCorsoFrequentati(HttpServletRequest req, @RequestParam Long id){
+    public ResponseEntity<List<CorsoFrequentato>> getCorsiByEmployee(HttpServletRequest req, @RequestParam Long id){
         User user = Utility.getRequestUser(req);
 
-        if(user == null) return null;
+        if(user == null) return new ResponseEntity<>(HttpStatus.UNAUTHORIZED);
 
-        Dipendente dipendente = DBManager.getInstance().getDipendenteDao().findById(id);
-        if(dipendente == null) return null;
-
-        List<CorsoFrequentato> corsiFrequentati = DBManager.getInstance().getCorsoDao().findByEmployee(id);
-        return corsiFrequentati;
+        return user.getCorsiByDipendente(id);
     }
 
     @GetMapping("/corso")
-    public Corso getCorso(HttpServletRequest req, @RequestParam Long id){
+    public ResponseEntity<Corso> getCorso(HttpServletRequest req, @RequestParam Long id){
         User user = Utility.getRequestUser(req);
 
-        if(user == null) return null;
+        if(user == null) return new ResponseEntity<>(HttpStatus.UNAUTHORIZED);
 
-        return DBManager.getInstance().getCorsoDao().findById(id);
+        return user.getCorso(id);
     }
 
-    @PostMapping("/aggiunta-corso")
-    public Boolean aggiuntaCorso(HttpServletRequest req, @RequestBody Corso corso){
-        String token = Utility.getToken(req);
+    @PostMapping("/aggiungi-corso")
+    public ResponseEntity<String> aggiungiCorso(HttpServletRequest req, @RequestParam("corso") MultipartFile json, @RequestParam("file") MultipartFile file){
+
         User user = Utility.getRequestUser(req);
 
-        if (user == null) return null;
+        if (user == null) return new ResponseEntity<>(HttpStatus.UNAUTHORIZED);
 
-        if(Utility.isConsultant(token)) {
-            return DBManager.getInstance().getCorsoDao().insert(corso);
-        }
-
-        return null;
+        return user.aggiungiCorso(json, file);
     }
 
-    @PostMapping("/eliminazione-corso")
-    public Boolean eliminazioneCorso(HttpServletRequest req, @RequestParam Long id){
-        String token = Utility.getToken(req);
+    @PostMapping("/modifica-corso")
+    public ResponseEntity<String> modificaCorso(HttpServletRequest req, @RequestParam("corso") MultipartFile json, @RequestParam("file") MultipartFile file){
+
         User user = Utility.getRequestUser(req);
 
-        if(user == null) return null;
+        if(user == null) return new ResponseEntity<>(HttpStatus.UNAUTHORIZED);
 
-        if(Utility.isConsultant(token)) {
-            return DBManager.getInstance().getCorsoDao().delete(id);
-        }
+        return user.modificaCorso(json, file);
+    }
 
-        return null;
+    @DeleteMapping("/rimuovi-corso")
+    public ResponseEntity<String> rimuoviCorso(HttpServletRequest req, @RequestParam Long id){
+
+        User user = Utility.getRequestUser(req);
+
+        if(user == null) return new ResponseEntity<>(HttpStatus.UNAUTHORIZED);
+
+        return user.rimuoviCorso(id);
     }
 }
