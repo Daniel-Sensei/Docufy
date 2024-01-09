@@ -25,7 +25,9 @@ public class UserA extends User{
 
     @Override
     public ResponseEntity<Azienda> getProfile() {
-        return new ResponseEntity<>(DBManager.getInstance().getAziendaDao().findByPIva(pIva), HttpStatus.OK);
+        Azienda a = DBManager.getInstance().getAziendaDao().findByPIva(pIva);
+        a.setConsulente(null);
+        return new ResponseEntity<>(a, HttpStatus.OK);
     }
 
     @Override
