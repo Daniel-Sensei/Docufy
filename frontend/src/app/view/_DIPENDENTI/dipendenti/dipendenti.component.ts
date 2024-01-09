@@ -6,6 +6,7 @@ import { AddDipendenteModalComponent } from '../add-dipendente-modal/add-dipende
 import { Dipendente } from '../../../model/Dipendente';
 import { DipendentiService } from '../../../service/dipendenti/dipendenti.service';
 import { FileService } from '../../../service/file/file.service';
+import { forkJoin, Observable, map } from 'rxjs';
 
 @Component({
   selector: 'app-dipendenti',
@@ -14,6 +15,7 @@ import { FileService } from '../../../service/file/file.service';
 })
 export class DipendentiComponent {
   dipendenti: Dipendente[] = [];
+  isInitialized: boolean = false; // Add the flag
 
   constructor(
     private modalService: NgbModal,
@@ -26,22 +28,35 @@ export class DipendentiComponent {
     const pIva: string = '11111111111';
     this.dipendentiService.getDipendenti(pIva).subscribe(
       dipendenti => {
-      this.dipendenti = dipendenti;
-      this.dipendenti.forEach(dipendente => {
-        if (dipendente.img != '') {
-          this.fileService.getFile(dipendente.img).subscribe(img => {
+        this.dipendenti = dipendenti;
+        this.setDipendentiImages().subscribe(() => {
+          this.isInitialized = true; // Set the flag to true after initialization
+        });
+      },
+      error => {
+        console.error('Errore nel recupero dei dipendenti:', error);
+        // Handle the error here, e.g., show a message to the user or redirect to an error page.
+      }
+    );
+  }
+
+  setDipendentiImages(): Observable<void[]> {
+    const observables: Observable<void>[] = [];
+
+    this.dipendenti.forEach(dipendente => {
+      if (dipendente.img !== '') {
+        const observable = this.fileService.getFile(dipendente.img).pipe(
+          map(img => {
             let objectURL = URL.createObjectURL(img);
             dipendente.img = objectURL;
-          });
-        }
-      });
+          })
+        );
+        observables.push(observable);
+      }
+    });
 
-    },
-    error => {
-      console.error('Errore nel recupero dei dipendenti:', error);
-      // Puoi gestire l'errore qui, ad esempio mostrando un messaggio all'utente o reindirizzando a una pagina di errore.
-    }
-  );
+    // Use forkJoin to wait for all observables to complete
+    return forkJoin(observables);
   }
 
   openAddDocumentModal() {

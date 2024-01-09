@@ -44,7 +44,7 @@
                             <img *ngIf="dipendente.img && !dipendente.img.startsWith('./')" [src]="dipendente.img"
                                 alt="Avatar" class="img-fluid my-5" style="width: 100px; background-color: lightgray;" />
 
-                            <h5>{{dipendente.nome}} {{dipendente.cognome}}</h5>
+                            <h5>{{dipendente.cognome}} {{dipendente.nome}}</h5>
                             <p>{{dipendente.ruolo}}</p>
                             <i class="far fa-edit mb-5"></i>
                         </div>
@@ -55,9 +55,10 @@
                                 <hr class="mt-0 mb-4">
 
                                 <div class="row pt-1">
+
                                     <div class="col-6 mb-3">
-                                        <h6 class="text-bold">Nome</h6>
-                                        <p class="text-muted">{{dipendente.nome}} {{dipendente.cognome}}</p>
+                                        <h6 class="text-bold">Email</h6>
+                                        <p class="text-muted">{{dipendente.email}}</p>
                                     </div>
                                     <div class="col-6 mb-3">
                                         <h6 class="text-bold">Codice Fiscale</h6>
@@ -66,24 +67,30 @@
                                 </div>
 
                                 <div class="row pt-1">
-                                    <div class="col-6 mb-3">
-                                        <h6 class="text-bold">Email</h6>
-                                        <p class="text-muted">{{dipendente.email}}</p>
-                                    </div>
+
                                     <div class="col-6 mb-3">
                                         <h6 class="text-bold">Data di Nascita</h6>
                                         <p class="text-muted">{{dipendente.dataNascita}}</p>
                                     </div>
+                                    <div class="col-6 mb-3">
+                                        <h6 class="text-bold">Data di Assuznione</h6>
+                                        <p class="text-muted">{{dipendente.dataAssunzione}}</p>
+                                    </div>
+
                                 </div>
 
                                 <div class="row pt-1">
+
                                     <div class="col-6 mb-3">
                                         <h6 class="text-bold">Residenza</h6>
-                                        <p class="text-muted">{{dipendente.residenza}}</p>
+                                        <p *ngIf="dipendente.residenza != '' " class="text-muted">{{dipendente.residenza}}</p>
+                                        <p *ngIf="dipendente.residenza == '' " class="text-muted"><i>Non specificata</i></p>
                                     </div>
+
                                     <div class="col-6 mb-3">
                                         <h6 class="text-bold">Telefono</h6>
-                                        <p class="text-muted">{{dipendente.telefono}}</p>
+                                        <p *ngIf="dipendente.telefono != '' " class="text-muted">{{dipendente.telefono}}</p>
+                                        <p *ngIf="dipendente.telefono == '' " class="text-muted"><i>Non specificato</i></p>
                                     </div>
                                 </div>
 

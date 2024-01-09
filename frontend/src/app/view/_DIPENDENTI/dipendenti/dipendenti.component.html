@@ -28,7 +28,7 @@
             <button type="button" class="btn-close" data-bs-dismiss="alert" aria-label="Close"></button>
         </div> <!-- End Margin -->
 
-        <app-dipendenti-tabella *ngIf="dipendenti && dipendenti.length > 0"
+        <app-dipendenti-tabella *ngIf="isInitialized && dipendenti && dipendenti.length > 0"
             [dipendenti]="dipendenti"></app-dipendenti-tabella>
 
     </div>

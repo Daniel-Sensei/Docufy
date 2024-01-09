@@ -8,6 +8,7 @@ import { NgbModal } from '@ng-bootstrap/ng-bootstrap';
 import { AddDipendenteModalComponent } from '../add-dipendente-modal/add-dipendente-modal.component';
 import { FileService } from '../../../service/file/file.service';
 import { AlertService } from '../../../service/alert/alert.service';
+import { DatePipe } from '@angular/common';
 
 @Component({
   selector: 'app-dipendenti-dettagli',
@@ -24,7 +25,8 @@ export class DipendentiDettagliComponent {
     private router: Router,
     private modalService: NgbModal,
     private fileService: FileService,
-    public alert: AlertService
+    public alert: AlertService,
+    private datePipe: DatePipe
   ) { }
 
   ngOnInit(): void {
@@ -44,6 +46,9 @@ export class DipendentiDettagliComponent {
           this.dipendente.img = objectURL;
         });
       }
+
+      dipendente.dataNascita = this.formatItalianDate(dipendente.dataNascita)
+      dipendente.dataAssunzione = this.formatItalianDate(dipendente.dataAssunzione)
     });
   }
 
@@ -59,5 +64,10 @@ export class DipendentiDettagliComponent {
       // Aggiorna i dati richiamando nuovamente ngOnInit
       this.ngOnInit();
     });
+  }
+
+  private formatItalianDate(date: string): string {
+    const formattedDate = this.datePipe.transform(date, 'dd/MM/yyyy');
+    return formattedDate || '';
   }
 }

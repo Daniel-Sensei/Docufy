@@ -55,6 +55,8 @@ import { LogoutModalComponent } from './view/_LOGIN/logout-modal/logout-modal.co
 import { RicercaComponent } from './view/_RICERCA/ricerca/ricerca.component';
 import { NotFoundComponent } from './view/_STATIC/not-found/not-found.component';
 
+import { DatePipe } from '@angular/common';
+
 
 @NgModule({
   declarations: [
@@ -105,10 +107,11 @@ import { NotFoundComponent } from './view/_STATIC/not-found/not-found.component'
     FormsModule,
     ToastrModule.forRoot(),
     NgMultiSelectDropDownModule.forRoot(),
-    HttpClientModule
+    HttpClientModule,
   ],
   providers: [
     NgbDatepickerConfig,
+    DatePipe,
     { provide: NgbDateParserFormatter, useClass: NgbDateITParserFormatter},
     { provide: MatPaginatorIntl, useClass: CustomPaginatorIntl }
   ],

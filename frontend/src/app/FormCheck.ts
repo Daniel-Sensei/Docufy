@@ -8,9 +8,9 @@ export class FormCheck {
         return regex.test(nome);
     }
 
-    static checkTelefono(telefono: string): boolean {
-        const regex = /^\+?\d+ ?\d+$/;
-        return regex.test(telefono);
+    static checkTelefono(telefono: string): boolean {    
+        // Verifica se il numero contiene almeno 9 cifre (fisso) o 10 cifre (cellulare)
+        return /^\d{9,10}$/.test(telefono);
     }
 
     static checkEmail(email: string): boolean {

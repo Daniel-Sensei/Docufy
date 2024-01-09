@@ -194,18 +194,28 @@ export class AddDipendenteModalComponent {
     this.file = event.target.files[0];
   }
 
-  submitForm() {
-    // Puoi anche aggiungere qui la logica per chiudere la finestra modale, se necessario
-    this.activeModal.close('Save click');
-
+  formatData(){
     const dipendenteData = this.addDipendenteForm.value;
-
     if (this.dataNascita == '' || this.dataAssunzione == '') {
       this.dataNascita = this.NgbDateToDateString(dipendenteData.dataNascita);
       this.dataAssunzione = this.NgbDateToDateString(dipendenteData.dataAssunzione);
     }
     dipendenteData.dataNascita = this.dataNascita;
     dipendenteData.dataAssunzione = this.dataAssunzione;
+    dipendenteData.nome = dipendenteData.nome.charAt(0).toUpperCase() + dipendenteData.nome.slice(1).toLowerCase().trim();
+    dipendenteData.cognome = dipendenteData.cognome.charAt(0).toUpperCase() + dipendenteData.cognome.slice(1).toLowerCase().trim();
+    dipendenteData.ruolo = dipendenteData.ruolo.charAt(0).toUpperCase() + dipendenteData.ruolo.slice(1).toLowerCase().trim();
+    dipendenteData.cf = dipendenteData.cf.toUpperCase().trim();
+    dipendenteData.email = dipendenteData.email.toLowerCase().trim();
+
+    return dipendenteData;
+  }
+
+  submitForm() {
+    // Puoi anche aggiungere qui la logica per chiudere la finestra modale, se necessario
+    this.activeModal.close('Save click');
+
+    const dipendenteData = this.formatData();
 
     if (this.dipendente)
       this.updateDipendente(dipendenteData);
@@ -214,6 +224,7 @@ export class AddDipendenteModalComponent {
   }
 
   private addDipendente(dipendenteData: any) {
+    console.log(dipendenteData);
     this.dipendentiService.addDipendente(dipendenteData, this.file).subscribe(
       response => {
         // Imposta la variabile per mostrare l'alert di successo
