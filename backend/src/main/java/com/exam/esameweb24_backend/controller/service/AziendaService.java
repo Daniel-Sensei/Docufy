@@ -43,7 +43,7 @@ public class AziendaService {
 
         if (user == null) return null;
 
-        return user.getAzienda(user.getPIva());
+        return user.getProfile();
     }
 
     @PostMapping("/aggiungi-azienda")
