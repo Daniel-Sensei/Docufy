@@ -35,7 +35,7 @@ public class Auth {
     }
 
     private AuthToken generateToken(User user, String role){
-        String token = Utility.encodeBase64(user.getEmail() + ":" + user.getPassword() + ":" + role);
+        String token = Utility.encodeBase64(user.getEmail() + ":tkn:" +  BCrypt.hashpw(user.getPassword(), BCrypt.gensalt(10)) + ":tkn:" + role);
         AuthToken auth = new AuthToken();
         auth.setToken(token);
         auth.setRole(role);

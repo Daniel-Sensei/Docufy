@@ -36,15 +36,15 @@ public class Utility {
     }
 
     public static String getTokenEmail(String token){
-        return decodeBase64(token).split(":")[0];
+        return decodeBase64(token).split(":tkn:")[0];
     }
 
     public static String getTokenPassword(String token){
-        return decodeBase64(token).split(":")[1];
+        return decodeBase64(token).split(":tkn:")[1];
     }
 
     public static String getTokenRole(String token){
-        return decodeBase64(token).split(":")[2];
+        return decodeBase64(token).split(":tkn:")[2];
     }
 
     public static Boolean isConsultant(String token) {
