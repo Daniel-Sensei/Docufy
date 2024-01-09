@@ -151,6 +151,36 @@ public class DipendenteDaoPostgres implements DipendenteDao {
         return null;
     }
 
+    @Override
+    public List<Dipendente> findByCorsoFrequentato(Long idCorso) {
+        List<Dipendente> dipendenti = new ArrayList<>();
+        String query = "SELECT * FROM dipendenti WHERE id IN (SELECT dipendente FROM corsi_dipendenti WHERE corso = ? AND data_fine IS NULL)";
+        try {
+            PreparedStatement st = conn.prepareStatement(query);
+            st.setLong(1, idCorso);
+            ResultSet rs = st.executeQuery();
+            while (rs.next()) {
+                Dipendente dipendente = new Dipendente();
+                dipendente.setId(rs.getLong("id"));
+                dipendente.setCF(rs.getString("cf"));
+                dipendente.setNome(rs.getString("nome"));
+                dipendente.setCognome(rs.getString("cognome"));
+                dipendente.setDataNascita(rs.getDate("data_nascita"));
+                dipendente.setEmail(rs.getString("email"));
+                dipendente.setTelefono(rs.getString("telefono"));
+                dipendente.setResidenza(rs.getString("indirizzo"));
+                dipendente.setAzienda(DBManager.getInstance().getAziendaDao().findByPIva(rs.getString("azienda")));
+                dipendente.setDataAssunzione(rs.getDate("data_assunzione"));
+                dipendente.setRuolo(rs.getString("ruolo"));
+                dipendente.setImg(rs.getString("foto"));
+                dipendenti.add(dipendente);
+            }
+        } catch (SQLException e) {
+            throw new RuntimeException(e);
+        }
+        return dipendenti;
+    }
+
     // viene inserito il dipendente, dopodiché viene assegnato l'id del dipendente appena inserito
     @Override
     public Long insert(Dipendente dipendente) {
