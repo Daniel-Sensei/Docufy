@@ -11,6 +11,7 @@ import java.util.List;
 
 public class UserC extends User{
 
+
     // Azienda Service
 
     @Override
@@ -227,6 +228,40 @@ public class UserC extends User{
 
     @Override
     public ResponseEntity<String> rimuoviImmagineDipendente(Long id) {
+        return new ResponseEntity<>(HttpStatus.UNAUTHORIZED);
+    }
+
+
+
+
+    // Documento Service
+
+    @Override
+    public ResponseEntity<List<Documento>> getDocumentiAzienda(String pIva) {
+        if(DBManager.getInstance().getAziendaDao().findByPIva(pIva)==null) return new ResponseEntity<>(HttpStatus.BAD_REQUEST);
+        if(Utility.checkConsultantAgency(this.pIva, pIva))
+            return new ResponseEntity<>(DBManager.getInstance().getDocumentoDao().findByAgency(pIva), HttpStatus.OK);
+        return new ResponseEntity<>(HttpStatus.UNAUTHORIZED);
+    }
+
+    @Override
+    public ResponseEntity<List<Documento>> getDocumentiDipendente(Long id) {
+        Dipendente dipendente = DBManager.getInstance().getDipendenteDao().findById(id);
+        if (dipendente==null) return new ResponseEntity<>(HttpStatus.BAD_REQUEST);
+        if (Utility.checkConsultantAgency(this.pIva, dipendente.getAzienda().getPIva()))
+            return new ResponseEntity<>(DBManager.getInstance().getDocumentoDao().findByEmployee(id), HttpStatus.OK);
+        return new ResponseEntity<>(HttpStatus.UNAUTHORIZED);
+    }
+
+    @Override
+    public ResponseEntity<Documento> getDocumento(Long id) {
+        Documento documento = DBManager.getInstance().getDocumentoDao().findById(id);
+        if (documento==null) return new ResponseEntity<>(HttpStatus.BAD_REQUEST);
+        // controllo che l'azienda richiedente sia associata al documento (se dell'azienda)
+        // oppure che sia associata al dipendente che possiede il documento (se del dipendente)
+        if ((documento.getDipendente()==null && Utility.checkConsultantAgency(this.pIva, documento.getAzienda().getPIva()))||
+                (documento.getDipendente()!=null && Utility.checkConsultantAgency(this.pIva, documento.getDipendente().getAzienda().getPIva())))
+            return new ResponseEntity<>(documento, HttpStatus.OK);
         return new ResponseEntity<>(HttpStatus.UNAUTHORIZED);
     }
 }

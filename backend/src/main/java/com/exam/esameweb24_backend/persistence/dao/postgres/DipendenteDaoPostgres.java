@@ -140,7 +140,6 @@ public class DipendenteDaoPostgres implements DipendenteDao {
             st.setString(10, dipendente.getRuolo());
             st.setString(11, dipendente.getImg());
             ResultSet rs = st.executeQuery();
-
             if (rs.next()) {
                 return rs.getLong(1);
             }

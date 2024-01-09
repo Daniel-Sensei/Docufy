@@ -7,7 +7,7 @@ public class Documento {
 
     private String nome;
 
-    private String url;
+    private String file;
 
     private Date dataRilascio;
 
@@ -37,12 +37,12 @@ public class Documento {
         this.nome = nome;
     }
 
-    public String getUrl() {
-        return url;
+    public String getFile() {
+        return file;
     }
 
-    public void setUrl(String url) {
-        this.url = url;
+    public void setFile(String file) {
+        this.file = file;
     }
 
     public Date getDataRilascio() {

@@ -57,6 +57,11 @@ public class Utility {
         return (DBManager.getInstance().getAziendaDao().findByConsultant(consultant).stream().anyMatch(azienda -> azienda.getPIva().equals(agency)));
     }
 
+    public static Boolean checkAgencyEmployee(String agency, Long employee) {
+        return (DBManager.getInstance().getDipendenteDao().findById(employee).getAzienda().getPIva().equals(agency));
+    }
+
+
     public static User getRequestUser(HttpServletRequest req){
         return DBManager.getInstance().getUserDao().findByToken(getToken(req));
     }

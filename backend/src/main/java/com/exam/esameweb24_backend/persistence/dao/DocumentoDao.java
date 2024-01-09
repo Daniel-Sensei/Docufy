@@ -8,6 +8,7 @@ public interface DocumentoDao {
     public List<Documento> findByEmployee(Long employee);
     public List<Documento> findByAgency(String agency);
     public Documento findById(Long id);
-    public boolean insert(Documento documento);
+    public Long insert(Documento documento);
+    public boolean update(Documento documento);
     public boolean delete(Long id);
 }

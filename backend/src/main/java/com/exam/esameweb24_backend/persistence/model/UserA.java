@@ -237,4 +237,79 @@ public class UserA extends User{
         }
         return new ResponseEntity<>(HttpStatus.UNAUTHORIZED);
     }
+
+
+
+
+    // Documento Service
+
+    @Override
+    public ResponseEntity<List<Documento>> getDocumentiAzienda(String pIva) {
+        if(DBManager.getInstance().getAziendaDao().findByPIva(pIva)==null) return new ResponseEntity<>(HttpStatus.BAD_REQUEST);
+        if(this.pIva.equals(pIva))
+            return new ResponseEntity<>(DBManager.getInstance().getDocumentoDao().findByAgency(pIva), HttpStatus.OK);
+        return new ResponseEntity<>(HttpStatus.UNAUTHORIZED);
+    }
+
+    @Override
+    public ResponseEntity<List<Documento>> getDocumentiDipendente(Long id) {
+        Dipendente dipendente = DBManager.getInstance().getDipendenteDao().findById(id);
+        if (dipendente==null) return new ResponseEntity<>(HttpStatus.BAD_REQUEST);
+        if (this.pIva.equals(dipendente.getAzienda().getPIva()))
+            return new ResponseEntity<>(DBManager.getInstance().getDocumentoDao().findByEmployee(id), HttpStatus.OK);
+        return new ResponseEntity<>(HttpStatus.UNAUTHORIZED);
+    }
+
+    @Override
+    public ResponseEntity<Documento> getDocumento(Long id) {
+        Documento documento = DBManager.getInstance().getDocumentoDao().findById(id);
+        if (documento==null) return new ResponseEntity<>(HttpStatus.BAD_REQUEST);
+        // controllo che l'azienda richiedente sia associata al documento (se dell'azienda)
+        // oppure che sia associata al dipendente che possiede il documento (se del dipendente)
+        if ((documento.getDipendente()==null && this.pIva.equals(documento.getAzienda().getPIva()))||
+                (documento.getDipendente()!=null && this.pIva.equals(documento.getDipendente().getAzienda().getPIva())))
+            return new ResponseEntity<>(documento, HttpStatus.OK);
+        return new ResponseEntity<>(HttpStatus.UNAUTHORIZED);
+    }
+
+    @Override
+    public ResponseEntity<String> aggiungiDocumento(MultipartFile json, MultipartFile file) {
+
+        // controllo se è stato aggiunto il file e se è stato aggiunto un json del documento
+        if (json.isEmpty() || file.getOriginalFilename().isBlank() || file.getOriginalFilename().equals("blob") || file.isEmpty())
+            return new ResponseEntity<>(HttpStatus.BAD_REQUEST);
+
+        // converto il json in un documento
+        Documento documento = Utility.jsonToObject(json, Documento.class);
+
+        if (documento.getDipendente() == null) {
+            Azienda a = new Azienda();
+            a.setPIva(this.pIva);
+            documento.setAzienda(a);
+        } else {
+            Dipendente d = DBManager.getInstance().getDipendenteDao().findById(documento.getDipendente().getId());
+            if (d == null) return new ResponseEntity<>(HttpStatus.BAD_REQUEST);
+            else if (!this.pIva.equals(d.getAzienda().getPIva())) return new ResponseEntity<>(HttpStatus.UNAUTHORIZED);
+        }
+
+        Long id = DBManager.getInstance().getDocumentoDao().insert(documento);
+        if (id == null) return new ResponseEntity<>(HttpStatus.INTERNAL_SERVER_ERROR);
+
+        documento.setId(id);
+
+        String filePath;
+        try {
+            filePath = Utility.uploadFile(documento.getDipendente() == null ? this.pIva : documento.getDipendente().getCF(), file);
+        } catch (IOException e) {
+            return new ResponseEntity<>(HttpStatus.INTERNAL_SERVER_ERROR);
+        }
+
+        documento.setFile(filePath);
+
+        if (!DBManager.getInstance().getDocumentoDao().update(documento)) {
+            return new ResponseEntity<>(HttpStatus.INTERNAL_SERVER_ERROR);
+        }
+
+        return new ResponseEntity<>(HttpStatus.OK);
+    }
 }

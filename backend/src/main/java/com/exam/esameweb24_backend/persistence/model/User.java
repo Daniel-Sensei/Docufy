@@ -70,4 +70,18 @@ public class User {
 
     public ResponseEntity<String> rimuoviImmagineDipendente(Long id){return null;}
 
+
+    // Documento Service
+
+    public ResponseEntity<List<Documento>> getDocumentiAzienda(String pIva){return null;}
+
+    public ResponseEntity<List<Documento>> getDocumentiDipendente(Long id){return null;}
+
+    public ResponseEntity<Documento> getDocumento(Long id){return null;}
+
+    public ResponseEntity<String> aggiungiDocumento(MultipartFile json, MultipartFile file){return null;}
+
+    public ResponseEntity<String> modificaDocumento(MultipartFile json, MultipartFile file){return null;}
+
+    public ResponseEntity<String> rimuoviDocumento(Long id){return null;}
 }
