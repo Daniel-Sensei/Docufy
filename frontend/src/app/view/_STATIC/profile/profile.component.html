@@ -17,8 +17,8 @@
           <div class="card-body profile-card pt-4 d-flex flex-column align-items-center">
 
             <img src="assets/img/profile-img.jpg" alt="Profile" class="rounded-circle">
-            <h2>Ragione Sociale</h2>
-            <h3>pIva</h3>
+            <h2>{{azienda.ragioneSociale}}</h2>
+            <h3>{{azienda.piva}}</h3>
           </div>
         </div>
 
@@ -58,22 +58,22 @@
 
                 <div class="row">
                   <div class="col-lg-3 col-md-4 label">Partita IVA</div>
-                  <div class="col-lg-9 col-md-8">12345678910</div>
+                  <div class="col-lg-9 col-md-8">{{azienda.piva}}</div>
                 </div>
 
                 <div class="row">
                   <div class="col-lg-3 col-md-4 label">Email</div>
-                  <div class="col-lg-9 col-md-8">k.anderson[]example.com</div>
+                  <div class="col-lg-9 col-md-8">{{azienda.email}}</div> <!--PROBLEMA, non stampa tutta l'email-->
                 </div>
 
                 <div class="row">
                   <div class="col-lg-3 col-md-4 label">Indirizzo</div>
-                  <div class="col-lg-9 col-md-8">A108 Adam Street, New York, NY 535022</div>
+                  <div class="col-lg-9 col-md-8">{{azienda.indirizzo}}</div>
                 </div>
 
                 <div class="row">
                   <div class="col-lg-3 col-md-4 label">Telefono</div>
-                  <div class="col-lg-9 col-md-8">486-3538 x29071</div>
+                  <div class="col-lg-9 col-md-8">{{azienda.telefono}}</div>
                 </div>
 
               </div>
@@ -87,14 +87,14 @@
                     <label for="company" class="col-md-4 col-lg-3 col-form-label">Ragione Sociale</label>
                     <div class="col-md-8 col-lg-9">
                       <input name="company" type="text" class="form-control" id="company"
-                        value="Lueilwitz, Wisoky and Leuschke">
+                        value={{azienda.ragioneSociale}} [(ngModel)]="azienda.ragioneSociale" (input)="controllaModifiche()"> <!--[(ngModel)]="azienda.ragioneSociale" (input)="controllaModifiche()"-->
                     </div>
                   </div>
 
                   <div class="row mb-3">
                     <label for="Email" class="col-md-4 col-lg-3 col-form-label">Email</label>
                     <div class="col-md-8 col-lg-9">
-                      <input name="email" type="email" class="form-control" id="Email" value="k.anderson@example.com">
+                      <input name="email" type="email" class="form-control" id="Email" value={{azienda.email}} [(ngModel)]="azienda.email" (input)="controllaModifiche()">
                     </div>
                   </div>
 
@@ -102,14 +102,14 @@
                     <label for="Address" class="col-md-4 col-lg-3 col-form-label">Indirizzo</label>
                     <div class="col-md-8 col-lg-9">
                       <input name="address" type="text" class="form-control" id="Address"
-                        value="A108 Adam Street, New York, NY 535022">
+                        value={{azienda.indirizzo}} [(ngModel)]="azienda.indirizzo" (input)="controllaModifiche()">
                     </div>
                   </div>
 
                   <div class="row mb-3">
                     <label for="Phone" class="col-md-4 col-lg-3 col-form-label">Telefono</label>
                     <div class="col-md-8 col-lg-9">
-                      <input name="phone" type="text" class="form-control" id="Phone" value="486-3538 x29071">
+                      <input name="phone" type="text" class="form-control" id="Phone" value={{azienda.telefono}} [(ngModel)]="azienda.telefono" (input)="controllaModifiche()">
                     </div>
                   </div>
 
@@ -121,7 +121,7 @@
                   </div>
 
                   <div class="text-center">
-                    <button type="submit" class="btn btn-primary">Salva cambiamenti</button>
+                    <button type="submit" class="btn btn-primary" [disabled]="!modificato" (onClik)="salvaModifiche()">Salva cambiamenti</button> <!--abilita il bottone solo quando qualche label è stat modificata-->
                   </div>
                 </form><!-- End Profile Edit Form -->
 
@@ -132,21 +132,21 @@
                 <form>
 
                   <div class="row mb-3">
-                    <label for="currentPassword" class="col-md-4 col-lg-3 col-form-label">Password Attuale</label>
+                    <label for="currentPassword" class="col-md-4 col-lg-3 col-form-label" >Password Attuale</label> <!--confronto con la veccia password-->
                     <div class="col-md-8 col-lg-9">
                       <input name="password" type="password" class="form-control" id="currentPassword">
                     </div>
                   </div>
 
                   <div class="row mb-3">
-                    <label for="newPassword" class="col-md-4 col-lg-3 col-form-label">Nuova Password</label>
+                    <label for="newPassword" class="col-md-4 col-lg-3 col-form-label">Nuova Password</label><!--confronto con la vecchia password e con tutti i controlli generali sulla password-->
                     <div class="col-md-8 col-lg-9">
                       <input name="newpassword" type="password" class="form-control" id="newPassword">
                     </div>
                   </div>
 
                   <div class="row mb-3">
-                    <label for="renewPassword" class="col-md-4 col-lg-3 col-form-label">Ripeti Nuova Password</label>
+                    <label for="renewPassword" class="col-md-4 col-lg-3 col-form-label">Conferma Password</label> <!--confronto le deu password-->
                     <div class="col-md-8 col-lg-9">
                       <input name="renewpassword" type="password" class="form-control" id="renewPassword">
                     </div>
