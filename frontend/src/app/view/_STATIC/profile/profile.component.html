@@ -87,14 +87,14 @@
                     <label for="company" class="col-md-4 col-lg-3 col-form-label">Ragione Sociale</label>
                     <div class="col-md-8 col-lg-9">
                       <input name="company" type="text" class="form-control" id="company"
-                        value={{azienda.ragioneSociale}} [(ngModel)]="azienda.ragioneSociale" (input)="controllaModifiche()"> <!--[(ngModel)]="azienda.ragioneSociale" (input)="controllaModifiche()"-->
+                        value={{azienda.ragioneSociale}} (input)="controllaModifiche()"> <!--[(ngModel)]="azienda.ragioneSociale" (input)="controllaModifiche()"-->
                     </div>
                   </div>
 
                   <div class="row mb-3">
                     <label for="Email" class="col-md-4 col-lg-3 col-form-label">Email</label>
                     <div class="col-md-8 col-lg-9">
-                      <input name="email" type="email" class="form-control" id="Email" value={{azienda.email}} [(ngModel)]="azienda.email" (input)="controllaModifiche()">
+                      <input name="email" type="email" class="form-control" id="Email" value={{azienda.email}} (input)="controllaModifiche()">
                     </div>
                   </div>
 
@@ -102,14 +102,14 @@
                     <label for="Address" class="col-md-4 col-lg-3 col-form-label">Indirizzo</label>
                     <div class="col-md-8 col-lg-9">
                       <input name="address" type="text" class="form-control" id="Address"
-                        value={{azienda.indirizzo}} [(ngModel)]="azienda.indirizzo" (input)="controllaModifiche()">
+                        value={{azienda.indirizzo}} (input)="controllaModifiche()">
                     </div>
                   </div>
 
                   <div class="row mb-3">
                     <label for="Phone" class="col-md-4 col-lg-3 col-form-label">Telefono</label>
                     <div class="col-md-8 col-lg-9">
-                      <input name="phone" type="text" class="form-control" id="Phone" value={{azienda.telefono}} [(ngModel)]="azienda.telefono" (input)="controllaModifiche()">
+                      <input name="phone" type="text" class="form-control" id="Phone" value={{azienda.telefono}} (input)="controllaModifiche()">
                     </div>
                   </div>
 
@@ -121,7 +121,7 @@
                   </div>
 
                   <div class="text-center">
-                    <button type="submit" class="btn btn-primary" [disabled]="!modificato" (onClik)="salvaModifiche()">Salva cambiamenti</button> <!--abilita il bottone solo quando qualche label è stat modificata-->
+                    <button type="submit" class="btn btn-primary" [disabled]="!modificato" (onClik)="salvaModifiche()" >Salva cambiamenti</button> <!-- abilita il bottone solo quando qualche label è stat modificata-->
                   </div>
                 </form><!-- End Profile Edit Form -->
 
