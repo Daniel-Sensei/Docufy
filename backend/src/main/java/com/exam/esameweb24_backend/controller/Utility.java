@@ -1,5 +1,6 @@
 package com.exam.esameweb24_backend.controller;
 
+import com.exam.esameweb24_backend.persistence.model.Azienda;
 import com.fasterxml.jackson.databind.ObjectMapper;
 
 import com.exam.esameweb24_backend.persistence.DBManager;
@@ -73,18 +74,12 @@ public class Utility {
         return prefix + "_" + System.currentTimeMillis() + extension;
     }
 
-    public static Dipendente jsonToDipendente(MultipartFile file){
+    public static <T> T jsonToObject(MultipartFile file, Class<T> valueType) {
         try {
-            // Converti il MultipartFile in un array di byte
             byte[] fileBytes = file.getBytes();
-
-            // Converti l'array di byte in una stringa JSON
             String jsonString = new String(fileBytes);
-
-            // Deserializza il JSON in un oggetto Dipendente
-            ObjectMapper oM = new ObjectMapper();
-            return oM.readValue(jsonString, Dipendente.class);
-
+            ObjectMapper objectMapper = new ObjectMapper();
+            return objectMapper.readValue(jsonString, valueType);
         } catch (IOException e) {
             throw new RuntimeException(e);
         }

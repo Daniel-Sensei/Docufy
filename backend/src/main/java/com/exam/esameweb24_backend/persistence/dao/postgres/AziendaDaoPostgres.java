@@ -3,7 +3,6 @@ package com.exam.esameweb24_backend.persistence.dao.postgres;
 import com.exam.esameweb24_backend.persistence.DBManager;
 import com.exam.esameweb24_backend.persistence.dao.AziendaDao;
 import com.exam.esameweb24_backend.persistence.model.Azienda;
-import com.exam.esameweb24_backend.persistence.model.Consulente;
 
 import java.sql.Connection;
 import java.sql.PreparedStatement;
@@ -65,7 +64,7 @@ public class AziendaDaoPostgres implements AziendaDao {
                 azienda.setTelefono(rs.getString("telefono"));
                 azienda.setIndirizzo(rs.getString("indirizzo"));
                 azienda.setImg(rs.getString("immagine"));
-                azienda.setConsultant(DBManager.getInstance().getConsulenteDao().findByPIva(rs.getString("consulente")));
+                azienda.setConsulente(DBManager.getInstance().getConsulenteDao().findByPIva(rs.getString("consulente")));
                 return azienda;
             }
         } catch (SQLException e) {
@@ -85,7 +84,25 @@ public class AziendaDaoPostgres implements AziendaDao {
             st.setString(4, azienda.getTelefono());
             st.setString(5, azienda.getIndirizzo());
             st.setString(6, azienda.getImg());
-            st.setString(7, azienda.getConsultant().getPIva());
+            st.setString(7, azienda.getConsulente().getPIva());
+            st.executeUpdate();
+            return true;
+        } catch (SQLException e) {
+            throw new RuntimeException(e);
+        }
+    }
+
+    @Override
+    public boolean update(Azienda azienda) {
+        String query = "UPDATE aziende SET ragionesociale = ?, email = ?, telefono = ?, indirizzo = ?, immagine = ? WHERE piva = ?";
+        try {
+            PreparedStatement st = conn.prepareStatement(query);
+            st.setString(1, azienda.getRagioneSociale());
+            st.setString(2, azienda.getEmail());
+            st.setString(3, azienda.getTelefono());
+            st.setString(4, azienda.getIndirizzo());
+            st.setString(5, azienda.getImg());
+            st.setString(6, azienda.getPIva());
             st.executeUpdate();
             return true;
         } catch (SQLException e) {

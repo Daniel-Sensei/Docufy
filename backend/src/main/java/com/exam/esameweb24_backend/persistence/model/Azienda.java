@@ -66,11 +66,11 @@ public class Azienda {
         this.img = img;
     }
 
-    public Consulente getConsultant() {
+    public Consulente getConsulente() {
         return consulente;
     }
 
-    public void setConsultant(Consulente consulente) {
+    public void setConsulente(Consulente consulente) {
         this.consulente = consulente;
     }
 }

@@ -6,9 +6,190 @@ import org.springframework.http.HttpStatus;
 import org.springframework.http.ResponseEntity;
 import org.springframework.web.multipart.MultipartFile;
 
+import java.io.IOException;
 import java.util.List;
 
 public class UserC extends User{
+
+    // Azienda Service
+
+    @Override
+    public ResponseEntity<List<Azienda>> getAziende() {
+        List <Azienda> aziende = DBManager.getInstance().getAziendaDao().findByConsultant(pIva);
+        return new ResponseEntity<>(aziende, HttpStatus.OK);
+    }
+
+    @Override
+    public ResponseEntity<Azienda> getAzienda(String pIva) {
+        Azienda azienda = DBManager.getInstance().getAziendaDao().findByPIva(pIva);
+        if (azienda==null) return new ResponseEntity<>(HttpStatus.BAD_REQUEST);
+        if (Utility.checkConsultantAgency(this.pIva, azienda.getPIva()))
+            return new ResponseEntity<>(azienda, HttpStatus.OK);
+        return new ResponseEntity<>(HttpStatus.UNAUTHORIZED);
+    }
+
+    @Override
+    public ResponseEntity<Azienda> getProfile() {
+        return new ResponseEntity<>(HttpStatus.UNAUTHORIZED);
+    }
+
+    @Override
+    public ResponseEntity<String> aggiungiAzienda(MultipartFile json, MultipartFile file) {
+
+        // controllo se è stata aggiunta un'immagine
+        boolean thereIsFile = !(file.getOriginalFilename().isEmpty());
+
+        // se il json è vuoto allora non può usare il servizio
+        if (json.isEmpty()) return new ResponseEntity<>(HttpStatus.BAD_REQUEST);
+
+        // converto il json in un'azienda
+        Azienda azienda = Utility.jsonToObject(json, Azienda.class);
+
+        // fornisco la pIva del consulente
+        Consulente c = new Consulente();
+        c.setPIva(this.pIva);
+        azienda.setConsulente(c);
+
+        // inserisco l'azienda nel database
+        if (DBManager.getInstance().getAziendaDao().insert(azienda)) {
+            if (thereIsFile) {
+                String filePath;
+                try {
+                    //salvo il file nella cartella dei files
+                    filePath = Utility.uploadFile(azienda.getPIva(), file);
+                } catch (IOException e) {
+                    return new ResponseEntity<>(HttpStatus.INTERNAL_SERVER_ERROR);
+                }
+                azienda.setImg(filePath);
+                // aggiorno il dipendente nel database
+                if (!DBManager.getInstance().getAziendaDao().update(azienda)) {
+                    return new ResponseEntity<>(HttpStatus.INTERNAL_SERVER_ERROR);
+                }
+            }
+            return new ResponseEntity<>(HttpStatus.OK);
+        }
+        return new ResponseEntity<>(HttpStatus.INTERNAL_SERVER_ERROR);
+    }
+
+    @Override
+    public ResponseEntity<String> modificaAzienda(MultipartFile json, MultipartFile file) {
+
+        // controllo se è stata aggiunta un'immagine
+        boolean thereIsFile = !(file.getOriginalFilename().isEmpty());
+
+        // se il json è vuoto allora non può usare il servizio
+        if (json.isEmpty()) return new ResponseEntity<>(HttpStatus.BAD_REQUEST);
+
+        // converto il json in un'azienda
+        Azienda azienda = Utility.jsonToObject(json, Azienda.class);
+
+        // controllo se l'azienda esiste
+        Azienda a = DBManager.getInstance().getAziendaDao().findByPIva(azienda.getPIva());
+        if (a==null) return new ResponseEntity<>(HttpStatus.BAD_REQUEST);
+
+        // controllo che il consulente sia associato all'azienda da modificare
+        if(this.pIva.equals(a.getConsulente().getPIva())){
+            if (thereIsFile) {
+                String filePath;
+                try {
+                    //salvo il file nella cartella dei files
+                    filePath = Utility.uploadFile(azienda.getPIva(), file);
+                    // elimino il vecchio file se esiste
+                    if(a.getImg()!=null) Utility.deleteFile(a.getImg());
+                } catch (IOException e) {
+                    return new ResponseEntity<>(HttpStatus.INTERNAL_SERVER_ERROR);
+                }
+                // salvo il path del nuovo file nella nuova azienda
+                azienda.setImg(filePath);
+            }
+            // se non è stata caricata un'immagine, mantengo quella vecchia
+            else azienda.setImg(a.getImg());
+
+            // modifico l'azienda nel database
+            if (DBManager.getInstance().getAziendaDao().update(azienda))
+                return new ResponseEntity<>(HttpStatus.OK);
+            else return new ResponseEntity<>(HttpStatus.INTERNAL_SERVER_ERROR);
+        }
+        return new ResponseEntity<>(HttpStatus.UNAUTHORIZED);
+    }
+
+    @Override
+    public ResponseEntity<String> rimuoviAzienda(String pIva) {
+
+        Azienda a = DBManager.getInstance().getAziendaDao().findByPIva(pIva);
+
+        // controllo che l'azienda esista
+        if (a==null) return new ResponseEntity<>(HttpStatus.BAD_REQUEST);
+
+        // controllo che il consulente sia associato all'azienda da eliminare
+        if(this.pIva.equals(a.getConsulente().getPIva())){
+            // elimino l'azienda dal database
+            if (DBManager.getInstance().getAziendaDao().delete(pIva)) {
+                rimuoviImmagineAzienda(pIva);
+                return new ResponseEntity<>(HttpStatus.OK);
+            }
+            else return new ResponseEntity<>(HttpStatus.INTERNAL_SERVER_ERROR);
+        }
+        return new ResponseEntity<>(HttpStatus.UNAUTHORIZED);
+    }
+
+    @Override
+    public ResponseEntity<String> modificaImmagineAzienda(String pIva, MultipartFile file) {
+
+        // se il file è vuoto allora non può usare il servizio
+        if (file.isEmpty()) return new ResponseEntity<>(HttpStatus.BAD_REQUEST);
+
+        // controllo se l'azienda esiste
+        Azienda a = DBManager.getInstance().getAziendaDao().findByPIva(pIva);
+        if (a==null) return new ResponseEntity<>(HttpStatus.BAD_REQUEST);
+
+        // controllo che il consulente sia associato all'azienda da modificare
+        if(this.pIva.equals(a.getConsulente().getPIva())){
+            String filePath;
+            try {
+                //salvo il file nella cartella dei files
+                filePath = Utility.uploadFile(pIva, file);
+                // elimino il vecchio file se esiste
+                if(a.getImg()!=null) Utility.deleteFile(a.getImg());
+            } catch (IOException e) {
+                return new ResponseEntity<>(HttpStatus.INTERNAL_SERVER_ERROR);
+            }
+            // salvo il path del nuovo file nell'azienda
+            a.setImg(filePath);
+
+            // modifico l'azienda nel database
+            if (DBManager.getInstance().getAziendaDao().update(a))
+                return new ResponseEntity<>(HttpStatus.OK);
+            else return new ResponseEntity<>(HttpStatus.INTERNAL_SERVER_ERROR);
+        }
+        return new ResponseEntity<>(HttpStatus.UNAUTHORIZED);
+    }
+
+    @Override
+    public ResponseEntity<String> rimuoviImmagineAzienda(String pIva) {
+
+            // controllo se l'azienda esiste
+            Azienda a = DBManager.getInstance().getAziendaDao().findByPIva(pIva);
+            if (a==null) return new ResponseEntity<>(HttpStatus.BAD_REQUEST);
+
+            // controllo che il consulente sia associato all'azienda da modificare
+            if(this.pIva.equals(a.getConsulente().getPIva())){
+                // elimino il vecchio file se esiste
+                if(a.getImg()!=null) Utility.deleteFile(a.getImg());
+                else return new ResponseEntity<>(HttpStatus.BAD_REQUEST);
+                // salvo il path null nell'azienda da modificare
+                a.setImg(null);
+
+                // modifico l'azienda nel database
+                if (DBManager.getInstance().getAziendaDao().update(a))
+                    return new ResponseEntity<>(HttpStatus.OK);
+                else return new ResponseEntity<>(HttpStatus.INTERNAL_SERVER_ERROR);
+            }
+            return new ResponseEntity<>(HttpStatus.UNAUTHORIZED);
+    }
+
+
+
 
     // Dipendente Service
 

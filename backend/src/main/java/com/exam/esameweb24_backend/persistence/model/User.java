@@ -5,7 +5,7 @@ import org.springframework.web.multipart.MultipartFile;
 
 import java.util.List;
 
-public class User {
+public abstract class User {
     protected String email;
 
     protected String password;
@@ -35,6 +35,25 @@ public class User {
     public void setPIva(String pIva) {
         this.pIva = pIva;
     }
+
+
+    // Azienda Service
+
+    public ResponseEntity<List<Azienda>> getAziende(){return null;}
+
+    public ResponseEntity<Azienda> getAzienda(String pIva){return null;}
+
+    public ResponseEntity<Azienda> getProfile(){return null;}
+
+    public ResponseEntity<String> aggiungiAzienda(MultipartFile json, MultipartFile file){return null;}
+
+    public ResponseEntity<String> modificaAzienda(MultipartFile json, MultipartFile file){return null;}
+
+    public ResponseEntity<String> rimuoviAzienda(String pIva){return null;}
+
+    public ResponseEntity<String> modificaImmagineAzienda(String pIva, MultipartFile file){return null;}
+
+    public ResponseEntity<String> rimuoviImmagineAzienda(String pIva){return null;}
 
 
     // Dipendente Service

@@ -7,8 +7,8 @@ import com.exam.esameweb24_backend.persistence.model.User;
 import jakarta.servlet.http.HttpServletRequest;
 import org.springframework.http.HttpStatus;
 import org.springframework.http.ResponseEntity;
-import org.springframework.web.HttpMediaTypeException;
 import org.springframework.web.bind.annotation.*;
+import org.springframework.web.multipart.MultipartFile;
 
 import java.util.List;
 
@@ -18,52 +18,81 @@ public class AziendaService {
 
     @GetMapping("/aziende")
     public ResponseEntity<List<Azienda>> getAziende(HttpServletRequest req){
-        String token = Utility.getToken(req);
+
         User user = Utility.getRequestUser(req);
 
         if (user == null) return new ResponseEntity<>(HttpStatus.UNAUTHORIZED);
 
-        if (Utility.isConsultant(token)) {
-            List <Azienda> aziende = DBManager.getInstance().getAziendaDao().findByConsultant(user.getPIva());
-            return new ResponseEntity<>(aziende, HttpStatus.OK);
-        }
-        return new ResponseEntity<>(HttpStatus.UNAUTHORIZED);
+        return user.getAziende();
     }
 
     @GetMapping("/azienda")
-    public Azienda getAzienda(@RequestParam String pIva, HttpServletRequest req){
-        String token = Utility.getToken(req);
+    public ResponseEntity<Azienda> getAzienda(HttpServletRequest req, @RequestParam String pIva){
+
         User user = Utility.getRequestUser(req);
 
         if (user == null) return null;
 
-        return DBManager.getInstance().getAziendaDao().findByPIva(pIva);
+        return user.getAzienda(pIva);
     }
 
-    @PostMapping("/aggiunta-azienda")
-    public Boolean aggiuntaAzienda(@RequestBody Azienda azienda, HttpServletRequest req){
-        String token = Utility.getToken(req);
+    @GetMapping("/profilo")
+    public ResponseEntity<Azienda> getProfilo(HttpServletRequest req){
+
         User user = Utility.getRequestUser(req);
 
         if (user == null) return null;
 
-        if(Utility.isConsultant(token)) {
-            return DBManager.getInstance().getAziendaDao().insert(azienda);
-        }
-
-        return null;
+        return user.getAzienda(user.getPIva());
     }
 
-    @PostMapping("/elimina-azienda")
-    public Boolean eliminazioneAzienda(@RequestParam String pIva, HttpServletRequest req){
-        String token = Utility.getToken(req);
+    @PostMapping("/aggiungi-azienda")
+    public ResponseEntity<String> aggiungiAzienda(HttpServletRequest req, @RequestParam("azienda") MultipartFile json, @RequestParam("file") MultipartFile file){
+
         User user = Utility.getRequestUser(req);
 
         if (user == null) return null;
 
-        if(Utility.isConsultant(token)) {
-            return DBManager.getInstance().getAziendaDao().delete(pIva);
-        }
-        return null;
+        return user.aggiungiAzienda(json, file);
+    }
+
+    @PostMapping("/modifica-azienda")
+    public ResponseEntity<String> modificaAzienda(HttpServletRequest req, @RequestParam("azienda") MultipartFile json, @RequestParam("file") MultipartFile file){
+
+        User user = Utility.getRequestUser(req);
+
+        if (user == null) return null;
+
+        return user.modificaAzienda(json, file);
+    }
+
+    @DeleteMapping("/rimuovi-azienda")
+    public ResponseEntity<String> rimuoviAzienda(HttpServletRequest req, @RequestParam String pIva){
+
+        User user = Utility.getRequestUser(req);
+
+        if (user == null) return null;
+
+        return user.rimuoviAzienda(pIva);
+    }
+
+    @PostMapping("/modifica-immagine-azienda")
+    public ResponseEntity<String> modificaImmagineAzienda(HttpServletRequest req, @RequestParam String pIva,  @RequestParam("file") MultipartFile file){
+
+        User user = Utility.getRequestUser(req);
+
+        if (user == null) return null;
+
+        return user.modificaImmagineAzienda(pIva, file);
+    }
+
+    @DeleteMapping("/rimuovi-immagine-azienda")
+    public ResponseEntity<String> rimuoviImmagineAzienda(HttpServletRequest req, @RequestParam String pIva){
+
+        User user = Utility.getRequestUser(req);
+
+        if (user == null) return null;
+
+        return user.rimuoviImmagineAzienda(pIva);
     }
 }
