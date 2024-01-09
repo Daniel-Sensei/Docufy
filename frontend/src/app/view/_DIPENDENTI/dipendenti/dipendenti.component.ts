@@ -27,7 +27,15 @@ export class DipendentiComponent {
   ) { }
 
   ngOnInit(): void {
-    const pIva: string = this.auth.getCurrentPIva()!;
+    var pIva: string = '';
+
+    if (this.auth.getRole() == 'A') {
+      pIva = this.auth.getCurrentPIva()!;
+    }
+    else {
+      pIva = this.auth.getSelectedPIva()!;
+    }
+    
     this.dipendentiService.getDipendenti(pIva).subscribe(
       dipendenti => {
         this.dipendenti = dipendenti;

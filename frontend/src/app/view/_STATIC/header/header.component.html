@@ -24,10 +24,18 @@
             <i class="bi bi-search"></i>
           </a>
         </li><!-- End Search Icon-->
+
+        <!-- Add combo box for aziende selection -->
+        <li class="nav-item pe-3" *ngIf="!isDashboard">
+          <select class="form-select clear-combo-box" id="aziendaSelect" [(ngModel)]="aziendaSelezionata" (change)="onAziendaChange()">
+            <option value="" disabled selected hidden>Seleziona azienda</option>
+            <option *ngFor="let azienda of aziende" [value]="azienda.ragioneSociale">{{ azienda.ragioneSociale }}</option>
+          </select>
+        </li>
   
           <a class="nav-link nav-icon" *ngIf="role=='C'">
             <i class="bi bi-building-fill-check"></i>
-          </a><!-- End Notification Icon -->
+          </a><!-- End Consulente Icon -->
   
         <li class="nav-item dropdown pe-3">
   

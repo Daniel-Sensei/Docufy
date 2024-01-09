@@ -2,6 +2,7 @@
 import { Component, Input } from '@angular/core';
 import { Azienda } from '../../../model/Azienda';
 import { AuthService } from '../../../service/auth/auth.service';
+import { Router } from '@angular/router';
 
 @Component({
   selector: 'app-selettore-azienda',
@@ -10,7 +11,8 @@ import { AuthService } from '../../../service/auth/auth.service';
 })
 export class SelettoreAziendaComponent {
 
-  constructor(private auth: AuthService) { }
+  constructor(private auth: AuthService,
+    private router: Router) { }
 
   @Input() aziende?: Azienda[];
   aziendaSelezionata: string = '';  // Aggiunto per memorizzare la selezione
@@ -38,6 +40,14 @@ export class SelettoreAziendaComponent {
     let index = this.aziende?.findIndex(azienda => azienda.ragioneSociale === this.aziendaSelezionata);
     if (index !== undefined && index >= 0) {
       this.auth.setSelectedPIva(this.aziende![index].piva);
+
+      // Ricarica la pagina
+      this.router.routeReuseStrategy.shouldReuseRoute = () => false;
+      const currentUrl = this.router.url + '?';
+      this.router.navigateByUrl(currentUrl).then(() => {
+        this.router.navigated = false;
+        this.router.navigate([this.router.url]);
+      });
     }
   }
 }
