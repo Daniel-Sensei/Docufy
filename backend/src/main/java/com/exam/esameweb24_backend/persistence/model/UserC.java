@@ -329,9 +329,9 @@ public class UserC extends User{
         Documento d = DBManager.getInstance().getDocumentoDao().findById(documento.getId());
         if (d == null) return new ResponseEntity<>(HttpStatus.BAD_REQUEST);
 
-        Long dipID = documento.getDipendente().getId();
+        String cf = documento.getDipendente().getCF();
         Dipendente dipendente = null;
-        if(dipID!=null) dipendente = DBManager.getInstance().getDipendenteDao().findById(dipID);
+        if(cf!=null) dipendente = DBManager.getInstance().getDipendenteDao().findByCF(cf);
 
         // controllo che l'azienda sia associata al documento da modificare
         if ((d.getDipendente()==null && Utility.checkConsultantAgency(this.pIva, d.getAzienda().getPIva())) || (d.getDipendente()!=null && Utility.checkConsultantAgency(this.pIva, dipendente.getAzienda().getPIva()))) {
@@ -357,5 +357,23 @@ public class UserC extends User{
         return new ResponseEntity<>(HttpStatus.UNAUTHORIZED);
     }
 
+    @Override
+    public ResponseEntity<String> rimuoviDocumento(Long id) {
 
+            // controllo che il documento esista
+            Documento d = DBManager.getInstance().getDocumentoDao().findById(id);
+            if (d == null) return new ResponseEntity<>(HttpStatus.BAD_REQUEST);
+
+            // controllo che il consulente sia associato all'azienda/dipendente proprietario del documento da eliminare
+            if ((d.getDipendente()==null && Utility.checkConsultantAgency(this.pIva, d.getAzienda().getPIva())) || (d.getDipendente()!=null && Utility.checkConsultantAgency(this.pIva, d.getDipendente().getAzienda().getPIva()))) {
+                // elimino il file del documento
+                if(d.getFile()!=null) Utility.deleteFile(d.getFile());
+                else return new ResponseEntity<>(HttpStatus.BAD_REQUEST);
+
+                // elimino il documento dal database
+                if (DBManager.getInstance().getDocumentoDao().delete(id)) return new ResponseEntity<>(HttpStatus.OK);
+                else return new ResponseEntity<>(HttpStatus.INTERNAL_SERVER_ERROR);
+            }
+            return new ResponseEntity<>(HttpStatus.UNAUTHORIZED);
+    }
 }

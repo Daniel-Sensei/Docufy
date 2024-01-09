@@ -55,30 +55,23 @@ public class DocumentoService {
         return user.aggiungiDocumento(json, file);
     }
 
-    // gli altri sono ancora da fare
-
     @PostMapping("/modifica-documento")
-    public Boolean modificaDocumento(HttpServletRequest req, @RequestParam("documento") MultipartFile json, @RequestParam("file") MultipartFile file){
-        String token = Utility.getToken(req);
+    public ResponseEntity<String> modificaDocumento(HttpServletRequest req, @RequestParam("documento") MultipartFile json, @RequestParam("file") MultipartFile file){
+
         User user = Utility.getRequestUser(req);
 
-        if (user == null) return null;
+        if (user == null) return new ResponseEntity<>(HttpStatus.UNAUTHORIZED);
 
-        if(!Utility.isConsultant(token)){
-        return DBManager.getInstance().getDocumentoDao().update(Utility.jsonToObject(json, Documento.class));}
-
-        return null;
+        return user.modificaDocumento(json, file);
     }
 
     @DeleteMapping("/rimuovi-documento")
-    public Boolean rimuoviDocumento(HttpServletRequest req, @RequestParam Long id){
-        String token = Utility.getToken(req);
+    public ResponseEntity<String> rimuoviDocumento(HttpServletRequest req, @RequestParam Long id){
+
         User user = Utility.getRequestUser(req);
 
-        if (user == null) return null;
+        if (user == null) return new ResponseEntity<>(HttpStatus.UNAUTHORIZED);
 
-        if(!Utility.isConsultant(token)){return DBManager.getInstance().getDocumentoDao().delete(id);}
-
-        return null;
+        return user.rimuoviDocumento(id);
     }
 }

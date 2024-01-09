@@ -330,7 +330,7 @@ public class UserA extends User{
         if (d == null) return new ResponseEntity<>(HttpStatus.BAD_REQUEST);
 
         // controllo che l'azienda sia associata al documento da modificare
-        if (this.pIva.equals(d.getAzienda().getPIva()) || Utility.checkAgencyEmployee(this.pIva, d.getDipendente().getId())) {
+        if (this.pIva.equals(d.getAzienda().getPIva()) || Utility.checkAgencyEmployeeCF(this.pIva, d.getDipendente().getCF())) {
 
             // salvo il file nella cartella dei files
             String filePath;
@@ -349,6 +349,22 @@ public class UserA extends User{
             if (DBManager.getInstance().getDocumentoDao().update(documento))
                 return new ResponseEntity<>(HttpStatus.OK);
             else return new ResponseEntity<>(HttpStatus.INTERNAL_SERVER_ERROR);
+        }
+        return new ResponseEntity<>(HttpStatus.UNAUTHORIZED);
+    }
+
+    @Override
+    public ResponseEntity<String> rimuoviDocumento(Long id) {
+        // controllo se il documento esiste
+        Documento d = DBManager.getInstance().getDocumentoDao().findById(id);
+        if (d == null) return new ResponseEntity<>(HttpStatus.BAD_REQUEST);
+        //controllo che l'azienda sia associata al documento da rimuovere
+        if ((d.getAzienda()!=null && this.pIva.equals(d.getAzienda().getPIva())) || (d.getDipendente()!=null && Utility.checkAgencyEmployeeCF(this.pIva, d.getDipendente().getCF()))) {
+            // elimino il file dal server
+            if(Utility.deleteFile(d.getFile()))
+                // elimino il documento dal database
+                if (DBManager.getInstance().getDocumentoDao().delete(id)) return new ResponseEntity<>(HttpStatus.OK);
+            return new ResponseEntity<>(HttpStatus.INTERNAL_SERVER_ERROR);
         }
         return new ResponseEntity<>(HttpStatus.UNAUTHORIZED);
     }

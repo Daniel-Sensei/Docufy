@@ -57,8 +57,11 @@ public class Utility {
         return (DBManager.getInstance().getAziendaDao().findByConsultant(consultant).stream().anyMatch(azienda -> azienda.getPIva().equals(agency)));
     }
 
-    public static Boolean checkAgencyEmployee(String agency, Long employee) {
+    public static Boolean checkAgencyEmployeeID(String agency, Long employee) {
         return (DBManager.getInstance().getDipendenteDao().findById(employee).getAzienda().getPIva().equals(agency));
+    }
+    public static Boolean checkAgencyEmployeeCF(String agency, String cf) {
+        return (DBManager.getInstance().getDipendenteDao().findByCF(cf).getAzienda().getPIva().equals(agency));
     }
 
 
