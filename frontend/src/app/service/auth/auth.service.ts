@@ -32,7 +32,7 @@ export class AuthService {
         email = sessionStorage.getItem('admin-email');
         password = sessionStorage.getItem('admin-password');
       }
-      console.log("AUTOLOGIN" + email + password);
+      //console.log("AUTOLOGIN" + email + password);
   
       if (email && password) {
         return this.login(email, password, false);

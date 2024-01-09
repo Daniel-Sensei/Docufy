@@ -19,8 +19,8 @@ import { AuthService } from '../../../service/auth/auth.service';
 export class HeaderComponent {
   text = new FormControl('');
 
-  azienda!: Azienda;
-  role!: string | undefined;
+  azienda?: Azienda;
+  role?: string | undefined;
 
   constructor(
     private modalService: NgbModal,
