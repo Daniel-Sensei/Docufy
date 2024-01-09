@@ -74,6 +74,30 @@ public class AziendaDaoPostgres implements AziendaDao {
     }
 
     @Override
+    public List<Azienda> findByCorsoAcquistato(Long idCorso) {
+        List<Azienda> aziende = new ArrayList<>();
+        String query = "SELECT * FROM aziende WHERE piva IN (SELECT azienda FROM corsi_aziende WHERE corso = ?)";
+        try {
+            PreparedStatement st = conn.prepareStatement(query);
+            ResultSet rs = st.executeQuery();
+            while (rs.next()){
+                Azienda azienda = new Azienda();
+                azienda.setPIva(rs.getString("piva"));
+                azienda.setRagioneSociale(rs.getString("ragionesociale"));
+                azienda.setEmail(rs.getString("email"));
+                azienda.setTelefono(rs.getString("telefono"));
+                azienda.setIndirizzo(rs.getString("indirizzo"));
+                azienda.setImg(rs.getString("immagine"));
+                azienda.setConsulente(DBManager.getInstance().getConsulenteDao().findByPIva(rs.getString("consulente")));
+                aziende.add(azienda);
+            }
+        } catch (SQLException e) {
+            throw new RuntimeException(e);
+        }
+        return aziende;
+    }
+
+    @Override
     public boolean insert(Azienda azienda) {
         String query = "INSERT INTO aziende (piva, ragionesociale, email, telefono, indirizzo, immagine, consulente) VALUES (?, ?, ?, ?, ?, ?, ?)";
         try {
