@@ -226,7 +226,6 @@ export class AddDipendenteModalComponent {
   }
 
   private addDipendente(dipendenteData: any) {
-    console.log(dipendenteData);
     this.dipendentiService.addDipendente(dipendenteData, this.file).subscribe(
       response => {
         // Imposta la variabile per mostrare l'alert di successo

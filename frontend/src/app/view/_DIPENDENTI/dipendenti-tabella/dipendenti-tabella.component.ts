@@ -29,7 +29,6 @@ export class DipendentiTabellaComponent implements AfterViewInit {
   ngAfterViewInit() {
     // If necessary to wait for the component to be loaded
     if (this.dipendenti.length > 0) {
-      console.log('TABELLA:', this.dipendenti);
       this.dataSource.data = this.dipendenti.map(dipendente => ({
         ...dipendente,
         dataAssunzione: this.formatItalianDate(dipendente.dataAssunzione)

@@ -16,6 +16,7 @@ import { AuthGuard } from './auth.guard';
 import { AziendeComponent } from './view/_AZIENDE/aziende/aziende.component';
 import { RicercaComponent } from './view/_RICERCA/ricerca/ricerca.component';
 import { NotFoundComponent } from './view/_STATIC/not-found/not-found.component';
+import { NotAuthorizedComponent } from './view/_STATIC/not-authorized/not-authorized.component';
 
 const routes: Routes = [
   { path: 'login', component: LoginComponent },
@@ -34,6 +35,7 @@ const routes: Routes = [
 
   { path: 'search/:text', component: RicercaComponent, canActivate: [AuthGuard] },
 
+  { path: '401', component: NotAuthorizedComponent },
   { path: '404', component: NotFoundComponent },
   { path: '**', redirectTo: ''}
 ];

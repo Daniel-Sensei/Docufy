@@ -15,8 +15,12 @@ export class AziendeService {
     private auth: AuthService,
     private http: HttpClient) { }
 
-  getMyAziende(): Observable<Azienda[]> {
+  getAziende(): Observable<Azienda[]> {
     return this.http.get<Azienda[]>(Settings.API_ENDPOINT + 'aziende', { headers: this.auth.headers});
+  }
+
+  getProfilo(): Observable<Azienda> {
+    return this.http.get<Azienda>(Settings.API_ENDPOINT + 'profilo', { headers: this.auth.headers});
   }
 
   getAzienda(pIva: String): Observable<Azienda> {

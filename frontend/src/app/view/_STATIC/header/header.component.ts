@@ -4,7 +4,11 @@ import { NgbModal } from '@ng-bootstrap/ng-bootstrap';
 import { LogoutModalComponent } from '../../_LOGIN/logout-modal/logout-modal.component';
 import { Router } from '@angular/router';
 
-import { FormControl, ReactiveFormsModule } from '@angular/forms';
+import { FormControl } from '@angular/forms';
+
+import { AziendeService } from '../../../service/aziende/aziende.service';
+import { Azienda } from '../../../model/Azienda';
+import { AuthService } from '../../../service/auth/auth.service';
 
 
 @Component({
@@ -15,12 +19,21 @@ import { FormControl, ReactiveFormsModule } from '@angular/forms';
 export class HeaderComponent {
   text = new FormControl('');
 
+  azienda!: Azienda;
+  role!: string | undefined;
+
   constructor(
     private modalService: NgbModal,
-    private router: Router) { }
+    private router: Router,
+    private aziendeService: AziendeService,
+    private auth: AuthService) { }
 
   toggleSidebar() {
     document.body.classList.toggle('toggle-sidebar');
+  }
+
+  ngOnInit(): void {
+    this.getAzienda();
   }
 
   search() {
@@ -29,6 +42,13 @@ export class HeaderComponent {
       return;
     }
     this.router.navigate(['/search/', this.text.value]);
+  }
+
+  /* PROFILE */
+  getAzienda() {
+    this.aziendeService.getProfilo().subscribe(
+      azienda => { this.azienda = azienda; this.role = this.auth.role ?? undefined; },
+    );
   }
 
   logout() {
