@@ -31,7 +31,15 @@ public class UserC extends User{
 
     @Override
     public ResponseEntity<Azienda> getProfile() {
-        return new ResponseEntity<>(HttpStatus.UNAUTHORIZED);
+        Consulente c = DBManager.getInstance().getConsulenteDao().findByPIva(this.pIva);
+        Azienda a = new Azienda();
+        a.setPIva(c.getPIva());
+        a.setEmail(c.getEmail());
+        a.setTelefono(c.getTelefono());
+        a.setRagioneSociale(c.getRagioneSociale());
+        a.setIndirizzo(c.getIndirizzo());
+        a.setImg(c.getImg());
+        return new ResponseEntity<>(a, HttpStatus.OK);
     }
 
     @Override
