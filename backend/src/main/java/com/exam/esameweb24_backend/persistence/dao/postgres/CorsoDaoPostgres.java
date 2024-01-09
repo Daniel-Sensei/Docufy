@@ -127,8 +127,8 @@ public class CorsoDaoPostgres implements CorsoDao {
     }
 
     @Override
-    public boolean insert(Corso corso) {
-        String query = "INSERT INTO corsi (nome, prezzo, descrizione, durata, consulente, categoria, posti, postidisponibili, esamefinale) VALUES (?, ?, ?, ?, ?, ?, ?, ?, ?)";
+    public Long insert(Corso corso) {
+        String query = "INSERT INTO corsi (nome, prezzo, descrizione, durata, consulente, categoria, posti, postidisponibili, esamefinale) VALUES (?, ?, ?, ?, ?, ?, ?, ?, ?) RETURNING id";
         try {
             PreparedStatement st = conn.prepareStatement(query);
             st.setString(1, corso.getNome());
@@ -140,6 +140,30 @@ public class CorsoDaoPostgres implements CorsoDao {
             st.setInt(7, corso.getPosti());
             st.setInt(8, corso.getPostiDisponibili());
             st.setBoolean(9, corso.isFinalExam());
+            ResultSet rs = st.executeQuery();
+            if (rs.next()) {
+                return rs.getLong("id");
+            }
+            return null;
+        } catch (SQLException e) {
+            throw new RuntimeException(e);
+        }
+    }
+
+    @Override
+    public boolean update(Corso corso) {
+        String query = "UPDATE corsi SET nome = ?, prezzo = ?, descrizione = ?, durata = ?, categoria = ?, posti = ?, postidisponibili = ?, esamefinale = ? WHERE id = ?";
+        try {
+            PreparedStatement st = conn.prepareStatement(query);
+            st.setString(1, corso.getNome());
+            st.setDouble(2, corso.getPrezzo());
+            st.setString(3, corso.getDescrizione());
+            st.setInt(4, corso.getDurata());
+            st.setString(5, corso.getCategoria());
+            st.setInt(6, corso.getPosti());
+            st.setInt(7, corso.getPostiDisponibili());
+            st.setBoolean(8, corso.isFinalExam());
+            st.setLong(9, corso.getId());
             st.executeUpdate();
             return true;
         } catch (SQLException e) {

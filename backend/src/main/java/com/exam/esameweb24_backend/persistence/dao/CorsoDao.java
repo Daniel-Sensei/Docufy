@@ -11,6 +11,7 @@ public interface CorsoDao {
     public List<CorsoAcquistato> findByAgency(String agency);
     public List<CorsoFrequentato> findByEmployee(Long employee);
     public Corso findById(Long id);
-    public boolean insert(Corso corso);
+    public Long insert(Corso corso);
+    public boolean update(Corso corso);
     public boolean delete(Long id);
 }
