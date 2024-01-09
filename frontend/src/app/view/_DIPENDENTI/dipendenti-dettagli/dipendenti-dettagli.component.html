@@ -17,7 +17,7 @@
                 Modifica dati
             </button>
             
-            <button *ngIf="dipendente.img != '' " (click)="openDeleteImg()" type="button" class="btn btn-danger" data-bs-toggle="modal">
+            <button *ngIf="isInitialized && dipendente.img != '' " (click)="openDeleteImg()" type="button" class="btn btn-danger" data-bs-toggle="modal">
                 Elimina Immagine
             </button>
 
@@ -37,7 +37,7 @@
         </div> <!-- End Margin -->
     </div>
 
-    <section *ngIf="dipendente != null" class="mb-3">
+    <section *ngIf="isInitialized || dipendente != undefined" class="mb-3">
         <div class="row">
             <div class="col col-lg-12 mb-4 mb-lg-0">
                 <div class="card mb-0" style="border-radius: .5rem;">

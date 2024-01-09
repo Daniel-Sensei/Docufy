@@ -11,6 +11,8 @@ import { AlertService } from '../../../service/alert/alert.service';
 import { DatePipe } from '@angular/common';
 import { ConfirmModalComponent } from '../../_STATIC/confirm-modal/confirm-modal.component';
 
+import { forkJoin, Observable, map } from 'rxjs';
+
 @Component({
   selector: 'app-dipendenti-dettagli',
   templateUrl: './dipendenti-dettagli.component.html',
@@ -21,6 +23,8 @@ export class DipendentiDettagliComponent {
   dipendente!: Dipendente;
   public dataNascitaIT: string = '';
   public dataAssunzioneIT: string = '';
+
+  public isInitialized: boolean = false; // Add the flag
 
   constructor(
     private route: ActivatedRoute,
@@ -43,19 +47,32 @@ export class DipendentiDettagliComponent {
       if (this.dipendente == undefined) {
         this.router.navigate(['/404']);
       }
-      if (this.dipendente.img != ''){
-        this.fileService.getFile(this.dipendente.img).subscribe(img => {
-          let objectURL = URL.createObjectURL(img);
-          this.dipendente.img = objectURL;
-        });
-      }
+      this.setDipendenteImage().subscribe(() => {
+        this.isInitialized = true; // Set the flag to true after initialization
+      });
 
       this.dataNascitaIT = this.formatItalianDate(dipendente.dataNascita)
       this.dataAssunzioneIT = this.formatItalianDate(dipendente.dataAssunzione)
     });
   }
 
-  openUpdateDipendente(){
+  setDipendenteImage(): Observable<void[]> {
+    const observables: Observable<void>[] = [];
+
+    if (this.dipendente.img !== '') {
+      const observable = this.fileService.getFile(this.dipendente.img).pipe(
+        map(img => {
+          let objectURL = URL.createObjectURL(img);
+          this.dipendente.img = objectURL;
+        })
+      );
+      observables.push(observable);
+    }
+    // Use forkJoin to wait for all observables to complete
+    return forkJoin(observables);
+  }
+
+  openUpdateDipendente() {
     const modalRef = this.modalService.open(AddDipendenteModalComponent, {
       size: 'md' // 'lg' sta per grande, puoi utilizzare anche 'sm' per piccolo
     });
@@ -69,7 +86,7 @@ export class DipendentiDettagliComponent {
     });
   }
 
-  openDeleteImg(){
+  openDeleteImg() {
     const modalRef = this.modalService.open(ConfirmModalComponent, {
       size: 'md' // 'lg' sta per grande, puoi utilizzare anche 'sm' per piccolo
     });
@@ -79,7 +96,7 @@ export class DipendentiDettagliComponent {
     modalRef.componentInstance.function = 'deleteImgDipendente';
   }
 
-  openDeleteDipendente(){
+  openDeleteDipendente() {
     const modalRef = this.modalService.open(ConfirmModalComponent, {
       size: 'md' // 'lg' sta per grande, puoi utilizzare anche 'sm' per piccolo
     });
