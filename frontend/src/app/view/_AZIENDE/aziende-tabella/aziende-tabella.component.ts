@@ -12,7 +12,7 @@ import {MatTableDataSource} from '@angular/material/table';
   styleUrl: './aziende-tabella.component.css'
 })
 export class AziendeTabellaComponent {
-  displayedColumns: string[] = ['ragioneSociale', 'indirizzo', 'telefono', 'azioni'];
+  displayedColumns: string[] = ['ragioneSociale', 'pIva', 'indirizzo', 'telefono', 'azioni'];
   dataSource: MatTableDataSource<Azienda>;
 
   @ViewChild(MatPaginator) paginator!: MatPaginator;

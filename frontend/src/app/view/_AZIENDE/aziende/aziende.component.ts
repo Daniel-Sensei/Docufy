@@ -26,7 +26,7 @@ export class AziendeComponent {
 
   ngOnInit(): void {
     this.aziendeService.getAziende().subscribe(
-      aziende => { this.aziende = aziende; },
+      aziende => { this.aziende = aziende;},
       errror => { 
         if(errror.status == 401){
           this.router.navigate(['/401']);

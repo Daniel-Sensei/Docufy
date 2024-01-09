@@ -47,7 +47,7 @@ export class HeaderComponent {
   /* PROFILE */
   getAzienda() {
     this.aziendeService.getProfilo().subscribe(
-      azienda => { this.azienda = azienda; this.role = this.auth.role ?? undefined; },
+      azienda => { this.azienda = azienda; this.role = this.auth.getRole()?.toString();},
     );
   }
 

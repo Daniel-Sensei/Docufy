@@ -7,6 +7,7 @@ import { Dipendente } from '../../../model/Dipendente';
 import { DipendentiService } from '../../../service/dipendenti/dipendenti.service';
 import { FileService } from '../../../service/file/file.service';
 import { forkJoin, Observable, map } from 'rxjs';
+import { AuthService } from '../../../service/auth/auth.service';
 
 @Component({
   selector: 'app-dipendenti',
@@ -21,11 +22,12 @@ export class DipendentiComponent {
     private modalService: NgbModal,
     public alert: AlertService,
     private dipendentiService: DipendentiService,
-    private fileService: FileService
+    private fileService: FileService,
+    private auth: AuthService
   ) { }
 
   ngOnInit(): void {
-    const pIva: string = '11111111111';
+    const pIva: string = this.auth.getCurrentPIva()!;
     this.dipendentiService.getDipendenti(pIva).subscribe(
       dipendenti => {
         this.dipendenti = dipendenti;
