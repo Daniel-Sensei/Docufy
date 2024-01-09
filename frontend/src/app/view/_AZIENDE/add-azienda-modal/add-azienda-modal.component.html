@@ -31,7 +31,12 @@
 
         <div class="col-md-6">
             <label for="telefono" class="form-label">Telefono</label>
-            <input formControlName="telefono" type="telefono" class="form-control">
+            <input formControlName="telefono" type="telefono" class="form-control"
+            [class.is-invalid]="addAziendaForm.get('telefono')?.invalid && addAziendaForm.get('telefono')?.touched">
+            <div *ngIf="addAziendaForm.get('telefono')?.invalid && addAziendaForm.get('telefono')?.touched"
+            class="invalid-feedback">
+            Inserire numero di telefono
+        </div>
         </div>
 
         <div class="col-md-6">

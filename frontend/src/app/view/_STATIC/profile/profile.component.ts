@@ -19,10 +19,13 @@ export class ProfileComponent {
 
   ngOnInit(): void {
     this.getAzienda();
+    
   }
 
   getAzienda() {
-    this.aziendeService.getProfilo().subscribe( azienda => { this.azienda = azienda; this.datiOriginali={...azienda}}) //modifica: ; this.datiOriginali={...azienda}
+    //Stampa i dati dell'azienda
+
+    this.aziendeService.getProfilo().subscribe( azienda => { this.azienda = azienda; this.datiOriginali={...azienda}; console.log(this.azienda)}) //modifica: ; this.datiOriginali={...azienda}
   }
 
   controllaModifiche(){
