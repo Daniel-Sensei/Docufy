@@ -29,7 +29,7 @@ export class CorsiComponent {
     }
 
     //this.corsiService.getCorsiProposti(pIva).subscribe(result => this.corsi = result);
-    this.corsiService.getAllCorsi().subscribe(result => {this.corsi = result; console.log(this.corsi);});
+    this.corsiService.getAllCorsi().subscribe(result => { this.corsi = result; });
   }
 
   openAddCorsoModal() {

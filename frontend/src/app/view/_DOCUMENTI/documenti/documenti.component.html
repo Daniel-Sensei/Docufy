@@ -1,7 +1,7 @@
 <div id="main" class="main ">
 
     <div class="pagetitle">
-        <h1>Documenti Aziendali</h1>
+        <h1>Documenti Aziendali <span *ngIf="auth.getRole()=='C'" class="subtitle">| Azienda X</span></h1>
         <nav>
             <ol class="breadcrumb">
                 <li class="breadcrumb-item"><a routerLink="/">Dashboard</a></li>
@@ -9,6 +9,7 @@
             </ol>
         </nav>
     </div><!-- End Page Title -->
+    
 
     <div class="margin">
         <div class="mb-3" *ngIf="this.auth.getRole()=='A'">
@@ -23,6 +24,6 @@
         </div>
     </div> <!-- End Margin -->
 
-    <app-documenti-tabella [documenti]="documenti"></app-documenti-tabella>
+    <app-documenti-tabella *ngIf="documenti && documenti.length>0" [documenti]="documenti"></app-documenti-tabella>
 
 </div>

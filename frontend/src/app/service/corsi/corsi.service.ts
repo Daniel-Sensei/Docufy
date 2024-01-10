@@ -20,8 +20,8 @@ export class CorsiService {
     private auth: AuthService
   ) { }
 
-  getCorsiProposti(pIva: string): Observable<Corso[]>{
-    return this.http.get<Corso[]>(Settings.API_ENDPOINT + "corsi-proposti?pIva=" + pIva, { headers: this.auth.headers });
+  getCorsiProposti(): Observable<Corso[]>{
+    return this.http.get<Corso[]>(Settings.API_ENDPOINT + "corsi-proposti", { headers: this.auth.headers });
   }
 
   getCorsiAcquistati(pIva: string): Observable<Corso[]>{

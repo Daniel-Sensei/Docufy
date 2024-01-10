@@ -34,10 +34,16 @@
         <div class="col-md-12">
             <label for="dataRilascio" class="form-label">Data di rilascio</label>
             <div class="input-group">
-                <input readonly formControlName="dataRilascio" class="form-control" ngbDatepicker #dpRilascio="ngbDatepicker"
-                    placeholder="gg-mm-aaaa" />
+                <input readonly formControlName="dataRilascio" class="form-control" ngbDatepicker
+                    #dpRilascio="ngbDatepicker" placeholder="gg-mm-aaaa"
+                    [class.is-invalid]="addDocumentForm.get('dataRilascio')?.invalid && addDocumentForm.get('dataRilascio')?.touched"/>
                 <button class="btn btn-outline-secondary bi bi-calendar3" (click)="dpRilascio.toggle()"
                     type="button"></button>
+
+                <div *ngIf="addDocumentForm.get('dataRilascio')?.invalid && addDocumentForm.get('dataRilascio')?.touched"
+                    class="invalid-feedback">
+                    Data di rilascio non valida.
+                </div>
             </div>
         </div>
 
@@ -45,15 +51,15 @@
         <div class="col-md-12">
             <label for="dataScadenza" class="form-label">Data di scadenza</label>
             <div class="input-group">
-                <input readonly formControlName="dataScadenza" class="form-control" ngbDatepicker #dpScadenza="ngbDatepicker"
-                    placeholder="gg-mm-aaaa" 
-                    [class.is-invalid]="addDocumentForm.get('dataScadenza')?.invalid && addDocumentForm.get('dataScadenza')?.touched"/>
+                <input readonly formControlName="dataScadenza" class="form-control" ngbDatepicker
+                    #dpScadenza="ngbDatepicker" placeholder="gg-mm-aaaa"
+                    [class.is-invalid]="addDocumentForm.get('dataScadenza')?.invalid && addDocumentForm.get('dataScadenza')?.touched" />
                 <button class="btn btn-outline-secondary bi bi-calendar3" (click)="dpScadenza.toggle()"
                     type="button"></button>
 
                 <div *ngIf="addDocumentForm.get('dataScadenza')?.invalid && addDocumentForm.get('dataScadenza')?.touched"
                     class="invalid-feedback">
-                    La data di scadenza non può essere inferiore alla data di rilascio
+                    La data di scadenza non può essere inferiore alla data di rilascio.
                 </div>
             </div>
         </div>
@@ -61,7 +67,7 @@
         <!-- Carica file -->
         <div class="col-md-12">
             <label for="file" class="form-label">Carica file</label>
-            <input formControlName="file" type="file" class="form-control" id="file"
+            <input (change)="onFileSelected($event)" formControlName="file" type="file" class="form-control" id="file"
                 [class.is-invalid]="addDocumentForm.get('file')?.invalid && addDocumentForm.get('file')?.touched">
             <div *ngIf="addDocumentForm.get('file')?.invalid && addDocumentForm.get('file')?.touched"
                 class="invalid-feedback">

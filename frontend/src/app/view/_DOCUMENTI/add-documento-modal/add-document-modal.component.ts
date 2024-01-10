@@ -3,7 +3,8 @@ import { NgbActiveModal, NgbDateStruct } from '@ng-bootstrap/ng-bootstrap';
 import { FormBuilder, FormGroup, Validators } from '@angular/forms';
 import { AlertService } from '../../../service/alert/alert.service';
 import { FormCheck } from '../../../FormCheck';
-
+import { Documento } from '../../../model/Documento';
+import { DocumentiService } from '../../../service/documenti/documenti.service';
 
 @Component({
   selector: 'app-add-document-modal',
@@ -15,10 +16,15 @@ export class AddDocumentModalComponent {
   addDocumentForm: FormGroup;
   model: NgbDateStruct | undefined;
 
+  private file: File | undefined;
+  private dataRilascio: string = '';
+  private dataScadenza: string = '';
+
   constructor(
     public activeModal: NgbActiveModal,
     private fb: FormBuilder,
     private alert: AlertService,
+    private documentiService: DocumentiService
     ) {
     this.addDocumentForm = this.fb.group({
       tipoDocumento: ['', Validators.required],
@@ -27,6 +33,10 @@ export class AddDocumentModalComponent {
       dataScadenza: ['', Validators.required],
       file: ['', Validators.required],
     }, { validators: this.customValidation });
+  }
+
+  onFileSelected(event: any) {
+    this.file = event.target.files[0];
   }
 
   customValidation(group: FormGroup) {
@@ -46,6 +56,14 @@ export class AddDocumentModalComponent {
       const dataRilascio = dataRilascioControl.value;
       const dataScadenza = dataScadenzaControl.value;
 
+      if(dataRilascio && !FormCheck.compareFutureDate(dataRilascio)){
+        dataRilascioControl.setErrors({ 'futureDate': true });
+      } else {
+        if (dataRilascioControl.hasError('futureData')) {
+          dataRilascioControl.setErrors(null);
+        }
+      }
+
       if (dataRilascio && dataScadenza && FormCheck.compareTwoDates(dataRilascio, dataScadenza)) {
         dataScadenzaControl.setErrors({ 'invalidDate': true });
       } else {
@@ -58,13 +76,45 @@ export class AddDocumentModalComponent {
   }
 
   submitForm() {
-    // Puoi anche aggiungere qui la logica per chiudere la finestra modale, se necessario
     this.activeModal.close('Save click');
 
-    //stampa a console i valori del form
-    console.log(this.addDocumentForm.value);
-  
-    // Imposta la variabile per mostrare l'alert di successo
-    this.alert.setSuccessAlert();
+    const documentoData = this.formatData();
+    //rimuovi da documentData i campi non necessari (tipoDocumento)
+    console.log(documentoData);
+    delete documentoData.tipoDocumento;
+    delete documentoData.tipoDocumentoAltro;
+    console.log(documentoData);
+    this.documentiService.addDocumento(documentoData, this.file).subscribe(
+      response => {
+        console.log("AGGIUNTO DOCUMENTO");
+        this.alert.setSuccessAlert();
+      },
+      error => {
+        console.log("ERRORE AGGIUNTA DOCUMENTO");
+        this.alert.setDangerAlert();
+      }
+    );
+  }
+
+  formatData(){
+    const documentoData = this.addDocumentForm.value;
+    if (this.dataRilascio == '' || this.dataScadenza == '') {
+      this.dataRilascio = FormCheck.NgbDateToDateString(documentoData.dataRilascio);
+      this.dataScadenza = FormCheck.NgbDateToDateString(documentoData.dataScadenza);
+    }
+    documentoData.dataRilascio = this.dataRilascio;
+    documentoData.dataScadenza = this.dataScadenza;
+    documentoData.nome = documentoData.tipoDocumento;
+    if (documentoData.tipoDocumento == 'altro') {
+      documentoData.nome = documentoData.tipoDocumentoAltro;
+    }
+    documentoData.file = documentoData.file.name;
+    documentoData.formato = this.getFileExtension()?.toUpperCase();
+
+    return documentoData;
+  }
+
+  getFileExtension() {
+    return this.file?.name.split('.').pop();
   }
 }

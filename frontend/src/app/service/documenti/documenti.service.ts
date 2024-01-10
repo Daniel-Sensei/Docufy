@@ -28,7 +28,7 @@ export class DocumentiService {
     return this.http.get<Documento>(Settings.API_ENDPOINT + "documento?id=" + id, { headers: this.auth.headers });
   }
 
-  addDocumento(documento: Documento, file: File){
+  addDocumento(documento: Documento, file: File | undefined){
     const formData: FormData = new FormData();
 
     formData.append('documento', new Blob([JSON.stringify(documento)], { type: 'application/json' }));
