@@ -61,24 +61,14 @@ public class CorsoService {
         return user.aggiungiDipendentiCorso(idCorso, dipendenti);
     }
 
-    @PostMapping("/corso-azienda")
-    public ResponseEntity<String> aggiungiAziendaCorso(HttpServletRequest req, @RequestParam Long idCorso, @RequestParam String pIva){
-        User user = Utility.getRequestUser(req);
-
-        if(user == null) return new ResponseEntity<>(HttpStatus.UNAUTHORIZED);
-
-        return user.aggiungiAziendaCorso(idCorso, pIva);
-    }
-
-
     @PostMapping("/aggiungi-corso")
-    public ResponseEntity<String> aggiungiCorso(HttpServletRequest req, @RequestBody Corso corso){
+    public ResponseEntity<String> aggiungiCorso(HttpServletRequest req, @RequestBody Corso corso, @RequestParam String pIva){
 
         User user = Utility.getRequestUser(req);
 
         if (user == null) return new ResponseEntity<>(HttpStatus.UNAUTHORIZED);
 
-        return user.aggiungiCorso(corso);
+        return user.aggiungiCorso(corso, pIva);
     }
 
     @PostMapping("/modifica-corso")

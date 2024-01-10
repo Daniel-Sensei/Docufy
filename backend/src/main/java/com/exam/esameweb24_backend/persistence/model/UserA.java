@@ -147,13 +147,9 @@ public class UserA extends User{
         return new ResponseEntity<>(HttpStatus.OK);
     }
 
-    @Override
-    public ResponseEntity<String> aggiungiAziendaCorso(Long idCorso, String pIva) {
-        return new ResponseEntity<>(HttpStatus.UNAUTHORIZED);
-    }
 
     @Override
-    public ResponseEntity<String> aggiungiCorso(Corso corso) {
+    public ResponseEntity<String> aggiungiCorso(Corso corso, String pIva) {
         return new ResponseEntity<>(HttpStatus.UNAUTHORIZED);
     }
 

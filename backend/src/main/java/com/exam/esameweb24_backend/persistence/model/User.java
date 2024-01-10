@@ -73,9 +73,7 @@ public class User {
 
     public ResponseEntity<String> aggiungiDipendentiCorso(Long idCorso, List<Long> dipendenti){return null;}
 
-    public ResponseEntity<String> aggiungiAziendaCorso(Long idCorso, String pIva){return null;}
-
-    public ResponseEntity<String> aggiungiCorso(Corso corso){return null;}
+    public ResponseEntity<String> aggiungiCorso(Corso corso, String pIva){return null;}
 
     public ResponseEntity<String> modificaCorso(Corso corso){return null;}
 

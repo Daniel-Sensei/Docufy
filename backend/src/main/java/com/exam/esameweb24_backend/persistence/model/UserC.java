@@ -208,6 +208,8 @@ public class UserC extends User{
 
     @Override
     public ResponseEntity<List<Corso>> getCorsiByAzienda(String pIva) {
+        if(Utility.checkConsultantAgency(this.pIva, pIva))
+            return new ResponseEntity<>(DBManager.getInstance().getCorsoDao().findByAgency(pIva), HttpStatus.OK);
         return new ResponseEntity<>(HttpStatus.UNAUTHORIZED);
     }
 
@@ -231,27 +233,19 @@ public class UserC extends User{
     }
 
     @Override
-    public ResponseEntity<String> aggiungiAziendaCorso(Long idCorso, String pIva) {
-        Corso corso = DBManager.getInstance().getCorsoDao().findById(idCorso);
-        if (corso==null) return new ResponseEntity<>(HttpStatus.BAD_REQUEST);
-        if (this.pIva.equals(corso.getConsulente().getPIva())) {
-            Azienda a = DBManager.getInstance().getAziendaDao().findByPIva(pIva);
-            if (a==null) return new ResponseEntity<>(HttpStatus.BAD_REQUEST);
-            if(Utility.checkConsultantAgency(this.pIva, pIva)){
-                if (DBManager.getInstance().getCorsoDao().addAzienda(idCorso, pIva)) return new ResponseEntity<>(HttpStatus.OK);
-                else return new ResponseEntity<>(HttpStatus.INTERNAL_SERVER_ERROR);
-            }
-        }
-        return new ResponseEntity<>(HttpStatus.UNAUTHORIZED);
-    }
-
-    @Override
-    public ResponseEntity<String> aggiungiCorso(Corso corso) {
+    public ResponseEntity<String> aggiungiCorso(Corso corso, String pIva) {
 
         if(corso==null) return new ResponseEntity<>(HttpStatus.BAD_REQUEST);
 
-        if (DBManager.getInstance().getCorsoDao().insert(corso)!=null) return new ResponseEntity<>(HttpStatus.OK);
-        else return new ResponseEntity<>(HttpStatus.INTERNAL_SERVER_ERROR);
+        Azienda a = DBManager.getInstance().getAziendaDao().findByPIva(pIva);
+        if (a==null) return new ResponseEntity<>(HttpStatus.BAD_REQUEST);
+
+        if(Utility.checkConsultantAgency(this.pIva, pIva)){
+            if (DBManager.getInstance().getCorsoDao().insert(corso)!=null) {
+                if (DBManager.getInstance().getCorsoDao().addAzienda(corso.getId(), pIva)) return new ResponseEntity<>(HttpStatus.OK);
+                else return new ResponseEntity<>(HttpStatus.INTERNAL_SERVER_ERROR);
+            } else return new ResponseEntity<>(HttpStatus.INTERNAL_SERVER_ERROR);
+        } else return new ResponseEntity<>(HttpStatus.UNAUTHORIZED);
     }
 
     @Override
