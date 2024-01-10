@@ -33,7 +33,7 @@ export class ProfileComponent {
   }
 
   salvaModifiche(){
-    this.aziendeService.updateProfilo(this.azienda).subscribe();
+    //this.aziendeService.updateProfilo(this.azienda).subscribe(); //non esiste questo service
     this.datiOriginali={...this.azienda}; //modifica
     this.modificato=false;
   }
