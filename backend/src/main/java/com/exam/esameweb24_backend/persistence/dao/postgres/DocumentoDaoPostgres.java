@@ -26,6 +26,11 @@ public class DocumentoDaoPostgres implements DocumentoDao {
 
     @Override
     public List<Documento> findByDipendente(Long idDipendente) {
+
+        Dipendente d = DBManager.getInstance().getDipendenteDao().findById(idDipendente);
+        Dipendente dipendente = new Dipendente();
+        dipendente.setCF(d.getCF());
+
         List<Documento> documenti = new ArrayList<>();
         String query = "SELECT * FROM documenti WHERE dipendente  = ?";
         try {
@@ -39,6 +44,7 @@ public class DocumentoDaoPostgres implements DocumentoDao {
                 documento.setFile(rs.getString("url"));
                 documento.setDataRilascio(rs.getDate("rilascio"));
                 documento.setDataScadenza(rs.getDate("scadenza"));
+                documento.setDipendente(dipendente);
                 documento.setStato(rs.getString("stato"));
                 documento.setFormato(rs.getString("formato"));
                 documenti.add(documento);
@@ -51,8 +57,10 @@ public class DocumentoDaoPostgres implements DocumentoDao {
 
     @Override
     public List<Documento> findByAzienda(String pIva) {
+
         Azienda a = new Azienda();
         a.setPIva(pIva);
+
         List<Documento> documenti = new ArrayList<>();
         String query = "SELECT * FROM documenti WHERE azienda  = ?";
         try {
