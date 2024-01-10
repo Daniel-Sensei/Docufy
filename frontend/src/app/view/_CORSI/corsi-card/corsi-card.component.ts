@@ -1,4 +1,4 @@
-import { Component } from '@angular/core';
+import { Component, Input } from '@angular/core';
 import { Corso } from '../../../model/Corso';
 import { CorsiService } from '../../../service/corsi/corsi.service';
 
@@ -8,12 +8,8 @@ import { CorsiService } from '../../../service/corsi/corsi.service';
   styleUrl: './corsi-card.component.css'
 })
 export class CorsiCardComponent {
+  @Input() corso!: Corso;
+
   constructor(private corsiService: CorsiService) {}
-
-  corsi: Corso[]=[];
-
-  ngOnInit(): void {
-    this.corsiService.getAllCorsi().subscribe(result => this.corsi = result);
-  }
 
 }

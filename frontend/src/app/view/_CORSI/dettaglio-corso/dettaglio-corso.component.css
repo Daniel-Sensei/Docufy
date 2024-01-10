@@ -8,3 +8,9 @@
     border-top-left-radius: .5rem; 
     border-bottom-left-radius: .5rem;
 }
+
+.big-icon{
+    font-size: 7rem;
+    margin-top: 3rem;
+    margin-bottom: 1rem;
+}

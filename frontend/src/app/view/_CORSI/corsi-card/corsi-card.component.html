@@ -1,55 +1,51 @@
-<div class="row row-cols-1 row-cols-md-2 row-cols-xxl-3 g-4">
+<div class="col" type="button" routerLink="/dettaglio_corso">
+    <div class="card p-3 mb-2 h-100">
+        <div class="card-header">
+            <div class="row">
+                <!-- Categoria -->
+                <div class="col-12 badge">
+                    <span>{{corso.categoria}}</span>
+                </div>
 
-    <tr *ngFor="let corso of corsi">
-        <div class="col" type="button" routerLink="/dettaglio_corso">
-            <div class="card p-3 mb-2 h-100">
-                <div class="card-header">
-                    <div class="row">
-                        <!-- Categoria -->
-                        <div class="col-12 badge"> 
-                            <span>{{corso.categoria}}</span> 
-                        </div>
-
-                        <!-- Icona relativa alla categoria -->
-                        <div class="col-12 icon">
-                            <div *ngIf="corso.categoria=='salute e benessere'">
-                                <i class="bx bx-heart-circle"></i>
-                            </div>
-                            <div *ngIf="corso.categoria=='formazione'">
-                                <i class="bxs-book-open"></i>
-                            </div>
-                            <div *ngIf="corso.categoria=='aggiornamento'">
-                                <i class="bx bxl-mailchimp"></i>
-                            </div>
-                            <div *ngIf="corso.categoria=='marketing'">
-                                <i class="bx bxs-game"></i>
-                            </div>
-                            <div *ngIf="corso.categoria=='sicurezza'">
-                                <i class="bx bxl-mailchimp"></i>
-                            </div>
-                        </div>
-                        
-                        <div class="col-12 c-details">
-                            <h6 class="card-title text-truncate">{{corso.nome}}</h6>
-                        </div>
-                        
+                <!-- Icona relativa alla categoria -->
+                <div class="col-12 icon">
+                    <div *ngIf="corso.categoria=='salute e benessere'">
+                        <i class="bx bx-heart-circle"></i>
+                    </div>
+                    <div *ngIf="corso.categoria=='formazione'">
+                        <i class="bxs-book-open"></i>
+                    </div>
+                    <div *ngIf="corso.categoria=='aggiornamento'">
+                        <i class="bx bxl-mailchimp"></i>
+                    </div>
+                    <div *ngIf="corso.categoria=='marketing'">
+                        <i class="bx bxs-game"></i>
+                    </div>
+                    <div *ngIf="corso.categoria=='sicurezza'">
+                        <i class="bx bxl-mailchimp"></i>
                     </div>
                 </div>
 
-                <div class="card-body">
-                    <p class="card-text">{{corso.descrizione}}</p>
-                    <div class="mt-5">
-                        <div class="progress">
-                            <div class="progress-bar" role="progressbar" [style.width.%]="[(corso.postiDisponibili/corso.posti)*100]" [attr.aria-valuenow]="(corso.postiDisponibili/corso.posti)*100"
-                                aria-valuemin="0" aria-valuemax="100"></div>
-                        </div>
-                        <div class="mt-3"> <span class="text1">32 Applied <span class="text2">of 50
-                                    capacity</span></span> </div>
-                    </div>
+                <div class="col-12 c-details">
+                    <h6 class="card-title text-truncate">{{corso.nome}}</h6>
                 </div>
 
             </div>
         </div>
 
-    </tr>
+        <div class="card-body">
+            <p class="card-text">{{corso.descrizione}}</p>
+            <div class="mt-5">
+                <div class="progress">
+                    <div class="progress-bar" role="progressbar"
+                        [style.width.%]="[(corso.postiDisponibili/corso.posti)*100]"
+                        [attr.aria-valuenow]="(corso.postiDisponibili/corso.posti)*100" aria-valuemin="0"
+                        aria-valuemax="100"></div>
+                </div>
+                <div class="mt-3"> <span class="text1">32 Iscritti <span class="text2">su 50
+                            posti disponibili</span></span> </div>
+            </div>
+        </div>
+
+    </div>
 </div>

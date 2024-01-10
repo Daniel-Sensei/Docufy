@@ -23,7 +23,15 @@ export class DocumentiComponent {
     public auth: AuthService) { }
 
   ngOnInit(): void {
-    this.documentiService.getAllDocumenti().subscribe(documenti => { this.documenti = documenti; });
+    var pIva: string = '';
+    if (this.auth.getRole() == 'A') {
+      pIva = this.auth.getCurrentPIva()!;
+    }
+    else {
+      pIva = this.auth.getSelectedPIva()!;
+    }
+
+    this.documentiService.getDocumentiAzienda(pIva).subscribe(documenti => { this.documenti = documenti; });
   }
 
   openAddDocumentModal() {

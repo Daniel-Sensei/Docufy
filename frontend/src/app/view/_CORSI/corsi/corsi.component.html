@@ -21,6 +21,7 @@
       </div>-->
   </div>
 
-
-    <app-corsi-card></app-corsi-card>
+  <div class="row row-cols-1 row-cols-md-2 row-cols-xxl-3 g-4">
+    <app-corsi-card *ngFor="let corso of corsi" [corso]="corso"></app-corsi-card>
+  </div>
 </main>
