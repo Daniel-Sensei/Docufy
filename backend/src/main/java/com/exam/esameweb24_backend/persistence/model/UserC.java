@@ -369,20 +369,30 @@ public class UserC extends User{
     }
 
     @Override
-    public ResponseEntity<String> aggiungiDocumentoAzienda(MultipartFile json, MultipartFile file, String pIva) {
+    public ResponseEntity<String> aggiungiDocumento (MultipartFile json, MultipartFile file, String pIva, String cf){
 
         // controllo se è stato aggiunto il file e se è stato aggiunto un json del documento
         if (json.isEmpty() || file.getOriginalFilename().isBlank() || file.getOriginalFilename().equals("blob") || file.isEmpty())
             return new ResponseEntity<>(HttpStatus.BAD_REQUEST);
 
-        if (!Utility.checkConsultantAgency(this.pIva, pIva)) return new ResponseEntity<>(HttpStatus.UNAUTHORIZED);
+        if(cf!=null){
+            if (DBManager.getInstance().getDipendenteDao().findByCF(cf) == null)
+                return new ResponseEntity<>(HttpStatus.BAD_REQUEST);
+            if(!Utility.checkConsultantAgency(this.pIva, DBManager.getInstance().getDipendenteDao().findByCF(cf).getAzienda().getPIva()))
+                return new ResponseEntity<>(HttpStatus.UNAUTHORIZED);
+        } else {
+            if (DBManager.getInstance().getAziendaDao().findByPIva(pIva) == null)
+                return new ResponseEntity<>(HttpStatus.BAD_REQUEST);
+            if(!Utility.checkConsultantAgency(this.pIva, pIva))
+                return new ResponseEntity<>(HttpStatus.UNAUTHORIZED);
+        }
 
         // converto il json in un documento
         Documento documento = Utility.jsonToObject(json, Documento.class);
 
         String filePath;
         try {
-            filePath = Utility.uploadFile(pIva, file);
+            filePath = Utility.uploadFile(cf==null ? pIva : cf , file);
         } catch (IOException e) {
             return new ResponseEntity<>(HttpStatus.INTERNAL_SERVER_ERROR);
         }
@@ -399,50 +409,6 @@ public class UserC extends User{
     }
 
     @Override
-    public ResponseEntity<String> aggiungiDocumentoDipendente(MultipartFile json, MultipartFile file, String cf) {
-
-        // controllo se è stato aggiunto il file e se è stato aggiunto un json del documento
-        if (json.isEmpty() || file.getOriginalFilename().isBlank() || file.getOriginalFilename().equals("blob") || file.isEmpty())
-            return new ResponseEntity<>(HttpStatus.BAD_REQUEST);
-
-        Dipendente d = DBManager.getInstance().getDipendenteDao().findByCF(cf);
-        if (d==null) return new ResponseEntity<>(HttpStatus.BAD_REQUEST);
-
-        String pIva = d.getAzienda().getPIva();
-
-        if (!Utility.checkConsultantAgency(this.pIva, pIva)) return new ResponseEntity<>(HttpStatus.UNAUTHORIZED);
-
-        // converto il json in un documento
-        Documento documento = Utility.jsonToObject(json, Documento.class);
-
-        String filePath;
-        try {
-            filePath = Utility.uploadFile(cf, file);
-        } catch (IOException e) {
-            return new ResponseEntity<>(HttpStatus.INTERNAL_SERVER_ERROR);
-        }
-
-        documento.setFile(filePath);
-
-        Long id = DBManager.getInstance().getDocumentoDao().insert(documento);
-        if (id == null) {
-            Utility.deleteFile(filePath);
-            return new ResponseEntity<>(HttpStatus.INTERNAL_SERVER_ERROR);
-        }
-
-        return new ResponseEntity<>(HttpStatus.OK);
-    }
-
-    @Override
-    public ResponseEntity<String> modificaDocumentoAzienda(MultipartFile json, MultipartFile file, String pIva) {
-        return modificaDocumento(json, file, pIva, null);
-    }
-
-    @Override
-    public ResponseEntity<String> modificaDocumentoDipendente(MultipartFile json, MultipartFile file, String cf) {
-        return modificaDocumento(json, file, null, cf);
-    }
-
     public ResponseEntity<String> modificaDocumento(MultipartFile json, MultipartFile file, String pIva, String cf) {
 
         // controllo se è stato aggiunto il file e se è stato aggiunto un json del documento

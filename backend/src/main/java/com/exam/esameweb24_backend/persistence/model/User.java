@@ -109,13 +109,25 @@ public class User {
 
     public ResponseEntity<Documento> getDocumento(Long id){return null;}
 
-    public ResponseEntity<String> aggiungiDocumentoAzienda(MultipartFile json, MultipartFile file, String pIva){return null;}
+    public ResponseEntity<String> aggiungiDocumentoAzienda(MultipartFile json, MultipartFile file, String pIva) {
+        return aggiungiDocumento(json, file, pIva, null);
+    }
 
-    public ResponseEntity<String> aggiungiDocumentoDipendente(MultipartFile json, MultipartFile file, String cf){return null;}
+    public ResponseEntity<String> aggiungiDocumentoDipendente(MultipartFile json, MultipartFile file, String cf) {
+        return aggiungiDocumento(json, file, null, cf);
+    }
 
-    public ResponseEntity<String> modificaDocumentoAzienda(MultipartFile json, MultipartFile file, String pIva){return null;}
+    public ResponseEntity<String> aggiungiDocumento(MultipartFile json, MultipartFile file, String pIva, String cf){return null;}
 
-    public ResponseEntity<String> modificaDocumentoDipendente(MultipartFile json, MultipartFile file, String cf){return null;}
+    public ResponseEntity<String> modificaDocumentoAzienda(MultipartFile json, MultipartFile file, String pIva) {
+        return modificaDocumento(json, file, pIva, null);
+    }
+
+    public ResponseEntity<String> modificaDocumentoDipendente(MultipartFile json, MultipartFile file, String cf) {
+        return modificaDocumento(json, file, null, cf);
+    }
+
+    public ResponseEntity<String> modificaDocumento(MultipartFile json, MultipartFile file, String pIva, String cf) {return null;}
 
     public ResponseEntity<String> rimuoviDocumento(Long id){return null;}
 }

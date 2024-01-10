@@ -356,16 +356,7 @@ public class UserA extends User{
     }
 
     @Override
-    public ResponseEntity<String> aggiungiDocumentoAzienda(MultipartFile json, MultipartFile file, String pIva) {
-        return aggiungiDocumento(json, file, pIva, null);
-    }
-
-    @Override
-    public ResponseEntity<String> aggiungiDocumentoDipendente(MultipartFile json, MultipartFile file, String cf) {
-        return aggiungiDocumento(json, file, null, cf);
-    }
-
-    private ResponseEntity<String> aggiungiDocumento(MultipartFile json, MultipartFile file, String pIva, String cf) {
+    public ResponseEntity<String> aggiungiDocumento(MultipartFile json, MultipartFile file, String pIva, String cf) {
 
         // Controllo se è stato aggiunto il file e se è stato aggiunto un json del documento
         if (json.isEmpty() || file.getOriginalFilename().isBlank() || file.getOriginalFilename().equals("blob") || file.isEmpty())
@@ -404,15 +395,6 @@ public class UserA extends User{
     }
 
     @Override
-    public ResponseEntity<String> modificaDocumentoAzienda(MultipartFile json, MultipartFile file, String pIva) {
-        return modificaDocumento(json, file, pIva, null);
-    }
-
-    @Override
-    public ResponseEntity<String> modificaDocumentoDipendente(MultipartFile json, MultipartFile file, String cf) {
-        return modificaDocumento(json, file, null, cf);
-    }
-
     public ResponseEntity<String> modificaDocumento(MultipartFile json, MultipartFile file, String pIva, String cf) {
 
         // controllo se è stato aggiunto il file e se è stato aggiunto un json del documento
