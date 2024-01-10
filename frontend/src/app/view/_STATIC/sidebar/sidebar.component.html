@@ -47,14 +47,14 @@
         </a>
       </li><!-- End Azienda Page Nav -->
   
-      <li class="nav-item">
+      <li class="nav-item" *ngIf="role=='A'">
         <a class="nav-link collapsed" routerLink="/question">
           <i class="bi bi-question-circle"></i>
           <span>F.A.Q</span>
         </a>
       </li><!-- End F.A.Q Page Nav -->
   
-      <li class="nav-item">
+      <li class="nav-item" *ngIf="role=='A'">
         <a class="nav-link collapsed" routerLink="/contact">
           <i class="bi bi-envelope"></i>
           <span>Contact</span>

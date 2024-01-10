@@ -5,6 +5,7 @@ import { AlertService } from '../../../service/alert/alert.service';
 
 import { Documento } from '../../../model/Documento';
 import { DocumentiService } from '../../../service/documenti/documenti.service';
+import { AuthService } from '../../../service/auth/auth.service';
 
 
 @Component({
@@ -18,7 +19,8 @@ export class DocumentiComponent {
   constructor(
     private modalService: NgbModal,
     public alert: AlertService,
-    private documentiService: DocumentiService) { }
+    private documentiService: DocumentiService,
+    public auth: AuthService) { }
 
   ngOnInit(): void {
     this.documentiService.getAllDocumenti().subscribe(documenti => { this.documenti = documenti; });

@@ -5,6 +5,7 @@ import { Documento } from '../../../model/Documento';
 import {MatPaginator} from '@angular/material/paginator';
 import {MatSort} from '@angular/material/sort';
 import {MatTableDataSource} from '@angular/material/table';
+import { AuthService } from '../../../service/auth/auth.service';
 
 @Component({
   selector: 'app-documenti-tabella',
@@ -20,7 +21,9 @@ export class DocumentiTabellaComponent implements AfterViewInit{
   
   @Input() documenti: Documento[] = [];
 
-  constructor(private cdr: ChangeDetectorRef) {
+  constructor(
+    private cdr: ChangeDetectorRef,
+    public auth: AuthService) {
     this.dataSource = new MatTableDataSource(this.documenti);
   }
 

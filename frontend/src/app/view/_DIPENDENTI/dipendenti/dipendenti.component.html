@@ -11,8 +11,8 @@
     </div><!-- End Page Title -->
 
     <div class="margin">
-        <div class="mb-3">
-            <button type="button" class="btn btn-primary" [disabled]="dipendenti.length==0"
+        <div class="mb-3" *ngIf="this.auth.getRole()=='A'">
+            <button type="button" class="btn btn-primary"
                 (click)="openAddDocumentModal()">
                 Aggiungi Dipendente
             </button>

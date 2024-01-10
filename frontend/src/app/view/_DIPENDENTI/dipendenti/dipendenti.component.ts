@@ -23,7 +23,7 @@ export class DipendentiComponent {
     public alert: AlertService,
     private dipendentiService: DipendentiService,
     private fileService: FileService,
-    private auth: AuthService
+    public auth: AuthService
   ) { }
 
   ngOnInit(): void {

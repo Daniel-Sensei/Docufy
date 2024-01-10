@@ -26,7 +26,7 @@
         </li><!-- End Search Icon-->
 
         <!-- Add combo box for aziende selection -->
-        <li class="nav-item pe-3" *ngIf="!isDashboard">
+        <li class="nav-item pe-3" *ngIf="!isDashboard && role=='C'">
           <select class="form-select clear-combo-box" id="aziendaSelect" [(ngModel)]="aziendaSelezionata" (change)="onAziendaChange()">
             <option value="" disabled selected hidden>Seleziona azienda</option>
             <option *ngFor="let azienda of aziende" [value]="azienda.ragioneSociale">{{ azienda.ragioneSociale }}</option>

@@ -7,6 +7,7 @@ import { AddAziendaModalComponent } from '../add-azienda-modal/add-azienda-modal
 import { NgbModal } from '@ng-bootstrap/ng-bootstrap';
 
 import { Router } from '@angular/router';
+import { AuthService } from '../../../service/auth/auth.service';
 
 @Component({
   selector: 'app-aziende',
@@ -19,7 +20,8 @@ export class AziendeComponent {
     public alert: AlertService,
     private aziendeService: AziendeService,
     private modalService: NgbModal,
-    private router: Router
+    private router: Router,
+    public auth: AuthService
   ) { }
 
   aziende: Azienda[] = [];

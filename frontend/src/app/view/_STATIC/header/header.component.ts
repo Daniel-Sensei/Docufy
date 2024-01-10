@@ -34,15 +34,15 @@ export class HeaderComponent {
     private aziendeService: AziendeService,
     private auth: AuthService,
     private route: ActivatedRoute) {
-      this.router.events.subscribe(event => {
-        if (event instanceof NavigationStart) {
-          this.isDashboard = event.url === '/'; //controllo se è login o register 
-          if(!this.isDashboard){
-            this.selectFirstAzienda();
-          }
+    this.router.events.subscribe(event => {
+      if (event instanceof NavigationStart) {
+        this.isDashboard = event.url === '/'; //controllo se è login o register 
+        if (!this.isDashboard) {
+          this.selectFirstAzienda();
         }
-      });
-     }
+      }
+    });
+  }
 
   toggleSidebar() {
     document.body.classList.toggle('toggle-sidebar');
@@ -66,6 +66,15 @@ export class HeaderComponent {
         this.aziende = aziende;
 
         this.selectFirstAzienda();
+
+        // Ricarica la pagina
+        // Necessario per nascondere la comboBox al login
+        this.router.routeReuseStrategy.shouldReuseRoute = () => false;
+        const currentUrl = this.router.url + '/';
+        this.router.navigateByUrl(currentUrl).then(() => {
+          this.router.navigated = false;
+          this.router.navigate([this.router.url]);
+        });
       }
     );
   }
@@ -87,7 +96,7 @@ export class HeaderComponent {
     }
   }
 
-  onAziendaChange(){
+  onAziendaChange() {
     let index = this.aziende?.findIndex(azienda => azienda.ragioneSociale === this.aziendaSelezionata);
     if (index !== undefined && index >= 0) {
       this.auth.setSelectedPIva(this.aziende![index].piva);

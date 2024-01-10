@@ -11,7 +11,7 @@
     </div><!-- End Page Title -->
 
     <div class="margin">
-        <div class="mb-3">
+        <div class="mb-3" *ngIf="this.auth.getRole()=='C'">
             <button type="button" class="btn btn-primary" (click)="openAddAzienda()">
                 Aggiungi Azienda
             </button>

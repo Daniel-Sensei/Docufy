@@ -46,9 +46,9 @@
                 <ng-container matColumnDef="azioni">
                     <th mat-header-cell *matHeaderCellDef mat-sort-header> Azioni </th>
                     <td mat-cell *matCellDef="let row">
-                        <a class="fw-bold small" data-mdb-ripple-color="dark" href="#">Aggiorna/</a>
-                        <a class="fw-bold small" data-mdb-ripple-color="dark" href="#">Scarica/</a>
-                        <a class="fw-bold small" data-mdb-ripple-color="dark" href="#">Elimina</a>
+                        <a class="fw-bold small" data-mdb-ripple-color="dark" href="#" *ngIf="this.auth.getRole()=='A'">Aggiorna/</a>
+                        <a class="fw-bold small" data-mdb-ripple-color="dark" href="#">Scarica</a>
+                        <a class="fw-bold small" data-mdb-ripple-color="dark" href="#" *ngIf="this.auth.getRole()=='A'">/Elimina</a>
                     </td>
                 </ng-container>
 

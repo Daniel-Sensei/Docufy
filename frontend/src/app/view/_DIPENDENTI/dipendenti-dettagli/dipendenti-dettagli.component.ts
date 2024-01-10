@@ -12,6 +12,7 @@ import { DatePipe } from '@angular/common';
 import { ConfirmModalComponent } from '../../_STATIC/confirm-modal/confirm-modal.component';
 
 import { forkJoin, Observable, map } from 'rxjs';
+import { AuthService } from '../../../service/auth/auth.service';
 
 @Component({
   selector: 'app-dipendenti-dettagli',
@@ -33,7 +34,8 @@ export class DipendentiDettagliComponent {
     private modalService: NgbModal,
     private fileService: FileService,
     public alert: AlertService,
-    private datePipe: DatePipe
+    private datePipe: DatePipe,
+    public auth: AuthService
   ) { }
 
   ngOnInit(): void {
