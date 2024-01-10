@@ -2,9 +2,7 @@ package com.exam.esameweb24_backend.persistence.dao.postgres;
 
 import com.exam.esameweb24_backend.persistence.DBManager;
 import com.exam.esameweb24_backend.persistence.dao.DocumentoDao;
-import com.exam.esameweb24_backend.persistence.model.Azienda;
 import com.exam.esameweb24_backend.persistence.model.Documento;
-import com.exam.esameweb24_backend.persistence.model.Dipendente;
 
 import java.sql.*;
 import java.util.ArrayList;
@@ -37,8 +35,8 @@ public class DocumentoDaoPostgres implements DocumentoDao {
                 documento.setId(rs.getLong("id"));
                 documento.setNome(rs.getString("nome"));
                 documento.setFile(rs.getString("url"));
-                documento.setDataRilascio(rs.getDate("data_rilascio"));
-                documento.setDataScadenza(rs.getDate("data_scadenza"));
+                documento.setDataRilascio(rs.getDate("rilascio"));
+                documento.setDataScadenza(rs.getDate("scadenza"));
                 documento.setStato(rs.getString("stato"));
                 documento.setFormato(rs.getString("formato"));
                 documenti.add(documento);
@@ -86,8 +84,8 @@ public class DocumentoDaoPostgres implements DocumentoDao {
                 documento.setId(rs.getLong("id"));
                 documento.setNome(rs.getString("nome"));
                 documento.setFile(rs.getString("url"));
-                documento.setDataRilascio(rs.getDate("data_rilascio"));
-                documento.setDataScadenza(rs.getDate("data_scadenza"));
+                documento.setDataRilascio(rs.getDate("rilascio"));
+                documento.setDataScadenza(rs.getDate("scadenza"));
                 if(rs.getInt("dipendente") != 0)
                     documento.setDipendente(DBManager.getInstance().getDipendenteDao().findById(rs.getLong("dipendente")));
                 if(rs.getString("azienda") != null)
@@ -104,7 +102,7 @@ public class DocumentoDaoPostgres implements DocumentoDao {
 
     @Override
     public Long insert(Documento documento) {
-        String query = "INSERT INTO documenti (nome, url, data_rilascio, data_scadenza, dipendente, azienda, stato, formato) VALUES (?, ?, ?, ?, ?, ?, ?, ?) RETURNING id";
+        String query = "INSERT INTO documenti (nome, url, rilascio, scadenza, dipendente, azienda, stato, formato) VALUES (?, ?, ?, ?, ?, ?, ?, ?) RETURNING id";
         try {
             PreparedStatement st = conn.prepareStatement(query);
             st.setString(1, documento.getNome());
@@ -135,7 +133,7 @@ public class DocumentoDaoPostgres implements DocumentoDao {
 
     @Override
     public boolean update(Documento documento) {
-        String query = "UPDATE documenti SET nome = ?, url = ?, data_rilascio = ?, data_scadenza = ?, dipendente = ?, azienda = ?, stato = ?, formato = ? WHERE id = ?";
+        String query = "UPDATE documenti SET nome = ?, url = ?, rilascio = ?, scadenza = ?, dipendente = ?, azienda = ?, stato = ?, formato = ? WHERE id = ?";
         try {
             PreparedStatement st = conn.prepareStatement(query);
             st.setString(1, documento.getNome());
