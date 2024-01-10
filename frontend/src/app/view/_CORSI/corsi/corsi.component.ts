@@ -14,7 +14,7 @@ import { Corso } from '../../../model/Corso';
 export class CorsiComponent {
   constructor(
     private modalService: NgbModal,
-    private auth: AuthService,
+    public auth: AuthService,
     private corsiService: CorsiService) { }
 
   corsi: Corso[] = [];
