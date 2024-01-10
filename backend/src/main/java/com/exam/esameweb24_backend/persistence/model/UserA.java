@@ -330,7 +330,7 @@ public class UserA extends User{
     public ResponseEntity<List<Documento>> getDocumentiAzienda(String pIva) {
         if(DBManager.getInstance().getAziendaDao().findByPIva(pIva)==null) return new ResponseEntity<>(HttpStatus.BAD_REQUEST);
         if(this.pIva.equals(pIva))
-            return new ResponseEntity<>(DBManager.getInstance().getDocumentoDao().findByAgency(pIva), HttpStatus.OK);
+            return new ResponseEntity<>(DBManager.getInstance().getDocumentoDao().findByAzienda(pIva), HttpStatus.OK);
         return new ResponseEntity<>(HttpStatus.UNAUTHORIZED);
     }
 
@@ -339,7 +339,7 @@ public class UserA extends User{
         Dipendente dipendente = DBManager.getInstance().getDipendenteDao().findById(id);
         if (dipendente==null) return new ResponseEntity<>(HttpStatus.BAD_REQUEST);
         if (this.pIva.equals(dipendente.getAzienda().getPIva()))
-            return new ResponseEntity<>(DBManager.getInstance().getDocumentoDao().findByEmployee(id), HttpStatus.OK);
+            return new ResponseEntity<>(DBManager.getInstance().getDocumentoDao().findByDipendente(id), HttpStatus.OK);
         return new ResponseEntity<>(HttpStatus.UNAUTHORIZED);
     }
 
@@ -370,15 +370,11 @@ public class UserA extends User{
             a.setPIva(this.pIva);
             documento.setAzienda(a);
         } else {
-            Dipendente d = DBManager.getInstance().getDipendenteDao().findById(documento.getDipendente().getId());
+            Dipendente d = DBManager.getInstance().getDipendenteDao().findByCF(documento.getDipendente().getCF());
             if (d == null) return new ResponseEntity<>(HttpStatus.BAD_REQUEST);
             else if (!this.pIva.equals(d.getAzienda().getPIva())) return new ResponseEntity<>(HttpStatus.UNAUTHORIZED);
         }
 
-        Long id = DBManager.getInstance().getDocumentoDao().insert(documento);
-        if (id == null) return new ResponseEntity<>(HttpStatus.INTERNAL_SERVER_ERROR);
-
-        documento.setId(id);
 
         String filePath;
         try {
@@ -389,7 +385,9 @@ public class UserA extends User{
 
         documento.setFile(filePath);
 
-        if (!DBManager.getInstance().getDocumentoDao().update(documento)) {
+        Long id = DBManager.getInstance().getDocumentoDao().insert(documento);
+        if (id == null) {
+            Utility.deleteFile(filePath);
             return new ResponseEntity<>(HttpStatus.INTERNAL_SERVER_ERROR);
         }
 

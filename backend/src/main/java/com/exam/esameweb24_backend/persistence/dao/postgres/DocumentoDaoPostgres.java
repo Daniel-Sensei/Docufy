@@ -2,6 +2,8 @@ package com.exam.esameweb24_backend.persistence.dao.postgres;
 
 import com.exam.esameweb24_backend.persistence.DBManager;
 import com.exam.esameweb24_backend.persistence.dao.DocumentoDao;
+import com.exam.esameweb24_backend.persistence.model.Azienda;
+import com.exam.esameweb24_backend.persistence.model.Dipendente;
 import com.exam.esameweb24_backend.persistence.model.Documento;
 
 import java.sql.*;
@@ -23,12 +25,12 @@ public class DocumentoDaoPostgres implements DocumentoDao {
     }
 
     @Override
-    public List<Documento> findByEmployee(Long employeeID) {
+    public List<Documento> findByDipendente(Long idDipendente) {
         List<Documento> documenti = new ArrayList<>();
         String query = "SELECT * FROM documenti WHERE dipendente  = ?";
         try {
             PreparedStatement st = conn.prepareStatement(query);
-            st.setLong(1, employeeID);
+            st.setLong(1, idDipendente);
             ResultSet rs = st.executeQuery();
             while (rs.next()) {
                 Documento documento = new Documento();
@@ -48,12 +50,14 @@ public class DocumentoDaoPostgres implements DocumentoDao {
     }
 
     @Override
-    public List<Documento> findByAgency(String agencyPIva) {
+    public List<Documento> findByAzienda(String pIva) {
+        Azienda a = new Azienda();
+        a.setPIva(pIva);
         List<Documento> documenti = new ArrayList<>();
         String query = "SELECT * FROM documenti WHERE azienda  = ?";
         try {
             PreparedStatement st = conn.prepareStatement(query);
-            st.setString(1, agencyPIva);
+            st.setString(1, pIva);
             ResultSet rs = st.executeQuery();
             while (rs.next()) {
                 Documento documento = new Documento();
@@ -62,6 +66,7 @@ public class DocumentoDaoPostgres implements DocumentoDao {
                 documento.setFile(rs.getString("url"));
                 documento.setDataRilascio(rs.getDate("rilascio"));
                 documento.setDataScadenza(rs.getDate("scadenza"));
+                documento.setAzienda(a);
                 documento.setStato(rs.getString("stato"));
                 documento.setFormato(rs.getString("formato"));
                 documenti.add(documento);

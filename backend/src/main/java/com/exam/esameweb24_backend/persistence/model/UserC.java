@@ -343,7 +343,7 @@ public class UserC extends User{
     public ResponseEntity<List<Documento>> getDocumentiAzienda(String pIva) {
         if(DBManager.getInstance().getAziendaDao().findByPIva(pIva)==null) return new ResponseEntity<>(HttpStatus.BAD_REQUEST);
         if(Utility.checkConsultantAgency(this.pIva, pIva))
-            return new ResponseEntity<>(DBManager.getInstance().getDocumentoDao().findByAgency(pIva), HttpStatus.OK);
+            return new ResponseEntity<>(DBManager.getInstance().getDocumentoDao().findByAzienda(pIva), HttpStatus.OK);
         return new ResponseEntity<>(HttpStatus.UNAUTHORIZED);
     }
 
@@ -352,7 +352,7 @@ public class UserC extends User{
         Dipendente dipendente = DBManager.getInstance().getDipendenteDao().findById(id);
         if (dipendente==null) return new ResponseEntity<>(HttpStatus.BAD_REQUEST);
         if (Utility.checkConsultantAgency(this.pIva, dipendente.getAzienda().getPIva()))
-            return new ResponseEntity<>(DBManager.getInstance().getDocumentoDao().findByEmployee(id), HttpStatus.OK);
+            return new ResponseEntity<>(DBManager.getInstance().getDocumentoDao().findByDipendente(id), HttpStatus.OK);
         return new ResponseEntity<>(HttpStatus.UNAUTHORIZED);
     }
 
@@ -389,11 +389,6 @@ public class UserC extends User{
             else if (!this.pIva.equals(d.getAzienda().getConsulente().getPIva())) return new ResponseEntity<>(HttpStatus.UNAUTHORIZED);
         }
 
-        Long id = DBManager.getInstance().getDocumentoDao().insert(documento);
-        if (id == null) return new ResponseEntity<>(HttpStatus.INTERNAL_SERVER_ERROR);
-
-        documento.setId(id);
-
         String filePath;
         try {
             filePath = Utility.uploadFile(documento.getDipendente() == null ? documento.getAzienda().getPIva() : documento.getDipendente().getCF(), file);
@@ -403,7 +398,9 @@ public class UserC extends User{
 
         documento.setFile(filePath);
 
-        if (!DBManager.getInstance().getDocumentoDao().update(documento)) {
+        Long id = DBManager.getInstance().getDocumentoDao().insert(documento);
+        if (id == null) {
+            Utility.deleteFile(filePath);
             return new ResponseEntity<>(HttpStatus.INTERNAL_SERVER_ERROR);
         }
 
