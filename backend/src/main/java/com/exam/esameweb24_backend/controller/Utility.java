@@ -52,6 +52,10 @@ public class Utility {
         return getTokenRole(token).equals("C");
     }
 
+    public static Boolean isConsultantQuery(String pIva) {
+        return (DBManager.getInstance().getConsulenteDao().findByPIva(pIva)!=null);
+    }
+
 
     public static Boolean checkConsultantAgency(String consultant, String agency) {
         return (DBManager.getInstance().getAziendaDao().findByConsultant(consultant).stream().anyMatch(azienda -> azienda.getPIva().equals(agency)));

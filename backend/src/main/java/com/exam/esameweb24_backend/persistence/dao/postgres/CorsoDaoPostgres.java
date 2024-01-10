@@ -27,12 +27,11 @@ public class CorsoDaoPostgres implements CorsoDao {
 
     @Override
     public List<Corso> findByConsultant(String consultantPIva) {
-        Consulente consulente = DBManager.getInstance().getConsulenteDao().findByPIva(consultantPIva);
         List<Corso> courses = new ArrayList<>();
         String query = "SELECT * FROM corsi WHERE consulente  = ?";
         try {
             PreparedStatement st = conn.prepareStatement(query);
-            st.setString(1, consulente.getPIva());
+            st.setString(1, consultantPIva);
             ResultSet rs = st.executeQuery();
             while (rs.next()){
                 Corso corso = new Corso();
@@ -41,7 +40,6 @@ public class CorsoDaoPostgres implements CorsoDao {
                 corso.setPrezzo(rs.getDouble("prezzo"));
                 corso.setDescrizione(rs.getString("descrizione"));
                 corso.setDurata(rs.getInt("durata"));
-                corso.setConsulente(consulente);
                 corso.setCategoria(rs.getString("categoria"));
                 corso.setPosti(rs.getInt("posti"));
                 corso.setPostiDisponibili(rs.getInt("postidisponibili"));

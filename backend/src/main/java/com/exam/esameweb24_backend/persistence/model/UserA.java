@@ -105,7 +105,7 @@ public class UserA extends User{
 
     @Override
     public ResponseEntity<List<Corso>> getCorsiProposti(String pIva) {
-        if(Utility.isConsultant(pIva))
+        if(Utility.isConsultantQuery(pIva))
             return new ResponseEntity<>(DBManager.getInstance().getCorsoDao().findByConsultant(pIva), HttpStatus.OK);
         return new ResponseEntity<>(HttpStatus.BAD_REQUEST);
     }
