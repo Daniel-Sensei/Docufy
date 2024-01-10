@@ -26,7 +26,6 @@ public class DocumentoDaoPostgres implements DocumentoDao {
 
     @Override
     public List<Documento> findByEmployee(Long employeeID) {
-        Dipendente dipendente = DBManager.getInstance().getDipendenteDao().findById(employeeID);
         List<Documento> documenti = new ArrayList<>();
         String query = "SELECT * FROM documenti WHERE dipendente  = ?";
         try {
@@ -40,7 +39,6 @@ public class DocumentoDaoPostgres implements DocumentoDao {
                 documento.setFile(rs.getString("url"));
                 documento.setDataRilascio(rs.getDate("data_rilascio"));
                 documento.setDataScadenza(rs.getDate("data_scadenza"));
-                documento.setDipendente(dipendente);
                 documento.setStato(rs.getString("stato"));
                 documento.setFormato(rs.getString("formato"));
                 documenti.add(documento);
@@ -53,7 +51,6 @@ public class DocumentoDaoPostgres implements DocumentoDao {
 
     @Override
     public List<Documento> findByAgency(String agencyPIva) {
-        Azienda azienda = DBManager.getInstance().getAziendaDao().findByPIva(agencyPIva);
         List<Documento> documenti = new ArrayList<>();
         String query = "SELECT * FROM documenti WHERE azienda  = ?";
         try {
@@ -65,9 +62,8 @@ public class DocumentoDaoPostgres implements DocumentoDao {
                 documento.setId(rs.getLong("id"));
                 documento.setNome(rs.getString("nome"));
                 documento.setFile(rs.getString("url"));
-                documento.setDataRilascio(rs.getDate("data_rilascio"));
-                documento.setDataScadenza(rs.getDate("data_scadenza"));
-                documento.setAzienda(azienda);
+                documento.setDataRilascio(rs.getDate("rilascio"));
+                documento.setDataScadenza(rs.getDate("scadenza"));
                 documento.setStato(rs.getString("stato"));
                 documento.setFormato(rs.getString("formato"));
                 documenti.add(documento);
