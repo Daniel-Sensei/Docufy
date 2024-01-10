@@ -1,6 +1,12 @@
 import { Component, OnInit } from '@angular/core';
 import { IDropdownSettings } from 'ng-multiselect-dropdown';
 import { NgbActiveModal } from '@ng-bootstrap/ng-bootstrap';
+import { NgFor } from '@angular/common';
+
+//import { Dipendente } from '../../../model/Dipendente';
+import { DipendentiService } from '../../../service/dipendenti/dipendenti.service';
+
+
 
 @Component({
   selector: 'app-add-dipendente-corso-modal',
@@ -12,19 +18,21 @@ export class AddDipendenteCorsoModalComponent implements OnInit {
   selectedItems: { item_id: number, item_text: string}[] = [];
   dropdownSettings: IDropdownSettings = {};
 
-  constructor(public activeModal: NgbActiveModal) {
+  constructor(public activeModal: NgbActiveModal, 
+              private dipendentiService: DipendentiService) {
   }
   
 
       ngOnInit(){
-        this.dropdownList = [
+        this.caricaDipendenti();
+        /*this.dropdownList = [
           { item_id: 1, item_text: 'Primo Dipendente'},
           { item_id: 2, item_text: 'Secondo Dipendente'},
           { item_id: 3, item_text: 'Terzo Dipendente'},
           { item_id: 4, item_text: 'Quarto Dipendente'},
           { item_id: 5, item_text: 'Quinto Dipendente'},
-        ]
-        
+        ];*/
+       
         this.dropdownSettings = {
           singleSelection: false,
           idField: 'item_id',
@@ -35,6 +43,17 @@ export class AddDipendenteCorsoModalComponent implements OnInit {
           allowSearchFilter: true
         };
     }
+    pIva: string= "10987654321"; //come faccio ad impostare la partita iva a quella dell'azienda corrente
+   
+    caricaDipendenti(){
+      this.dipendentiService.getDipendenti(this.pIva).subscribe((dipendenti:any[])=>{
+        this.dropdownList = dipendenti.map((dipendente, index)=>({
+          item_id: index,
+          item_text: dipendente.nome + " " + dipendente.cognome
+        }));
+      });
+    }
+
 
     onItemSelect(item: any) {
       console.log('onItemSelect', item);

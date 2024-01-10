@@ -81,12 +81,12 @@
               <div class="tab-pane fade profile-edit pt-3" id="profile-edit">
 
                 <!-- Profile Edit Form -->
-                <form>
+                <form [formGroup]="modificaProfiloForm"> <!--(ngSubmit)="salvaModifiche()"-->
 
                   <div class="row mb-3">
                     <label for="company" class="col-md-4 col-lg-3 col-form-label">Ragione Sociale</label>
                     <div class="col-md-8 col-lg-9">
-                      <input name="company" type="text" class="form-control" id="company"
+                      <input formControlName="ragione_sociale" name="company" type="text" class="form-control" id="company"
                         value={{azienda.ragioneSociale}} (input)="controllaModifiche()"> <!--[(ngModel)]="azienda.ragioneSociale" (input)="controllaModifiche()"-->
                     </div>
                   </div>
@@ -94,14 +94,14 @@
                   <div class="row mb-3">
                     <label for="Email" class="col-md-4 col-lg-3 col-form-label">Email</label>
                     <div class="col-md-8 col-lg-9">
-                      <input name="email" type="email" class="form-control" id="Email" value={{azienda.email}} (input)="controllaModifiche()">
+                      <input formControlName="email" name="email" type="email" class="form-control" id="Email" value={{azienda.email}} (input)="controllaModifiche()">
                     </div>
                   </div>
 
                   <div class="row mb-3">
                     <label for="Address" class="col-md-4 col-lg-3 col-form-label">Indirizzo</label>
                     <div class="col-md-8 col-lg-9">
-                      <input name="address" type="text" class="form-control" id="Address"
+                      <input formControlName="indirizzo" name="address" type="text" class="form-control" id="Address"
                         value={{azienda.indirizzo}} (input)="controllaModifiche()">
                     </div>
                   </div>
@@ -109,14 +109,14 @@
                   <div class="row mb-3">
                     <label for="Phone" class="col-md-4 col-lg-3 col-form-label">Telefono</label>
                     <div class="col-md-8 col-lg-9">
-                      <input name="phone" type="text" class="form-control" id="Phone" value={{azienda.telefono}} (input)="controllaModifiche()">
+                      <input formControlName="telefono" name="phone" type="text" class="form-control" id="Phone" value={{azienda.telefono}} (input)="controllaModifiche()" >
                     </div>
                   </div>
 
                   <div class="row mb-3">
                     <label for="profileImage" class="col-md-4 col-lg-3 col-form-label">Immagine Profilo</label>
                     <div class="col-md-8 col-lg-9">
-                      <input type="file" class="form-control" id="file" accept="image/*">
+                      <input formControlName="img" type="file" class="form-control" id="file" accept="image/*">
                     </div>
                   </div>
 
