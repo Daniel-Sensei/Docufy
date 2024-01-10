@@ -27,6 +27,10 @@ export class AziendeService {
     );
   }
 
+  getAzienda(pIva: String): Observable<Azienda> {
+    return this.http.get<Azienda>(Settings.API_ENDPOINT + 'azienda?pIva=' + pIva, { headers: this.auth.headers});
+  }
+
   getProfilo(): Observable<Azienda> {
     return this.http.get<Azienda>(Settings.API_ENDPOINT + 'profilo', { headers: this.auth.headers}).pipe(
       tap(azienda => this.azienda = azienda),
@@ -34,11 +38,43 @@ export class AziendeService {
     );
   }
 
-  getAzienda(pIva: String): Observable<Azienda> {
-    return this.http.get<Azienda>(Settings.API_ENDPOINT + 'azienda?pIva=' + pIva, { headers: this.auth.headers});
+  addAzienda(azienda: Azienda, file: File): Observable<any> {
+    const formData: FormData = new FormData();
+
+    formData.append('azienda', new Blob([JSON.stringify(azienda)], { type: 'application/json' }));
+
+    if(file){
+      formData.append('file', file, file.name);
+    }
+    else{
+      formData.append('file', new Blob());
+    }
+
+    return this.http.post(Settings.API_ENDPOINT + 'aggiungi-azienda', formData, { headers: this.auth.headers });
   }
 
-  updateProfilo(azienda: Azienda): Observable<any> { //DA MODIFICARE
-    return this.http.put(Settings.API_ENDPOINT + 'profilo', azienda, { headers: this.auth.headers});
+  modificaAzienda(azienda: Azienda, file: File): Observable<any> {
+    const formData: FormData = new FormData();
+
+    formData.append('azienda', new Blob([JSON.stringify(azienda)], { type: 'application/json' }));
+
+    if(file){
+      formData.append('file', file, file.name);
+    }
+    else{
+      formData.append('file', new Blob());
+    }
+
+    return this.http.post(Settings.API_ENDPOINT + 'modifica-azienda', formData, { headers: this.auth.headers });
   }
+
+  deleteAzienda(pIva: String): Observable<any> {
+    return this.http.delete(Settings.API_ENDPOINT + 'rimuovi-azienda?pIva=' + pIva, { headers: this.auth.headers });
+  }
+
+  deleteImgAzienda(pIva: String): Observable<any> {
+    return this.http.delete(Settings.API_ENDPOINT + 'rimuovi-immagine-azienda?pIva=' + pIva, { headers: this.auth.headers });
+  }
+
+
 }

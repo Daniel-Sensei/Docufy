@@ -6,6 +6,9 @@ import { DipendentiService } from '../../../service/dipendenti/dipendenti.servic
 import { AlertService } from '../../../service/alert/alert.service';
 import { Dipendente } from '../../../model/Dipendente';
 
+import { Documento } from '../../../model/Documento';
+import { DocumentiService } from '../../../service/documenti/documenti.service';
+
 @Component({
   selector: 'app-confirm-modal',
   templateUrl: './confirm-modal.component.html',
@@ -15,12 +18,14 @@ export class ConfirmModalComponent {
 
   @Input() function?: string;
   @Input() dipendente?: Dipendente;
+  @Input() documento?: Documento;
 
   constructor(
     public activeModal: NgbActiveModal,
     private router: Router,
     private alert: AlertService,
-    private dipendentiService: DipendentiService) { }
+    private dipendentiService: DipendentiService,
+    private documentiService: DocumentiService) { }
 
   submit() {
     if (this.function == 'deleteImgDipendente') {
@@ -28,6 +33,9 @@ export class ConfirmModalComponent {
     }
     else if (this.function == 'deleteDipendente') {
       this.deleteDipendente();
+    }
+    else if (this.function == 'deleteDocumento') {
+      this.deleteDocumento();
     }
 
 
@@ -64,6 +72,24 @@ export class ConfirmModalComponent {
         },
         error => {
           this.alert.setMessage('Errore durante la rimozione del dipendente')
+          this.alert.setDangerAlert();
+        }
+      );
+    }
+  }
+
+  private deleteDocumento() {
+    if (this.documento != undefined ) {
+      this.documentiService.deleteDocumento(this.documento.id).subscribe(
+        data => {
+          this.alert.setMessage('Documento ' + this.documento?.nome +  ' rimosso con successo')
+          this.alert.setSuccessAlert();
+          this.router.navigateByUrl('/', { skipLocationChange: true }).then(() => {
+            this.router.navigate(['/documenti']);
+          });
+        },
+        error => {
+          this.alert.setMessage('Errore durante la rimozione del documento')
           this.alert.setDangerAlert();
         }
       );

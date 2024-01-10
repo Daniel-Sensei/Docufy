@@ -61,22 +61,24 @@ export class HeaderComponent {
   }
 
   getAziende(): void {
-    this.aziendeService.getAziende().subscribe(
-      aziende => {
-        this.aziende = aziende;
+    if (this.auth.getRole() == 'C') {
+      this.aziendeService.getAziende().subscribe(
+        aziende => {
+          this.aziende = aziende;
 
-        this.selectFirstAzienda();
+          this.selectFirstAzienda();
 
-        // Ricarica la pagina
-        // Necessario per nascondere la comboBox al login
-        this.router.routeReuseStrategy.shouldReuseRoute = () => false;
-        const currentUrl = this.router.url + '/';
-        this.router.navigateByUrl(currentUrl).then(() => {
-          this.router.navigated = false;
-          this.router.navigate([this.router.url]);
-        });
-      }
-    );
+          // Ricarica la pagina
+          // Necessario per nascondere la comboBox al login
+          this.router.routeReuseStrategy.shouldReuseRoute = () => false;
+          const currentUrl = this.router.url + '/';
+          this.router.navigateByUrl(currentUrl).then(() => {
+            this.router.navigated = false;
+            this.router.navigate([this.router.url]);
+          });
+        }
+      );
+    }
   }
 
   selectFirstAzienda(): void {

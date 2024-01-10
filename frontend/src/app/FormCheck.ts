@@ -55,4 +55,18 @@ export class FormCheck {
         }
         return true;
     }
+
+    static NgbDateToDateString(ngbDate: NgbDate): string {
+        // Converte un oggetto NgbDate in una stringa nel formato 'yyyy-MM-dd'
+        // Aggiungi uno zero davanti al mese e al giorno se sono composti da un solo carattere
+        let month = ngbDate.month.toString();
+        let day = ngbDate.day.toString();
+        if (ngbDate.month < 10) {
+          month = '0' + month;
+        }
+        if (ngbDate.day < 10) {
+          day = '0' + day;
+        }
+        return ngbDate.year + '-' + month + '-' + day;
+      }
 }
