@@ -55,7 +55,7 @@ public class CorsoDaoPostgres implements CorsoDao {
     @Override
     public List<Corso> findByAgency(String pIva) {
         List<Corso> corsi = new ArrayList<>();
-        String query = "SELECT * from aziende WHERE piva IN (SELECT * FROM corsi_aziende WHERE azienda = ?)";
+        String query = "SELECT * from corsi WHERE id IN (SELECT corso FROM corsi_aziende WHERE azienda = ?)";
         try {
             PreparedStatement st = conn.prepareStatement(query);
             st.setString(1, pIva);
@@ -67,7 +67,6 @@ public class CorsoDaoPostgres implements CorsoDao {
                 corso.setPrezzo(rs.getDouble("prezzo"));
                 corso.setDescrizione(rs.getString("descrizione"));
                 corso.setDurata(rs.getInt("durata"));
-                corso.setConsulente(DBManager.getInstance().getConsulenteDao().findByPIva(rs.getString("consulente")));
                 corso.setCategoria(rs.getString("categoria"));
                 corso.setPosti(rs.getInt("posti"));
                 corso.setPostiDisponibili(rs.getInt("postidisponibili"));
@@ -83,7 +82,7 @@ public class CorsoDaoPostgres implements CorsoDao {
     @Override
     public List<Corso> findByEmployee(Long idDipendente) {
         List<Corso> corsi = new ArrayList<>();
-        String query = "SELECT * FROM dipendenti WHERE id IN (SELECT * FROM corsi_dipendenti WHERE dipendente = ?)";
+        String query = "SELECT * FROM corsi WHERE id IN (SELECT corso FROM corsi_dipendenti WHERE dipendente = ?)";
         try {
             PreparedStatement st = conn.prepareStatement(query);
             st.setLong(1, idDipendente);
@@ -95,7 +94,6 @@ public class CorsoDaoPostgres implements CorsoDao {
                 corso.setPrezzo(rs.getDouble("prezzo"));
                 corso.setDescrizione(rs.getString("descrizione"));
                 corso.setDurata(rs.getInt("durata"));
-                corso.setConsulente(DBManager.getInstance().getConsulenteDao().findByPIva(rs.getString("consulente")));
                 corso.setCategoria(rs.getString("categoria"));
                 corso.setPosti(rs.getInt("posti"));
                 corso.setPostiDisponibili(rs.getInt("postidisponibili"));
