@@ -9,7 +9,8 @@ import org.springframework.web.multipart.MultipartFile;
 import java.io.IOException;
 import java.util.List;
 
-public class UserC extends User{
+public class UserC extends User
+{
 
 
     // Azienda Service
@@ -202,11 +203,6 @@ public class UserC extends User{
     // Corso Service
 
     @Override
-    public ResponseEntity<List<Corso>> getCorsiProposti() {
-        return new ResponseEntity<>(DBManager.getInstance().getCorsoDao().findByConsultant(pIva), HttpStatus.OK);
-    }
-
-    @Override
     public ResponseEntity<List<Corso>> getCorsiByAzienda(String pIva) {
         if(Utility.checkConsultantAgency(this.pIva, pIva))
             return new ResponseEntity<>(DBManager.getInstance().getCorsoDao().findByAgency(pIva), HttpStatus.OK);
@@ -237,33 +233,44 @@ public class UserC extends User{
 
         if(corso==null) return new ResponseEntity<>(HttpStatus.BAD_REQUEST);
 
-        Azienda a = DBManager.getInstance().getAziendaDao().findByPIva(pIva);
-        if (a==null) return new ResponseEntity<>(HttpStatus.BAD_REQUEST);
+        if (DBManager.getInstance().getAziendaDao().findByPIva(pIva)==null)
+            return new ResponseEntity<>(HttpStatus.BAD_REQUEST);
 
         if(Utility.checkConsultantAgency(this.pIva, pIva)){
             if (DBManager.getInstance().getCorsoDao().insert(corso)!=null) {
-                if (DBManager.getInstance().getCorsoDao().addAzienda(corso.getId(), pIva)) return new ResponseEntity<>(HttpStatus.OK);
+                if (DBManager.getInstance().getCorsoDao().addAzienda(corso.getId(), pIva))
+                    return new ResponseEntity<>(HttpStatus.OK);
                 else return new ResponseEntity<>(HttpStatus.INTERNAL_SERVER_ERROR);
             } else return new ResponseEntity<>(HttpStatus.INTERNAL_SERVER_ERROR);
         } else return new ResponseEntity<>(HttpStatus.UNAUTHORIZED);
     }
 
     @Override
-    public ResponseEntity<String> modificaCorso(Corso corso) {
+    public ResponseEntity<String> modificaCorso(Corso corso, String pIva) {
 
-        // controllo che il corso passato non sia null
+        // controllo che il corso fornito non sia null
         if(corso==null) return new ResponseEntity<>(HttpStatus.BAD_REQUEST);
 
         // controllo che il corso esista
-        Corso c = DBManager.getInstance().getCorsoDao().findById(corso.getId());
-        if (c==null) return new ResponseEntity<>(HttpStatus.BAD_REQUEST);
+        if (DBManager.getInstance().getCorsoDao().findById(corso.getId())==null)
+            return new ResponseEntity<>(HttpStatus.BAD_REQUEST);
+
+        // controllo che l'azienda esista
+        if (DBManager.getInstance().getAziendaDao().findByPIva(pIva)==null)
+            return new ResponseEntity<>(HttpStatus.BAD_REQUEST);
 
         // controllo che il consulente sia associato al corso da modificare
-        if (this.pIva.equals(c.getConsulente().getPIva())) {
-            if (DBManager.getInstance().getCorsoDao().update(corso)) return new ResponseEntity<>(HttpStatus.OK);
-            else return new ResponseEntity<>(HttpStatus.INTERNAL_SERVER_ERROR);
-        }
-        return new ResponseEntity<>(HttpStatus.UNAUTHORIZED);
+        if (!this.pIva.equals(corso.getConsulente().getPIva()))
+            return new ResponseEntity<>(HttpStatus.UNAUTHORIZED);
+
+        // controllo che l'azienda sia associata al corso da modificare
+        if(DBManager.getInstance().getCorsoDao().findByAgency(pIva).stream().noneMatch(c -> c.getId().equals(corso.getId())))
+            return new ResponseEntity<>(HttpStatus.BAD_REQUEST);
+
+        if (DBManager.getInstance().getCorsoDao().update(corso))
+            return new ResponseEntity<>(HttpStatus.OK);
+        else return new ResponseEntity<>(HttpStatus.INTERNAL_SERVER_ERROR);
+
     }
 
     @Override
@@ -280,7 +287,6 @@ public class UserC extends User{
         }
         return new ResponseEntity<>(HttpStatus.UNAUTHORIZED);
     }
-
 
 
 

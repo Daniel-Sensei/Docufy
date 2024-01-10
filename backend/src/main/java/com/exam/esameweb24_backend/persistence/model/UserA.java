@@ -10,7 +10,8 @@ import java.io.IOException;
 import java.util.ArrayList;
 import java.util.List;
 
-public class UserA extends User{
+public class UserA extends User
+{
 
 
     // Azienda Service
@@ -104,12 +105,6 @@ public class UserA extends User{
     // Corso Service
 
     @Override
-    public ResponseEntity<List<Corso>> getCorsiProposti() {
-        Azienda a = DBManager.getInstance().getAziendaDao().findByPIva(pIva);
-        return new ResponseEntity<>(DBManager.getInstance().getCorsoDao().findByConsultant(a.getConsulente().getPIva()), HttpStatus.OK);
-    }
-
-    @Override
     public ResponseEntity<List<Corso>> getCorsiByAzienda(String pIva) {
         if(this.pIva.equals(pIva))
             return new ResponseEntity<>(DBManager.getInstance().getCorsoDao().findByAgency(pIva), HttpStatus.OK);
@@ -147,22 +142,14 @@ public class UserA extends User{
         return new ResponseEntity<>(HttpStatus.OK);
     }
 
+    @Override
+    public ResponseEntity<String> aggiungiCorso(Corso corso, String pIva) {return new ResponseEntity<>(HttpStatus.UNAUTHORIZED);}
 
     @Override
-    public ResponseEntity<String> aggiungiCorso(Corso corso, String pIva) {
-        return new ResponseEntity<>(HttpStatus.UNAUTHORIZED);
-    }
+    public ResponseEntity<String> modificaCorso(Corso corso, String pIva) {return new ResponseEntity<>(HttpStatus.UNAUTHORIZED);}
 
     @Override
-    public ResponseEntity<String> modificaCorso(Corso corso) {
-        return new ResponseEntity<>(HttpStatus.UNAUTHORIZED);
-    }
-
-    @Override
-    public ResponseEntity<String> rimuoviCorso(Long id) {
-        return new ResponseEntity<>(HttpStatus.UNAUTHORIZED);
-    }
-
+    public ResponseEntity<String> rimuoviCorso(Long id) {return new ResponseEntity<>(HttpStatus.UNAUTHORIZED);}
 
 
 

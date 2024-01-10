@@ -14,16 +14,6 @@ import java.util.List;
 @CrossOrigin("http://localhost:4200/")
 public class CorsoService {
 
-    @GetMapping("/corsi-proposti")
-    public ResponseEntity<List<Corso>> getCorsiProposti(HttpServletRequest req){
-
-        User user = Utility.getRequestUser(req);
-
-        if(user == null) return new ResponseEntity<>(HttpStatus.UNAUTHORIZED);
-
-        return user.getCorsiProposti();
-    }
-
     @GetMapping("/corsi-acquistati")
     public ResponseEntity<List<Corso>> getCorsiByAzienda(HttpServletRequest req, @RequestParam String pIva){
 
@@ -72,13 +62,13 @@ public class CorsoService {
     }
 
     @PostMapping("/modifica-corso")
-    public ResponseEntity<String> modificaCorso(HttpServletRequest req, @RequestBody Corso corso){
+    public ResponseEntity<String> modificaCorso(HttpServletRequest req, @RequestBody Corso corso, @RequestParam String pIva){
 
         User user = Utility.getRequestUser(req);
 
         if(user == null) return new ResponseEntity<>(HttpStatus.UNAUTHORIZED);
 
-        return user.modificaCorso(corso);
+        return user.modificaCorso(corso, pIva);
     }
 
     @DeleteMapping("/rimuovi-corso")
