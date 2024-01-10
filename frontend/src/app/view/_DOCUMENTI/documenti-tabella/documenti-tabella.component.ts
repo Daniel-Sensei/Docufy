@@ -8,6 +8,7 @@ import {MatTableDataSource} from '@angular/material/table';
 import { AuthService } from '../../../service/auth/auth.service';
 import { NgbModal } from '@ng-bootstrap/ng-bootstrap';
 import { AddDocumentModalComponent } from '../add-documento-modal/add-document-modal.component';
+import { ConfirmModalComponent } from '../../_STATIC/confirm-modal/confirm-modal.component';
 
 
 @Component({
@@ -42,13 +43,13 @@ export class DocumentiTabellaComponent implements AfterViewInit{
     this.cdr.detectChanges();
   }
 
-  openUpdateDipendente() {
+  openUpdateDocumento(documento: Documento) {
     const modalRef = this.modalService.open(AddDocumentModalComponent, {
       size: 'md' // 'lg' sta per grande, puoi utilizzare anche 'sm' per piccolo
     });
 
-    // Passa il this.dipendente al modal
-    modalRef.componentInstance.documento = this.documenti[0];
+    // Passa il this.documento al modal
+    modalRef.componentInstance.documento = documento;
 
     /*
     modalRef.componentInstance.refreshData.subscribe(() => {
@@ -56,5 +57,15 @@ export class DocumentiTabellaComponent implements AfterViewInit{
       this.ngOnInit();
     });
     */
+  }
+
+  openDeleteDocumento(documento: Documento) {
+    const modalRef = this.modalService.open(ConfirmModalComponent, {
+      size: 'md' // 'lg' sta per grande, puoi utilizzare anche 'sm' per piccolo
+    });
+
+    // Passa il this.dipendente al modal
+    modalRef.componentInstance.documento = documento;
+    modalRef.componentInstance.function = 'deleteDocumento';
   }
 }
