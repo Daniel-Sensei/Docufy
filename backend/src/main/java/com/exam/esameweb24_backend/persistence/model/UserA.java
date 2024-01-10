@@ -104,10 +104,9 @@ public class UserA extends User{
     // Corso Service
 
     @Override
-    public ResponseEntity<List<Corso>> getCorsiProposti(String pIva) {
-        if(Utility.isConsultantQuery(pIva))
-            return new ResponseEntity<>(DBManager.getInstance().getCorsoDao().findByConsultant(pIva), HttpStatus.OK);
-        return new ResponseEntity<>(HttpStatus.BAD_REQUEST);
+    public ResponseEntity<List<Corso>> getCorsiProposti() {
+        Azienda a = DBManager.getInstance().getAziendaDao().findByPIva(pIva);
+        return new ResponseEntity<>(DBManager.getInstance().getCorsoDao().findByConsultant(a.getConsulente().getPIva()), HttpStatus.OK);
     }
 
     @Override

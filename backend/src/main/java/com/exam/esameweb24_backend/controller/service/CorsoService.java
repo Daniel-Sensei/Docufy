@@ -15,13 +15,13 @@ import java.util.List;
 public class CorsoService {
 
     @GetMapping("/corsi-proposti")
-    public ResponseEntity<List<Corso>> getCorsiProposti(HttpServletRequest req, @RequestParam String pIva){
+    public ResponseEntity<List<Corso>> getCorsiProposti(HttpServletRequest req){
 
         User user = Utility.getRequestUser(req);
 
         if(user == null) return new ResponseEntity<>(HttpStatus.UNAUTHORIZED);
 
-        return user.getCorsiProposti(pIva);
+        return user.getCorsiProposti();
     }
 
     @GetMapping("/corsi-acquistati")

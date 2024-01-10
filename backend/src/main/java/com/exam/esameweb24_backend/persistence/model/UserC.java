@@ -202,12 +202,8 @@ public class UserC extends User{
     // Corso Service
 
     @Override
-    public ResponseEntity<List<Corso>> getCorsiProposti(String pIva) {
-        if(this.pIva.equals(pIva))
-            return new ResponseEntity<>(DBManager.getInstance().getCorsoDao().findByConsultant(pIva), HttpStatus.OK);
-        if (Utility.isConsultantQuery(pIva))
-            return new ResponseEntity<>(HttpStatus.UNAUTHORIZED);
-        return new ResponseEntity<>(HttpStatus.BAD_REQUEST);
+    public ResponseEntity<List<Corso>> getCorsiProposti() {
+        return new ResponseEntity<>(DBManager.getInstance().getCorsoDao().findByConsultant(pIva), HttpStatus.OK);
     }
 
     @Override

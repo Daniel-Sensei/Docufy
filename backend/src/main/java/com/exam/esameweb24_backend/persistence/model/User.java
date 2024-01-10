@@ -63,7 +63,7 @@ public class User {
 
     // Corso Service
 
-    public ResponseEntity<List<Corso>> getCorsiProposti(String pIva){return null;}
+    public ResponseEntity<List<Corso>> getCorsiProposti(){return null;}
 
     public ResponseEntity<List<Corso>> getCorsiByAzienda(String pIva){return null;}
 
