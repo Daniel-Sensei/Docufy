@@ -1,7 +1,6 @@
 package com.exam.esameweb24_backend.controller.service;
 
 import com.exam.esameweb24_backend.controller.Utility;
-import com.exam.esameweb24_backend.persistence.DBManager;
 import com.exam.esameweb24_backend.persistence.model.*;
 import jakarta.servlet.http.HttpServletRequest;
 import org.springframework.http.HttpStatus;
@@ -45,24 +44,44 @@ public class DocumentoService {
         return user.getDocumento(id);
     }
 
-    @PostMapping("/aggiungi-documento")
-    public ResponseEntity<String> aggiungiDocumento(HttpServletRequest req, @RequestParam("documento") MultipartFile json, @RequestParam("file") MultipartFile file){
+    @PostMapping("/aggiungi-documento-Azienda")
+    public ResponseEntity<String> aggiungiDocumentoAzienda(HttpServletRequest req, @RequestParam("documento") MultipartFile json, @RequestParam("file") MultipartFile file, @RequestParam String pIva){
 
         User user = Utility.getRequestUser(req);
 
         if (user == null) return new ResponseEntity<>(HttpStatus.UNAUTHORIZED);
 
-        return user.aggiungiDocumento(json, file);
+        return user.aggiungiDocumentoAzienda(json, file, pIva);
     }
 
-    @PostMapping("/modifica-documento")
-    public ResponseEntity<String> modificaDocumento(HttpServletRequest req, @RequestParam("documento") MultipartFile json, @RequestParam("file") MultipartFile file){
+    @PostMapping("/aggiungi-documento-dipendente")
+    public ResponseEntity<String> aggiungiDocumentoDipendente(HttpServletRequest req, @RequestParam("documento") MultipartFile json, @RequestParam("file") MultipartFile file, @RequestParam String cf){
 
         User user = Utility.getRequestUser(req);
 
         if (user == null) return new ResponseEntity<>(HttpStatus.UNAUTHORIZED);
 
-        return user.modificaDocumento(json, file);
+        return user.aggiungiDocumentoDipendente(json, file, cf);
+    }
+
+    @PostMapping("/modifica-documento-azienda")
+    public ResponseEntity<String> modificaDocumentoAzienda(HttpServletRequest req, @RequestParam("documento") MultipartFile json, @RequestParam("file") MultipartFile file, @RequestParam String pIva){
+
+        User user = Utility.getRequestUser(req);
+
+        if (user == null) return new ResponseEntity<>(HttpStatus.UNAUTHORIZED);
+
+        return user.modificaDocumentoAzienda(json, file, pIva);
+    }
+
+    @PostMapping("/modifica-documento-dipendente")
+    public ResponseEntity<String> modificaDocumentoDipendente(HttpServletRequest req, @RequestParam("documento") MultipartFile json, @RequestParam("file") MultipartFile file, @RequestParam String cf){
+
+        User user = Utility.getRequestUser(req);
+
+        if (user == null) return new ResponseEntity<>(HttpStatus.UNAUTHORIZED);
+
+        return user.modificaDocumentoDipendente(json, file, cf);
     }
 
     @DeleteMapping("/rimuovi-documento")

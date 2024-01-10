@@ -46,7 +46,7 @@ public class UserC extends User{
     public ResponseEntity<String> aggiungiAzienda(MultipartFile json, MultipartFile file) {
 
         // controllo se è stata aggiunta un'immagine
-        boolean thereIsFile = !(file.getOriginalFilename().isEmpty());
+        boolean thereIsFile = !(file.getOriginalFilename().isBlank());
 
         // se il json è vuoto allora non può usare il servizio
         if (json.isEmpty()) return new ResponseEntity<>(HttpStatus.BAD_REQUEST);
@@ -84,7 +84,7 @@ public class UserC extends User{
     public ResponseEntity<String> modificaAzienda(MultipartFile json, MultipartFile file) {
 
         // controllo se è stata aggiunta un'immagine
-        boolean thereIsFile = !(file.getOriginalFilename().isEmpty());
+        boolean thereIsFile = !(file.getOriginalFilename().isBlank());
 
         // se il json è vuoto allora non può usare il servizio
         if (json.isEmpty()) return new ResponseEntity<>(HttpStatus.BAD_REQUEST);
@@ -369,29 +369,20 @@ public class UserC extends User{
     }
 
     @Override
-    public ResponseEntity<String> aggiungiDocumento(MultipartFile json, MultipartFile file) {
+    public ResponseEntity<String> aggiungiDocumentoAzienda(MultipartFile json, MultipartFile file, String pIva) {
 
         // controllo se è stato aggiunto il file e se è stato aggiunto un json del documento
         if (json.isEmpty() || file.getOriginalFilename().isBlank() || file.getOriginalFilename().equals("blob") || file.isEmpty())
             return new ResponseEntity<>(HttpStatus.BAD_REQUEST);
 
+        if (!Utility.checkConsultantAgency(this.pIva, pIva)) return new ResponseEntity<>(HttpStatus.UNAUTHORIZED);
+
         // converto il json in un documento
         Documento documento = Utility.jsonToObject(json, Documento.class);
 
-        if (documento.getDipendente() == null && documento.getAzienda() == null) return new ResponseEntity<>(HttpStatus.BAD_REQUEST);
-        else if (documento.getDipendente() == null) {
-            Azienda a = DBManager.getInstance().getAziendaDao().findByPIva(this.pIva);
-            if (a == null) return new ResponseEntity<>(HttpStatus.BAD_REQUEST);
-            else if (!this.pIva.equals(a.getConsulente().getPIva())) return new ResponseEntity<>(HttpStatus.UNAUTHORIZED);
-        } else if (documento.getAzienda() == null){
-            Dipendente d = DBManager.getInstance().getDipendenteDao().findById(documento.getDipendente().getId());
-            if (d == null) return new ResponseEntity<>(HttpStatus.BAD_REQUEST);
-            else if (!this.pIva.equals(d.getAzienda().getConsulente().getPIva())) return new ResponseEntity<>(HttpStatus.UNAUTHORIZED);
-        }
-
         String filePath;
         try {
-            filePath = Utility.uploadFile(documento.getDipendente() == null ? documento.getAzienda().getPIva() : documento.getDipendente().getCF(), file);
+            filePath = Utility.uploadFile(pIva, file);
         } catch (IOException e) {
             return new ResponseEntity<>(HttpStatus.INTERNAL_SERVER_ERROR);
         }
@@ -408,7 +399,51 @@ public class UserC extends User{
     }
 
     @Override
-    public ResponseEntity<String> modificaDocumento(MultipartFile json, MultipartFile file) {
+    public ResponseEntity<String> aggiungiDocumentoDipendente(MultipartFile json, MultipartFile file, String cf) {
+
+        // controllo se è stato aggiunto il file e se è stato aggiunto un json del documento
+        if (json.isEmpty() || file.getOriginalFilename().isBlank() || file.getOriginalFilename().equals("blob") || file.isEmpty())
+            return new ResponseEntity<>(HttpStatus.BAD_REQUEST);
+
+        Dipendente d = DBManager.getInstance().getDipendenteDao().findByCF(cf);
+        if (d==null) return new ResponseEntity<>(HttpStatus.BAD_REQUEST);
+
+        String pIva = d.getAzienda().getPIva();
+
+        if (!Utility.checkConsultantAgency(this.pIva, pIva)) return new ResponseEntity<>(HttpStatus.UNAUTHORIZED);
+
+        // converto il json in un documento
+        Documento documento = Utility.jsonToObject(json, Documento.class);
+
+        String filePath;
+        try {
+            filePath = Utility.uploadFile(cf, file);
+        } catch (IOException e) {
+            return new ResponseEntity<>(HttpStatus.INTERNAL_SERVER_ERROR);
+        }
+
+        documento.setFile(filePath);
+
+        Long id = DBManager.getInstance().getDocumentoDao().insert(documento);
+        if (id == null) {
+            Utility.deleteFile(filePath);
+            return new ResponseEntity<>(HttpStatus.INTERNAL_SERVER_ERROR);
+        }
+
+        return new ResponseEntity<>(HttpStatus.OK);
+    }
+
+    @Override
+    public ResponseEntity<String> modificaDocumentoAzienda(MultipartFile json, MultipartFile file, String pIva) {
+        return modificaDocumento(json, file, pIva, null);
+    }
+
+    @Override
+    public ResponseEntity<String> modificaDocumentoDipendente(MultipartFile json, MultipartFile file, String cf) {
+        return modificaDocumento(json, file, null, cf);
+    }
+
+    public ResponseEntity<String> modificaDocumento(MultipartFile json, MultipartFile file, String pIva, String cf) {
 
         // controllo se è stato aggiunto il file e se è stato aggiunto un json del documento
         if (json.isEmpty() || file.getOriginalFilename().isBlank() || file.getOriginalFilename().equals("blob") || file.isEmpty())
@@ -421,32 +456,36 @@ public class UserC extends User{
         Documento d = DBManager.getInstance().getDocumentoDao().findById(documento.getId());
         if (d == null) return new ResponseEntity<>(HttpStatus.BAD_REQUEST);
 
-        String cf = documento.getDipendente().getCF();
-        Dipendente dipendente = null;
-        if(cf!=null) dipendente = DBManager.getInstance().getDipendenteDao().findByCF(cf);
-
-        // controllo che l'azienda sia associata al documento da modificare
-        if ((d.getDipendente()==null && Utility.checkConsultantAgency(this.pIva, d.getAzienda().getPIva())) || (d.getDipendente()!=null && Utility.checkConsultantAgency(this.pIva, dipendente.getAzienda().getPIva()))) {
-
-            // salvo il file nella cartella dei files
-            String filePath;
-            try {
-                filePath = Utility.uploadFile(documento.getDipendente() == null ? this.pIva : documento.getDipendente().getCF(), file);
-                // elimino il vecchio file se esiste
-                if(d.getFile()!=null) Utility.deleteFile(d.getFile());
-            } catch (IOException e) {
-                return new ResponseEntity<>(HttpStatus.INTERNAL_SERVER_ERROR);
-            }
-
-            // salvo il path del nuovo file nel documento
-            documento.setFile(filePath);
-
-            // modifico il documento nel database
-            if (DBManager.getInstance().getDocumentoDao().update(documento))
-                return new ResponseEntity<>(HttpStatus.OK);
-            else return new ResponseEntity<>(HttpStatus.INTERNAL_SERVER_ERROR);
+        if(cf!=null) {
+            if (DBManager.getInstance().getDipendenteDao().findByCF(cf) == null)
+                return new ResponseEntity<>(HttpStatus.BAD_REQUEST);
+            if(!Utility.checkConsultantAgency(this.pIva, DBManager.getInstance().getDipendenteDao().findByCF(cf).getAzienda().getPIva()))
+                return new ResponseEntity<>(HttpStatus.UNAUTHORIZED);
+        } else {
+            if (DBManager.getInstance().getAziendaDao().findByPIva(pIva) == null)
+                return new ResponseEntity<>(HttpStatus.BAD_REQUEST);
+            if(!Utility.checkConsultantAgency(this.pIva, pIva))
+                return new ResponseEntity<>(HttpStatus.UNAUTHORIZED);
         }
-        return new ResponseEntity<>(HttpStatus.UNAUTHORIZED);
+
+        // salvo il file nella cartella dei files
+        String filePath;
+        try {
+            //imposto il nome del file come pIva se è un'azienda, cf se è un dipendente
+            filePath = Utility.uploadFile(cf == null ? pIva : cf, file);
+            // elimino il vecchio file se esiste
+            if(d.getFile()!=null) Utility.deleteFile(d.getFile());
+        } catch (IOException e) {
+            return new ResponseEntity<>(HttpStatus.INTERNAL_SERVER_ERROR);
+        }
+
+        // salvo il path del nuovo file nel documento
+        documento.setFile(filePath);
+
+        // modifico il documento nel database
+        if (DBManager.getInstance().getDocumentoDao().update(documento))
+            return new ResponseEntity<>(HttpStatus.OK);
+        else return new ResponseEntity<>(HttpStatus.INTERNAL_SERVER_ERROR);
     }
 
     @Override
@@ -458,9 +497,10 @@ public class UserC extends User{
 
             // controllo che il consulente sia associato all'azienda/dipendente proprietario del documento da eliminare
             if ((d.getDipendente()==null && Utility.checkConsultantAgency(this.pIva, d.getAzienda().getPIva())) || (d.getDipendente()!=null && Utility.checkConsultantAgency(this.pIva, d.getDipendente().getAzienda().getPIva()))) {
+
                 // elimino il file del documento
                 if(d.getFile()!=null) Utility.deleteFile(d.getFile());
-                else return new ResponseEntity<>(HttpStatus.BAD_REQUEST);
+                else return new ResponseEntity<>(HttpStatus.INTERNAL_SERVER_ERROR);
 
                 // elimino il documento dal database
                 if (DBManager.getInstance().getDocumentoDao().delete(id)) return new ResponseEntity<>(HttpStatus.OK);

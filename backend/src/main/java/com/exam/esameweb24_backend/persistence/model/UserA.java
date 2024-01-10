@@ -356,29 +356,38 @@ public class UserA extends User{
     }
 
     @Override
-    public ResponseEntity<String> aggiungiDocumento(MultipartFile json, MultipartFile file) {
+    public ResponseEntity<String> aggiungiDocumentoAzienda(MultipartFile json, MultipartFile file, String pIva) {
+        return aggiungiDocumento(json, file, pIva, null);
+    }
 
-        // controllo se è stato aggiunto il file e se è stato aggiunto un json del documento
+    @Override
+    public ResponseEntity<String> aggiungiDocumentoDipendente(MultipartFile json, MultipartFile file, String cf) {
+        return aggiungiDocumento(json, file, null, cf);
+    }
+
+    private ResponseEntity<String> aggiungiDocumento(MultipartFile json, MultipartFile file, String pIva, String cf) {
+
+        // Controllo se è stato aggiunto il file e se è stato aggiunto un json del documento
         if (json.isEmpty() || file.getOriginalFilename().isBlank() || file.getOriginalFilename().equals("blob") || file.isEmpty())
             return new ResponseEntity<>(HttpStatus.BAD_REQUEST);
 
-        // converto il json in un documento
         Documento documento = Utility.jsonToObject(json, Documento.class);
-
-        if (documento.getDipendente() == null) {
-            Azienda a = new Azienda();
-            a.setPIva(this.pIva);
-            documento.setAzienda(a);
-        } else {
-            Dipendente d = DBManager.getInstance().getDipendenteDao().findByCF(documento.getDipendente().getCF());
-            if (d == null) return new ResponseEntity<>(HttpStatus.BAD_REQUEST);
-            else if (!this.pIva.equals(d.getAzienda().getPIva())) return new ResponseEntity<>(HttpStatus.UNAUTHORIZED);
-        }
-
 
         String filePath;
         try {
-            filePath = Utility.uploadFile(documento.getDipendente() == null ? this.pIva : documento.getDipendente().getCF(), file);
+            if (cf != null) {
+                // Per Dipendente
+                Dipendente d = DBManager.getInstance().getDipendenteDao().findByCF(cf);
+                if (d == null) return new ResponseEntity<>(HttpStatus.BAD_REQUEST);
+                if(!Utility.checkAgencyEmployeeCF(pIva, cf)) return new ResponseEntity<>(HttpStatus.UNAUTHORIZED);
+                filePath = Utility.uploadFile(cf, file);
+            } else {
+                // Per Azienda
+                if (!this.pIva.equals(pIva)) {
+                    return new ResponseEntity<>(HttpStatus.UNAUTHORIZED);
+                }
+                filePath = Utility.uploadFile(pIva, file);
+            }
         } catch (IOException e) {
             return new ResponseEntity<>(HttpStatus.INTERNAL_SERVER_ERROR);
         }
@@ -395,7 +404,16 @@ public class UserA extends User{
     }
 
     @Override
-    public ResponseEntity<String> modificaDocumento(MultipartFile json, MultipartFile file) {
+    public ResponseEntity<String> modificaDocumentoAzienda(MultipartFile json, MultipartFile file, String pIva) {
+        return modificaDocumento(json, file, pIva, null);
+    }
+
+    @Override
+    public ResponseEntity<String> modificaDocumentoDipendente(MultipartFile json, MultipartFile file, String cf) {
+        return modificaDocumento(json, file, null, cf);
+    }
+
+    public ResponseEntity<String> modificaDocumento(MultipartFile json, MultipartFile file, String pIva, String cf) {
 
         // controllo se è stato aggiunto il file e se è stato aggiunto un json del documento
         if (json.isEmpty() || file.getOriginalFilename().isBlank() || file.getOriginalFilename().equals("blob") || file.isEmpty())
@@ -409,12 +427,12 @@ public class UserA extends User{
         if (d == null) return new ResponseEntity<>(HttpStatus.BAD_REQUEST);
 
         // controllo che l'azienda sia associata al documento da modificare
-        if (this.pIva.equals(d.getAzienda().getPIva()) || Utility.checkAgencyEmployeeCF(this.pIva, d.getDipendente().getCF())) {
+        if (this.pIva.equals(pIva) || (cf!=null && Utility.checkAgencyEmployeeCF(this.pIva, cf))) {
 
             // salvo il file nella cartella dei files
             String filePath;
             try {
-                filePath = Utility.uploadFile(documento.getDipendente() == null ? this.pIva : documento.getDipendente().getCF(), file);
+                filePath = Utility.uploadFile(cf == null ? pIva : cf , file);
                 // elimino il vecchio file se esiste
                 if(d.getFile()!=null) Utility.deleteFile(d.getFile());
             } catch (IOException e) {

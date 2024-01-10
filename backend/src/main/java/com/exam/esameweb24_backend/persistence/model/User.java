@@ -109,9 +109,13 @@ public class User {
 
     public ResponseEntity<Documento> getDocumento(Long id){return null;}
 
-    public ResponseEntity<String> aggiungiDocumento(MultipartFile json, MultipartFile file){return null;}
+    public ResponseEntity<String> aggiungiDocumentoAzienda(MultipartFile json, MultipartFile file, String pIva){return null;}
 
-    public ResponseEntity<String> modificaDocumento(MultipartFile json, MultipartFile file){return null;}
+    public ResponseEntity<String> aggiungiDocumentoDipendente(MultipartFile json, MultipartFile file, String cf){return null;}
+
+    public ResponseEntity<String> modificaDocumentoAzienda(MultipartFile json, MultipartFile file, String pIva){return null;}
+
+    public ResponseEntity<String> modificaDocumentoDipendente(MultipartFile json, MultipartFile file, String cf){return null;}
 
     public ResponseEntity<String> rimuoviDocumento(Long id){return null;}
 }
