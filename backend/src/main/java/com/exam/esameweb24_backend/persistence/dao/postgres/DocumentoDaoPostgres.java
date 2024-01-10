@@ -55,7 +55,7 @@ public class DocumentoDaoPostgres implements DocumentoDao {
     public List<Documento> findByAgency(String agencyPIva) {
         Azienda azienda = DBManager.getInstance().getAziendaDao().findByPIva(agencyPIva);
         List<Documento> documenti = new ArrayList<>();
-        String query = "SELECT * FROM documenti WHERE agenzia  = ?";
+        String query = "SELECT * FROM documenti WHERE azienda  = ?";
         try {
             PreparedStatement st = conn.prepareStatement(query);
             st.setString(1, agencyPIva);
@@ -94,8 +94,8 @@ public class DocumentoDaoPostgres implements DocumentoDao {
                 documento.setDataScadenza(rs.getDate("data_scadenza"));
                 if(rs.getInt("dipendente") != 0)
                     documento.setDipendente(DBManager.getInstance().getDipendenteDao().findById(rs.getLong("dipendente")));
-                if(rs.getString("agenzia") != null)
-                    documento.setAzienda(DBManager.getInstance().getAziendaDao().findByPIva(rs.getString("agenzia")));
+                if(rs.getString("azienda") != null)
+                    documento.setAzienda(DBManager.getInstance().getAziendaDao().findByPIva(rs.getString("azienda")));
                 documento.setStato(rs.getString("stato"));
                 documento.setFormato(rs.getString("formato"));
                 return documento;
@@ -108,7 +108,7 @@ public class DocumentoDaoPostgres implements DocumentoDao {
 
     @Override
     public Long insert(Documento documento) {
-        String query = "INSERT INTO documenti (nome, url, data_rilascio, data_scadenza, dipendente, agenzia, stato, formato) VALUES (?, ?, ?, ?, ?, ?, ?, ?) RETURNING id";
+        String query = "INSERT INTO documenti (nome, url, data_rilascio, data_scadenza, dipendente, azienda, stato, formato) VALUES (?, ?, ?, ?, ?, ?, ?, ?) RETURNING id";
         try {
             PreparedStatement st = conn.prepareStatement(query);
             st.setString(1, documento.getNome());
@@ -139,7 +139,7 @@ public class DocumentoDaoPostgres implements DocumentoDao {
 
     @Override
     public boolean update(Documento documento) {
-        String query = "UPDATE documenti SET nome = ?, url = ?, data_rilascio = ?, data_scadenza = ?, dipendente = ?, agenzia = ?, stato = ?, formato = ? WHERE id = ?";
+        String query = "UPDATE documenti SET nome = ?, url = ?, data_rilascio = ?, data_scadenza = ?, dipendente = ?, azienda = ?, stato = ?, formato = ? WHERE id = ?";
         try {
             PreparedStatement st = conn.prepareStatement(query);
             st.setString(1, documento.getNome());
