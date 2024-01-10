@@ -6,6 +6,9 @@ import {MatPaginator} from '@angular/material/paginator';
 import {MatSort} from '@angular/material/sort';
 import {MatTableDataSource} from '@angular/material/table';
 import { AuthService } from '../../../service/auth/auth.service';
+import { NgbModal } from '@ng-bootstrap/ng-bootstrap';
+import { AddDocumentModalComponent } from '../add-documento-modal/add-document-modal.component';
+
 
 @Component({
   selector: 'app-documenti-tabella',
@@ -23,7 +26,8 @@ export class DocumentiTabellaComponent implements AfterViewInit{
 
   constructor(
     private cdr: ChangeDetectorRef,
-    public auth: AuthService) {
+    public auth: AuthService,
+    private modalService: NgbModal) {
     this.dataSource = new MatTableDataSource(this.documenti);
   }
 
@@ -36,5 +40,21 @@ export class DocumentiTabellaComponent implements AfterViewInit{
     }
 
     this.cdr.detectChanges();
+  }
+
+  openUpdateDipendente() {
+    const modalRef = this.modalService.open(AddDocumentModalComponent, {
+      size: 'md' // 'lg' sta per grande, puoi utilizzare anche 'sm' per piccolo
+    });
+
+    // Passa il this.dipendente al modal
+    modalRef.componentInstance.documento = this.documenti[0];
+
+    /*
+    modalRef.componentInstance.refreshData.subscribe(() => {
+      // Aggiorna i dati richiamando nuovamente ngOnInit
+      this.ngOnInit();
+    });
+    */
   }
 }

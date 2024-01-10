@@ -11,16 +11,15 @@
         <div class="col-md-12">
             <label for="tipoDocumento" class="form-label">Tipo Documento</label>
             <select formControlName="tipoDocumento" class="form-control" id="tipoDocumento">
-                <option value="" disabled selected>Seleziona tipo...</option>
-                <option value="cartaIdentita">Carta d'identità</option>
-                <option value="tesseraSanitaria">Tessera sanitaria</option>
-                <option value="altro">Altro</option>
-                <!-- Aggiungi altre opzioni per diversi tipi di documento -->
+                <option value="" disabled [selected]="!addDocumentForm.get('tipoDocumento')?.value">Seleziona tipo...</option>
+                <option *ngFor="let tipoDocumento of tipiDocumentoAzienda" [value]="tipoDocumento">
+                    {{ tipoDocumento }}
+                </option>
             </select>
         </div>
 
         <!-- Seleziona il nome di documento se clicco su altro -->
-        <div class="col-md-12" *ngIf="addDocumentForm.get('tipoDocumento')?.value === 'altro'">
+        <div class="col-md-12" *ngIf="addDocumentForm.get('tipoDocumento')?.value === 'Altro'">
             <label for="tipoDocumentoAltro" class="form-label">Nome</label>
             <input formControlName="tipoDocumentoAltro" type="text" class="form-control" id="tipoDocumentoAltro"
                 [class.is-invalid]="addDocumentForm.get('tipoDocumentoAltro')?.invalid && addDocumentForm.get('tipoDocumentoAltro')?.touched">

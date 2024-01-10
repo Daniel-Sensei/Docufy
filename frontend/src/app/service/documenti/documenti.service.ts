@@ -43,7 +43,7 @@ export class DocumentiService {
     return this.http.post(Settings.API_ENDPOINT + "aggiungi-documento", formData, { headers: this.auth.headers });
   }
 
-  updateDocumento(documento: Documento, file: File){
+  updateDocumento(documento: Documento, file: File | undefined){
     const formData: FormData = new FormData();
 
     formData.append('documento', new Blob([JSON.stringify(documento)], { type: 'application/json' }));
@@ -55,7 +55,7 @@ export class DocumentiService {
       formData.append('file', new Blob());
     }
 
-    return this.http.post(Settings.API_ENDPOINT + "aggiorna-documento", formData, { headers: this.auth.headers });
+    return this.http.post(Settings.API_ENDPOINT + "modifica-documento", formData, { headers: this.auth.headers });
   }
 
   deleteDocumento(id: number){
