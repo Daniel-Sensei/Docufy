@@ -360,7 +360,7 @@ public class UserA extends User
                 // Per Dipendente
                 Dipendente d = DBManager.getInstance().getDipendenteDao().findByCF(cf);
                 if (d == null) return new ResponseEntity<>(HttpStatus.BAD_REQUEST);
-                if(!Utility.checkAgencyEmployeeCF(pIva, cf)) return new ResponseEntity<>(HttpStatus.UNAUTHORIZED);
+                if(!Utility.checkAgencyEmployeeCF(this.pIva, cf)) return new ResponseEntity<>(HttpStatus.UNAUTHORIZED);
                 documento.setDipendente(d);
                 filePath = Utility.uploadFile(cf, file);
             } else {
