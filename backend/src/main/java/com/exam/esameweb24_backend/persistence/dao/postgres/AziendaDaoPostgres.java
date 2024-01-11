@@ -136,14 +136,39 @@ public class AziendaDaoPostgres implements AziendaDao {
 
     @Override
     public boolean delete(String pIva) {
-        String query = "DELETE FROM aziende WHERE piva = ?";
         try {
-            PreparedStatement st = conn.prepareStatement(query);
+            conn.setAutoCommit(false); // Disabilita il commit automatico
+
+            // elimino i documenti associati all'azienda
+            String deleteDocumenti = "DELETE FROM documenti WHERE azienda = ?";
+            PreparedStatement st = conn.prepareStatement(deleteDocumenti);
             st.setString(1, pIva);
             st.executeUpdate();
+
+            // elimino l'azienda
+            String query = "DELETE FROM aziende WHERE piva = ?";
+            PreparedStatement pst = conn.prepareStatement(query);
+            pst.setString(1, pIva);
+            pst.executeUpdate();
+
+            conn.commit(); // Esegue il commit delle modifiche
+
             return true;
         } catch (SQLException e) {
-            throw new RuntimeException(e);
+            try {
+                if (conn != null) {
+                    conn.rollback(); // In caso di errore, esegue il rollback delle modifiche
+                }
+            } catch (SQLException ex) {
+                throw new RuntimeException("Rollback failed", ex);
+            }
+            throw new RuntimeException("Failed to delete employee", e);
+        } finally {
+            try {
+                conn.setAutoCommit(true); // Riattiva il commit automatico
+            } catch (SQLException ex) {
+                throw new RuntimeException("Failed to set auto commit to true", ex);
+            }
         }
     }
 }

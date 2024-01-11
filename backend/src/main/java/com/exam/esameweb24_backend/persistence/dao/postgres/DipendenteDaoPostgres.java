@@ -233,14 +233,39 @@ public class DipendenteDaoPostgres implements DipendenteDao {
 
     @Override
     public boolean delete(Long id) {
-        String query = "DELETE FROM dipendenti WHERE id = ?";
         try {
-            PreparedStatement st = conn.prepareStatement(query);
+            conn.setAutoCommit(false); // Disabilita il commit automatico
+
+            // elimino i documenti associati in quanto gestiti senza foreign key
+            String deleteDocumenti = "DELETE FROM documenti WHERE dipendente = ?";
+            PreparedStatement st = conn.prepareStatement(deleteDocumenti);
             st.setLong(1, id);
             st.executeUpdate();
+
+            // elimino il dipendente
+            String query = "DELETE FROM dipendenti WHERE id = ?";
+            PreparedStatement pst = conn.prepareStatement(query);
+            pst.setLong(1, id);
+            pst.executeUpdate();
+
+            conn.commit(); // Esegue il commit delle modifiche
+
             return true;
         } catch (SQLException e) {
-            throw new RuntimeException(e);
+            try {
+                if (conn != null) {
+                    conn.rollback(); // In caso di errore, esegue il rollback delle modifiche
+                }
+            } catch (SQLException ex) {
+                throw new RuntimeException("Rollback failed", ex);
+            }
+            throw new RuntimeException("Failed to delete employee", e);
+        } finally {
+            try {
+                conn.setAutoCommit(true); // Riattiva il commit automatico
+            } catch (SQLException ex) {
+                throw new RuntimeException("Failed to set auto commit to true", ex);
+            }
         }
     }
 }
