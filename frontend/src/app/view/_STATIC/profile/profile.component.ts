@@ -4,7 +4,7 @@ import { AziendeService } from '../../../service/aziende/aziende.service';
 import { AlertService } from '../../../service/alert/alert.service';
 
 import { Output, EventEmitter } from '@angular/core'; //modifica
-import { FormGroup, FormBuilder, Validators } from '@angular/forms'; 
+import { FormGroup, FormBuilder, Validators } from '@angular/forms';
 import { FileService } from '../../../service/file/file.service';
 import { FormCheck } from '../../../FormCheck';
 
@@ -16,11 +16,11 @@ import { FormCheck } from '../../../FormCheck';
 export class ProfileComponent {
   @Output() refreshData: EventEmitter<void> = new EventEmitter<void>();
 
-  
+
   private file: File | undefined; //modifica
   modificaProfiloForm: FormGroup; //modifica
   modificaPasswordForm: FormGroup; //modifica
-  
+
 
   azienda!: Azienda;
   datiOriginali!: Azienda; //modifica
@@ -37,7 +37,7 @@ export class ProfileComponent {
       ragione_sociale: ['', Validators.required],
       email: ['', [Validators.required, Validators.email]],
       telefono: ['', Validators.required],
-      indirizzo: ['',Validators.required],
+      indirizzo: ['', Validators.required],
       img: ['']
     }, { validators: this.customValidation }
     );
@@ -52,7 +52,7 @@ export class ProfileComponent {
 
   ngOnInit(): void {
     this.getAzienda();
-    
+
   }
 
   //----------------------------------------------------------------------
@@ -65,10 +65,10 @@ export class ProfileComponent {
     const nuova_passwordControl = group.get('nuova_password');
     const conferma_passwordfControl = group.get('conferma_password');
     const PasswordControl = group.get('password');
-    
-    
 
-    if (ragione_socialeControl && emailControl && indirizzoControl && telefonoControl){//&& cfControl && ruoloControl && emailControl && telefonoControl) {
+
+
+    if (ragione_socialeControl && emailControl && indirizzoControl && telefonoControl) {//&& cfControl && ruoloControl && emailControl && telefonoControl) {
       const ragione_sociale = ragione_socialeControl.value;
       const email = emailControl.value;
       const indirizzo = indirizzoControl.value;
@@ -92,8 +92,8 @@ export class ProfileComponent {
         }
       }
 
-       // Telefono
-       if (telefono && !FormCheck.checkTelefono(telefono)) {
+      // Telefono
+      if (telefono && !FormCheck.checkTelefono(telefono)) {
         telefonoControl?.setErrors({ 'invalidPhone': true });
       } else {
         if (telefonoControl?.hasError('invalidPhone')) {
@@ -108,41 +108,55 @@ export class ProfileComponent {
         if (indirizzoControl.hasError('underage')) {
           indirizzoControl.setErrors(null);
         }
-      }     
+      }
     }
   }
 
-  
+
 
   //----------------------------------------------------------------------
 
   getAzienda() {
     //Stampa i dati dell'azienda
-    this.aziendeService.getProfilo().subscribe( azienda => { this.azienda = azienda; this.datiOriginali={...azienda}; console.log(this.azienda)}) //modifica: ; this.datiOriginali={...azienda}
+    this.aziendeService.getProfilo().subscribe(azienda => {
+      this.azienda = azienda;
+      this.datiOriginali = { ...azienda };
+      console.log(this.azienda)
+
+      this.setModificaProfiloForm(); //modifica
+    }) //modifica: ; this.datiOriginali={...azienda}
   }
 
-  controllaModifiche(){
-    console.log("controllo modifiche"+JSON.stringify(this.azienda));
+  setModificaProfiloForm() {
+    this.modificaProfiloForm.patchValue({
+      // controlla che documento.tipoDocumento sia tra i tipiDocumentiAzienda
+      ragione_sociale: this.azienda.ragioneSociale,
+
+    });
+  }
+
+  controllaModifiche() {
+    console.log("controllo modifiche" + JSON.stringify(this.azienda));
     //se le caselle sono vuote o se i dati sono uguali a quelli originali, il pulsante salva è disabilitato, se tornano vuote i dati originali, il pulsante è abilitato
-    this.modificato = (JSON.stringify(this.azienda) != JSON.stringify(this.datiOriginali)) || this.azienda.img!=""; //modifica
+    this.modificato = (JSON.stringify(this.azienda) != JSON.stringify(this.datiOriginali)) || this.azienda.img != ""; //modifica
   }
 
   onFileSelected(event: any) {
     this.file = event.target.files[0];
   }
 
-  salvaModifiche(){  
-    console.log("salva modifiche"); 
+  salvaModifiche() {
+    console.log("salva modifiche");
     this.modificaAzienda(this.modificaProfiloForm.value, this.file); //modifica
-    this.datiOriginali={...this.azienda}; //modifica
+    this.datiOriginali = { ...this.azienda }; //modifica
     console.log(this.modificaProfiloForm.value);
-    this.modificato=false;
+    this.modificato = false;
   }
 
   private modificaAzienda(aziendaData: any, file: File | undefined) {
-    aziendaData.piva=this.azienda.piva;
+    aziendaData.piva = this.azienda.piva;
     if (this.file) {
-      this.aziendeService.modificaAzienda(aziendaData, this.file).subscribe( 
+      this.aziendeService.modificaAzienda(aziendaData, this.file).subscribe(
         response => {
           // Imposta la variabile per mostrare l'alert di successo
           this.alert.setMessage("Dipendente modificato con successo");
@@ -155,7 +169,7 @@ export class ProfileComponent {
           this.alert.setDangerAlert();
           this.refreshData.emit();
         });
-    }   
+    }
   }
-  
+
 }

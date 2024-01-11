@@ -63,7 +63,7 @@
 
                 <div class="row">
                   <div class="col-lg-3 col-md-4 label">Email</div>
-                  <div class="col-lg-9 col-md-8">{{azienda.email}}</div> 
+                  <div class="col-lg-9 col-md-8">{{azienda.email}}</div>
                 </div>
 
                 <div class="row">
@@ -81,20 +81,23 @@
               <div class="tab-pane fade profile-edit pt-3" id="profile-edit">
 
                 <!-- Profile Edit Form -->
-                <form [formGroup]="modificaProfiloForm"> <!--(ngSubmit)="salvaModifiche()"-->
+                <form *ngIf="azienda != undefined" [formGroup]="modificaProfiloForm">
+                  <!--(ngSubmit)="salvaModifiche()"-->
 
                   <div class="row mb-3">
                     <label for="company" class="col-md-4 col-lg-3 col-form-label">Ragione Sociale</label>
                     <div class="col-md-8 col-lg-9">
-                      <input formControlName="ragione_sociale" name="ragioneSociale" type="text" class="form-control" id="ragioneSociale"
-                         (input)="controllaModifiche()"> <!-- value={{azienda.ragioneSociale}} [(ngModel)]="azienda.ragioneSociale" (input)="controllaModifiche()"-->
+                      <input formControlName="ragione_sociale" name="ragioneSociale" type="text" class="form-control"
+                        id="ragioneSociale" (input)="controllaModifiche()">
+                      <!-- value={{azienda.ragioneSociale}} [(ngModel)]="azienda.ragioneSociale" (input)="controllaModifiche()"-->
                     </div>
                   </div>
 
                   <div class="row mb-3">
                     <label for="Email" class="col-md-4 col-lg-3 col-form-label">Email</label>
                     <div class="col-md-8 col-lg-9">
-                      <input formControlName="email" name="email" type="email" class="form-control" id="Email"  (input)="controllaModifiche()"> <!--value={{azienda.email}}-->
+                      <input formControlName="email" name="email" type="email" class="form-control" id="Email"
+                        (input)="controllaModifiche()"> <!--value={{azienda.email}}-->
                     </div>
                   </div>
 
@@ -102,14 +105,15 @@
                     <label for="Address" class="col-md-4 col-lg-3 col-form-label">Indirizzo</label>
                     <div class="col-md-8 col-lg-9">
                       <input formControlName="indirizzo" name="address" type="text" class="form-control" id="Address"
-                         (input)="controllaModifiche()"> <!--value={{azienda.indirizzo}}-->
+                        (input)="controllaModifiche()"> <!--value={{azienda.indirizzo}}-->
                     </div>
                   </div>
 
                   <div class="row mb-3">
                     <label for="Phone" class="col-md-4 col-lg-3 col-form-label">Telefono</label>
                     <div class="col-md-8 col-lg-9">
-                      <input formControlName="telefono" name="phone" type="text" class="form-control" id="Phone"  (input)="controllaModifiche()" > <!--value={{azienda.telefono}}--> 
+                      <input formControlName="telefono" name="phone" type="text" class="form-control" id="Phone"
+                        (input)="controllaModifiche()"> <!--value={{azienda.telefono}}-->
                     </div>
                   </div>
 
@@ -121,7 +125,9 @@
                   </div>
 
                   <div class="text-center">
-                    <button type="submit" class="btn btn-primary" [disabled]="!modificato" (click)="salvaModifiche()" >Salva cambiamenti</button> <!-- abilita il bottone solo quando qualche label è stat modificata-->
+                    <button type="submit" class="btn btn-primary" [disabled]="!modificato"
+                      (click)="salvaModifiche()">Salva cambiamenti</button>
+                    <!-- abilita il bottone solo quando qualche label è stat modificata-->
                   </div>
                 </form><!-- End Profile Edit Form -->
 
@@ -132,23 +138,29 @@
                 <form>
 
                   <div class="row mb-3">
-                    <label for="currentPassword" class="col-md-4 col-lg-3 col-form-label">Password Attuale</label> <!--confronto con la veccia password-->
+                    <label for="currentPassword" class="col-md-4 col-lg-3 col-form-label">Password Attuale</label>
+                    <!--confronto con la veccia password-->
                     <div class="col-md-8 col-lg-9">
-                      <input formControlName="password" name="password" type="password" class="form-control" id="currentPassword">
+                      <input formControlName="password" name="password" type="password" class="form-control"
+                        id="currentPassword">
                     </div>
                   </div>
 
                   <div class="row mb-3">
-                    <label for="newPassword" class="col-md-4 col-lg-3 col-form-label">Nuova Password</label><!--confronto con la vecchia password e con tutti i controlli generali sulla password-->
+                    <label for="newPassword" class="col-md-4 col-lg-3 col-form-label">Nuova
+                      Password</label><!--confronto con la vecchia password e con tutti i controlli generali sulla password-->
                     <div class="col-md-8 col-lg-9">
-                      <input formControlName="nuova_password" name="newpassword" type="password" class="form-control" id="newPassword">
+                      <input formControlName="nuova_password" name="newpassword" type="password" class="form-control"
+                        id="newPassword">
                     </div>
                   </div>
 
                   <div class="row mb-3">
-                    <label for="renewPassword" class="col-md-4 col-lg-3 col-form-label">Conferma Password</label> <!--confronto le deu password-->
+                    <label for="renewPassword" class="col-md-4 col-lg-3 col-form-label">Conferma Password</label>
+                    <!--confronto le deu password-->
                     <div class="col-md-8 col-lg-9">
-                      <input formControlName="conferma_password" name="renewpassword" type="password" class="form-control" id="renewPassword">
+                      <input formControlName="conferma_password" name="renewpassword" type="password"
+                        class="form-control" id="renewPassword">
                     </div>
                   </div>
 

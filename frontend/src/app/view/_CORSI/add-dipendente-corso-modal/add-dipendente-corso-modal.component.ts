@@ -5,6 +5,7 @@ import { NgFor } from '@angular/common';
 
 //import { Dipendente } from '../../../model/Dipendente';
 import { DipendentiService } from '../../../service/dipendenti/dipendenti.service';
+import { AuthService } from '../../../service/auth/auth.service';
 
 
 
@@ -19,7 +20,8 @@ export class AddDipendenteCorsoModalComponent implements OnInit {
   dropdownSettings: IDropdownSettings = {};
 
   constructor(public activeModal: NgbActiveModal, 
-              private dipendentiService: DipendentiService) {
+              private dipendentiService: DipendentiService,
+              private auth: AuthService) {
   }
   
 
@@ -43,7 +45,7 @@ export class AddDipendenteCorsoModalComponent implements OnInit {
           allowSearchFilter: true
         };
     }
-    pIva: string= "10987654321"; //come faccio ad impostare la partita iva a quella dell'azienda corrente
+    pIva: string= this.auth.getCurrentPIva()!; //come faccio ad impostare la partita iva a quella dell'azienda corrente
    
     caricaDipendenti(){
       this.dipendentiService.getDipendenti(this.pIva).subscribe((dipendenti:any[])=>{

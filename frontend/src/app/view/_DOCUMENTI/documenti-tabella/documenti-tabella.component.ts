@@ -40,7 +40,6 @@ export class DocumentiTabellaComponent implements AfterViewInit {
   ngAfterViewInit() {
     // If necessario per aspettare che il componente sia caricato
     if (this.documenti.length > 0) {
-      console.log(this.documenti);
       this.dataSource.data = this.documenti;
       this.dataSource.paginator = this.paginator;
       this.dataSource.sort = this.sort;
