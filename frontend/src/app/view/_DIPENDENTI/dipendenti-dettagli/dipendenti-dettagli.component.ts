@@ -133,7 +133,9 @@ export class DipendentiDettagliComponent {
       size: 'md' // 'lg' sta per grande, puoi utilizzare anche 'sm' per piccolo
     });
 
-    // Volgio aggiungere un documento del dipendente, quindi non passo il dipendente
+    modalRef.componentInstance.dipendente = this.dipendente;
+
+    // Volgio aggiungere un documento del dipendente, quindi passo il dipendente
     modalRef.componentInstance.dipendente = this.dipendente;
 
     modalRef.componentInstance.refreshData.subscribe(() => {

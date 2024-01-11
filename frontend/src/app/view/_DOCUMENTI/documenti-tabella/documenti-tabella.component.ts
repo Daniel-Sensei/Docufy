@@ -11,6 +11,7 @@ import { AddDocumentModalComponent } from '../add-documento-modal/add-document-m
 import { ConfirmModalComponent } from '../../_STATIC/confirm-modal/confirm-modal.component';
 import { FileService } from '../../../service/file/file.service';
 import { ActivatedRoute } from '@angular/router';
+import { Dipendente } from '../../../model/Dipendente';
 
 
 @Component({
@@ -26,6 +27,7 @@ export class DocumentiTabellaComponent implements AfterViewInit {
   @ViewChild(MatSort) sort!: MatSort;
 
   @Input() documenti: Documento[] = [];
+  @Input() dipendente?: Dipendente | undefined;
 
   constructor(
     private cdr: ChangeDetectorRef,
@@ -53,6 +55,9 @@ export class DocumentiTabellaComponent implements AfterViewInit {
 
     // Passa il this.documento al modal
     modalRef.componentInstance.documento = documento;
+    if(this.dipendente != undefined) {
+      modalRef.componentInstance.dipendente = this.dipendente;
+    }
 
     /*
     modalRef.componentInstance.refreshData.subscribe(() => {
