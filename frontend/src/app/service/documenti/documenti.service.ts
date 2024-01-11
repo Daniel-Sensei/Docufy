@@ -28,7 +28,7 @@ export class DocumentiService {
     return this.http.get<Documento>(Settings.API_ENDPOINT + "documento?id=" + id, { headers: this.auth.headers });
   }
 
-  addDocumentoAzienda(documento: Documento, file: File | undefined, pIva: string){
+  addDocumentoAzienda(documento: Documento, file: File | undefined, pIva: string): Observable<any>{
     const formData: FormData = new FormData();
 
     formData.append('documento', new Blob([JSON.stringify(documento)], { type: 'application/json' }));
@@ -43,7 +43,7 @@ export class DocumentiService {
     return this.http.post(Settings.API_ENDPOINT + "aggiungi-documento-azienda?pIva=" + pIva, formData, { headers: this.auth.headers });
   }
 
-  addDocumentoDipendente(documento: Documento, file: File | undefined, cf: string){
+  addDocumentoDipendente(documento: Documento, file: File | undefined, cf: string): Observable<any>{
     const formData: FormData = new FormData();
 
     formData.append('documento', new Blob([JSON.stringify(documento)], { type: 'application/json' }));
@@ -58,7 +58,7 @@ export class DocumentiService {
     return this.http.post(Settings.API_ENDPOINT + "aggiungi-documento-dipendente?cf=" + cf, formData, { headers: this.auth.headers });
   }
 
-  updateDocumentoAzienda(documento: Documento, file: File | undefined, pIva: string){
+  updateDocumentoAzienda(documento: Documento, file: File | undefined, pIva: string): Observable<any>{
     const formData: FormData = new FormData();
 
     formData.append('documento', new Blob([JSON.stringify(documento)], { type: 'application/json' }));
@@ -70,12 +70,10 @@ export class DocumentiService {
       formData.append('file', new Blob());
     }
 
-    console.log(documento)
-
     return this.http.post(Settings.API_ENDPOINT + "modifica-documento-azienda?pIva=" + pIva, formData, { headers: this.auth.headers });
   }
 
-  updateDocumentoDipendente(documento: Documento, file: File | undefined, cf: string){
+  updateDocumentoDipendente(documento: Documento, file: File | undefined, cf: string): Observable<any>{
     const formData: FormData = new FormData();
 
     formData.append('documento', new Blob([JSON.stringify(documento)], { type: 'application/json' }));
@@ -90,7 +88,7 @@ export class DocumentiService {
     return this.http.post(Settings.API_ENDPOINT + "modifica-documento-dipendente?cf=" + cf, formData, { headers: this.auth.headers });
   }
 
-  deleteDocumento(id: number){
+  deleteDocumento(id: number): Observable<any>{
     return this.http.delete(Settings.API_ENDPOINT + "rimuovi-documento?id=" + id, { headers: this.auth.headers });
   }
 

@@ -10,6 +10,7 @@ import { NgbModal } from '@ng-bootstrap/ng-bootstrap';
 import { AddDocumentModalComponent } from '../add-documento-modal/add-document-modal.component';
 import { ConfirmModalComponent } from '../../_STATIC/confirm-modal/confirm-modal.component';
 import { FileService } from '../../../service/file/file.service';
+import { ActivatedRoute } from '@angular/router';
 
 
 @Component({
@@ -69,6 +70,11 @@ export class DocumentiTabellaComponent implements AfterViewInit {
     // Passa il this.dipendente al modal
     modalRef.componentInstance.documento = documento;
     modalRef.componentInstance.function = 'deleteDocumento';
+
+    modalRef.componentInstance.refreshData.subscribe(() => {
+      //refresh page
+      window.location.reload();
+    });
   }
 
   downloadDocumento(documento: Documento) {

@@ -9,7 +9,7 @@
             </ol>
         </nav>
     </div><!-- End Page Title -->
-    
+
 
     <div class="margin">
         <div class="mb-3" *ngIf="this.auth.getRole()=='A'">
@@ -18,12 +18,16 @@
             </button>
         </div>
 
-        <div *ngIf="alert.getSuccessAlert()" class="alert alert-success alert-dismissible fade show" role="alert">
-            Documento aggiunto con successo
+        <div *ngIf="alert.getDocumentSuccess()" class="alert alert-success alert-dismissible fade show" role="alert">
+            {{alert.getMessage()}}
             <button type="button" class="btn-close" data-bs-dismiss="alert" aria-label="Close"></button>
         </div>
-    </div> <!-- End Margin -->
 
-    <app-documenti-tabella *ngIf="documenti && documenti.length>0" [documenti]="documenti"></app-documenti-tabella>
+        <div *ngIf="alert.getDocumentDanger()" class="alert alert-danger alert-dismissible fade show" role="alert">
+            {{alert.getMessage()}}
+            <button type="button" class="btn-close" data-bs-dismiss="alert" aria-label="Close"></button>
+        </div> <!-- End Margin -->
 
-</div>
+        <app-documenti-tabella *ngIf="documenti && documenti.length>0" [documenti]="documenti"></app-documenti-tabella>
+
+    </div>

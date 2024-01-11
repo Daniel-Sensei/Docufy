@@ -15,6 +15,8 @@ import { forkJoin, Observable, map } from 'rxjs';
 import { AuthService } from '../../../service/auth/auth.service';
 
 import { AddDocumentModalComponent } from '../../_DOCUMENTI/add-documento-modal/add-document-modal.component';
+import { Documento } from '../../../model/Documento';
+import { DocumentiService } from '../../../service/documenti/documenti.service';
 
 @Component({
   selector: 'app-dipendenti-dettagli',
@@ -24,6 +26,7 @@ import { AddDocumentModalComponent } from '../../_DOCUMENTI/add-documento-modal/
 export class DipendentiDettagliComponent {
 
   dipendente!: Dipendente;
+  documenti?: Documento[];
   public dataNascitaIT: string = '';
   public dataAssunzioneIT: string = '';
 
@@ -37,11 +40,14 @@ export class DipendentiDettagliComponent {
     private fileService: FileService,
     public alert: AlertService,
     private datePipe: DatePipe,
-    public auth: AuthService
+    public auth: AuthService,
+    private documentiService: DocumentiService
   ) { }
 
   ngOnInit(): void {
     this.getDipendente();
+
+    this.getDocumenti();
   }
 
   getDipendente(): void {
@@ -57,6 +63,13 @@ export class DipendentiDettagliComponent {
 
       this.dataNascitaIT = this.formatItalianDate(dipendente.dataNascita)
       this.dataAssunzioneIT = this.formatItalianDate(dipendente.dataAssunzione)
+    });
+  }
+
+  getDocumenti(): void {
+    const id = Number(this.route.snapshot.paramMap.get('id'));
+    this.documentiService.getDocumentiDipendente(id).subscribe(documenti => {
+      this.documenti = documenti;
     });
   }
 
@@ -115,12 +128,18 @@ export class DipendentiDettagliComponent {
     return formattedDate || '';
   }
 
-  openAddDocumentoDipendente(){
+  openAddDocumentoDipendente() {
     const modalRef = this.modalService.open(AddDocumentModalComponent, {
       size: 'md' // 'lg' sta per grande, puoi utilizzare anche 'sm' per piccolo
     });
 
     // Volgio aggiungere un documento del dipendente, quindi non passo il dipendente
     modalRef.componentInstance.dipendente = this.dipendente;
+
+    modalRef.componentInstance.refreshData.subscribe(() => {
+      // Aggiorna i dati richiamando nuovamente ngOnInit
+      this.documenti = [];
+      this.getDocumenti()
+    });
   }
 }

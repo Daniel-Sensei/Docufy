@@ -1,4 +1,4 @@
-import { Component, Input } from '@angular/core';
+import { Component } from '@angular/core';
 import { NgbActiveModal, NgbDateStruct } from '@ng-bootstrap/ng-bootstrap';
 import { FormBuilder, FormGroup, Validators } from '@angular/forms';
 import { AlertService } from '../../../service/alert/alert.service';
@@ -7,6 +7,8 @@ import { Documento } from '../../../model/Documento';
 import { DocumentiService } from '../../../service/documenti/documenti.service';
 import { Dipendente } from '../../../model/Dipendente';
 import { AuthService } from '../../../service/auth/auth.service';
+import { Input, Output, EventEmitter } from '@angular/core';
+
 
 @Component({
   selector: 'app-add-document-modal',
@@ -16,6 +18,9 @@ import { AuthService } from '../../../service/auth/auth.service';
 export class AddDocumentModalComponent {
   @Input() documento: Documento | undefined;
   @Input() dipendente?: Dipendente | undefined;
+
+  @Output() refreshData: EventEmitter<void> = new EventEmitter<void>();
+
 
   tipiDocumentoDipendente = ['Patente', 'Carta d\'identità', 'Passaporto', 'Codice fiscale', 'Carta di circolazione', 'Altro'];
   tipiDocumentoAzienda = ['Certificato di iscrizione alla CCIAA', 'Certificato di iscrizione all\'INPS', 'Certificato di iscrizione all\'INAIL', 'Visura Camerale', 'Altro'];
@@ -144,11 +149,12 @@ export class AddDocumentModalComponent {
   private addDocumentoAzienda(documentoData: any){
     let pIva = this.auth.getCurrentPIva()!;
     this.documentiService.addDocumentoAzienda(documentoData, this.file, pIva).subscribe(
-      success => {
-        console.log("DOCUMENTO AGGIUNTO DI AZIENDA");
+      response => {
+        this.alert.setDocumentAlert("Documento aggiunto con successo", "success");
+        this.refreshData.emit();
       },
       error => {
-        console.log("ERRORE AGGIUNTA DOCUMENTO DI AZIENDA");
+        this.alert.setDocumentAlert("Errore nell'aggiunta del documento", "danger");
       }
     );
   }
@@ -156,11 +162,12 @@ export class AddDocumentModalComponent {
   private addDocumentoDipendente(documentoData: any){
     let cf = this.dipendente!.cf;
     this.documentiService.addDocumentoDipendente(documentoData, this.file, cf).subscribe(
-      success => {
-        console.log("DOCUMENTO AGGIUNTO DI DIPENDENTE");
+      response => {
+        this.alert.setDocumentAlert("Documento aggiunto con successo", "success");
+        this.refreshData.emit();
       },
       error => {
-        console.log("ERRORE AGGIUNTA DOCUMENTO DI DIPENDENTE");
+        this.alert.setDocumentAlert("Errore nell'aggiunta del documento", "danger");
       }
     );
   }
@@ -173,11 +180,13 @@ export class AddDocumentModalComponent {
   private updateDocumentoAzienda(documentoData: any){
     let pIva = this.auth.getCurrentPIva()!;
     this.documentiService.updateDocumentoAzienda(documentoData, this.file, pIva).subscribe(
-      success => {
-        console.log("DOCUMENTO MODIFICATO DI AZIENDA");
+      response => {
+        window.location.reload();
+        this.alert.setDocumentAlert("Documento aggiornato con successo", "success");
+        //this.refreshData.emit();
       },
       error => {
-        console.log("ERRORE MODIFICA DOCUMENTO DI AZIENDA");
+        this.alert.setDocumentAlert("Errore nella modifica del documento", "danger");
       }
     );
   }
@@ -185,11 +194,13 @@ export class AddDocumentModalComponent {
   private updateDocumentoDipendente(documentoData: any){
     let cf = this.dipendente!.cf;
     this.documentiService.updateDocumentoDipendente(documentoData, this.file, cf).subscribe(
-      success => {
-        console.log("DOCUMENTO MODIFICATO DI DIPENDENTE");
+      response => {
+        window.location.reload();
+        this.alert.setDocumentAlert("Documento aggiornato con successo", "success");
+        //this.refreshData.emit();
       },
       error => {
-        console.log("ERRORE MODIFICA DOCUMENTO DI DIPENDENTE");
+        this.alert.setDocumentAlert("Errore nella modifica del documento", "danger");
       }
     );
   }

@@ -128,8 +128,19 @@
                 Aggiungi Documento
             </button>
         </div>
+
+        <div *ngIf="alert.getDocumentSuccess()" class="alert alert-success alert-dismissible fade show" role="alert">
+            {{alert.getMessage()}}
+            <button type="button" class="btn-close" data-bs-dismiss="alert" aria-label="Close"></button>
+        </div>
+
+        <div *ngIf="alert.getDocumentDanger()" class="alert alert-danger alert-dismissible fade show" role="alert">
+            {{alert.getMessage()}}
+            <button type="button" class="btn-close" data-bs-dismiss="alert" aria-label="Close"></button>
+        </div> <!-- End Margin -->
+        
     </div> <!-- End Margin -->
 
-    <app-documenti-tabella></app-documenti-tabella>
+    <app-documenti-tabella *ngIf="documenti && documenti.length>0" [documenti]="documenti"></app-documenti-tabella>
 
 </div><!-- End #main -->

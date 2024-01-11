@@ -42,7 +42,11 @@ export class DocumentiComponent {
     // Volgio aggiungere un documento aziendale, quindi non passo il dipendente
     //modalRef.componentInstance.dipendente = false;
 
-    // Puoi gestire eventi o dati passati al modale qui
+    modalRef.componentInstance.refreshData.subscribe(() => {
+      // Aggiorna i dati richiamando nuovamente ngOnInit
+      this.documenti = [];
+      this.ngOnInit();
+    });
   }
 
 }

@@ -8,6 +8,7 @@ import { Dipendente } from '../../../model/Dipendente';
 
 import { Documento } from '../../../model/Documento';
 import { DocumentiService } from '../../../service/documenti/documenti.service';
+import { Output, EventEmitter } from '@angular/core';
 
 @Component({
   selector: 'app-confirm-modal',
@@ -15,6 +16,8 @@ import { DocumentiService } from '../../../service/documenti/documenti.service';
   styleUrl: './confirm-modal.component.css'
 })
 export class ConfirmModalComponent {
+  @Output() refreshData: EventEmitter<void> = new EventEmitter<void>();
+
 
   @Input() function?: string;
   @Input() dipendente?: Dipendente;
@@ -82,15 +85,18 @@ export class ConfirmModalComponent {
     if (this.documento != undefined ) {
       this.documentiService.deleteDocumento(this.documento.id).subscribe(
         data => {
-          this.alert.setMessage('Documento ' + this.documento?.nome +  ' rimosso con successo')
-          this.alert.setSuccessAlert();
+          this.alert.setDocumentAlert('Documento ' + this.documento?.nome +  ' rimosso con successo', 'success')
+          this.refreshData.emit();
+          /*
+          
           this.router.navigateByUrl('/', { skipLocationChange: true }).then(() => {
             this.router.navigate(['/documenti']);
           });
+          */
+          
         },
         error => {
-          this.alert.setMessage('Errore durante la rimozione del documento')
-          this.alert.setDangerAlert();
+          this.alert.setDocumentAlert('Errore durante la rimozione del documento', 'danger')
         }
       );
     }
