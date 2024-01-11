@@ -8,6 +8,12 @@ export class FormCheck {
         return regex.test(nome);
     }
 
+    //ragione sociale
+    static checkRagioneSociale(ragione_sociale: string): boolean {
+        const regex = /^[a-zA-Z0-9 ]+$/;
+        return regex.test(ragione_sociale);
+    }
+
     static checkTelefono(telefono: string): boolean {    
         // Verifica se il numero contiene almeno 9 cifre (fisso) o 10 cifre (cellulare)
         return /^\d{9,10}$/.test(telefono);
