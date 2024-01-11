@@ -87,8 +87,9 @@
                     <label for="company" class="col-md-4 col-lg-3 col-form-label">Ragione Sociale</label>
                     <div class="col-md-8 col-lg-9">
                       <input formControlName="ragione_sociale" name="ragioneSociale" type="text" class="form-control"
-                        id="ragioneSociale" (input)="controllaModifiche()">
-                      <!-- value={{azienda.ragioneSociale}} [(ngModel)]="azienda.ragioneSociale" (input)="controllaModifiche()"-->
+                        id="ragioneSociale" (input)="controllaModifiche()" [class.is-invaid]="modificaProfiloForm.get('ragione_sociale')?.invalid && modificaProfiloForm.get('ragione_sociale')">
+                        <div *ngIf="modificaProfiloForm.get('ragione_sociale')?.invalid && modificaProfiloForm.get('ragione_sociale')?.touched" class="invalid-feedback"></div>
+                      
                     </div>
                   </div>
 
@@ -96,35 +97,46 @@
                     <label for="Email" class="col-md-4 col-lg-3 col-form-label">Email</label>
                     <div class="col-md-8 col-lg-9">
                       <input formControlName="email" name="email" type="email" class="form-control" id="Email"
-                        (input)="controllaModifiche()"> <!--value={{azienda.email}}-->
-                    </div>
+                        (input)="controllaModifiche()" [class.is-invalid]="modificaProfiloForm.get('email')?.invalid && modificaProfiloForm.get('email')?.touched"> <!--value={{azienda.email}}-->
+                        <div *ngIf="modificaProfiloForm.get('email')?.invalid && modificaProfiloForm.get('email')?.touched" class="invalid-feedback">
+                          Email non valida
+                        </div> 
+                      </div>
                   </div>
 
                   <div class="row mb-3">
                     <label for="Address" class="col-md-4 col-lg-3 col-form-label">Indirizzo</label>
                     <div class="col-md-8 col-lg-9">
                       <input formControlName="indirizzo" name="address" type="text" class="form-control" id="Address"
-                        (input)="controllaModifiche()"> <!--value={{azienda.indirizzo}}-->
+                        (input)="controllaModifiche()" [class.is-invalid]="modificaProfiloForm.get('indirizzo')?.invalid && modificaProfiloForm.get('indirizzo')?.touched"> <!--value={{azienda.indirizzo}}-->
+                        <div *ngIf="modificaProfiloForm.get('indirizzo')?.invalid && modificaProfiloForm.get('indirizzo')?.touched" class="invalid-feedback">
+                        Indirizzo non valido</div>
                     </div>
                   </div>
 
                   <div class="row mb-3">
                     <label for="Phone" class="col-md-4 col-lg-3 col-form-label">Telefono</label>
                     <div class="col-md-8 col-lg-9">
-                      <input formControlName="telefono" name="phone" type="text" class="form-control" id="Phone"
-                        (input)="controllaModifiche()"> <!--value={{azienda.telefono}}-->
-                    </div>
+                      <input formControlName="telefono" name="text" type="text" class="form-control" id="Phone"
+                        (input)="controllaModifiche()" [class.is-invalid]="modificaProfiloForm.get('telefono')?.invalid && modificaProfiloForm.get('telefono')?.touched"> <!--value={{azienda.telefono}}-->
+                        <div *ngIf="modificaProfiloForm.get('telefono')?.invalid && modificaProfiloForm.get('telefono')?.touched"
+                          class="invalid-feedback">
+                          Telefono non valido
+                        </div>
+                      </div>
+                   
                   </div>
 
                   <div class="row mb-3">
                     <label for="profileImage" class="col-md-4 col-lg-3 col-form-label">Immagine Profilo</label>
                     <div class="col-md-8 col-lg-9">
-                      <input formControlName="img" type="file" class="form-control" id="file" accept="image/*" (input)="controllaModifiche()">
+                      <input formControlName="img" type="file" class="form-control" id="file" accept="image/*" (input)="controllaModifiche()" [class.is-invalid]="modificaProfiloForm.get('img')?.invalid && modificaProfiloForm.get('img')?.touched">
+                      <div *ngIf="modificaProfiloForm.get('img')?.invalid && modificaProfiloForm.get('img')?.touched" class="invalid-feedback"></div>
                     </div>
                   </div>
 
                   <div class="text-center">
-                    <button type="submit" class="btn btn-primary" [disabled]="!modificato" (click)="salvaModifiche()" >Salva cambiamenti</button> <!-- abilita il bottone solo quando qualche label è stat modificata-->
+                    <button type="submit" class="btn btn-primary" [disabled]="!modificato || modificaProfiloForm.invalid" (click)="salvaModifiche()" >Salva cambiamenti</button> <!-- abilita il bottone solo quando qualche label è stat modificata-->
                   </div>
                 </form><!-- End Profile Edit Form -->
 
@@ -155,7 +167,7 @@
                     </div>
                   </div>
                   <div class="text-center">
-                    <button type="submit" class="btn btn-primary" [disabled]="!modificaPasswordForm.invalid" (click)="ModficaPassword()">Cambia Password</button>
+                    <button type="submit" class="btn btn-primary" [disabled]="modificaPasswordForm.invalid" (click)="ModficaPassword()">Cambia Password</button>
                   </div>
                 </form><!-- End Change Password Form -->
               </div>

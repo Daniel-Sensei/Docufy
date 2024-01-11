@@ -16,7 +16,11 @@ export class FormCheck {
 
     static checkTelefono(telefono: string): boolean {    
         // Verifica se il numero contiene almeno 9 cifre (fisso) o 10 cifre (cellulare)
-        return /^\d{9,10}$/.test(telefono);
+        //return /^\d{9,10}$/.test(telefono);
+         
+        // Verifica se il numero contiene almeno 9 cifre (fisso) o 10 cifre (cellulare) a se ha il prefisso +39 allora devono essere 12
+        return /^\+?39 \d{9,12}$/.test(telefono);  //va modificato il modo in cui si stampa il numero perchè che uno spazio tra +39 e il numero quindi nell'eqauzione c'è
+        
     }
 
     static checkEmail(email: string): boolean {

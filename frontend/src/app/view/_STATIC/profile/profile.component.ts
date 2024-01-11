@@ -57,10 +57,6 @@ export class ProfileComponent {
     const emailControl = group.get('email');
     const telefonoControl = group.get('telefono');
 
-    const nuova_passwordControl = group.get('nuova_password');
-    const conferma_passwordfControl = group.get('conferma_password');
-    const PasswordControl = group.get('password');
-    
     if (ragione_socialeControl && emailControl && telefonoControl){
       const ragione_sociale = ragione_socialeControl.value;
       const email = emailControl.value;
@@ -74,25 +70,22 @@ export class ProfileComponent {
           ragione_socialeControl.setErrors(null);
         }
       }
-
       // Email
       if (email && !FormCheck.checkEmail(email)) {
         emailControl.setErrors({ 'invalidEmail': true });
       } else {
-        if (emailControl.hasError('invalidEmail')) {
+        if (emailControl.hasError('invalidEmail')) { 
           emailControl.setErrors(null);
         }
       }
-
       // Telefono
       if (telefono && !FormCheck.checkTelefono(telefono)) {
-        telefonoControl?.setErrors({ 'invalidPhone': true });
+        telefonoControl?.setErrors({ 'invalidTelefono': true });
       } else {
-        if (telefonoControl?.hasError('invalidPhone')) {
+        if (telefonoControl?.hasError('invalidTelefono')) {
           telefonoControl?.setErrors(null);
         }
       }
-
     }
   }
 
@@ -114,7 +107,6 @@ export class ProfileComponent {
           PasswordControl.setErrors(null);
         }
       }
-
       // Conferma password
       if (conferma_password && !FormCheck.checkNome(conferma_password)) {
         conferma_passwordfControl.setErrors({ 'invalidPassword': true });
@@ -123,7 +115,6 @@ export class ProfileComponent {
           conferma_passwordfControl.setErrors(null);
         }
       }
-
       // Confronto password
       if (nuova_password && conferma_password && !FormCheck.compareTwoPasswords(nuova_password, conferma_password)) {
         conferma_passwordfControl.setErrors({ 'differentPasswords': true });
@@ -156,7 +147,7 @@ export class ProfileComponent {
   controllaModifiche() { // this.modificato = (JSON.stringify(this.azienda) != JSON.stringify(this.datiOriginali)) || this.azienda.img != ""; 
     console.log("dati precedenti"+this.datiOriginali.ragioneSociale);
     console.log("controllo"+this.modificaProfiloForm.value);
-    if (this.modificaProfiloForm.value.ragione_sociale != this.datiOriginali.ragioneSociale ||
+    if (this.modificaProfiloForm.value.ragioneSociale != this.datiOriginali.ragioneSociale ||
       this.modificaProfiloForm.value.email != this.datiOriginali.email ||
       this.modificaProfiloForm.value.indirizzo != this.datiOriginali.indirizzo ||
       this.modificaProfiloForm.value.telefono != this.datiOriginali.telefono ||
