@@ -124,19 +124,19 @@ public class DocumentoDaoPostgres implements DocumentoDao {
             st.setDate(4, new java.sql.Date(documento.getDataScadenza().getTime()));
             if(documento.getDipendente() != null) {
                 st.setLong(5, documento.getDipendente().getId());
-                st.setNull(6, java.sql.Types.VARCHAR);
+                st.setString(6, null);
             } else {
-                st.setNull(5, java.sql.Types.INTEGER);
-                if (documento.getAzienda() != null)
+                if (documento.getAzienda() != null) {
+                    st.setLong(5, 0);
                     st.setString(6, documento.getAzienda().getPIva());
-                else
-                    return null;
+                }
+                else return null;
             }
             st.setString(7, documento.getStato());
             st.setString(8, documento.getFormato());
             ResultSet rs = st.executeQuery();
             if (rs.next()) {
-                return rs.getLong(1);
+                return rs.getLong("id");
             }
             return null;
         } catch (SQLException e) {

@@ -8,6 +8,7 @@ import org.springframework.web.multipart.MultipartFile;
 
 import java.io.IOException;
 import java.util.ArrayList;
+import java.util.Date;
 import java.util.List;
 
 public class UserA extends User
@@ -351,6 +352,8 @@ public class UserA extends User
 
         Documento documento = Utility.jsonToObject(json, Documento.class);
 
+        documento.setStato(checkDataDocumento(documento));
+
         String filePath;
         try {
             if (cf != null) {
@@ -358,12 +361,15 @@ public class UserA extends User
                 Dipendente d = DBManager.getInstance().getDipendenteDao().findByCF(cf);
                 if (d == null) return new ResponseEntity<>(HttpStatus.BAD_REQUEST);
                 if(!Utility.checkAgencyEmployeeCF(pIva, cf)) return new ResponseEntity<>(HttpStatus.UNAUTHORIZED);
+                documento.setDipendente(d);
                 filePath = Utility.uploadFile(cf, file);
             } else {
                 // Per Azienda
-                if (!this.pIva.equals(pIva)) {
+                if (!this.pIva.equals(pIva))
                     return new ResponseEntity<>(HttpStatus.UNAUTHORIZED);
-                }
+                Azienda a = new Azienda();
+                a.setPIva(pIva);
+                documento.setAzienda(a);
                 filePath = Utility.uploadFile(pIva, file);
             }
         } catch (IOException e) {
@@ -374,6 +380,7 @@ public class UserA extends User
 
         Long id = DBManager.getInstance().getDocumentoDao().insert(documento);
         if (id == null) {
+            System.out.println(filePath);
             Utility.deleteFile(filePath);
             return new ResponseEntity<>(HttpStatus.INTERNAL_SERVER_ERROR);
         }
@@ -390,6 +397,9 @@ public class UserA extends User
 
         // converto il json in un documento
         Documento documento = Utility.jsonToObject(json, Documento.class);
+
+        // controllo lo stato del documento: Scaduto, Valido o In Scadenza (1 MESE PRIMA SCADENZA)
+        documento.setStato(checkDataDocumento(documento));
 
         // controllo che il documento esista
         Documento d = DBManager.getInstance().getDocumentoDao().findById(documento.getId());

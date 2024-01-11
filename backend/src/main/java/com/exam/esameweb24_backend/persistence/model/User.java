@@ -3,6 +3,7 @@ package com.exam.esameweb24_backend.persistence.model;
 import org.springframework.http.ResponseEntity;
 import org.springframework.web.multipart.MultipartFile;
 
+import java.util.Date;
 import java.util.List;
 
 public class User {
@@ -128,4 +129,11 @@ public class User {
     public ResponseEntity<String> modificaDocumento(MultipartFile json, MultipartFile file, String pIva, String cf) {return null;}
 
     public ResponseEntity<String> rimuoviDocumento(Long id){return null;}
+
+    public String checkDataDocumento(Documento documento) {
+        // controllo lo stato del documento: Scaduto, Valido o In Scadenza (1 MESE PRIMA SCADENZA)
+        if (documento.getDataScadenza().before(new Date())) return "Scaduto";
+        else if (documento.getDataScadenza().before(new Date(new Date().getTime() + 2592000000L))) return "In Scadenza";
+        else return "Valido";
+    }
 }

@@ -381,20 +381,26 @@ public class UserC extends User
         if (json.isEmpty() || file.getOriginalFilename().isBlank() || file.getOriginalFilename().equals("blob") || file.isEmpty())
             return new ResponseEntity<>(HttpStatus.BAD_REQUEST);
 
+        // converto il json in un documento
+        Documento documento = Utility.jsonToObject(json, Documento.class);
+
         if(cf!=null){
-            if (DBManager.getInstance().getDipendenteDao().findByCF(cf) == null)
+            Dipendente d = DBManager.getInstance().getDipendenteDao().findByCF(cf);
+            if (d == null)
                 return new ResponseEntity<>(HttpStatus.BAD_REQUEST);
             if(!Utility.checkConsultantAgency(this.pIva, DBManager.getInstance().getDipendenteDao().findByCF(cf).getAzienda().getPIva()))
                 return new ResponseEntity<>(HttpStatus.UNAUTHORIZED);
+            documento.setDipendente(d);
         } else {
-            if (DBManager.getInstance().getAziendaDao().findByPIva(pIva) == null)
+            Azienda a = DBManager.getInstance().getAziendaDao().findByPIva(pIva);
+            if (a == null)
                 return new ResponseEntity<>(HttpStatus.BAD_REQUEST);
             if(!Utility.checkConsultantAgency(this.pIva, pIva))
                 return new ResponseEntity<>(HttpStatus.UNAUTHORIZED);
+            documento.setAzienda(a);
         }
 
-        // converto il json in un documento
-        Documento documento = Utility.jsonToObject(json, Documento.class);
+        documento.setStato(checkDataDocumento(documento));
 
         String filePath;
         try {
@@ -423,6 +429,8 @@ public class UserC extends User
 
         // converto il json in un documento
         Documento documento = Utility.jsonToObject(json, Documento.class);
+
+        documento.setStato(checkDataDocumento(documento));
 
         // controllo che il documento esista
         Documento d = DBManager.getInstance().getDocumentoDao().findById(documento.getId());

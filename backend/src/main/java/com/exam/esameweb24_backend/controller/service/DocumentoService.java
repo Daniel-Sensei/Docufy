@@ -44,7 +44,7 @@ public class DocumentoService {
         return user.getDocumento(id);
     }
 
-    @PostMapping("/aggiungi-documento-Azienda")
+    @PostMapping("/aggiungi-documento-azienda")
     public ResponseEntity<String> aggiungiDocumentoAzienda(HttpServletRequest req, @RequestParam("documento") MultipartFile json, @RequestParam("file") MultipartFile file, @RequestParam String pIva){
 
         User user = Utility.getRequestUser(req);
