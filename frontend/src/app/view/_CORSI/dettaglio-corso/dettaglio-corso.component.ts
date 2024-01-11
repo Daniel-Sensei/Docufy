@@ -9,6 +9,8 @@ import { DipendentiService } from '../../../service/dipendenti/dipendenti.servic
 import { Corso } from '../../../model/Corso';
 import { CorsiService } from '../../../service/corsi/corsi.service';
 import { Router, ActivatedRoute } from '@angular/router';
+import { AuthService } from '../../../service/auth/auth.service';
+import { AddCorsoModalComponent } from '../add-corso-modal/add-corso-modal.component';
 
 
 @Component({
@@ -27,14 +29,9 @@ export class DettaglioCorsoComponent {
     private dipendentiService: DipendentiService,
     private route: ActivatedRoute,
     private router: Router,
-    private corsiService: CorsiService
-    ) { }
-
-  openAddDipendenteCorso(){
-    const modalRef = this.modalService.open(AddDipendenteCorsoModalComponent, {
-      size: 'md' // 'lg' sta per grande, puoi utilizzare anche 'sm' per piccolo
-    });
-  }
+    private corsiService: CorsiService,
+    public auth: AuthService
+  ) { }
 
   ngOnInit(): void {
     this.getCorso();
@@ -47,6 +44,20 @@ export class DettaglioCorsoComponent {
       if (this.corso == undefined) {
         this.router.navigate(['/404']);
       }
+    });
+  }
+
+  openUpdateCorsoModal() {
+    const modalRef = this.modalService.open(AddCorsoModalComponent, {
+      size: 'md' // 'lg' sta per grande, puoi utilizzare anche 'sm' per piccolo
+    });
+
+    modalRef.componentInstance.corso = this.corso;
+  }
+
+  openAddDipendenteCorso() {
+    const modalRef = this.modalService.open(AddDipendenteCorsoModalComponent, {
+      size: 'md' // 'lg' sta per grande, puoi utilizzare anche 'sm' per piccolo
     });
   }
 

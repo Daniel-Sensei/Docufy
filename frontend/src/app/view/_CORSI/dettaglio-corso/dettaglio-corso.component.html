@@ -13,10 +13,16 @@
 
     <div class="margin">
 
-        <!--<div *ngIf="alert.getSuccessAlert()" class="alert alert-success alert-dismissible fade show" role="alert">
-                Dipendente aggiunto con successo
-                <button type="button" class="btn-close" data-bs-dismiss="alert" aria-label="Close"></button>
-            </div>-->
+        <div *ngIf="alert.getSuccessAlert()" class="alert alert-success alert-dismissible fade show" role="alert">
+            {{this.alert.getMessage()}}
+            <button type="button" class="btn-close" data-bs-dismiss="alert" aria-label="Close"></button>
+        </div>
+
+        <div class="mb-3" *ngIf="this.auth.getRole()=='C'">
+            <button type="button" class="btn btn-primary" (click)="openUpdateCorsoModal()">
+                Modifica Corso
+            </button>
+        </div>
     </div>
 
 
@@ -28,7 +34,25 @@
                         <div class="row g-0">
                             <div class="col-md-4 gradient-custom text-center text-white d-flex flex-column align-items-center justify-content-center"
                                 style="border-top-left-radius: .5rem; border-bottom-left-radius: .5rem;">
-                                <i class="big-icon bx bxl-mailchimp"></i>
+
+
+                                <div *ngIf="corso.categoria=='salute e benessere'">
+                                    <i class="big-icon bx bx-heart-circle"></i>
+                                </div>
+                                <div *ngIf="corso.categoria=='formazione'">
+                                    <i class="big-icon bxs-book-open"></i>
+                                </div>
+                                <div *ngIf="corso.categoria=='aggiornamento'">
+                                    <i class="big-icon bx bxl-mailchimp"></i>
+                                </div>
+                                <div *ngIf="corso.categoria=='marketing'">
+                                    <i class=" big-iconbx bxs-game"></i>
+                                </div>
+                                <div *ngIf="corso.categoria=='sicurezza'">
+                                    <i class="big-icon bx bxl-mailchimp"></i>
+                                </div>
+
+
                                 <h5>{{corso.nome}}</h5>
                                 <p>{{corso.categoria}}</p>
                                 <i class="far fa-edit mb-5"></i>
