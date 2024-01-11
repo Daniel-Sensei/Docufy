@@ -66,7 +66,7 @@ export class ProfileComponent {
     
     
 
-    if (ragione_socialeControl && emailControl && indirizzoControl && telefonoControl){//&& cfControl && ruoloControl && emailControl && telefonoControl) {
+    if (ragione_socialeControl && emailControl && telefonoControl){//&& cfControl && ruoloControl && emailControl && telefonoControl) {
       const ragione_sociale = ragione_socialeControl.value;
       const email = emailControl.value;
       const telefono = telefonoControl.value;
@@ -159,7 +159,9 @@ export class ProfileComponent {
     this.modificaProfiloForm.patchValue({
       // controlla che documento.tipoDocumento sia tra i tipiDocumentiAzienda
       ragione_sociale: this.azienda.ragioneSociale,
-
+      email: this.azienda.email,
+      indirizzo: this.azienda.indirizzo,
+      telefono: this.azienda.telefono,
     });
   }
 
