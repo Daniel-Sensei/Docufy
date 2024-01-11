@@ -2,13 +2,14 @@ import { AfterViewInit, Component, ViewChild, Input, ChangeDetectorRef } from '@
 
 import { Documento } from '../../../model/Documento';
 
-import {MatPaginator} from '@angular/material/paginator';
-import {MatSort} from '@angular/material/sort';
-import {MatTableDataSource} from '@angular/material/table';
+import { MatPaginator } from '@angular/material/paginator';
+import { MatSort } from '@angular/material/sort';
+import { MatTableDataSource } from '@angular/material/table';
 import { AuthService } from '../../../service/auth/auth.service';
 import { NgbModal } from '@ng-bootstrap/ng-bootstrap';
 import { AddDocumentModalComponent } from '../add-documento-modal/add-document-modal.component';
 import { ConfirmModalComponent } from '../../_STATIC/confirm-modal/confirm-modal.component';
+import { FileService } from '../../../service/file/file.service';
 
 
 @Component({
@@ -16,19 +17,20 @@ import { ConfirmModalComponent } from '../../_STATIC/confirm-modal/confirm-modal
   templateUrl: './documenti-tabella.component.html',
   styleUrl: './documenti-tabella.component.css'
 })
-export class DocumentiTabellaComponent implements AfterViewInit{
+export class DocumentiTabellaComponent implements AfterViewInit {
   displayedColumns: string[] = ['nome', 'dataScadenza', 'stato', 'formato', 'azioni'];
   dataSource: MatTableDataSource<Documento>;
 
   @ViewChild(MatPaginator) paginator!: MatPaginator;
   @ViewChild(MatSort) sort!: MatSort;
-  
+
   @Input() documenti: Documento[] = [];
 
   constructor(
     private cdr: ChangeDetectorRef,
     public auth: AuthService,
-    private modalService: NgbModal) {
+    private modalService: NgbModal,
+    private fileService: FileService) {
     this.dataSource = new MatTableDataSource(this.documenti);
   }
 
@@ -68,4 +70,40 @@ export class DocumentiTabellaComponent implements AfterViewInit{
     modalRef.componentInstance.documento = documento;
     modalRef.componentInstance.function = 'deleteDocumento';
   }
+
+  downloadDocumento(documento: Documento) {
+    this.fileService.getFile(documento.file).subscribe(file => {
+      // Get the file extension
+      const extension = documento.file.split('.').pop() as string;
+      
+      // Set the appropriate file type based on the extension
+      const fileType = this.getFileTypeByExtension(extension);
+      
+      // Download the file
+      const blob = new Blob([file], { type: fileType });
+      const url = window.URL.createObjectURL(blob);
+      
+      // Create a link element and trigger the download
+      const a = document.createElement('a');
+      a.href = url;
+      a.download = `${documento.nome}.${extension}`;
+      document.body.appendChild(a);
+      a.click();
+      document.body.removeChild(a);
+    });
+  }
+  
+  getFileTypeByExtension(extension: string): string {
+    // Map common file extensions to MIME types
+    const mimeTypes: { [key: string]: string } = {
+      'pdf': 'application/pdf',
+      'doc': 'application/msword',
+      'docx': 'application/vnd.openxmlformats-officedocument.wordprocessingml.document',
+      // Add more mappings as needed
+    };
+  
+    // Default to generic binary data if the extension is not in the mapping
+    return mimeTypes[extension] || 'application/octet-stream';
+  }
+  
 }
