@@ -50,6 +50,13 @@ export class FormCheck {
         return true;
     }
 
+    static compareTwoPasswords(password1: string, password2: string): boolean{ //aggiunta controlllo password
+        if(password1 === password2){
+            return true;
+        }
+        return false;
+    }
+
     static compareFutureDate(date: NgbDate): boolean{
         const today = new Date();
         const todayDate = new NgbDate(today.getFullYear(), today.getMonth() + 1 , today.getDate());

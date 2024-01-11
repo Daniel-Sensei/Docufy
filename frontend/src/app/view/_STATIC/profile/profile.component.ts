@@ -39,14 +39,14 @@ export class ProfileComponent {
       telefono: ['', Validators.required],
       indirizzo: ['', Validators.required],
       img: ['']
-    }, { validators: this.customValidation }
+    }, { validators: this.customValidationMofidicaProfilo }
     );
 
     this.modificaPasswordForm = this.fb.group({
       password: ['', Validators.required],
       nuova_password: ['', Validators.required],
       conferma_password: ['', Validators.required]
-    }, { validators: this.customValidation }
+    }, { validators: this.customValidationPassword }
     );
   }
 
@@ -55,39 +55,36 @@ export class ProfileComponent {
 
   }
 
-  //----------------------------------------------------------------------
-  customValidation(group: FormGroup) {
+  customValidationMofidicaProfilo(group: FormGroup) {
     const ragione_socialeControl = group.get('ragione_sociale');
     const emailControl = group.get('email');
-    const indirizzoControl = group.get('indirizzo');
     const telefonoControl = group.get('telefono');
 
     const nuova_passwordControl = group.get('nuova_password');
     const conferma_passwordfControl = group.get('conferma_password');
     const PasswordControl = group.get('password');
+    
+    
 
-
-
-    if (ragione_socialeControl && emailControl && indirizzoControl && telefonoControl) {//&& cfControl && ruoloControl && emailControl && telefonoControl) {
+    if (ragione_socialeControl && emailControl && indirizzoControl && telefonoControl){//&& cfControl && ruoloControl && emailControl && telefonoControl) {
       const ragione_sociale = ragione_socialeControl.value;
       const email = emailControl.value;
-      const indirizzo = indirizzoControl.value;
       const telefono = telefonoControl.value;
 
       // Ragione sociale
-      if (ragione_sociale && !FormCheck.checkNome(ragione_sociale)) {
-        ragione_socialeControl.setErrors({ 'invalidName': true });
+      if (ragione_sociale && !FormCheck.checkRagioneSociale(ragione_sociale) ) {
+        ragione_socialeControl.setErrors({ 'invalidRagioneSociale': true });
       } else {
-        if (ragione_socialeControl.hasError('invalidName')) {
+        if (ragione_socialeControl.hasError('invalidRagioneSociale')) {
           ragione_socialeControl.setErrors(null);
         }
       }
 
       // Email
-      if (email && !FormCheck.checkNome(email)) {
-        emailControl.setErrors({ 'invalidSurname': true });
+      if (email && !FormCheck.checkEmail(email)) {
+        emailControl.setErrors({ 'invalidEmail': true });
       } else {
-        if (emailControl.hasError('invalidSurname')) {
+        if (emailControl.hasError('invalidEmail')) {
           emailControl.setErrors(null);
         }
       }
@@ -101,12 +98,43 @@ export class ProfileComponent {
         }
       }
 
-      // Data di nascita
-      if (indirizzo && !FormCheck.dataNascitaMinima(indirizzo)) {
-        indirizzoControl.setErrors({ 'underage': true });
+    }
+  }
+
+  customValidationPassword(group: FormGroup) {
+    const nuova_passwordControl = group.get('nuova_password');
+    const conferma_passwordfControl = group.get('conferma_password');
+    const PasswordControl = group.get('password');
+
+    if (nuova_passwordControl && conferma_passwordfControl && PasswordControl){
+      const nuova_password = nuova_passwordControl.value;
+      const conferma_password = conferma_passwordfControl.value;
+      const password = PasswordControl.value;
+
+      // Password
+      if (password && !FormCheck.checkNome(password)) {
+        PasswordControl.setErrors({ 'invalidPassword': true });
       } else {
-        if (indirizzoControl.hasError('underage')) {
-          indirizzoControl.setErrors(null);
+        if (PasswordControl.hasError('invalidPassword')) {
+          PasswordControl.setErrors(null);
+        }
+      }
+
+      // Conferma password
+      if (conferma_password && !FormCheck.checkNome(conferma_password)) {
+        conferma_passwordfControl.setErrors({ 'invalidPassword': true });
+      } else {
+        if (conferma_passwordfControl.hasError('invalidPassword')) {
+          conferma_passwordfControl.setErrors(null);
+        }
+      }
+
+      // Confronto password
+      if (nuova_password && conferma_password && !FormCheck.compareTwoPasswords(nuova_password, conferma_password)) {
+        conferma_passwordfControl.setErrors({ 'differentPasswords': true });
+      } else {
+        if (conferma_passwordfControl.hasError('differentPasswords')) {
+          conferma_passwordfControl.setErrors(null);
         }
       }
     }
@@ -151,6 +179,10 @@ export class ProfileComponent {
     this.datiOriginali = { ...this.azienda }; //modifica
     console.log(this.modificaProfiloForm.value);
     this.modificato = false;
+  }
+  ModficaPassword(){
+    console.log("modifica password");
+    //this.modificaPassword(this.modificaPasswordForm.value);
   }
 
   private modificaAzienda(aziendaData: any, file: File | undefined) {
