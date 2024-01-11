@@ -216,4 +216,29 @@ export class AuthService {
     this.selectedPIva = pIva;
     sessionStorage.setItem('admin-selectedPIva', pIva);
   }
+
+  //--------------------------------------------------------------------------------------------------------------  
+  setPassword(password: string, newPpassword: string): void {
+    sessionStorage.setItem('admin-password', password);
+    sessionStorage.setItem('admin-newPassword', newPpassword);
+  }
+  
+  modifcaPassword(password: string, newPassword: string): Observable<boolean> { //modifica
+    const user = { password: password, newPassword: newPassword };
+    return this.http.post<AuthToken>(Settings.API_ENDPOINT + 'modificaPassword', user)
+      .pipe(
+        map(response => {
+          if (response == undefined) {
+            return false;
+          }
+          this.setPassword(password, newPassword);
+          this.setToken(response.token, false);
+          this.setRole(response.role, false);
+          this.setCurrentPIva(false);
+          return true;
+        })
+      );
+  }
+  
 }
+

@@ -7,6 +7,9 @@ import { Output, EventEmitter } from '@angular/core'; //modifica
 import { FormGroup, FormBuilder, Validators } from '@angular/forms';
 import { FileService } from '../../../service/file/file.service';
 import { FormCheck } from '../../../FormCheck';
+import { AuthService } from '../../../service/auth/auth.service';
+import { Router } from '@angular/router';
+
 
 @Component({
   selector: 'app-profile',
@@ -15,6 +18,9 @@ import { FormCheck } from '../../../FormCheck';
 })
 export class ProfileComponent {
   @Output() refreshData: EventEmitter<void> = new EventEmitter<void>();
+
+  success: boolean = true; //PER IL CONTROLLO DELLA PASSWORD
+  serverError: boolean = false;
 
   private file: File | undefined; //modifica
   modificaProfiloForm: FormGroup; //modifica
@@ -29,6 +35,8 @@ export class ProfileComponent {
     private alert: AlertService,    //modifica
     private fb: FormBuilder, //modifica
     private fileService: FileService,
+    private auth: AuthService,
+    private router: Router,
   ) {
     this.modificaProfiloForm = this.fb.group({
       ragione_sociale: ['', Validators.required],
@@ -40,7 +48,7 @@ export class ProfileComponent {
     );
 
     this.modificaPasswordForm = this.fb.group({
-      password: ['', Validators.required],
+      password: ['', Validators.required, ],
       nuova_password: ['', Validators.required],
       conferma_password: ['', Validators.required]
     }, { validators: this.customValidationPassword }
@@ -97,24 +105,25 @@ export class ProfileComponent {
     if (nuova_passwordControl && conferma_passwordfControl && PasswordControl){
       const nuova_password = nuova_passwordControl.value;
       const conferma_password = conferma_passwordfControl.value;
-      const password = PasswordControl.value;
+      //const password = PasswordControl.value;
 
       // Password
-      if (password && !FormCheck.checkNome(password)) {
+      //controllato con il service NON SERVE
+      /*if (password && !FormCheck.checkNome(password)) {
         PasswordControl.setErrors({ 'invalidPassword': true });
       } else {
         if (PasswordControl.hasError('invalidPassword')) {
           PasswordControl.setErrors(null);
         }
-      }
-      // Conferma password
-      if (conferma_password && !FormCheck.checkNome(conferma_password)) {
+      }*/
+      // Conferma password NON SERVE
+      /*if (conferma_password && !FormCheck.checkNome(conferma_password)) {
         conferma_passwordfControl.setErrors({ 'invalidPassword': true });
       } else {
         if (conferma_passwordfControl.hasError('invalidPassword')) {
           conferma_passwordfControl.setErrors(null);
         }
-      }
+      }*/
       // Confronto password
       if (nuova_password && conferma_password && !FormCheck.compareTwoPasswords(nuova_password, conferma_password)) {
         conferma_passwordfControl.setErrors({ 'differentPasswords': true });
@@ -192,6 +201,24 @@ export class ProfileComponent {
           this.refreshData.emit();
         });
     }
+  }
+
+  //DA CONTINUARE 
+  submitForm() {
+    this.auth. modifcaPassword(this.modificaPasswordForm.get('password')?.value, this.modificaPasswordForm.get('nuova_password')?.value).
+      subscribe(
+        result => {
+          if (result) {
+            this.router.navigate(['/']);
+          }
+          else {
+            this.success = false;
+          }
+        },
+        error => {
+          this.serverError = true;
+          //this.router.navigate(['/profile']);
+        });
   }
 
 }
