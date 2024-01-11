@@ -59,6 +59,8 @@ import { DatePipe } from '@angular/common';
 import { ConfirmModalComponent } from './view/_STATIC/confirm-modal/confirm-modal.component';
 import { NotAuthorizedComponent } from './view/_STATIC/not-authorized/not-authorized.component';
 
+import { ModalModule } from 'ngx-bootstrap/modal';
+
 
 @NgModule({
   declarations: [

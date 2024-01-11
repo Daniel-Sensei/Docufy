@@ -124,7 +124,7 @@
 
     <div class="margin">
         <div class="mb-3" *ngIf="this.auth.getRole()=='A'">
-            <button type="button" class="btn btn-primary" data-bs-toggle="modal" data-bs-target="#addEmployeeModal">
+            <button (click)="openAddDocumentoDipendente()" type="button" class="btn btn-primary" data-bs-toggle="modal" data-bs-target="#addEmployeeModal">
                 Aggiungi Documento
             </button>
         </div>

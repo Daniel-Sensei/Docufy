@@ -14,6 +14,8 @@ import { ConfirmModalComponent } from '../../_STATIC/confirm-modal/confirm-modal
 import { forkJoin, Observable, map } from 'rxjs';
 import { AuthService } from '../../../service/auth/auth.service';
 
+import { AddDocumentModalComponent } from '../../_DOCUMENTI/add-documento-modal/add-document-modal.component';
+
 @Component({
   selector: 'app-dipendenti-dettagli',
   templateUrl: './dipendenti-dettagli.component.html',
@@ -111,5 +113,14 @@ export class DipendentiDettagliComponent {
   private formatItalianDate(date: string): string {
     const formattedDate = this.datePipe.transform(date, 'dd/MM/yyyy');
     return formattedDate || '';
+  }
+
+  openAddDocumentoDipendente(){
+    const modalRef = this.modalService.open(AddDocumentModalComponent, {
+      size: 'md' // 'lg' sta per grande, puoi utilizzare anche 'sm' per piccolo
+    });
+
+    // Volgio aggiungere un documento del dipendente, quindi non passo il dipendente
+    modalRef.componentInstance.dipendente = this.dipendente;
   }
 }
