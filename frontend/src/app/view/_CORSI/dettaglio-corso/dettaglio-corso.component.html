@@ -20,7 +20,7 @@
     </div>
 
 
-    <section>
+    <section *ngIf="corso != undefined">
         <div class="row">
             <div class="col col-lg-12 mb-4">
                 <div class="card mb-0" style="border-radius: .5rem;">
@@ -29,8 +29,8 @@
                             <div class="col-md-4 gradient-custom text-center text-white d-flex flex-column align-items-center justify-content-center"
                                 style="border-top-left-radius: .5rem; border-bottom-left-radius: .5rem;">
                                 <i class="big-icon bx bxl-mailchimp"></i>
-                                <h5>Nome Corso</h5>
-                                <p>Tipologia</p>
+                                <h5>{{corso.nome}}</h5>
+                                <p>{{corso.categoria}}</p>
                                 <i class="far fa-edit mb-5"></i>
                             </div>
 
@@ -41,35 +41,32 @@
 
                                     <div class="row pt-1">
                                         <div class="col-6 mb-3">
-                                            <h6 class="text-bold">Prezzo </h6>
-                                            <p class="text-muted">prezzo</p>
+                                            <h6 class="text-bold">Prezzo</h6>
+                                            <p class="text-muted">{{corso.prezzo}}€</p>
                                         </div>
                                         <div class="col-6 mb-3">
                                             <h6 class="text-bold">Durata</h6>
-                                            <p class="text-muted">durata</p>
+                                            <p class="text-muted">{{corso.durata}} h</p>
                                         </div>
                                     </div>
 
                                     <div class="row pt-1">
                                         <div class="col-6 mb-3">
-                                            <h6 class="text-bold">Posti</h6>
-                                            <p class="text-muted">posti</p>
+                                            <h6 class="text-bold">Posti Totali</h6>
+                                            <p class="text-muted">{{corso.posti}}</p>
                                         </div>
                                         <div class="col-6 mb-3">
-                                            <h6 class="text-bold">Posti disponibili </h6>
-                                            <p class="text-muted">posti disponibili</p>
+                                            <h6 class="text-bold">Posti Disponibili </h6>
+                                            <p class="text-muted">{{corso.postiDisponibili}}</p>
                                         </div>
                                     </div>
 
                                     <div class="row pt-1">
                                         <div class="col-6 mb-3">
-                                            <h6 class="text-bold">Esame</h6>
-                                            <p class="text-muted">100</p>
+                                            <h6 class="text-bold">Esame Finale</h6>
+                                            <p *ngIf="corso.esameFinale" class="text-muted">Si</p>
+                                            <p *ngIf="!corso.esameFinale" class="text-muted">No</p>
                                         </div>
-                                        <!--<div class="col-6 mb-3">
-                                            <h6 class="text-bold">Altre informazioni a caso:</h6>
-                                            <p class="text-muted">123 456 789</p>
-                                        </div>-->
                                     </div>
                                 </div>
                             </div>
@@ -89,10 +86,7 @@
                                     <hr class="mt-0 mb-4">
                                     <div class="row pt-1">
                                         <div class="col-12 mb-2">
-                                            <p class="text-muted">Descrizione del corso, jygdrsfhg ksugdu skudhffkuy ie
-                                                i iuiuirewer weiuwoiuriowuer o oiuiouoiuw eriuowi ueroiuweoiur woiurw oi
-                                                oiuouwoieur owiur oiwur iouw oiru woieur iowuriouwe oiruiuiouue
-                                                oiuoiuoiuiouerw oiuoiuiuouo wouorwu</p>
+                                            <p class="text-muted">{{corso.descrizione}}</p>
                                         </div>
                                     </div>
                                 </div>

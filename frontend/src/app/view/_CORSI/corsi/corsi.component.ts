@@ -31,7 +31,7 @@ export class CorsiComponent {
     }
 
     //this.corsiService.getCorsiProposti(pIva).subscribe(result => this.corsi = result);
-    this.corsiService.getAllCorsi().subscribe(result => { this.corsi = result; });
+    this.corsiService.getCorsiAcquistati(pIva).subscribe(result => { this.corsi = result; });
   }
 
   openAddCorsoModal() {

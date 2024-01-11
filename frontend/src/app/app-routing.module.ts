@@ -22,16 +22,21 @@ const routes: Routes = [
   { path: 'login', component: LoginComponent },
   
   { path: '', component: DashboardComponent, canActivate: [AuthGuard] },
+
   { path: 'aziende', component: AziendeComponent, canActivate: [AuthGuard] },
+
   { path: 'documenti', component: DocumentiComponent, canActivate: [AuthGuard] },
+
   { path: 'dipendenti', component: DipendentiComponent, canActivate: [AuthGuard] },
   { path: 'dipendenti/:id', component: DipendentiDettagliComponent, canActivate: [AuthGuard] },
+
+  { path: 'corsi', component: CorsiComponent, canActivate: [AuthGuard] },
+  { path: 'corsi/:id', component:DettaglioCorsoComponent, canActivate: [AuthGuard] },
+
   { path: 'register', component: RegisterComponent, canActivate: [AuthGuard] },
   { path: 'contact', component: ContactComponent, canActivate: [AuthGuard] },
   { path: 'question', component: QuestionComponent, canActivate: [AuthGuard] },
   { path: 'profile', component: ProfileComponent, canActivate: [AuthGuard] },
-  { path: 'corsi', component: CorsiComponent, canActivate: [AuthGuard] },
-  { path: 'dettaglio_corso', component:DettaglioCorsoComponent, canActivate: [AuthGuard] },
 
   { path: 'search/:text', component: RicercaComponent, canActivate: [AuthGuard] },
 

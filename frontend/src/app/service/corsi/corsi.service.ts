@@ -20,10 +20,6 @@ export class CorsiService {
     private auth: AuthService
   ) { }
 
-  getCorsiProposti(): Observable<Corso[]>{
-    return this.http.get<Corso[]>(Settings.API_ENDPOINT + "corsi-proposti", { headers: this.auth.headers });
-  }
-
   getCorsiAcquistati(pIva: string): Observable<Corso[]>{
     return this.http.get<Corso[]>(Settings.API_ENDPOINT + "corsi-acquistati?pIva=" + pIva, { headers: this.auth.headers });
   }
@@ -40,23 +36,15 @@ export class CorsiService {
     return this.http.post(Settings.API_ENDPOINT + "dipendenti-corso?id=" + id, dipendenti, { headers: this.auth.headers });
   }
 
-  addAziendaCorso(id: number, pIva: string): Observable<any>{
-    return this.http.post(Settings.API_ENDPOINT + "azienda-corso?id=" + id + "?pIva=" +  pIva, { headers: this.auth.headers });
+  addCorso(corso: Corso, pIva: string): Observable<any>{
+    return this.http.post(Settings.API_ENDPOINT + "aggiungi-corso?pIva=" + pIva, corso, { headers: this.auth.headers });
   }
 
-  addCorso(corso: Corso): Observable<any>{
-    return this.http.post(Settings.API_ENDPOINT + "aggiungi-corso", corso, { headers: this.auth.headers });
-  }
-
-  updateCorso(corso: Corso): Observable<any>{
-    return this.http.post(Settings.API_ENDPOINT + "modifica-corso", corso, { headers: this.auth.headers });
+  updateCorso(corso: Corso, pIva :string): Observable<any>{
+    return this.http.post(Settings.API_ENDPOINT + "modifica-corso?pIva=" + pIva, corso, { headers: this.auth.headers });
   }
 
   deleteCorso(id: number): Observable<any>{
     return this.http.delete(Settings.API_ENDPOINT + "rimuovi-corso?id=" + id, { headers: this.auth.headers });
-  }
-
-  getAllCorsi(): Observable<Corso[]>{
-    return of(CORSI);
   }
 }
