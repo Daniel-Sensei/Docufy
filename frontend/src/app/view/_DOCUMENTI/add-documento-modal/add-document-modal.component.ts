@@ -5,6 +5,8 @@ import { AlertService } from '../../../service/alert/alert.service';
 import { FormCheck } from '../../../FormCheck';
 import { Documento } from '../../../model/Documento';
 import { DocumentiService } from '../../../service/documenti/documenti.service';
+import { Dipendente } from '../../../model/Dipendente';
+import { AuthService } from '../../../service/auth/auth.service';
 
 @Component({
   selector: 'app-add-document-modal',
@@ -13,9 +15,12 @@ import { DocumentiService } from '../../../service/documenti/documenti.service';
 })
 export class AddDocumentModalComponent {
   @Input() documento: Documento | undefined;
+  @Input() dipendente?: Dipendente | undefined;
 
   tipiDocumentoDipendente = ['Patente', 'Carta d\'identità', 'Passaporto', 'Codice fiscale', 'Carta di circolazione', 'Altro'];
   tipiDocumentoAzienda = ['Certificato di iscrizione alla CCIAA', 'Certificato di iscrizione all\'INPS', 'Certificato di iscrizione all\'INAIL', 'Visura Camerale', 'Altro'];
+
+  arrayTipiDocumento: string[] = [];
 
   addDocumentForm: FormGroup;
   model: NgbDateStruct | undefined;
@@ -27,6 +32,7 @@ export class AddDocumentModalComponent {
   constructor(
     public activeModal: NgbActiveModal,
     private fb: FormBuilder,
+    private auth: AuthService,
     private alert: AlertService,
     private documentiService: DocumentiService
     ) {
@@ -43,6 +49,13 @@ export class AddDocumentModalComponent {
     if (this.documento) {
       this.initializeFormWithDocumento(this.documento);
     }
+
+    if(this.dipendente != undefined){
+      this.arrayTipiDocumento = this.tipiDocumentoDipendente;
+    }
+    else{
+      this.arrayTipiDocumento = this.tipiDocumentoAzienda;
+    }
   }
 
   private initializeFormWithDocumento(documento: Documento): void {
@@ -51,8 +64,8 @@ export class AddDocumentModalComponent {
 
     this.addDocumentForm.patchValue({
       // controlla che documento.tipoDocumento sia tra i tipiDocumentiAzienda
-      tipoDocumento: this.tipiDocumentoAzienda.includes(documento.nome) ? documento.nome : 'Altro',
-      tipoDocumentoAltro: this.tipiDocumentoAzienda.includes(documento.nome) ? '' : documento.nome,
+      tipoDocumento: this.arrayTipiDocumento.includes(documento.nome) ? documento.nome : 'Altro',
+      tipoDocumentoAltro: this.arrayTipiDocumento.includes(documento.nome) ? '' : documento.nome,
 
       dataRilascio: {
         year: +dataRilascioArray[0],
@@ -124,30 +137,59 @@ export class AddDocumentModalComponent {
   }
 
   private addDocumento(documentoData: any) {
-    console.log("AGGIUNGI DOCUMENTO");
-    console.log(documentoData);
-    this.documentiService.addDocumento(documentoData, this.file).subscribe(
-      response => {
-        console.log("AGGIUNTO DOCUMENTO");
-        this.alert.setSuccessAlert();
+    if(this.dipendente == undefined) this.addDocumentoAzienda(documentoData);
+    else this.addDocumentoDipendente(documentoData);
+  }
+
+  private addDocumentoAzienda(documentoData: any){
+    let pIva = this.auth.getCurrentPIva()!;
+    this.documentiService.addDocumentoAzienda(documentoData, this.file, pIva).subscribe(
+      success => {
+        console.log("DOCUMENTO AGGIUNTO");
       },
       error => {
         console.log("ERRORE AGGIUNTA DOCUMENTO");
-        this.alert.setDangerAlert();
+      }
+    );
+  }
+
+  private addDocumentoDipendente(documentoData: any){
+    let cf = this.dipendente!.cf;
+    this.documentiService.addDocumentoDipendente(documentoData, this.file, cf).subscribe(
+      success => {
+        console.log("DOCUMENTO AGGIUNTO");
+      },
+      error => {
+        console.log("ERRORE AGGIUNTA DOCUMENTO");
       }
     );
   }
 
   private updateDocumento(documentoData: any) {
-    console.log("MODIFICA DOCUMENTO");
-    this.documentiService.updateDocumento(documentoData, this.file).subscribe(
-      response => {
-        console.log("MODIFICATO DOCUMENTO");
-        this.alert.setSuccessAlert();
+    if(this.dipendente == undefined) this.updateDocumentoAzienda(documentoData);
+    else this.updateDocumentoDipendente(documentoData);
+  }
+
+  private updateDocumentoAzienda(documentoData: any){
+    let pIva = this.auth.getCurrentPIva()!;
+    this.documentiService.updateDocumentoAzienda(documentoData, this.file, pIva).subscribe(
+      success => {
+        console.log("DOCUMENTO MODIFICATO");
       },
       error => {
         console.log("ERRORE MODIFICA DOCUMENTO");
-        this.alert.setDangerAlert();
+      }
+    );
+  }
+
+  private updateDocumentoDipendente(documentoData: any){
+    let cf = this.dipendente!.cf;
+    this.documentiService.updateDocumentoDipendente(documentoData, this.file, cf).subscribe(
+      success => {
+        console.log("DOCUMENTO MODIFICATO");
+      },
+      error => {
+        console.log("ERRORE MODIFICA DOCUMENTO");
       }
     );
   }

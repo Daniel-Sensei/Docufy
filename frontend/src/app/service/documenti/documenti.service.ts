@@ -28,7 +28,7 @@ export class DocumentiService {
     return this.http.get<Documento>(Settings.API_ENDPOINT + "documento?id=" + id, { headers: this.auth.headers });
   }
 
-  addDocumento(documento: Documento, file: File | undefined){
+  addDocumentoAzienda(documento: Documento, file: File | undefined, pIva: string){
     const formData: FormData = new FormData();
 
     formData.append('documento', new Blob([JSON.stringify(documento)], { type: 'application/json' }));
@@ -40,10 +40,10 @@ export class DocumentiService {
       formData.append('file', new Blob());
     }
 
-    return this.http.post(Settings.API_ENDPOINT + "aggiungi-documento", formData, { headers: this.auth.headers });
+    return this.http.post(Settings.API_ENDPOINT + "aggiungi-documento-azienda?pIva=" + pIva, formData, { headers: this.auth.headers });
   }
 
-  updateDocumento(documento: Documento, file: File | undefined){
+  addDocumentoDipendente(documento: Documento, file: File | undefined, cf: string){
     const formData: FormData = new FormData();
 
     formData.append('documento', new Blob([JSON.stringify(documento)], { type: 'application/json' }));
@@ -55,7 +55,39 @@ export class DocumentiService {
       formData.append('file', new Blob());
     }
 
-    return this.http.post(Settings.API_ENDPOINT + "modifica-documento", formData, { headers: this.auth.headers });
+    return this.http.post(Settings.API_ENDPOINT + "aggiungi-documento-dipendente?cf=" + cf, formData, { headers: this.auth.headers });
+  }
+
+  updateDocumentoAzienda(documento: Documento, file: File | undefined, pIva: string){
+    const formData: FormData = new FormData();
+
+    formData.append('documento', new Blob([JSON.stringify(documento)], { type: 'application/json' }));
+
+    if(file){
+      formData.append('file', file, file.name);
+    }
+    else{
+      formData.append('file', new Blob());
+    }
+
+    console.log(documento)
+
+    return this.http.post(Settings.API_ENDPOINT + "modifica-documento-azienda?pIva=" + pIva, formData, { headers: this.auth.headers });
+  }
+
+  updateDocumentoDipendente(documento: Documento, file: File | undefined, cf: string){
+    const formData: FormData = new FormData();
+
+    formData.append('documento', new Blob([JSON.stringify(documento)], { type: 'application/json' }));
+
+    if(file){
+      formData.append('file', file, file.name);
+    }
+    else{
+      formData.append('file', new Blob());
+    }
+
+    return this.http.post(Settings.API_ENDPOINT + "modifica-documento-dipendente?cf=" + cf, formData, { headers: this.auth.headers });
   }
 
   deleteDocumento(id: number){

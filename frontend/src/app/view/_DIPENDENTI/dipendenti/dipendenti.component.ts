@@ -6,7 +6,7 @@ import { AddDipendenteModalComponent } from '../add-dipendente-modal/add-dipende
 import { Dipendente } from '../../../model/Dipendente';
 import { DipendentiService } from '../../../service/dipendenti/dipendenti.service';
 import { FileService } from '../../../service/file/file.service';
-import { forkJoin, Observable, map } from 'rxjs';
+import { throwError, forkJoin, Observable, map, catchError } from 'rxjs';
 import { AuthService } from '../../../service/auth/auth.service';
 
 @Component({
@@ -35,7 +35,7 @@ export class DipendentiComponent {
     else {
       pIva = this.auth.getSelectedPIva()!;
     }
-    
+
     this.dipendentiService.getDipendenti(pIva).subscribe(
       dipendenti => {
         this.dipendenti = dipendenti;
@@ -50,15 +50,28 @@ export class DipendentiComponent {
     );
   }
 
+
   setDipendentiImages(): Observable<void[]> {
     const observables: Observable<void>[] = [];
 
-    this.dipendenti.forEach(dipendente => {
+    this.dipendenti.forEach((dipendente) => {
       if (dipendente.img !== '') {
         const observable = this.fileService.getFile(dipendente.img).pipe(
-          map(img => {
+          map((img) => {
             let objectURL = URL.createObjectURL(img);
             dipendente.img = objectURL;
+          }),
+          catchError((error) => {
+            // Handle the 404 error or any other error
+            if (error.status === 404) {
+              // Change the image URL to a default one
+              console.warn(`Image for dipendente ${dipendente.id} not found, using default image instead`);
+              dipendente.img = "";
+            } else {
+              console.error(`Error loading image for dipendente: ${dipendente.id}`, error);
+            }
+            // Continue with the observable by returning an empty observable
+            return [];
           })
         );
         observables.push(observable);

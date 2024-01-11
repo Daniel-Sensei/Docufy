@@ -39,6 +39,9 @@ export class DocumentiComponent {
       size: 'md' // 'lg' sta per grande, puoi utilizzare anche 'sm' per piccolo
     });
 
+    // Volgio aggiungere un documento aziendale, quindi non passo il dipendente
+    //modalRef.componentInstance.dipendente = false;
+
     // Puoi gestire eventi o dati passati al modale qui
   }
 

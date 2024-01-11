@@ -63,6 +63,7 @@ export class ProfileComponent {
 
   private updateProfilo(aziendaData: any) {
     aziendaData.id = this.azienda?.piva;
+    /*
     this.aziendeService.updateProfilo (aziendaData).subscribe( 
       response => {
         // Imposta la variabile per mostrare l'alert di successo
@@ -76,5 +77,6 @@ export class ProfileComponent {
         this.alert.setDangerAlert();
         this.refreshData.emit();
       });
+      */
   }
 }
