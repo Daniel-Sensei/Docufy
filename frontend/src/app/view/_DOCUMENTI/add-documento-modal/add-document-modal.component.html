@@ -12,7 +12,7 @@
             <label for="tipoDocumento" class="form-label">Tipo Documento</label>
             <select formControlName="tipoDocumento" class="form-control" id="tipoDocumento">
                 <option value="" disabled [selected]="!addDocumentForm.get('tipoDocumento')?.value">Seleziona tipo...</option>
-                <option *ngFor="let tipoDocumento of tipiDocumentoAzienda" [value]="tipoDocumento">
+                <option *ngFor="let tipoDocumento of arrayTipiDocumento" [value]="tipoDocumento">
                     {{ tipoDocumento }}
                 </option>
             </select>

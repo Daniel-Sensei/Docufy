@@ -46,15 +46,15 @@ export class AddDocumentModalComponent {
   }
 
   ngOnInit(): void {
-    if (this.documento) {
-      this.initializeFormWithDocumento(this.documento);
-    }
-
-    if(this.dipendente != undefined){
-      this.arrayTipiDocumento = this.tipiDocumentoDipendente;
+    if(this.dipendente == undefined){
+      this.arrayTipiDocumento = this.tipiDocumentoAzienda;
     }
     else{
-      this.arrayTipiDocumento = this.tipiDocumentoAzienda;
+      this.arrayTipiDocumento = this.tipiDocumentoDipendente;
+    }
+
+    if (this.documento) {
+      this.initializeFormWithDocumento(this.documento);
     }
   }
 
@@ -145,10 +145,10 @@ export class AddDocumentModalComponent {
     let pIva = this.auth.getCurrentPIva()!;
     this.documentiService.addDocumentoAzienda(documentoData, this.file, pIva).subscribe(
       success => {
-        console.log("DOCUMENTO AGGIUNTO");
+        console.log("DOCUMENTO AGGIUNTO DI AZIENDA");
       },
       error => {
-        console.log("ERRORE AGGIUNTA DOCUMENTO");
+        console.log("ERRORE AGGIUNTA DOCUMENTO DI AZIENDA");
       }
     );
   }
@@ -157,10 +157,10 @@ export class AddDocumentModalComponent {
     let cf = this.dipendente!.cf;
     this.documentiService.addDocumentoDipendente(documentoData, this.file, cf).subscribe(
       success => {
-        console.log("DOCUMENTO AGGIUNTO");
+        console.log("DOCUMENTO AGGIUNTO DI DIPENDENTE");
       },
       error => {
-        console.log("ERRORE AGGIUNTA DOCUMENTO");
+        console.log("ERRORE AGGIUNTA DOCUMENTO DI DIPENDENTE");
       }
     );
   }
@@ -174,10 +174,10 @@ export class AddDocumentModalComponent {
     let pIva = this.auth.getCurrentPIva()!;
     this.documentiService.updateDocumentoAzienda(documentoData, this.file, pIva).subscribe(
       success => {
-        console.log("DOCUMENTO MODIFICATO");
+        console.log("DOCUMENTO MODIFICATO DI AZIENDA");
       },
       error => {
-        console.log("ERRORE MODIFICA DOCUMENTO");
+        console.log("ERRORE MODIFICA DOCUMENTO DI AZIENDA");
       }
     );
   }
@@ -186,10 +186,10 @@ export class AddDocumentModalComponent {
     let cf = this.dipendente!.cf;
     this.documentiService.updateDocumentoDipendente(documentoData, this.file, cf).subscribe(
       success => {
-        console.log("DOCUMENTO MODIFICATO");
+        console.log("DOCUMENTO MODIFICATO DI DIPENDENTE");
       },
       error => {
-        console.log("ERRORE MODIFICA DOCUMENTO");
+        console.log("ERRORE MODIFICA DOCUMENTO DI DIPENDENTE");
       }
     );
   }
