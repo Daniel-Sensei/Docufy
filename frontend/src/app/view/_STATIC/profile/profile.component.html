@@ -144,12 +144,13 @@
 
               <div class="tab-pane fade pt-3" id="profile-change-password">
                 <!-- CHANGE PASSWORD FORM -->
-                <form [formGroup]="modificaPasswordForm ">
+                <form [formGroup]="modificaPasswordForm" (ngSubmit)="submitForm()">
                   <div class="row mb-3">
                     <label for="currentPassword" class="col-md-4 col-lg-3 col-form-label">Password Attuale</label>
                     <!--confronto con la veccia password-->
                     <div class="col-md-8 col-lg-9">
                       <input formControlName="password" name="password" type="password" class="form-control" id="currentPassword" [class.is-invalid]="modificaPasswordForm.get('password')?.invalid && modificaPasswordForm.get('passowrd')?.touched">
+                      <div *ngIf="modificaPasswordForm.get('password')?.invalid && modificaPasswordForm.get('password')?.touched" class="invalid-feedback"></div>
                     </div>
                   </div>
                   <div class="row mb-3">
@@ -157,6 +158,7 @@
                       Password</label><!--confronto con la vecchia password e con tutti i controlli generali sulla password-->
                     <div class="col-md-8 col-lg-9">
                       <input formControlName="nuova_password" name="newpassword" type="password" class="form-control" id="newPassword" [class.is-invalid]="modificaPasswordForm.get('nuova_password')?.invalid && modificaPasswordForm.get('nuova_password')?.touched">
+                      <div *ngIf="modificaPasswordForm.get('nuova_password')?.invalid && modificaPasswordForm.get('nuova_password')?.touched" class="invalid-feedback"></div>
                     </div>
                   </div>
                   <div class="row mb-3">
@@ -164,6 +166,7 @@
                     <!--confronto le deu password-->
                     <div class="col-md-8 col-lg-9">
                       <input formControlName="conferma_password" name="renewpassword" type="password" class="form-control" id="renewPassword" [class.is-invalid]="modificaPasswordForm.get('conferma_password')?.invalid && modificaPasswordForm.get('conferma_password')?.touched">
+                      <div *ngIf="modificaPasswordForm.get('conferma_password')?.invalid && modificaPasswordForm.get('conferma_password')?.touched" class="invalid-feedback"> La password non corrisponde</div>
                     </div>
                   </div>
                   <div class="text-center">
