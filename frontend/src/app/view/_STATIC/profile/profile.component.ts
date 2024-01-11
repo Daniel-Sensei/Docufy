@@ -16,16 +16,13 @@ import { FormCheck } from '../../../FormCheck';
 export class ProfileComponent {
   @Output() refreshData: EventEmitter<void> = new EventEmitter<void>();
 
-
   private file: File | undefined; //modifica
   modificaProfiloForm: FormGroup; //modifica
   modificaPasswordForm: FormGroup; //modifica
 
-
   azienda!: Azienda;
   datiOriginali!: Azienda; //modifica
   modificato = false;       //modifica
-
 
   constructor(
     private aziendeService: AziendeService,
@@ -64,18 +61,16 @@ export class ProfileComponent {
     const conferma_passwordfControl = group.get('conferma_password');
     const PasswordControl = group.get('password');
     
-    
-
-    if (ragione_socialeControl && emailControl && telefonoControl){//&& cfControl && ruoloControl && emailControl && telefonoControl) {
+    if (ragione_socialeControl && emailControl && telefonoControl){
       const ragione_sociale = ragione_socialeControl.value;
       const email = emailControl.value;
       const telefono = telefonoControl.value;
 
       // Ragione sociale
       if (ragione_sociale && !FormCheck.checkRagioneSociale(ragione_sociale) ) {
-        ragione_socialeControl.setErrors({ 'invalidRagioneSociale': true });
+        ragione_socialeControl.setErrors({ 'invalidragione_Sociale': true });
       } else {
-        if (ragione_socialeControl.hasError('invalidRagioneSociale')) {
+        if (ragione_socialeControl.hasError('invalidragione_Sociale')) {
           ragione_socialeControl.setErrors(null);
         }
       }
@@ -140,24 +135,17 @@ export class ProfileComponent {
     }
   }
 
-
-
-  //----------------------------------------------------------------------
-
   getAzienda() {
-    //Stampa i dati dell'azienda
     this.aziendeService.getProfilo().subscribe(azienda => {
       this.azienda = azienda;
-      this.datiOriginali = { ...azienda };
+      this.datiOriginali = { ...azienda }; //modifica
       console.log(this.azienda)
-
       this.setModificaProfiloForm(); //modifica
-    }) //modifica: ; this.datiOriginali={...azienda}
+    }) 
   }
 
   setModificaProfiloForm() {
     this.modificaProfiloForm.patchValue({
-      // controlla che documento.tipoDocumento sia tra i tipiDocumentiAzienda
       ragione_sociale: this.azienda.ragioneSociale,
       email: this.azienda.email,
       indirizzo: this.azienda.indirizzo,
@@ -165,10 +153,19 @@ export class ProfileComponent {
     });
   }
 
-  controllaModifiche() {
-    console.log("controllo modifiche" + JSON.stringify(this.azienda));
-    //se le caselle sono vuote o se i dati sono uguali a quelli originali, il pulsante salva è disabilitato, se tornano vuote i dati originali, il pulsante è abilitato
-    this.modificato = (JSON.stringify(this.azienda) != JSON.stringify(this.datiOriginali)) || this.azienda.img != ""; //modifica
+  controllaModifiche() { // this.modificato = (JSON.stringify(this.azienda) != JSON.stringify(this.datiOriginali)) || this.azienda.img != ""; 
+    console.log("dati precedenti"+this.datiOriginali.ragioneSociale);
+    console.log("controllo"+this.modificaProfiloForm.value);
+    if (this.modificaProfiloForm.value.ragione_sociale != this.datiOriginali.ragioneSociale ||
+      this.modificaProfiloForm.value.email != this.datiOriginali.email ||
+      this.modificaProfiloForm.value.indirizzo != this.datiOriginali.indirizzo ||
+      this.modificaProfiloForm.value.telefono != this.datiOriginali.telefono ||
+      (this.modificaProfiloForm.value.img && this.modificaProfiloForm.value.img !== "") ||
+      this.file) {
+      this.modificato = true;
+    } else {
+      this.modificato = false;
+    }
   }
 
   onFileSelected(event: any) {
