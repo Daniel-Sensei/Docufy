@@ -408,6 +408,7 @@ public class UserA extends User
         // controllo che l'azienda sia associata al documento da modificare
         if (this.pIva.equals(pIva) || (cf!=null && Utility.checkAgencyEmployeeCF(this.pIva, cf))) {
 
+
             // salvo il file nella cartella dei files
             String filePath;
             try {
@@ -416,6 +417,16 @@ public class UserA extends User
                 if(d.getFile()!=null) Utility.deleteFile(d.getFile());
             } catch (IOException e) {
                 return new ResponseEntity<>(HttpStatus.INTERNAL_SERVER_ERROR);
+            }
+
+            if (pIva!=null){
+                Azienda a = new Azienda();
+                a.setPIva(pIva);
+                documento.setAzienda(a);
+            } else {
+                Dipendente dipendente = DBManager.getInstance().getDipendenteDao().findByCF(cf);
+                if (dipendente == null) return new ResponseEntity<>(HttpStatus.BAD_REQUEST);
+                documento.setDipendente(dipendente);
             }
 
             // salvo il path del nuovo file nel documento

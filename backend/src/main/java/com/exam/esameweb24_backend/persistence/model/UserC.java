@@ -437,15 +437,19 @@ public class UserC extends User
         if (d == null) return new ResponseEntity<>(HttpStatus.BAD_REQUEST);
 
         if(cf!=null) {
-            if (DBManager.getInstance().getDipendenteDao().findByCF(cf) == null)
+            Dipendente dipendente = DBManager.getInstance().getDipendenteDao().findByCF(cf);
+            if (dipendente == null)
                 return new ResponseEntity<>(HttpStatus.BAD_REQUEST);
             if(!Utility.checkConsultantAgency(this.pIva, DBManager.getInstance().getDipendenteDao().findByCF(cf).getAzienda().getPIva()))
                 return new ResponseEntity<>(HttpStatus.UNAUTHORIZED);
+            else documento.setDipendente(dipendente);
         } else {
-            if (DBManager.getInstance().getAziendaDao().findByPIva(pIva) == null)
+            Azienda azienda = DBManager.getInstance().getAziendaDao().findByPIva(pIva);
+            if (azienda == null)
                 return new ResponseEntity<>(HttpStatus.BAD_REQUEST);
             if(!Utility.checkConsultantAgency(this.pIva, pIva))
                 return new ResponseEntity<>(HttpStatus.UNAUTHORIZED);
+            else documento.setAzienda(azienda);
         }
 
         // salvo il file nella cartella dei files
