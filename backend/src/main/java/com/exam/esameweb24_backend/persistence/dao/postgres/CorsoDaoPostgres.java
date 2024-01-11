@@ -180,45 +180,14 @@ public class CorsoDaoPostgres implements CorsoDao {
 
     @Override
     public boolean delete(Long id) {
+        String query = "DELETE FROM corsi WHERE id = ?";
         try {
-            conn.setAutoCommit(false); // Disabilita il commit automatico
-
-            // Elimina le dipendenze con i dipendenti
-            String deleteQuery1 = "DELETE FROM corsi_dipendenti WHERE corso = ?";
-            PreparedStatement st1 = conn.prepareStatement(deleteQuery1);
-            st1.setLong(1, id);
-            st1.executeUpdate();
-
-            // Elimina le dipendenze con le aziende
-            String deleteQuery2 = "DELETE FROM corsi_aziende WHERE corso = ?";
-            PreparedStatement st2 = conn.prepareStatement(deleteQuery2);
-            st2.setLong(1, id);
-            st2.executeUpdate();
-
-            // Elimina il corso vero e proprio
-            String deleteQuery3 = "DELETE FROM corsi WHERE id = ?";
-            PreparedStatement st3 = conn.prepareStatement(deleteQuery3);
-            st3.setLong(1, id);
-            st3.executeUpdate();
-
-            conn.commit(); // Esegue il commit delle modifiche
-
+            PreparedStatement st = conn.prepareStatement(query);
+            st.setLong(1, id);
+            st.executeUpdate();
             return true;
         } catch (SQLException e) {
-            try {
-                if (conn != null) {
-                    conn.rollback(); // In caso di errore, esegue il rollback delle modifiche
-                }
-            } catch (SQLException ex) {
-                throw new RuntimeException("Rollback failed", ex);
-            }
-            throw new RuntimeException("Failed to delete course", e);
-        } finally {
-            try {
-                conn.setAutoCommit(true); // Riattiva il commit automatico
-            } catch (SQLException ex) {
-                throw new RuntimeException("Failed to set auto commit to true", ex);
-            }
+            throw new RuntimeException(e);
         }
     }
 
