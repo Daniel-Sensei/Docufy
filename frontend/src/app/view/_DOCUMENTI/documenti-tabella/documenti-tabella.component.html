@@ -27,9 +27,9 @@
                 <ng-container matColumnDef="stato">
                     <th mat-header-cell *matHeaderCellDef mat-sort-header> Stato </th>
                     <td mat-cell *matCellDef="let row">
-                        <span *ngIf="row.stato=='valido'" class="badge badge-pill badge-success">{{row.stato}}</span>
-                        <span *ngIf="row.stato=='scaduto'" class="badge badge-pill badge-danger">{{row.stato}}</span>
-                        <span *ngIf="row.stato=='in scadenza'"
+                        <span *ngIf="row.stato=='Valido'" class="badge badge-pill badge-success">{{row.stato}}</span>
+                        <span *ngIf="row.stato=='Scaduto'" class="badge badge-pill badge-danger">{{row.stato}}</span>
+                        <span *ngIf="row.stato=='In Scadenza'"
                             class="badge badge-pill badge-warning">{{row.stato}}</span>
                     </td>
                 </ng-container>
