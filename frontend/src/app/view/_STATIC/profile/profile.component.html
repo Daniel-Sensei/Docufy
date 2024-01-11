@@ -80,7 +80,7 @@
 
               <div class="tab-pane fade profile-edit pt-3" id="profile-edit">
 
-                <!-- Profile Edit Form -->
+                <!-- PROFILE EDIT FORM -->
                 <form [formGroup]="modificaProfiloForm"> <!--(ngSubmit)="salvaModifiche()"-->
 
                   <div class="row mb-3">
@@ -121,42 +121,37 @@
                   </div>
 
                   <div class="text-center">
-                    <button type="submit" class="btn btn-primary" [disabled]="!modificato" (click)="salvaModifiche()" >Salva cambiamenti</button> <!-- abilita il bottone solo quando qualche label è stat modificata-->
+                    <button type="submit" class="btn btn-primary" [disabled]="!modificato || modificaProfiloForm.invalid" (click)="salvaModifiche()" >Salva cambiamenti</button> <!-- abilita il bottone solo quando qualche label è stat modificata-->
                   </div>
                 </form><!-- End Profile Edit Form -->
 
               </div>
 
               <div class="tab-pane fade pt-3" id="profile-change-password">
-                <!-- Change Password Form -->
-                <form>
-
+                <!-- CHANGE PASSWORD FORM -->
+                <form [formGroup]="modificaPasswordForm ">
                   <div class="row mb-3">
                     <label for="currentPassword" class="col-md-4 col-lg-3 col-form-label">Password Attuale</label> <!--confronto con la veccia password-->
                     <div class="col-md-8 col-lg-9">
-                      <input formControlName="password" name="password" type="password" class="form-control" id="currentPassword">
+                      <input formControlName="password" name="password" type="password" class="form-control" id="currentPassword" [class.is-invalid]="modificaPasswordForm.get('password')?.invalid && modificaPasswordForm.get('passowrd')?.touched">
                     </div>
                   </div>
-
                   <div class="row mb-3">
                     <label for="newPassword" class="col-md-4 col-lg-3 col-form-label">Nuova Password</label><!--confronto con la vecchia password e con tutti i controlli generali sulla password-->
                     <div class="col-md-8 col-lg-9">
-                      <input formControlName="nuova_password" name="newpassword" type="password" class="form-control" id="newPassword">
+                      <input formControlName="nuova_password" name="newpassword" type="password" class="form-control" id="newPassword" [class.is-invalid]="modificaPasswordForm.get('nuova_password')?.invalid && modificaPasswordForm.get('nuova_password')?.touched">
                     </div>
                   </div>
-
                   <div class="row mb-3">
                     <label for="renewPassword" class="col-md-4 col-lg-3 col-form-label">Conferma Password</label> <!--confronto le deu password-->
                     <div class="col-md-8 col-lg-9">
-                      <input formControlName="conferma_password" name="renewpassword" type="password" class="form-control" id="renewPassword">
+                      <input formControlName="conferma_password" name="renewpassword" type="password" class="form-control" id="renewPassword" [class.is-invalid]="modificaPasswordForm.get('conferma_password')?.invalid && modificaPasswordForm.get('conferma_password')?.touched">
                     </div>
                   </div>
-
                   <div class="text-center">
-                    <button type="submit" class="btn btn-primary">Cambia Password</button>
+                    <button type="submit" class="btn btn-primary" [disabled]="!modificaPasswordForm.invalid" (click)="ModficaPassword()">Cambia Password</button>
                   </div>
                 </form><!-- End Change Password Form -->
-
               </div>
 
             </div><!-- End Bordered Tabs -->
