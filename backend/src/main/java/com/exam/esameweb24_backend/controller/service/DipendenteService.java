@@ -48,10 +48,19 @@ public class DipendenteService {
 
         User user = Utility.getRequestUser(req);
 
-        // se l'utente è null (non è loggato) allora non può usare il servizio
         if (user==null) return new ResponseEntity<>(HttpStatus.UNAUTHORIZED);
 
         return user.getDipendentiByCorso(id);
+    }
+
+    @GetMapping ("/dipendenti-non-iscritti-corso")
+    public ResponseEntity<List<Dipendente>> getDipendentiNonIscrittiByCorso(HttpServletRequest req, @RequestParam Long id){
+
+        User user = Utility.getRequestUser(req);
+
+        if (user==null) return new ResponseEntity<>(HttpStatus.UNAUTHORIZED);
+
+        return user.getDipendentiNonIscritti(id);
     }
 
     // Questo servizio permette di aggiungere un dipendente

@@ -216,12 +216,21 @@ public class UserA extends User
     public ResponseEntity<List<Dipendente>> getDipendentiByCorso(Long idCorso) {
         Corso corso = DBManager.getInstance().getCorsoDao().findById(idCorso);
         if (corso==null) return new ResponseEntity<>(HttpStatus.BAD_REQUEST);
-        List<Dipendente> d = DBManager.getInstance().getDipendenteDao().findByCorsoFrequentato(idCorso);
-        List<Dipendente> dipendenti = new ArrayList<>();
-        for (Dipendente dipendente : d) {
-            if (this.pIva.equals(dipendente.getAzienda().getPIva()))
-                dipendenti.add(dipendente);
-        }
+        if(!this.pIva.equals(corso.getAzienda().getPIva())) return new ResponseEntity<>(HttpStatus.UNAUTHORIZED);
+        List<Dipendente> dipendenti = DBManager.getInstance().getDipendenteDao().findByCorsoFrequentato(idCorso);
+        return new ResponseEntity<>(dipendenti, HttpStatus.OK);
+    }
+
+    @Override
+    public ResponseEntity<List<Dipendente>> getDipendentiNonIscritti(Long idCorso){
+
+        Corso corso = DBManager.getInstance().getCorsoDao().findById(idCorso);
+        if (corso==null) return new ResponseEntity<>(HttpStatus.BAD_REQUEST);
+        if(!this.pIva.equals(corso.getAzienda().getPIva())) return new ResponseEntity<>(HttpStatus.UNAUTHORIZED);
+
+        List<Dipendente> dipendenti = DBManager.getInstance().getDipendenteDao().findByAgency(this.pIva);
+        List<Dipendente> dipendentiCorso = DBManager.getInstance().getDipendenteDao().findByCorsoFrequentato(idCorso);
+        dipendenti.removeAll(dipendentiCorso);
         return new ResponseEntity<>(dipendenti, HttpStatus.OK);
     }
 
