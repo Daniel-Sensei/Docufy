@@ -48,7 +48,7 @@ public class DBManager {
             }
             properties.load(input);
         } catch (IOException e) {
-            throw new RuntimeException("Error loading application.properties", e);
+            throw new RuntimeException("Error loading application.yml", e);
         }
         return properties;
     }
