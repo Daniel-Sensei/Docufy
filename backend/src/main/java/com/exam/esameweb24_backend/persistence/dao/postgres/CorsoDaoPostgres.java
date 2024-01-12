@@ -53,7 +53,7 @@ public class CorsoDaoPostgres implements CorsoDao {
     }
 
     @Override
-    public List<Corso> findByAgency(String pIva) {
+    public List<Corso> findByAzienda(String pIva) {
         List<Corso> corsi = new ArrayList<>();
         String query = "SELECT * from corsi WHERE azienda = ?";
         try {

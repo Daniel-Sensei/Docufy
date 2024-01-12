@@ -6,7 +6,7 @@ import java.util.List;
 
 public interface CorsoDao {
     public List<Corso> findByConsultant(String consultant);
-    public List<Corso> findByAgency(String agency);
+    public List<Corso> findByAzienda(String agency);
     public List<Corso> findByEmployee(Long employee);
     public Corso findById(Long id);
     public Long insert(Corso corso);

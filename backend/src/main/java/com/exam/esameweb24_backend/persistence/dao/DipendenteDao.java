@@ -5,7 +5,7 @@ import com.exam.esameweb24_backend.persistence.model.Dipendente;
 import java.util.List;
 
 public interface DipendenteDao {
-    public List<Dipendente> findByAgency(String agency);
+    public List<Dipendente> findByAzienda(String agency);
     // public List<Dipendente> findByConsultant(String consultant);  unused method to be removed before delivery if not used yet
     public Dipendente findById(Long id);
     public Dipendente findByCF(String cf);

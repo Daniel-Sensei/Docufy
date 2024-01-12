@@ -6,8 +6,10 @@ import org.springframework.http.HttpStatus;
 import org.springframework.http.ResponseEntity;
 import org.springframework.web.multipart.MultipartFile;
 
+import java.util.ArrayList;
 import java.util.Date;
 import java.util.List;
+import java.util.stream.Collectors;
 
 public class User {
 
@@ -120,6 +122,33 @@ public class User {
     public ResponseEntity<List<Documento>> getDocumentiDipendente(Long id){return null;}
 
     public ResponseEntity<Documento> getDocumento(Long id){return null;}
+
+    public ResponseEntity<List<Documento>> getDocumentiValidi(String pIva){return null;}
+
+    public ResponseEntity<List<Documento>> getDocumentiInScadenza(String pIva){return null;}
+
+    public ResponseEntity<List<Documento>> getDocumentiScaduti(String pIva){return null;}
+
+    public ResponseEntity<List<Documento>> getDocumentiByStato(String pIva, String stato){
+
+            List<Documento> documenti = new ArrayList<>(DBManager.getInstance().getDocumentoDao()
+                    .findByAzienda(pIva)
+                    .stream()
+                    .filter(d -> stato.equals(d.getStato()))
+                    .toList());
+
+            List<Dipendente> dipendenti = DBManager.getInstance().getDipendenteDao().findByAzienda(pIva);
+
+            for (Dipendente d : dipendenti) {
+                List<Documento> documentiDipendente = DBManager.getInstance().getDocumentoDao().findByDipendente(d.getId())
+                        .stream()
+                        .filter(doc -> stato.equals(doc.getStato()))
+                        .toList();
+                documenti.addAll(documentiDipendente);
+            }
+            
+            return new ResponseEntity<>(documenti, HttpStatus.OK);
+    }
 
     public ResponseEntity<String> aggiungiDocumentoAzienda(MultipartFile json, MultipartFile file, String pIva) {
         return aggiungiDocumento(json, file, pIva, null);

@@ -27,7 +27,7 @@ public class DipendenteDaoPostgres implements DipendenteDao {
     }
 
     @Override
-    public List<Dipendente> findByAgency(String agencyPIva) {
+    public List<Dipendente> findByAzienda(String agencyPIva) {
         List<Dipendente> dipendenti = new ArrayList<>();
         String query = "SELECT * FROM dipendenti WHERE azienda  = ? ORDER BY cognome ASC";
         try {
