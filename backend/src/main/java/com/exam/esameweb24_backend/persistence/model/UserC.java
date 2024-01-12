@@ -215,6 +215,9 @@ public class UserC extends User
         if (DBManager.getInstance().getAziendaDao().findByPIva(pIva)==null)
             return new ResponseEntity<>(HttpStatus.BAD_REQUEST);
 
+        Consulente c = DBManager.getInstance().getConsulenteDao().findByPIva(this.pIva);
+        corso.setConsulente(c);
+
         if(Utility.checkConsultantAgency(this.pIva, pIva)){
             if (DBManager.getInstance().getCorsoDao().insert(corso)!=null) {
                 if (DBManager.getInstance().getCorsoDao().addAzienda(corso.getId(), pIva))
