@@ -223,8 +223,9 @@ export class AuthService {
     sessionStorage.setItem('admin-newPassword', newPpassword);
   }
   
-  modifcaPassword(password: string, newPassword: string): Observable<boolean> { //modifica
+  modificaPassword(password: string, newPassword: string): Observable<boolean> { //modifica
     const user = { password: password, newPassword: newPassword };
+    console.log(user);
     return this.http.post<AuthToken>(Settings.API_ENDPOINT + 'modificaPassword', user)
       .pipe(
         map(response => {
@@ -238,7 +239,5 @@ export class AuthService {
           return true;
         })
       );
-  }
-  
+  } 
 }
-
