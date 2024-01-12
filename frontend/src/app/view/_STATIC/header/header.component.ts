@@ -36,7 +36,7 @@ export class HeaderComponent {
     private route: ActivatedRoute) {
     this.router.events.subscribe(event => {
       if (event instanceof NavigationStart) {
-        this.isDashboard = event.url === '/'; //controllo se è login o register 
+        this.isDashboard = event.url === '/' || event.url === '/aziende'; //controllo se è login o register 
         if (!this.isDashboard) {
           this.selectFirstAzienda();
         }
