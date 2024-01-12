@@ -173,6 +173,9 @@ public class UserA extends User
         Corso c = DBManager.getInstance().getCorsoDao().findById(idCorso);
         if (c==null) return new ResponseEntity<>(HttpStatus.BAD_REQUEST);
 
+        //controllo che il corso abbia abbastanza posti disponibili
+        if (c.getPostiDisponibili()<dipendenti.size()) return new ResponseEntity<>(HttpStatus.BAD_REQUEST);
+
         for (Dipendente dip : dipendenti) {
             Dipendente d = DBManager.getInstance().getDipendenteDao().findById(dip.getId());
             if (d==null) return new ResponseEntity<>(HttpStatus.BAD_REQUEST);
