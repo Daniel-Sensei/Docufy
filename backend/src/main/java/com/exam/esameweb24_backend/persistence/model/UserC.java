@@ -233,20 +233,20 @@ public class UserC extends User
         // controllo che il corso fornito non sia null
         if(corso==null) return new ResponseEntity<>(HttpStatus.BAD_REQUEST);
 
+        Corso c = DBManager.getInstance().getCorsoDao().findById(corso.getId());
         // controllo che il corso esista
-        if (DBManager.getInstance().getCorsoDao().findById(corso.getId())==null)
-            return new ResponseEntity<>(HttpStatus.BAD_REQUEST);
+        if (c==null) return new ResponseEntity<>(HttpStatus.BAD_REQUEST);
 
         // controllo che l'azienda esista
         if (DBManager.getInstance().getAziendaDao().findByPIva(pIva)==null)
             return new ResponseEntity<>(HttpStatus.BAD_REQUEST);
 
         // controllo che il consulente sia associato al corso da modificare
-        if (!this.pIva.equals(corso.getConsulente().getPIva()))
+        if (!this.pIva.equals(c.getConsulente().getPIva()))
             return new ResponseEntity<>(HttpStatus.UNAUTHORIZED);
 
         // controllo che l'azienda sia associata al corso da modificare
-        if(DBManager.getInstance().getCorsoDao().findByAgency(pIva).stream().noneMatch(c -> c.getId().equals(corso.getId())))
+        if(DBManager.getInstance().getCorsoDao().findByAgency(pIva).stream().noneMatch(cTemp -> cTemp.getId().equals(corso.getId())))
             return new ResponseEntity<>(HttpStatus.BAD_REQUEST);
 
         if (DBManager.getInstance().getCorsoDao().update(corso))
