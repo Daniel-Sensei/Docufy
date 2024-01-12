@@ -3,6 +3,7 @@ package com.exam.esameweb24_backend.controller;
 import com.exam.esameweb24_backend.persistence.DBManager;
 import com.exam.esameweb24_backend.persistence.model.User;
 import jakarta.servlet.http.HttpServletRequest;
+import org.springframework.http.HttpStatus;
 import org.springframework.http.ResponseEntity;
 import org.springframework.security.crypto.bcrypt.BCrypt;
 import org.springframework.web.bind.annotation.*;
@@ -30,13 +31,13 @@ public class Auth {
     }
 
     @PostMapping("/cambio-password")
-    public ResponseEntity<String> cambioPassword(HttpServletRequest req, @RequestBody String oldPw, @RequestBody String newPw){
+    public ResponseEntity<String> cambioPassword(HttpServletRequest req, @RequestBody Password password){
 
         User user = Utility.getRequestUser(req);
 
-        if (user == null) return null;
+        if(user == null) return new ResponseEntity<>(HttpStatus.UNAUTHORIZED);
 
-        return user.cambioPassword(oldPw, newPw);
+        return user.cambioPassword(password.getOldPw(), password.getNewPw());
     }
 
     private AuthToken generateToken(User user, String role){
