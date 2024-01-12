@@ -144,7 +144,9 @@ export class ProfileComponent {
     this.aziendeService.getProfilo().subscribe(azienda => {
       this.azienda = azienda;
       this.setModificaProfiloForm();
-      this.isInitialized = true;
+      this.setAziendaImage().subscribe(() => {
+        this.isInitialized = true; // Set the flag to true after initialization
+      });
     })
   }
 

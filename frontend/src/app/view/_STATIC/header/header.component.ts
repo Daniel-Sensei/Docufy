@@ -10,6 +10,10 @@ import { AziendeService } from '../../../service/aziende/aziende.service';
 import { Azienda } from '../../../model/Azienda';
 import { AuthService } from '../../../service/auth/auth.service';
 import { ActivatedRoute } from '@angular/router';
+import { FileService } from '../../../service/file/file.service';
+import { Observable, forkJoin, of } from 'rxjs';
+import { map, catchError } from 'rxjs/operators';
+
 
 
 
@@ -22,18 +26,20 @@ export class HeaderComponent {
   text = new FormControl('');
 
   role?: string;
-  azienda?: Azienda;
+  azienda!: Azienda;
   aziende?: Azienda[];
   aziendaSelezionata: string = '';  // Aggiunto per memorizzare la selezione
 
   isDashboard: boolean = false;
+  isInitialized: boolean = false; // Add the flag
 
   constructor(
     private modalService: NgbModal,
     private router: Router,
     private aziendeService: AziendeService,
     private auth: AuthService,
-    private route: ActivatedRoute) {
+    private route: ActivatedRoute,
+    private fileService: FileService) {
     this.router.events.subscribe(event => {
       if (event instanceof NavigationStart) {
         this.isDashboard = event.url === '/' || event.url === '/aziende' || event.url === '/profile'; //controllo se è login o register 
@@ -50,14 +56,42 @@ export class HeaderComponent {
 
   ngOnInit(): void {
     this.getAzienda();
+
     this.getAziende();
   }
 
   getAzienda(): void {
     this.aziendeService.getProfilo().subscribe(azienda => {
       this.azienda = azienda;
+      this.setAziendaImage().subscribe(() => {
+        this.isInitialized = true; // Set the flag to true after initialization
+      });
       this.role = this.auth.getRole() as string | undefined; // Fix: Update the type to allow undefined values
     });
+  }
+
+  setAziendaImage(): Observable<void[]> {
+    const observables: Observable<void>[] = [];
+
+    if (this.azienda.img !== '') {
+      const observable = this.fileService.getFile(this.azienda.img).pipe(
+        map((img) => {
+          let objectURL = URL.createObjectURL(img);
+          this.azienda.img = objectURL;
+        }),
+        catchError((err) => {
+          this.azienda.img = '';
+          return [];
+        })
+      );
+      observables.push(observable);
+    }else {
+      // If azienda.img is empty, create an empty observable
+      observables.push(of(null).pipe(map(() => {})));
+    }
+
+    // Use forkJoin to wait for all observables to complete
+    return forkJoin(observables);
   }
 
   getAziende(): void {
