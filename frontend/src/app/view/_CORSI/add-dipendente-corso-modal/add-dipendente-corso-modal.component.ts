@@ -1,11 +1,15 @@
-import { Component, OnInit } from '@angular/core';
+import { Component, Input, OnInit, Output } from '@angular/core';
 import { IDropdownSettings } from 'ng-multiselect-dropdown';
 import { NgbActiveModal } from '@ng-bootstrap/ng-bootstrap';
 import { NgFor } from '@angular/common';
 
-//import { Dipendente } from '../../../model/Dipendente';
+import { Dipendente } from '../../../model/Dipendente';
 import { DipendentiService } from '../../../service/dipendenti/dipendenti.service';
 import { AuthService } from '../../../service/auth/auth.service';
+import { CorsiService } from '../../../service/corsi/corsi.service';
+import { ActivatedRoute } from '@angular/router';
+import { EventEmitter } from '@angular/core';
+import { AlertService } from '../../../service/alert/alert.service';
 
 
 
@@ -15,61 +19,83 @@ import { AuthService } from '../../../service/auth/auth.service';
   styleUrl: './add-dipendente-corso-modal.component.css'
 })
 export class AddDipendenteCorsoModalComponent implements OnInit {
-  dropdownList: any[] =[];
-  selectedItems: { item_id: number, item_text: string}[] = [];
+  @Input() idCorso!: number;
+  @Output() refreshData: EventEmitter<void> = new EventEmitter<void>();
+
+  dropdownList: any[] = [];
+  selectedItems: { item_id: number, item_text: string }[] = [];
   dropdownSettings: IDropdownSettings = {};
 
-  constructor(public activeModal: NgbActiveModal, 
-              private dipendentiService: DipendentiService,
-              private auth: AuthService) {
+  constructor(
+    public activeModal: NgbActiveModal,
+    private dipendentiService: DipendentiService,
+    private auth: AuthService,
+    private route: ActivatedRoute,
+    private corsiService: CorsiService,
+    private alert: AlertService) { }
+
+
+  ngOnInit() {
+    this.caricaDipendenti();
+
+    this.dropdownSettings = {
+      singleSelection: false,
+      idField: 'item_id',
+      textField: 'item_text',
+      selectAllText: 'Select All',
+      unSelectAllText: 'Unselect All',
+      itemsShowLimit: 7,
+      allowSearchFilter: true
+    };
   }
-  
+  pIva: string = this.auth.getCurrentPIva()!;
 
-      ngOnInit(){
-        this.caricaDipendenti();
-        /*this.dropdownList = [
-          { item_id: 1, item_text: 'Primo Dipendente'},
-          { item_id: 2, item_text: 'Secondo Dipendente'},
-          { item_id: 3, item_text: 'Terzo Dipendente'},
-          { item_id: 4, item_text: 'Quarto Dipendente'},
-          { item_id: 5, item_text: 'Quinto Dipendente'},
-        ];*/
-       
-        this.dropdownSettings = {
-          singleSelection: false,
-          idField: 'item_id',
-          textField: 'item_text',
-          selectAllText: 'Select All',
-          unSelectAllText: 'Unselect All',
-          itemsShowLimit: 7,
-          allowSearchFilter: true
-        };
-    }
-    pIva: string= this.auth.getCurrentPIva()!; //come faccio ad impostare la partita iva a quella dell'azienda corrente
-   
-    caricaDipendenti(){
-      this.dipendentiService.getDipendenti(this.pIva).subscribe((dipendenti:any[])=>{
-        this.dropdownList = dipendenti.map((dipendente, index)=>({
-          item_id: index,
-          item_text: dipendente.nome + " " + dipendente.cognome
-        }));
-      });
-    }
+  caricaDipendenti() {
+    //TODO: prendere solo di
+    this.dipendentiService.getDipendenti(this.pIva).subscribe((dipendenti: any[]) => {
+      this.dropdownList = dipendenti.map((dipendente, index) => ({
+        item_id: dipendente.id,
+        item_text: dipendente.nome + " " + dipendente.cognome,
+      }));
+    });
+  }
 
 
-    onItemSelect(item: any) {
-      console.log('onItemSelect', item);
-    }
-    
-    onSelectAll(items: any) {
-      console.log('onSelectAll', items);
-    }
+  onItemSelect(item: any) {
+    //console.log('onItemSelect', item);
+  }
 
-    submit(){
-      console.log(this.selectedItems);
-      this.activeModal.close();
-    }
+  onSelectAll(items: any) {
+    //console.log('onSelectAll', items);
+  }
 
-    
+  submit() {
+    //console.log(this.selectedItems);
+    this.activeModal.close();
+
+
+    const dipendenti = this.getDipendentiById();
+
+    this.corsiService.addDipendentiCorso(this.idCorso, dipendenti).subscribe(
+      (response) => {
+        //this.alert.setMessage("Dipendenti aggiunti con successo");
+        this.alert.setSuccessAlert();
+        this.refreshData.emit();
+      },
+      (error) => {
+        this.alert.setDangerAlert();
+      }
+    );
+  }
+
+  getDipendentiById() {
+    const dipendenti: any = [];
+    this.selectedItems.forEach(element => {
+      dipendenti.push({ id: element.item_id });
+    });
+    return dipendenti;
+  }
+
+
 
 }

@@ -151,20 +151,27 @@
             </nav>
             <div class="margin">
                 <div class="mb-3">
-                    <button *ngIf="this.auth.getRole()=='A'" type="button" class="btn btn-primary" (click)="openAddDipendenteCorso()">
+                    <button *ngIf="this.auth.getRole()=='A'" type="button" class="btn btn-primary"
+                        (click)="openAddDipendentiCorso()">
                         Aggiungi Dipendenti
                     </button>
                 </div>
 
-                <!--<div *ngIf="alert.getSuccessAlert()" class="alert alert-success alert-dismissible fade show" role="alert">
-                    Dipendente aggiunto con successo
+                <div *ngIf="alert.getSuccessAlert()" class="alert alert-success alert-dismissible fade show"
+                    role="alert">
+                    Dipendenti aggiunti con successo
                     <button type="button" class="btn-close" data-bs-dismiss="alert" aria-label="Close"></button>
-                </div>-->
+                </div>
+
+                <div *ngIf="alert.getDangerAlert()" class="alert alert-danger alert-dismissible fade show" role="alert">
+                    Errori nell'aggiunta dei dipendenti
+                    <button type="button" class="btn-close" data-bs-dismiss="alert" aria-label="Close"></button>
+                </div>
+
+                <app-dipendenti-tabella *ngIf="dipendentiIscritti && dipendentiIscritti.length>0"
+                    [dipendenti]="dipendentiIscritti"></app-dipendenti-tabella>
+
             </div>
-            <app-dipendenti-tabella [dipendenti]="dipendentiIscritti"></app-dipendenti-tabella>
-
-
-
         </div>
     </section>
 </main>

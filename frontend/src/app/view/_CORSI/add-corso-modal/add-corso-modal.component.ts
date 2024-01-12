@@ -54,7 +54,6 @@ export class AddCorsoModalComponent {
     this.activeModal.close('Save click');
 
     //stampa a console i valori del form
-    console.log(this.addCorsoForm.value);
     if(this.corso == undefined){
       this.addCorso();
     }
@@ -79,6 +78,7 @@ export class AddCorsoModalComponent {
   }
 
   private updateCorso() {
+    this.addCorsoForm.value.id = this.corso?.id;
     this.corsiService.updateCorso(this.addCorsoForm.value, this.auth.getCurrentPIva()!).subscribe(
       data => {
         this.alert.setMessage("Corso modificato con successo");

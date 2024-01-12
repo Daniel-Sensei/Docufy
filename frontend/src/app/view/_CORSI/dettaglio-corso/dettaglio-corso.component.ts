@@ -21,12 +21,11 @@ import { AddCorsoModalComponent } from '../add-corso-modal/add-corso-modal.compo
 
 export class DettaglioCorsoComponent {
   corso?: Corso;
-  dipendentiIscritti: Dipendente[] = [];
+  dipendentiIscritti?: Dipendente[];
 
   constructor(
     private modalService: NgbModal,
     public alert: AlertService,
-    private dipendentiService: DipendentiService,
     private route: ActivatedRoute,
     private router: Router,
     private corsiService: CorsiService,
@@ -35,6 +34,8 @@ export class DettaglioCorsoComponent {
 
   ngOnInit(): void {
     this.getCorso();
+
+    this.getDipendentiIscritti();
   }
 
   getCorso(): void {
@@ -47,6 +48,13 @@ export class DettaglioCorsoComponent {
     });
   }
 
+  getDipendentiIscritti(): void {
+    const id = Number(this.route.snapshot.paramMap.get('id'));
+    this.corsiService.getDipendentiIscritti(id).subscribe(dipendentiIscritti => {
+      this.dipendentiIscritti = dipendentiIscritti;
+    });
+  }
+
   openUpdateCorsoModal() {
     const modalRef = this.modalService.open(AddCorsoModalComponent, {
       size: 'md' // 'lg' sta per grande, puoi utilizzare anche 'sm' per piccolo
@@ -55,9 +63,17 @@ export class DettaglioCorsoComponent {
     modalRef.componentInstance.corso = this.corso;
   }
 
-  openAddDipendenteCorso() {
+  openAddDipendentiCorso() {
     const modalRef = this.modalService.open(AddDipendenteCorsoModalComponent, {
       size: 'md' // 'lg' sta per grande, puoi utilizzare anche 'sm' per piccolo
+    });
+
+    modalRef.componentInstance.idCorso = this.corso?.id;
+
+    modalRef.componentInstance.refreshData.subscribe(() => {
+      // Aggiorna i dati richiamando nuovamente ngOnInit
+      this.dipendentiIscritti = [];
+      this.getDipendentiIscritti();
     });
   }
 

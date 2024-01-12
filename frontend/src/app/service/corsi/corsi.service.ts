@@ -24,6 +24,10 @@ export class CorsiService {
     return this.http.get<Corso[]>(Settings.API_ENDPOINT + "corsi-acquistati?pIva=" + pIva, { headers: this.auth.headers });
   }
 
+  getDipendentiIscritti(id: number): Observable<Dipendente[]>{
+    return this.http.get<Dipendente[]>(Settings.API_ENDPOINT + "dipendenti-iscritti-corso?id=" + id, { headers: this.auth.headers });
+  }
+
   getCorsiFrequentati(id: number): Observable<Corso[]>{
     return this.http.get<Corso[]>(Settings.API_ENDPOINT + "corsi-frequentati?id=" + id, { headers: this.auth.headers });
   }
@@ -33,7 +37,7 @@ export class CorsiService {
   }
 
   addDipendentiCorso(id: number, dipendenti: Dipendente[]): Observable<any>{
-    return this.http.post(Settings.API_ENDPOINT + "dipendenti-corso?id=" + id, dipendenti, { headers: this.auth.headers });
+    return this.http.post(Settings.API_ENDPOINT + "dipendenti-corso?idCorso=" + id, dipendenti, { headers: this.auth.headers });
   }
 
   addCorso(corso: Corso, pIva: string): Observable<any>{
