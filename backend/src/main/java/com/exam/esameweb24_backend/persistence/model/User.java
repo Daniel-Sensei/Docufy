@@ -1,5 +1,7 @@
 package com.exam.esameweb24_backend.persistence.model;
 
+import com.exam.esameweb24_backend.persistence.DBManager;
+import org.springframework.http.HttpStatus;
 import org.springframework.http.ResponseEntity;
 import org.springframework.web.multipart.MultipartFile;
 
@@ -58,6 +60,13 @@ public class User {
     public ResponseEntity<String> modificaImmagineAzienda(String pIva, MultipartFile file){return null;}
 
     public ResponseEntity<String> rimuoviImmagineAzienda(String pIva){return null;}
+
+    public ResponseEntity<String> cambioPassword(String password) {
+        this.password = password;
+        if (DBManager.getInstance().getUserDao().updatePassword(this))
+            return new ResponseEntity<>(HttpStatus.OK);
+        else return new ResponseEntity<>(HttpStatus.INTERNAL_SERVER_ERROR);
+    }
 
 
 

@@ -93,19 +93,33 @@ public class UserDaoPostgres implements UserDao {
     }
 
     @Override
-    public boolean update(User user) {
-        String query = "UPDATE users SET email = ?, password = ? WHERE piva = ?";
+    public boolean updatePassword(User user) {
+        String query = "UPDATE users SET  password = ? WHERE piva = ?";
         try {
             PreparedStatement st = conn.prepareStatement(query);
-            st.setString(1, user.getEmail());
-            st.setString(2, BCrypt.hashpw(user.getPassword(), BCrypt.gensalt(10)));
-            st.setString(3, user.getPIva());
+            st.setString(1, BCrypt.hashpw(user.getPassword(), BCrypt.gensalt(10)));
+            st.setString(2, user.getPIva());
             st.executeUpdate();
             return true;
         } catch (SQLException e) {
             throw new RuntimeException(e);
         }
     }
+
+    @Override
+    public boolean updateEmail(User user) {
+        String query = "UPDATE users SET email = ? WHERE piva = ?";
+        try {
+            PreparedStatement st = conn.prepareStatement(query);
+            st.setString(1, user.getEmail());
+            st.setString(2, user.getPIva());
+            st.executeUpdate();
+            return true;
+        } catch (SQLException e) {
+            throw new RuntimeException(e);
+        }
+    }
+
 
     @Override
     public boolean delete(User user) {

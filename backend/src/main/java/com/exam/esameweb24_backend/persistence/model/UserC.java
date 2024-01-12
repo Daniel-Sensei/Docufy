@@ -1,5 +1,6 @@
 package com.exam.esameweb24_backend.persistence.model;
 
+import com.exam.esameweb24_backend.controller.PasswordHelper;
 import com.exam.esameweb24_backend.controller.Utility;
 import com.exam.esameweb24_backend.persistence.DBManager;
 import org.springframework.http.HttpStatus;
@@ -55,71 +56,49 @@ public class UserC extends User
         // converto il json in un'azienda
         Azienda azienda = Utility.jsonToObject(json, Azienda.class);
 
-        // fornisco la pIva del consulente
-        Consulente c = new Consulente();
-        c.setPIva(this.pIva);
-        azienda.setConsulente(c);
+        String tempPassword = PasswordHelper.generatePassword(8);
+        System.out.println("Password temporanea generata: " + tempPassword);
 
-        // inserisco l'azienda nel database
-        if (DBManager.getInstance().getAziendaDao().insert(azienda)) {
-            if (thereIsFile) {
-                String filePath;
-                try {
-                    //salvo il file nella cartella dei files
-                    filePath = Utility.uploadFile(azienda.getPIva(), file);
-                } catch (IOException e) {
-                    return new ResponseEntity<>(HttpStatus.INTERNAL_SERVER_ERROR);
+        // creo un nuovo utente
+        User newUser = new User();
+        newUser.setEmail(azienda.getEmail());
+        newUser.setPassword(tempPassword);
+        newUser.setPIva(azienda.getPIva());
+
+        // inserisco il nuovo utente nel database
+        if (DBManager.getInstance().getUserDao().insert(newUser)) {
+
+            // INSERIRE QUI LA FUNZIONE IN CUI SI INVIANO LE CREDENZIALI ALL'EMAIL DELL'AZIENDA
+
+            // fornisco la pIva del consulente
+            Consulente c = new Consulente();
+            c.setPIva(this.pIva);
+            azienda.setConsulente(c);
+
+            // inserisco l'azienda nel database
+            if (DBManager.getInstance().getAziendaDao().insert(azienda)) {
+                if (thereIsFile) {
+                    String filePath;
+                    try {
+                        //salvo il file nella cartella dei files
+                        filePath = Utility.uploadFile(azienda.getPIva(), file);
+                    } catch (IOException e) {
+                        return new ResponseEntity<>(HttpStatus.INTERNAL_SERVER_ERROR);
+                    }
+                    azienda.setImg(filePath);
+                    // aggiorno il dipendente nel database
+                    if (!DBManager.getInstance().getAziendaDao().update(azienda)) {
+                        return new ResponseEntity<>(HttpStatus.INTERNAL_SERVER_ERROR);
+                    }
                 }
-                azienda.setImg(filePath);
-                // aggiorno il dipendente nel database
-                if (!DBManager.getInstance().getAziendaDao().update(azienda)) {
-                    return new ResponseEntity<>(HttpStatus.INTERNAL_SERVER_ERROR);
-                }
+                return new ResponseEntity<>(HttpStatus.OK);
             }
-            return new ResponseEntity<>(HttpStatus.OK);
         }
         return new ResponseEntity<>(HttpStatus.INTERNAL_SERVER_ERROR);
     }
 
     @Override
     public ResponseEntity<String> modificaAzienda(MultipartFile json, MultipartFile file) {
-
-        // controllo se è stata aggiunta un'immagine
-        boolean thereIsFile = !(file.getOriginalFilename().isBlank());
-
-        // se il json è vuoto allora non può usare il servizio
-        if (json.isEmpty()) return new ResponseEntity<>(HttpStatus.BAD_REQUEST);
-
-        // converto il json in un'azienda
-        Azienda azienda = Utility.jsonToObject(json, Azienda.class);
-
-        // controllo se l'azienda esiste
-        Azienda a = DBManager.getInstance().getAziendaDao().findByPIva(azienda.getPIva());
-        if (a==null) return new ResponseEntity<>(HttpStatus.BAD_REQUEST);
-
-        // controllo che il consulente sia associato all'azienda da modificare
-        if(this.pIva.equals(a.getConsulente().getPIva())){
-            if (thereIsFile) {
-                String filePath;
-                try {
-                    //salvo il file nella cartella dei files
-                    filePath = Utility.uploadFile(azienda.getPIva(), file);
-                    // elimino il vecchio file se esiste
-                    if(a.getImg()!=null) Utility.deleteFile(a.getImg());
-                } catch (IOException e) {
-                    return new ResponseEntity<>(HttpStatus.INTERNAL_SERVER_ERROR);
-                }
-                // salvo il path del nuovo file nella nuova azienda
-                azienda.setImg(filePath);
-            }
-            // se non è stata caricata un'immagine, mantengo quella vecchia
-            else azienda.setImg(a.getImg());
-
-            // modifico l'azienda nel database
-            if (DBManager.getInstance().getAziendaDao().update(azienda))
-                return new ResponseEntity<>(HttpStatus.OK);
-            else return new ResponseEntity<>(HttpStatus.INTERNAL_SERVER_ERROR);
-        }
         return new ResponseEntity<>(HttpStatus.UNAUTHORIZED);
     }
 

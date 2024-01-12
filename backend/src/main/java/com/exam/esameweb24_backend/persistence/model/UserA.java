@@ -8,7 +8,6 @@ import org.springframework.web.multipart.MultipartFile;
 
 import java.io.IOException;
 import java.util.ArrayList;
-import java.util.Date;
 import java.util.List;
 
 public class UserA extends User
@@ -41,7 +40,47 @@ public class UserA extends User
 
     @Override
     public ResponseEntity<String> modificaAzienda(MultipartFile json, MultipartFile file) {
-        return new ResponseEntity<>(HttpStatus.UNAUTHORIZED);
+
+        // controllo se è stata aggiunta un'immagine
+        boolean thereIsFile = !(file.getOriginalFilename().isBlank());
+
+        // controllo se il json è vuoto
+        if (json.isEmpty()) return new ResponseEntity<>(HttpStatus.BAD_REQUEST);
+
+        // converto il json in un'azienda
+        Azienda azienda = Utility.jsonToObject(json, Azienda.class);
+
+        if(!this.pIva.equals(azienda.getPIva())) return new ResponseEntity<>(HttpStatus.UNAUTHORIZED);
+
+        Azienda a = DBManager.getInstance().getAziendaDao().findByPIva(this.pIva);
+
+        // controllo se l'email è stata modificata
+        if(!this.email.equals(azienda.getEmail())) {
+            this.email = azienda.getEmail();
+            if(DBManager.getInstance().getUserDao().updateEmail(this))
+                return new ResponseEntity<>(HttpStatus.OK);
+            else return new ResponseEntity<>(HttpStatus.INTERNAL_SERVER_ERROR);
+        }
+
+        if (thereIsFile) {
+            String filePath;
+            try {
+                //salvo il file nella cartella dei files
+                filePath = Utility.uploadFile(azienda.getPIva(), file);
+                // elimino il vecchio file se esiste
+                if(a.getImg()!=null) Utility.deleteFile(a.getImg());
+            } catch (IOException e) {
+                return new ResponseEntity<>(HttpStatus.INTERNAL_SERVER_ERROR);
+            }
+            // salvo il path del nuovo file nella nuova azienda
+            azienda.setImg(filePath);
+        }
+        else azienda.setImg(a.getImg());
+
+        // modifico l'azienda nel database
+        if (DBManager.getInstance().getAziendaDao().update(azienda))
+            return new ResponseEntity<>(HttpStatus.OK);
+        else return new ResponseEntity<>(HttpStatus.INTERNAL_SERVER_ERROR);
     }
 
     @Override

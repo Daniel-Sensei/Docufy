@@ -7,6 +7,7 @@ public interface UserDao {
     public User findByToken(String token);
     public boolean isConsultant(User user);
     public boolean insert(User user);
-    public boolean update(User user);
+    public boolean updatePassword(User user);
+    public boolean updateEmail(User user);
     public boolean delete(User user);
 }
