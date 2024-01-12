@@ -161,7 +161,7 @@ public class CorsoDaoPostgres implements CorsoDao {
 
     @Override
     public boolean update(Corso corso) {
-        String query = "UPDATE corsi SET nome = ?, prezzo = ?, descrizione = ?, durata = ?, categoria = ?, posti = ?, postidisponibili = ?, esamefinale = ? WHERE id = ?";
+        String query = "UPDATE corsi SET nome = ?, prezzo = ?, descrizione = ?, durata = ?, categoria = ?, posti = ?, esamefinale = ? WHERE id = ?";
         try {
             PreparedStatement st = conn.prepareStatement(query);
             st.setString(1, corso.getNome());
@@ -170,9 +170,8 @@ public class CorsoDaoPostgres implements CorsoDao {
             st.setInt(4, corso.getDurata());
             st.setString(5, corso.getCategoria());
             st.setInt(6, corso.getPosti());
-            st.setInt(7, corso.getPostiDisponibili());
-            st.setBoolean(8, corso.isFinalExam());
-            st.setLong(9, corso.getId());
+            st.setBoolean(7, corso.isFinalExam());
+            st.setLong(8, corso.getId());
             st.executeUpdate();
             return true;
         } catch (SQLException e) {
