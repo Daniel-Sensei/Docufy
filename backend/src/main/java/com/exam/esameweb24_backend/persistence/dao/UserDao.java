@@ -9,5 +9,5 @@ public interface UserDao {
     public boolean insert(User user);
     public boolean updatePassword(User user);
     public boolean updateEmail(User user);
-    public boolean delete(User user);
+    public boolean delete(String pIva);
 }

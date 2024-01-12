@@ -122,11 +122,11 @@ public class UserDaoPostgres implements UserDao {
 
 
     @Override
-    public boolean delete(User user) {
+    public boolean delete(String pIva) {
         String query = "DELETE FROM users WHERE piva = ?";
         try {
             PreparedStatement st = conn.prepareStatement(query);
-            st.setString(1, user.getPIva());
+            st.setString(1, pIva);
             st.executeUpdate();
             return true;
         } catch (SQLException e) {
