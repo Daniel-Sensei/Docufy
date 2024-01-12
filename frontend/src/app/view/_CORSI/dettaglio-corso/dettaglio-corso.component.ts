@@ -61,6 +61,10 @@ export class DettaglioCorsoComponent {
     });
 
     modalRef.componentInstance.corso = this.corso;
+
+    modalRef.componentInstance.refreshData.subscribe(() => {
+      this.getCorso();
+    });
   }
 
   openAddDipendentiCorso() {

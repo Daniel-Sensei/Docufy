@@ -38,5 +38,10 @@ export class CorsiComponent {
     const modalRef = this.modalService.open(AddCorsoModalComponent, {
       size: 'md'
     });
+
+    modalRef.componentInstance.refreshData.subscribe(() => {
+      this.corsi = [];
+      this.ngOnInit();
+    });
   }
 }

@@ -185,8 +185,12 @@ export class ProfileComponent {
   }
 
   modificaPassword() {
-    console.log(this.modificaPasswordForm.value);
-    this.auth.updatePassword(this.modificaPasswordForm.get('password')?.value, this.modificaPasswordForm.get('nuovaPassword')?.value).subscribe(
+    let user = {
+      oldPw: this.modificaPasswordForm.value.password,
+      newPw: this.modificaPasswordForm.value.nuovaPassword
+    }
+    console.log(user);
+    this.auth.updatePassword(user.oldPw, user.newPw).subscribe(
       response => {
         // Imposta la variabile per mostrare l'alert di successo
         console.log("Password modificata con successo")

@@ -8,6 +8,7 @@ import { CorsiService } from '../../../service/corsi/corsi.service';
 import { AbstractControl } from '@angular/forms';
 import { AuthService } from '../../../service/auth/auth.service';
 import { Router } from '@angular/router';
+import { Output, EventEmitter } from '@angular/core';
 
 @Component({
   selector: 'app-add-corso-modal',
@@ -17,11 +18,13 @@ import { Router } from '@angular/router';
 export class AddCorsoModalComponent {
 
   @Input() corso?: Corso;
+  @Output() refreshData: EventEmitter<void> = new EventEmitter<void>();
+
 
   addCorsoForm: FormGroup;
   model: NgbDateStruct | undefined;
 
-  categorie: string[] = ["Benessere", "Formazione", "Aggiornamento", "Lingue", "Tecnologia", "Altro"];
+  categorie: string[] = ["Benessere", "Formazione", "Aggiornamento", "Lingua", "Marketing", "Sicurezza", "Altro"];
 
 
   constructor(
@@ -63,11 +66,13 @@ export class AddCorsoModalComponent {
   }
 
   private addCorso() {
+    console.log(this.addCorsoForm.value);
     this.corsiService.addCorso(this.addCorsoForm.value, this.auth.getCurrentPIva()!).subscribe(
       data => {
         this.alert.setMessage("Corso aggiunto con successo");
         this.alert.setSuccessAlert();
         console.log("Corso aggiunto con successo");
+        this.refreshData.emit();
       },
       error => {
         if(error.status == 401){
@@ -84,6 +89,7 @@ export class AddCorsoModalComponent {
         this.alert.setMessage("Corso modificato con successo");
         this.alert.setSuccessAlert();
         console.log("Corso modificato con successo");
+        this.refreshData.emit();
       },
       error => {
         if(error.status == 401){
