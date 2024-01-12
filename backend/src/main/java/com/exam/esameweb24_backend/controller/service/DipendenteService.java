@@ -43,7 +43,7 @@ public class DipendenteService {
         return user.getDipendente(id);
     }
 
-    @GetMapping ("/dipendenti-corso")
+    @GetMapping ("/dipendenti-iscritti-corso")
     public ResponseEntity<List<Dipendente>> getDipendentiByCorso(HttpServletRequest req, @RequestParam Long id){
 
         User user = Utility.getRequestUser(req);
