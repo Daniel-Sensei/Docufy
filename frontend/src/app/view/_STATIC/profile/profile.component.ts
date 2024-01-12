@@ -179,10 +179,24 @@ export class ProfileComponent {
     console.log(this.modificaProfiloForm.value);
     this.modificato = false;
   }
-  ModficaPassword(){
+  modificaPassword(){
     console.log("modifica password");
-    //this.modificaPassword(this.modificaPasswordForm.value);
+    this.auth.modificaPassword(this.modificaPasswordForm.get('password')?.value, this.modificaPasswordForm.get('nuova_password')?.value).
+      subscribe(
+        result => {
+          if (result) {
+            this.router.navigate(['/']);
+          }
+          else {
+            this.success = false;
+          }
+        },
+        error => {
+          this.serverError = true;
+          //this.router.navigate(['/profile']);
+        });
   }
+  
 
   private modificaAzienda(aziendaData: any, file: File | undefined) {
     aziendaData.piva = this.azienda.piva;
@@ -204,8 +218,8 @@ export class ProfileComponent {
   }
 
   //DA CONTINUARE 
-  submitForm() {
-    this.auth. modifcaPassword(this.modificaPasswordForm.get('password')?.value, this.modificaPasswordForm.get('nuova_password')?.value).
+  /*submitForm() {
+    this.auth.modificaPassword(this.modificaPasswordForm.get('password')?.value, this.modificaPasswordForm.get('nuova_password')?.value).
       subscribe(
         result => {
           if (result) {
@@ -219,6 +233,6 @@ export class ProfileComponent {
           this.serverError = true;
           //this.router.navigate(['/profile']);
         });
-  }
+  }*/
 
 }
