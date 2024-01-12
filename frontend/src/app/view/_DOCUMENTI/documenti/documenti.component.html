@@ -29,4 +29,4 @@
         </div> <!-- End Margin -->
     </div>
 
-    <app-documenti-tabella *ngIf="documenti && documenti.length>0" [documenti]="documenti"></app-documenti-tabella>
+    <app-documenti-tabella *ngIf="documenti && documenti.length>0" [documenti]="documenti" (refreshData)="updateDocumenti()"></app-documenti-tabella>

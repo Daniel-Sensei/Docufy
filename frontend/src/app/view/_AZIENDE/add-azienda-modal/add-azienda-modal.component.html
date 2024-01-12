@@ -11,41 +11,21 @@
 
         <div class="col-md-6">
             <label for="nome" class="form-label">Ragione Sociale</label>
-            <input formControlName="ragione_sociale" type="text" class="form-control"
-                [class.is-invalid]="addAziendaForm.get('ragione_sociale')?.invalid && addAziendaForm.get('ragione_sociale')?.touched">
-            <div *ngIf="addAziendaForm.get('ragione_sociale')?.invalid && addAziendaForm.get('ragione_sociale')?.touched"
+            <input formControlName="ragioneSociale" type="text" class="form-control"
+                [class.is-invalid]="addAziendaForm.get('ragioneSociale')?.invalid && addAziendaForm.get('ragioneSociale')?.touched">
+            <div *ngIf="addAziendaForm.get('ragioneSociale')?.invalid && addAziendaForm.get('ragioneSociale')?.touched"
                 class="invalid-feedback">
-                Campo obbligatorio
+                Campo obbligatorio.
             </div>
         </div>
 
         <div class="col-md-6">
             <label for="telefono" class="form-label">Partita Iva</label>
-            <input formControlName="partita_iva" type="text" class="form-control"
-               [class.is-invalid]="addAziendaForm.get('partita_iva')?.invalid && addAziendaForm.get('partita_iva')?.touched">
-            <div *ngIf="addAziendaForm.get('partita_iva')?.invalid && addAziendaForm.get('partita_iva')?.touched"
+            <input formControlName="piva" type="text" class="form-control"
+               [class.is-invalid]="addAziendaForm.get('piva')?.invalid && addAziendaForm.get('piva')?.touched">
+            <div *ngIf="addAziendaForm.get('piva')?.invalid && addAziendaForm.get('piva')?.touched"
                 class="invalid-feedback">
-                Partita iva non valida
-            </div>
-        </div>
-
-        <div class="col-md-6">
-            <label for="telefono" class="form-label">Telefono</label>
-            <input formControlName="telefono" type="telefono" class="form-control"
-            [class.is-invalid]="addAziendaForm.get('telefono')?.invalid && addAziendaForm.get('telefono')?.touched">
-            <div *ngIf="addAziendaForm.get('telefono')?.invalid && addAziendaForm.get('telefono')?.touched"
-            class="invalid-feedback">
-            Inserire numero di telefono
-        </div>
-        </div>
-
-        <div class="col-md-6">
-            <label for="indirizzo" class="form-label">Indirizzo</label>
-            <input formControlName="indirizzo" type="text" class="form-control"
-               [class.is-invalid]="addAziendaForm.get('indirizzo')?.invalid && addAziendaForm.get('indirizzo')?.touched">
-            <div *ngIf="addAziendaForm.get('indirizzo')?.invalid && addAziendaForm.get('indirizzo')?.touched"
-                class="invalid-feedback">
-                Inserire un indirizzo valido
+                Partita Iva non valida.
             </div>
         </div>
 
@@ -57,21 +37,38 @@
                     [class.is-invalid]="addAziendaForm.get('email')?.invalid && addAziendaForm.get('email')?.touched">
                 <div *ngIf="addAziendaForm.get('email')?.invalid && addAziendaForm.get('email')?.touched"
                     class="invalid-feedback">
-                    Email è obbligatoria e deve essere valida
+                    Email è obbligatoria e deve essere valida.
                 </div>
             </div> 
         </div>
 
+        <div class="col-md-6">
+            <label for="telefono" class="form-label">Telefono</label>
+            <input formControlName="telefono" type="telefono" class="form-control"
+            [class.is-invalid]="addAziendaForm.get('telefono')?.invalid && addAziendaForm.get('telefono')?.touched">
+            <div *ngIf="addAziendaForm.get('telefono')?.invalid && addAziendaForm.get('telefono')?.touched"
+            class="invalid-feedback">
+            Numero di telefono non valido.
+        </div>
+        </div>
 
         <div class="col-md-6">
-            <!--<label for="immagine" class="form-label">Immagine</label>-->
-            <button type="button" class="btn btn-secondary">Aggiungi immagine</button>
-            
-            <!--<input formControlName="img" type="text" class="form-control">-->
-           <!--<div *ngIf="addAziendaForm.get('img')?.invalid"
+            <label for="indirizzo" class="form-label">Indirizzo</label>
+            <input formControlName="indirizzo" type="text" class="form-control"
+               [class.is-invalid]="addAziendaForm.get('indirizzo')?.invalid && addAziendaForm.get('indirizzo')?.touched">
+            <div *ngIf="addAziendaForm.get('indirizzo')?.invalid && addAziendaForm.get('indirizzo')?.touched"
                 class="invalid-feedback">
-                formato non valido
-            </div>-->
+                Inserire un indirizzo valido.
+            </div>
+        </div>
+
+
+        <!-- Carica file -->
+        <div class="col-md-12">
+            <label for="img" class="form-label">Carica Immagine</label>
+            <input formControlName="img" type="file" class="form-control" id="file"
+                [class.is-invalid]="addAziendaForm.get('img')?.invalid && addAziendaForm.get('img')?.touched"
+                accept="image/*" (change)="onFileSelected($event)">
         </div>
        
 

@@ -44,9 +44,13 @@ export class DocumentiComponent {
 
     modalRef.componentInstance.refreshData.subscribe(() => {
       // Aggiorna i dati richiamando nuovamente ngOnInit
-      this.documenti = [];
-      this.ngOnInit();
+      this.updateDocumenti();
     });
+  }
+
+  updateDocumenti() {
+    this.documenti = [];
+    this.ngOnInit();
   }
 
 }

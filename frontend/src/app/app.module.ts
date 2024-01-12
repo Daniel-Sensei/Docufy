@@ -60,6 +60,8 @@ import { ConfirmModalComponent } from './view/_STATIC/confirm-modal/confirm-moda
 import { NotAuthorizedComponent } from './view/_STATIC/not-authorized/not-authorized.component';
 
 import { ModalModule } from 'ngx-bootstrap/modal';
+import { CorsiIconComponent } from './view/_CORSI/corsi-icon/corsi-icon.component';
+import { DocumentiIconComponent } from './view/_DOCUMENTI/documenti-icon/documenti-icon.component';
 
 
 @NgModule({
@@ -100,6 +102,8 @@ import { ModalModule } from 'ngx-bootstrap/modal';
     NotFoundComponent,
     ConfirmModalComponent,
     NotAuthorizedComponent,
+    CorsiIconComponent,
+    DocumentiIconComponent,
   ],
   imports: [
     BrowserModule,

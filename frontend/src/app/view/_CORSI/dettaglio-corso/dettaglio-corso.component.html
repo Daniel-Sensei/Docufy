@@ -13,10 +13,16 @@
 
     <div class="margin">
 
-        <!--<div *ngIf="alert.getSuccessAlert()" class="alert alert-success alert-dismissible fade show" role="alert">
-                Dipendente aggiunto con successo
-                <button type="button" class="btn-close" data-bs-dismiss="alert" aria-label="Close"></button>
-            </div>-->
+        <div *ngIf="alert.getSuccessAlert()" class="alert alert-success alert-dismissible fade show" role="alert">
+            {{this.alert.getMessage()}}
+            <button type="button" class="btn-close" data-bs-dismiss="alert" aria-label="Close"></button>
+        </div>
+
+        <div class="mb-3" *ngIf="this.auth.getRole()=='C'">
+            <button type="button" class="btn btn-primary" (click)="openUpdateCorsoModal()">
+                Modifica Corso
+            </button>
+        </div>
     </div>
 
 
@@ -28,7 +34,31 @@
                         <div class="row g-0">
                             <div class="col-md-4 gradient-custom text-center text-white d-flex flex-column align-items-center justify-content-center"
                                 style="border-top-left-radius: .5rem; border-bottom-left-radius: .5rem;">
-                                <i class="big-icon bx bxl-mailchimp"></i>
+
+
+                                <div *ngIf="corso.categoria=='Benessere'">
+                                    <i class="big-icon bi bi-heart"></i>
+                                </div>
+                                <div *ngIf="corso.categoria=='Formazione'">
+                                    <i class="big-icon bi bi-book"></i>
+                                </div>
+                                <div *ngIf="corso.categoria=='Aggiornamento'">
+                                    <i class="big-icon bi bi-arrow-clockwise"></i>
+                                </div>
+                                <div *ngIf="corso.categoria=='Lingua'">
+                                    <i class="big-icon bi bi-translate"></i>
+                                </div>
+                                <div *ngIf="corso.categoria=='Marketing'">
+                                    <i class="big-icon bi bi-graph-up"></i>
+                                </div>
+                                <div *ngIf="corso.categoria=='Sicurezza'">
+                                    <i class="big-icon bi bi-shield-check"></i>
+                                </div>
+                                <div *ngIf="corso.categoria=='Altro'">
+                                    <i class="big-icon bi bi-three-dots"></i>
+                                </div>
+
+
                                 <h5>{{corso.nome}}</h5>
                                 <p>{{corso.categoria}}</p>
                                 <i class="far fa-edit mb-5"></i>
@@ -121,20 +151,27 @@
             </nav>
             <div class="margin">
                 <div class="mb-3">
-                    <button type="button" class="btn btn-primary" (click)="openAddDipendenteCorso()">
+                    <button *ngIf="this.auth.getRole()=='A'" type="button" class="btn btn-primary"
+                        (click)="openAddDipendentiCorso()">
                         Aggiungi Dipendenti
                     </button>
                 </div>
 
-                <!--<div *ngIf="alert.getSuccessAlert()" class="alert alert-success alert-dismissible fade show" role="alert">
-                    Dipendente aggiunto con successo
+                <div *ngIf="alert.getSuccessAlert()" class="alert alert-success alert-dismissible fade show"
+                    role="alert">
+                    Dipendenti aggiunti con successo
                     <button type="button" class="btn-close" data-bs-dismiss="alert" aria-label="Close"></button>
-                </div>-->
+                </div>
+
+                <div *ngIf="alert.getDangerAlert()" class="alert alert-danger alert-dismissible fade show" role="alert">
+                    Errori nell'aggiunta dei dipendenti
+                    <button type="button" class="btn-close" data-bs-dismiss="alert" aria-label="Close"></button>
+                </div>
+
+                <app-dipendenti-tabella *ngIf="dipendentiIscritti && dipendentiIscritti.length>0"
+                    [dipendenti]="dipendentiIscritti"></app-dipendenti-tabella>
+
             </div>
-            <app-dipendenti-tabella [dipendenti]="dipendentiIscritti"></app-dipendenti-tabella>
-
-
-
         </div>
     </section>
 </main>

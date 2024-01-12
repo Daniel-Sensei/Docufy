@@ -38,7 +38,7 @@ export class AziendeService {
     );
   }
 
-  addAzienda(azienda: Azienda, file: File): Observable<any> {
+  addAzienda(azienda: Azienda, file: File | undefined): Observable<any> {
     const formData: FormData = new FormData();
 
     formData.append('azienda', new Blob([JSON.stringify(azienda)], { type: 'application/json' }));

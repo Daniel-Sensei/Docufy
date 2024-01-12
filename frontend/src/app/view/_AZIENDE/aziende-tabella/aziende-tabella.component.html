@@ -40,10 +40,7 @@
                 <ng-container matColumnDef="azioni">
                     <th mat-header-cell *matHeaderCellDef mat-sort-header> Azioni </th>
                     <td mat-cell *matCellDef="let row">
-                        <a class="fw-bold small" data-mdb-ripple-color="dark" routerLink="/">
-                            Modifica/
-                        </a>
-                        <a class="fw-bold small" data-mdb-ripple-color="dark" routerLink="/">
+                        <a type="button" class="fw-bold small" data-mdb-ripple-color="dark" (click)="openDeleteAzienda(row)">
                             Elimina
                         </a>
                     </td>

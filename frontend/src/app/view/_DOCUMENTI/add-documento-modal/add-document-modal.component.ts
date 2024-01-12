@@ -22,8 +22,25 @@ export class AddDocumentModalComponent {
   @Output() refreshData: EventEmitter<void> = new EventEmitter<void>();
 
 
-  tipiDocumentoDipendente = ['Patente', 'Carta d\'identità', 'Passaporto', 'Codice fiscale', 'Carta di circolazione', 'Altro'];
-  tipiDocumentoAzienda = ['Certificato di iscrizione alla CCIAA', 'Certificato di iscrizione all\'INPS', 'Certificato di iscrizione all\'INAIL', 'Visura Camerale', 'Altro'];
+  tipiDocumentoDipendente = [
+    'Patente',
+    'Carta d\'identità',
+    'Passaporto',
+    'Carta di circolazione',
+    'Documento di soggiorno',
+    'Permessi di lavoro',
+    'Tessera sanitaria',
+    'Altro',
+  ];
+  tipiDocumentoAzienda = [
+    'Certificato di iscrizione alla CCIAA',
+    'Certificato di iscrizione all\'INPS',
+    'Certificato di iscrizione all\'INAIL',
+    'Visura camerale',
+    'Contratto sociale',
+    'Statuto aziendale',
+    'Altro',
+  ];
 
   arrayTipiDocumento: string[] = [];
 
@@ -181,9 +198,8 @@ export class AddDocumentModalComponent {
     let pIva = this.auth.getCurrentPIva()!;
     this.documentiService.updateDocumentoAzienda(documentoData, this.file, pIva).subscribe(
       response => {
-        window.location.reload();
         this.alert.setDocumentAlert("Documento aggiornato con successo", "success");
-        //this.refreshData.emit();
+        this.refreshData.emit();
       },
       error => {
         this.alert.setDocumentAlert("Errore nella modifica del documento", "danger");
@@ -195,9 +211,8 @@ export class AddDocumentModalComponent {
     let cf = this.dipendente!.cf;
     this.documentiService.updateDocumentoDipendente(documentoData, this.file, cf).subscribe(
       response => {
-        window.location.reload();
         this.alert.setDocumentAlert("Documento aggiornato con successo", "success");
-        //this.refreshData.emit();
+        this.refreshData.emit();
       },
       error => {
         this.alert.setDocumentAlert("Errore nella modifica del documento", "danger");

@@ -28,19 +28,23 @@ export class AziendeComponent {
 
   ngOnInit(): void {
     this.aziendeService.getAziende().subscribe(
-      aziende => { this.aziende = aziende;},
-      errror => { 
-        if(errror.status == 401){
+      aziende => { this.aziende = aziende; },
+      errror => {
+        if (errror.status == 401) {
           this.router.navigate(['/401']);
         }
       });
   }
 
-  openAddAzienda(){
+  openAddAzienda() {
     const modalRef = this.modalService.open(AddAziendaModalComponent, {
-      size: 'md' 
-  });
+      size: 'md'
+    });
+  }
 
-}
+  updateAziende() {
+    this.aziende = [];
+    this.ngOnInit();
+  }
 
 }

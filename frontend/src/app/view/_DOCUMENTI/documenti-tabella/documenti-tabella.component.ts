@@ -1,4 +1,4 @@
-import { AfterViewInit, Component, ViewChild, Input, ChangeDetectorRef } from '@angular/core';
+import { AfterViewInit, Component, ViewChild, Input, ChangeDetectorRef, Output } from '@angular/core';
 
 import { Documento } from '../../../model/Documento';
 
@@ -12,6 +12,7 @@ import { ConfirmModalComponent } from '../../_STATIC/confirm-modal/confirm-modal
 import { FileService } from '../../../service/file/file.service';
 import { ActivatedRoute } from '@angular/router';
 import { Dipendente } from '../../../model/Dipendente';
+import { EventEmitter } from '@angular/core';
 
 
 @Component({
@@ -28,6 +29,8 @@ export class DocumentiTabellaComponent implements AfterViewInit {
 
   @Input() documenti: Documento[] = [];
   @Input() dipendente?: Dipendente | undefined;
+
+  @Output() refreshData: EventEmitter<void> = new EventEmitter<void>();
 
   constructor(
     private cdr: ChangeDetectorRef,
@@ -59,12 +62,9 @@ export class DocumentiTabellaComponent implements AfterViewInit {
       modalRef.componentInstance.dipendente = this.dipendente;
     }
 
-    /*
     modalRef.componentInstance.refreshData.subscribe(() => {
-      // Aggiorna i dati richiamando nuovamente ngOnInit
-      this.ngOnInit();
+      this.refreshData.emit();
     });
-    */
   }
 
   openDeleteDocumento(documento: Documento) {
@@ -77,8 +77,7 @@ export class DocumentiTabellaComponent implements AfterViewInit {
     modalRef.componentInstance.function = 'deleteDocumento';
 
     modalRef.componentInstance.refreshData.subscribe(() => {
-      //refresh page
-      window.location.reload();
+      this.refreshData.emit();
     });
   }
 

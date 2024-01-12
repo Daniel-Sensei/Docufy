@@ -9,6 +9,8 @@ import { DipendentiService } from '../../../service/dipendenti/dipendenti.servic
 import { Corso } from '../../../model/Corso';
 import { CorsiService } from '../../../service/corsi/corsi.service';
 import { Router, ActivatedRoute } from '@angular/router';
+import { AuthService } from '../../../service/auth/auth.service';
+import { AddCorsoModalComponent } from '../add-corso-modal/add-corso-modal.component';
 
 
 @Component({
@@ -19,25 +21,21 @@ import { Router, ActivatedRoute } from '@angular/router';
 
 export class DettaglioCorsoComponent {
   corso?: Corso;
-  dipendentiIscritti: Dipendente[] = [];
+  dipendentiIscritti?: Dipendente[];
 
   constructor(
     private modalService: NgbModal,
     public alert: AlertService,
-    private dipendentiService: DipendentiService,
     private route: ActivatedRoute,
     private router: Router,
-    private corsiService: CorsiService
-    ) { }
-
-  openAddDipendenteCorso(){
-    const modalRef = this.modalService.open(AddDipendenteCorsoModalComponent, {
-      size: 'md' // 'lg' sta per grande, puoi utilizzare anche 'sm' per piccolo
-    });
-  }
+    private corsiService: CorsiService,
+    public auth: AuthService
+  ) { }
 
   ngOnInit(): void {
     this.getCorso();
+
+    this.getDipendentiIscritti();
   }
 
   getCorso(): void {
@@ -47,6 +45,35 @@ export class DettaglioCorsoComponent {
       if (this.corso == undefined) {
         this.router.navigate(['/404']);
       }
+    });
+  }
+
+  getDipendentiIscritti(): void {
+    const id = Number(this.route.snapshot.paramMap.get('id'));
+    this.corsiService.getDipendentiIscritti(id).subscribe(dipendentiIscritti => {
+      this.dipendentiIscritti = dipendentiIscritti;
+    });
+  }
+
+  openUpdateCorsoModal() {
+    const modalRef = this.modalService.open(AddCorsoModalComponent, {
+      size: 'md' // 'lg' sta per grande, puoi utilizzare anche 'sm' per piccolo
+    });
+
+    modalRef.componentInstance.corso = this.corso;
+  }
+
+  openAddDipendentiCorso() {
+    const modalRef = this.modalService.open(AddDipendenteCorsoModalComponent, {
+      size: 'md' // 'lg' sta per grande, puoi utilizzare anche 'sm' per piccolo
+    });
+
+    modalRef.componentInstance.idCorso = this.corso?.id;
+
+    modalRef.componentInstance.refreshData.subscribe(() => {
+      // Aggiorna i dati richiamando nuovamente ngOnInit
+      this.dipendentiIscritti = [];
+      this.getDipendentiIscritti();
     });
   }
 

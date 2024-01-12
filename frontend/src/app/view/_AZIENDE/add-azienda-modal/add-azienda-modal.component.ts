@@ -2,6 +2,8 @@ import { Component } from '@angular/core';
 import { NgbActiveModal, NgbDateStruct } from '@ng-bootstrap/ng-bootstrap';
 import { FormBuilder, FormGroup, Validators } from '@angular/forms';
 import { AlertService } from '../../../service/alert/alert.service';
+import { FormCheck } from '../../../FormCheck';
+import { AziendeService } from '../../../service/aziende/aziende.service';
 
 @Component({
   selector: 'app-add-azienda-modal',
@@ -10,57 +12,82 @@ import { AlertService } from '../../../service/alert/alert.service';
 })
 export class AddAziendaModalComponent {
 
+  private file: File | undefined;
+
   addAziendaForm: FormGroup;
   model: NgbDateStruct | undefined;
 
   constructor(
-    //public activeModal: NgbActiveModal,
+    public activeModal: NgbActiveModal,
     private fb: FormBuilder,
-    //private alert: AlertService,
+    private azienteService: AziendeService,
     ) {
     this.addAziendaForm = this.fb.group({
-      ragione_sociale: ['', Validators.required],
-      partita_iva: ['', Validators.required],
+      ragioneSociale: ['', Validators.required],
+      piva: ['', Validators.required],
       email: ['', [Validators.required, Validators.email]],
       telefono: ['', Validators.required],
-      indirizzo: ['',Validators.required]
+      indirizzo: ['',Validators.required],
+      img: ['',],
     }, { validators: this.customValidation });
   }
   
   customValidation(group: FormGroup) {
-    const partita_ivaControllo = group.get('partita_iva');
+    const pivaControl = group.get('piva');
+    const emailControl = group.get('email');
+    const telefonoControl = group.get('telefono');
 
-  
-    if (partita_ivaControllo?.value) {
-      const partita_iva = partita_ivaControllo.value;
-      //Controlla la lunghezza della partita iva
-      if (partita_ivaControllo && partita_iva.length !== 11) {
-        partita_ivaControllo.setErrors({ 'invalidPIvaLength': true });
-      } else {
-        /*if (partita_iva.hasError('invalidCFLength')) {
-          partita_iva.setErrors(null);
-        }*/
+    if(pivaControl && emailControl && telefonoControl){
+
+      //piva validation
+      const piva = pivaControl.value;
+      if (piva && !FormCheck.checkPIva(piva)) {
+        pivaControl.setErrors({ 'invalidpiva': true });
+      }
+      else if(pivaControl.hasError('invalidpiva')){
+        pivaControl.setErrors(null);
       }
 
-      //Controlla che la partita iva sia composta solo da numeri
-      if (partita_ivaControllo && !/^[0-9]*$/.test(partita_iva)) {
-        partita_ivaControllo.setErrors({ 'invalidPIva': true });
-      } else {
-        /*if (partita_iva.hasError('invalidPIva')) {
-          partita_iva.setErrors(null);
-        }*/
+      //email validation
+      const email = emailControl.value;
+      if (email && !FormCheck.checkEmail(email)) {
+        emailControl.setErrors({ 'invalidEmail': true });
       }
-      
-      //Controlla che la partita iva sia valida
+      else if(emailControl.hasError('invalidEmail')){
+        emailControl.setErrors(null);
+      }
 
+      //telefono validation
+      const telefono = telefonoControl.value;
+      if (telefono && !FormCheck.checkTelefono(telefono)) {
+        telefonoControl.setErrors({ 'invalidTelefono': true });
+      }
+      else if(telefonoControl.hasError('invalidTelefono')){
+        telefonoControl.setErrors(null);
+      }
     }
+
   }
 
 
   submitForm() { 
+    this.activeModal.close(this.addAziendaForm.value);
     console.log(this.addAziendaForm.value);
+    this.azienteService.addAzienda(this.addAziendaForm.value, this.file).subscribe(
+      response => {
+        console.log("Azienda aggiunta con successo")
+        console.log(response);
+      },
+      error => {
+        console.log(error);
+        console.log("Errore nell'aggiunta dell'azienda" + error.status);
+      }
+    );
     //this.alert.success("Azienda aggiunta con successo");
-    //this.activeModal.close(this.addAziendaForm.value);
+  }
+
+  onFileSelected(event: any) {
+    this.file = event.target.files[0];
   }
 
 }

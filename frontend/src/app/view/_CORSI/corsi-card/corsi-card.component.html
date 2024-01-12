@@ -9,21 +9,7 @@
 
                 <!-- Icona relativa alla categoria -->
                 <div class="col-12 icon">
-                    <div *ngIf="corso.categoria=='salute e benessere'">
-                        <i class="bx bx-heart-circle"></i>
-                    </div>
-                    <div *ngIf="corso.categoria=='formazione'">
-                        <i class="bxs-book-open"></i>
-                    </div>
-                    <div *ngIf="corso.categoria=='aggiornamento'">
-                        <i class="bx bxl-mailchimp"></i>
-                    </div>
-                    <div *ngIf="corso.categoria=='marketing'">
-                        <i class="bx bxs-game"></i>
-                    </div>
-                    <div *ngIf="corso.categoria=='sicurezza'">
-                        <i class="bx bxl-mailchimp"></i>
-                    </div>
+                    <app-corsi-icon [categoria]="corso.categoria"></app-corsi-icon>
                 </div>
 
                 <div class="col-12 c-details">
