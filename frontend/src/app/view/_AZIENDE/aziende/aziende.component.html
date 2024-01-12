@@ -23,6 +23,6 @@
         </div>
     </div> <!-- End Margin -->
 
-    <app-aziende-tabella *ngIf="aziende && aziende.length > 0" [aziende]="aziende"></app-aziende-tabella>
+    <app-aziende-tabella *ngIf="aziende && aziende.length > 0" [aziende]="aziende" (refreshData)="updateAziende()"></app-aziende-tabella>
 
 </div>

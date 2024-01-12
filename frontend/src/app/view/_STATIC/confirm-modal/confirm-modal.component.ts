@@ -9,6 +9,8 @@ import { Dipendente } from '../../../model/Dipendente';
 import { Documento } from '../../../model/Documento';
 import { DocumentiService } from '../../../service/documenti/documenti.service';
 import { Output, EventEmitter } from '@angular/core';
+import { Azienda } from '../../../model/Azienda';
+import { AziendeService } from '../../../service/aziende/aziende.service';
 
 @Component({
   selector: 'app-confirm-modal',
@@ -22,13 +24,15 @@ export class ConfirmModalComponent {
   @Input() function?: string;
   @Input() dipendente?: Dipendente;
   @Input() documento?: Documento;
+  @Input() azienda?: Azienda;
 
   constructor(
     public activeModal: NgbActiveModal,
     private router: Router,
     private alert: AlertService,
     private dipendentiService: DipendentiService,
-    private documentiService: DocumentiService) { }
+    private documentiService: DocumentiService,
+    private aziendeService: AziendeService) { }
 
   submit() {
     if (this.function == 'deleteImgDipendente') {
@@ -39,6 +43,9 @@ export class ConfirmModalComponent {
     }
     else if (this.function == 'deleteDocumento') {
       this.deleteDocumento();
+    }
+    else if (this.function == 'deleteAzienda') {
+      this.deleteAzienda();
     }
 
 
@@ -97,6 +104,25 @@ export class ConfirmModalComponent {
         },
         error => {
           this.alert.setDocumentAlert('Errore durante la rimozione del documento', 'danger')
+        }
+      );
+    }
+  }
+
+  private deleteAzienda() {
+    if (this.azienda != undefined ) {
+      this.aziendeService.deleteAzienda(this.azienda.piva).subscribe(
+        data => {
+          console.log("Azienda rimossa con successo");
+          this.alert.setMessage('Azienda ' + this.azienda?.ragioneSociale +  ' rimossa con successo')
+          this.alert.setSuccessAlert();
+          this.refreshData.emit();
+        },
+        error => {
+          console.log("Errore durante la rimozione dell'azienda");
+          this.alert.setMessage('Errore durante la rimozione dell\'azienda')
+          this.alert.setDangerAlert();
+          this.refreshData.emit();
         }
       );
     }

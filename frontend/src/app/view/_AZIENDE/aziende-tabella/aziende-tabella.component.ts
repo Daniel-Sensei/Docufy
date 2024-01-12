@@ -2,9 +2,13 @@ import { AfterViewInit, Component, ViewChild, Input, ChangeDetectorRef } from '@
 
 import { Azienda } from '../../../model/Azienda';
 
-import {MatPaginator} from '@angular/material/paginator';
-import {MatSort} from '@angular/material/sort';
-import {MatTableDataSource} from '@angular/material/table';
+import { MatPaginator } from '@angular/material/paginator';
+import { MatSort } from '@angular/material/sort';
+import { MatTableDataSource } from '@angular/material/table';
+import { NgbModal } from '@ng-bootstrap/ng-bootstrap';
+import { ConfirmModalComponent } from '../../_STATIC/confirm-modal/confirm-modal.component';
+import { EventEmitter } from '@angular/core';
+import { Output } from '@angular/core';
 
 @Component({
   selector: 'app-aziende-tabella',
@@ -19,8 +23,14 @@ export class AziendeTabellaComponent {
   @ViewChild(MatSort) sort!: MatSort;
 
   @Input() aziende: Azienda[] = [];
+  @Output() refreshData: EventEmitter<void> = new EventEmitter<void>();
 
-  constructor(private cdr: ChangeDetectorRef) {
+
+  constructor
+    (
+      private modalService: NgbModal,
+      private cdr: ChangeDetectorRef
+    ) {
     this.dataSource = new MatTableDataSource(this.aziende);
   }
 
@@ -33,6 +43,21 @@ export class AziendeTabellaComponent {
     }
     this.cdr.detectChanges();
   }
+
+  openDeleteAzienda(azienda: Azienda) {
+    const modalRef = this.modalService.open(ConfirmModalComponent, {
+      size: 'md' // 'lg' sta per grande, puoi utilizzare anche 'sm' per piccolo
+    });
+
+    // Passa il this.dipendente al modal
+    modalRef.componentInstance.azienda = azienda;
+    modalRef.componentInstance.function = 'deleteAzienda';
+
+    modalRef.componentInstance.refreshData.subscribe(() => {
+      this.refreshData.emit();
+    });
+  }
+
 
 
 }
