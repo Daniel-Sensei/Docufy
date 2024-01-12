@@ -348,6 +348,11 @@ public class UserC extends User
     }
 
     @Override
+    public ResponseEntity<List<Dipendente>> getDipendentiNonIscritti(Long idCorso){
+        return new ResponseEntity<>(HttpStatus.UNAUTHORIZED);
+    }
+
+    @Override
     public ResponseEntity<String> aggiungiDipendete(MultipartFile json, MultipartFile file) {
         return new ResponseEntity<>(HttpStatus.UNAUTHORIZED);
     }

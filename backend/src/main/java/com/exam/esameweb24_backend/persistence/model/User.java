@@ -100,6 +100,8 @@ public class User {
 
     public ResponseEntity<List<Dipendente>> getDipendentiByCorso(Long idCorso){return null;}
 
+    public ResponseEntity<List<Dipendente>> getDipendentiNonIscritti(Long idCorso){return null;}
+
     public ResponseEntity<String> aggiungiDipendete(MultipartFile json, MultipartFile file){return null;}
 
     public ResponseEntity<String> modificaDipendente(MultipartFile json, MultipartFile file){return null;}
