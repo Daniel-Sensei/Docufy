@@ -259,6 +259,7 @@ public class UserC extends User
         Consulente c = DBManager.getInstance().getConsulenteDao().findByPIva(this.pIva);
         corso.setConsulente(c);
         corso.setAzienda(a);
+        corso.setPostiDisponibili(corso.getPosti());
 
         if(Utility.checkConsultantAgency(this.pIva, pIva)){
             if (DBManager.getInstance().getCorsoDao().insert(corso)!=null)
