@@ -22,8 +22,25 @@ export class AddDocumentModalComponent {
   @Output() refreshData: EventEmitter<void> = new EventEmitter<void>();
 
 
-  tipiDocumentoDipendente = ['Patente', 'Carta d\'identità', 'Passaporto', 'Codice fiscale', 'Carta di circolazione', 'Altro'];
-  tipiDocumentoAzienda = ['Certificato di iscrizione alla CCIAA', 'Certificato di iscrizione all\'INPS', 'Certificato di iscrizione all\'INAIL', 'Visura Camerale', 'Altro'];
+  tipiDocumentoDipendente = [
+    'Patente',
+    'Carta d\'identità',
+    'Passaporto',
+    'Carta di circolazione',
+    'Documento di soggiorno',
+    'Permessi di lavoro',
+    'Tessera sanitaria',
+    'Altro',
+  ];
+  tipiDocumentoAzienda = [
+    'Certificato di iscrizione alla CCIAA',
+    'Certificato di iscrizione all\'INPS',
+    'Certificato di iscrizione all\'INAIL',
+    'Visura camerale',
+    'Contratto sociale',
+    'Statuto aziendale',
+    'Altro',
+  ];
 
   arrayTipiDocumento: string[] = [];
 
