@@ -181,9 +181,8 @@ export class AddDocumentModalComponent {
     let pIva = this.auth.getCurrentPIva()!;
     this.documentiService.updateDocumentoAzienda(documentoData, this.file, pIva).subscribe(
       response => {
-        window.location.reload();
         this.alert.setDocumentAlert("Documento aggiornato con successo", "success");
-        //this.refreshData.emit();
+        this.refreshData.emit();
       },
       error => {
         this.alert.setDocumentAlert("Errore nella modifica del documento", "danger");
@@ -195,9 +194,8 @@ export class AddDocumentModalComponent {
     let cf = this.dipendente!.cf;
     this.documentiService.updateDocumentoDipendente(documentoData, this.file, cf).subscribe(
       response => {
-        window.location.reload();
         this.alert.setDocumentAlert("Documento aggiornato con successo", "success");
-        //this.refreshData.emit();
+        this.refreshData.emit();
       },
       error => {
         this.alert.setDocumentAlert("Errore nella modifica del documento", "danger");
