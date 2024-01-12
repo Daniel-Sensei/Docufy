@@ -13,5 +13,4 @@ public interface CorsoDao {
     public boolean update(Corso corso);
     public boolean delete(Long id);
     public boolean addDipendente(Long idCorso, Long idDipendente);
-    public boolean addAzienda(Long idCorso, String pIva);
 }

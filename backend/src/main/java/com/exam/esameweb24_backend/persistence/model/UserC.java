@@ -212,18 +212,18 @@ public class UserC extends User
 
         if(corso==null) return new ResponseEntity<>(HttpStatus.BAD_REQUEST);
 
-        if (DBManager.getInstance().getAziendaDao().findByPIva(pIva)==null)
-            return new ResponseEntity<>(HttpStatus.BAD_REQUEST);
+        Azienda a = DBManager.getInstance().getAziendaDao().findByPIva(pIva);
+
+        if (a==null) return new ResponseEntity<>(HttpStatus.BAD_REQUEST);
 
         Consulente c = DBManager.getInstance().getConsulenteDao().findByPIva(this.pIva);
         corso.setConsulente(c);
+        corso.setAzienda(a);
 
         if(Utility.checkConsultantAgency(this.pIva, pIva)){
-            if (DBManager.getInstance().getCorsoDao().insert(corso)!=null) {
-                if (DBManager.getInstance().getCorsoDao().addAzienda(corso.getId(), pIva))
+            if (DBManager.getInstance().getCorsoDao().insert(corso)!=null)
                     return new ResponseEntity<>(HttpStatus.OK);
-                else return new ResponseEntity<>(HttpStatus.INTERNAL_SERVER_ERROR);
-            } else return new ResponseEntity<>(HttpStatus.INTERNAL_SERVER_ERROR);
+            else return new ResponseEntity<>(HttpStatus.INTERNAL_SERVER_ERROR);
         } else return new ResponseEntity<>(HttpStatus.UNAUTHORIZED);
     }
 
@@ -237,21 +237,25 @@ public class UserC extends User
         // controllo che il corso esista
         if (c==null) return new ResponseEntity<>(HttpStatus.BAD_REQUEST);
 
+        Azienda a = DBManager.getInstance().getAziendaDao().findByPIva(pIva);
         // controllo che l'azienda esista
-        if (DBManager.getInstance().getAziendaDao().findByPIva(pIva)==null)
-            return new ResponseEntity<>(HttpStatus.BAD_REQUEST);
+        if (a==null) return new ResponseEntity<>(HttpStatus.BAD_REQUEST);
 
         // controllo che il consulente sia associato al corso da modificare
         if (!this.pIva.equals(c.getConsulente().getPIva()))
             return new ResponseEntity<>(HttpStatus.UNAUTHORIZED);
 
         // controllo che l'azienda sia associata al corso da modificare
-        if(DBManager.getInstance().getCorsoDao().findByAgency(pIva).stream().noneMatch(cTemp -> cTemp.getId().equals(corso.getId())))
-            return new ResponseEntity<>(HttpStatus.BAD_REQUEST);
+        if(!pIva.equals(c.getAzienda().getPIva()))
+            return new ResponseEntity<>(HttpStatus.UNAUTHORIZED);
+
+        if(!Utility.checkConsultantAgency(this.pIva, pIva))
+            return new ResponseEntity<>(HttpStatus.UNAUTHORIZED);
 
         if (DBManager.getInstance().getCorsoDao().update(corso))
             return new ResponseEntity<>(HttpStatus.OK);
-        else return new ResponseEntity<>(HttpStatus.INTERNAL_SERVER_ERROR);
+
+        return new ResponseEntity<>(HttpStatus.INTERNAL_SERVER_ERROR);
 
     }
 

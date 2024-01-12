@@ -21,6 +21,9 @@ public class Corso {
 
     private Boolean esameFinale;
 
+    private Azienda azienda;
+
+
     public Long getId() {
         return id;
     }
@@ -99,5 +102,13 @@ public class Corso {
 
     public void setEsameFinale(Boolean esameFinale) {
         this.esameFinale = esameFinale;
+    }
+
+    public Azienda getAzienda() {
+    	return azienda;
+    }
+
+    public void setAzienda(Azienda azienda) {
+    	this.azienda = azienda;
     }
 }

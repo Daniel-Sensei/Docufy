@@ -55,7 +55,7 @@ public class CorsoDaoPostgres implements CorsoDao {
     @Override
     public List<Corso> findByAgency(String pIva) {
         List<Corso> corsi = new ArrayList<>();
-        String query = "SELECT * from corsi WHERE id IN (SELECT corso FROM corsi_aziende WHERE azienda = ?)";
+        String query = "SELECT * from corsi WHERE azienda = ?";
         try {
             PreparedStatement st = conn.prepareStatement(query);
             st.setString(1, pIva);
@@ -125,6 +125,7 @@ public class CorsoDaoPostgres implements CorsoDao {
                 corso.setPosti(rs.getInt("posti"));
                 corso.setPostiDisponibili(rs.getInt("postidisponibili"));
                 corso.setEsameFinale(rs.getBoolean("esamefinale"));
+                corso.setAzienda(DBManager.getInstance().getAziendaDao().findByPIva(rs.getString("azienda")));
                 return corso;
             }
         } catch (SQLException e) {
@@ -135,7 +136,7 @@ public class CorsoDaoPostgres implements CorsoDao {
 
     @Override
     public Long insert(Corso corso) {
-        String query = "INSERT INTO corsi (nome, prezzo, descrizione, durata, consulente, categoria, posti, postidisponibili, esamefinale) VALUES (?, ?, ?, ?, ?, ?, ?, ?, ?) RETURNING id";
+        String query = "INSERT INTO corsi (nome, prezzo, descrizione, durata, consulente, categoria, posti, postidisponibili, esamefinale, azienda) VALUES (?, ?, ?, ?, ?, ?, ?, ?, ?, ?) RETURNING id";
         try {
             PreparedStatement st = conn.prepareStatement(query);
             st.setString(1, corso.getNome());
@@ -147,6 +148,7 @@ public class CorsoDaoPostgres implements CorsoDao {
             st.setInt(7, corso.getPosti());
             st.setInt(8, corso.getPostiDisponibili());
             st.setBoolean(9, corso.isFinalExam());
+            st.setString(10, corso.getAzienda().getPIva());
             ResultSet rs = st.executeQuery();
             if (rs.next()) {
                 return rs.getLong("id");
@@ -194,27 +196,11 @@ public class CorsoDaoPostgres implements CorsoDao {
 
     @Override
     public boolean addDipendente(Long idCorso, Long idDipendente) {
-        String query = "INSERT INTO corsi_dipendenti (corso, dipendente, data_inizio) VALUES (?, ?, ?)";
+        String query = "INSERT INTO corsi_dipendenti (corso, dipendente) VALUES (?, ?)";
         try {
             PreparedStatement st = conn.prepareStatement(query);
             st.setLong(1, idCorso);
             st.setLong(2, idDipendente);
-            st.setDate(3, new java.sql.Date(System.currentTimeMillis()));
-            st.executeUpdate();
-            return true;
-        } catch (SQLException e) {
-            throw new RuntimeException(e);
-        }
-    }
-
-    @Override
-    public boolean addAzienda(Long idCorso, String pIva) {
-        String query = "INSERT INTO corsi_aziende (corso, azienda, data_acquisto) VALUES (?, ?, ?)";
-        try {
-            PreparedStatement st = conn.prepareStatement(query);
-            st.setLong(1, idCorso);
-            st.setString(2, pIva);
-            st.setDate(3, new java.sql.Date(System.currentTimeMillis()));
             st.executeUpdate();
             return true;
         } catch (SQLException e) {

@@ -154,7 +154,7 @@ public class DipendenteDaoPostgres implements DipendenteDao {
     @Override
     public List<Dipendente> findByCorsoFrequentato(Long idCorso) {
         List<Dipendente> dipendenti = new ArrayList<>();
-        String query = "SELECT * FROM dipendenti WHERE id IN (SELECT dipendente FROM corsi_dipendenti WHERE corso = ? AND data_fine IS NULL)";
+        String query = "SELECT * FROM dipendenti WHERE id IN (SELECT dipendente FROM corsi_dipendenti WHERE corso = ?)";
         try {
             PreparedStatement st = conn.prepareStatement(query);
             st.setLong(1, idCorso);
@@ -169,7 +169,6 @@ public class DipendenteDaoPostgres implements DipendenteDao {
                 dipendente.setEmail(rs.getString("email"));
                 dipendente.setTelefono(rs.getString("telefono"));
                 dipendente.setResidenza(rs.getString("indirizzo"));
-                dipendente.setAzienda(DBManager.getInstance().getAziendaDao().findByPIva(rs.getString("azienda")));
                 dipendente.setDataAssunzione(rs.getDate("data_assunzione"));
                 dipendente.setRuolo(rs.getString("ruolo"));
                 dipendente.setImg(rs.getString("foto"));
