@@ -39,10 +39,10 @@ public class UserA extends User
     }
 
     @Override
-    public ResponseEntity<String> modificaAzienda(MultipartFile json, MultipartFile file) {
+    public ResponseEntity<String> modificaProfilo(MultipartFile json, MultipartFile file) {
 
         // controllo se è stata aggiunta un'immagine
-        boolean thereIsFile = !(file.getOriginalFilename().isBlank());
+        boolean thereIsFile = !(file.getOriginalFilename().equals("blob") || file.getOriginalFilename().isBlank() || file.isEmpty());
 
         // controllo se il json è vuoto
         if (json.isEmpty()) return new ResponseEntity<>(HttpStatus.BAD_REQUEST);

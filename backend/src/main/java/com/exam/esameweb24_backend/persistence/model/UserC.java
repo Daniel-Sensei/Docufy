@@ -98,8 +98,48 @@ public class UserC extends User
     }
 
     @Override
-    public ResponseEntity<String> modificaAzienda(MultipartFile json, MultipartFile file) {
-        return new ResponseEntity<>(HttpStatus.UNAUTHORIZED);
+    public ResponseEntity<String> modificaProfilo(MultipartFile json, MultipartFile file) {
+
+        // controllo se è stata aggiunta un'immagine
+        boolean thereIsFile = !(file.getOriginalFilename().equals("blob") || file.getOriginalFilename().isBlank() || file.isEmpty());
+
+        // controllo se il json è vuoto
+        if (json.isEmpty()) return new ResponseEntity<>(HttpStatus.BAD_REQUEST);
+
+        // converto il json in un'azienda
+        Consulente consulente = Utility.jsonToObject(json, Consulente.class);
+
+        if(!this.pIva.equals(consulente.getPIva())) return new ResponseEntity<>(HttpStatus.UNAUTHORIZED);
+
+        Consulente c = DBManager.getInstance().getConsulenteDao().findByPIva(this.pIva);
+
+        // controllo se l'email è stata modificata
+        if(!this.email.equals(consulente.getEmail())) {
+            this.email = consulente.getEmail();
+            if(DBManager.getInstance().getUserDao().updateEmail(this))
+                return new ResponseEntity<>(HttpStatus.OK);
+            else return new ResponseEntity<>(HttpStatus.INTERNAL_SERVER_ERROR);
+        }
+
+        if (thereIsFile) {
+            String filePath;
+            try {
+                //salvo il file nella cartella dei files
+                filePath = Utility.uploadFile(consulente.getPIva(), file);
+                // elimino il vecchio file se esiste
+                if(c.getImg()!=null) Utility.deleteFile(c.getImg());
+            } catch (IOException e) {
+                return new ResponseEntity<>(HttpStatus.INTERNAL_SERVER_ERROR);
+            }
+            // salvo il path del nuovo file nella nuova azienda
+            consulente.setImg(filePath);
+        }
+        else consulente.setImg(c.getImg());
+
+        // modifico l'azienda nel database
+        if (DBManager.getInstance().getConsulenteDao().update(consulente))
+            return new ResponseEntity<>(HttpStatus.OK);
+        else return new ResponseEntity<>(HttpStatus.INTERNAL_SERVER_ERROR);
     }
 
     @Override

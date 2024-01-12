@@ -1,7 +1,6 @@
 package com.exam.esameweb24_backend.controller.service;
 
 import com.exam.esameweb24_backend.controller.Utility;
-import com.exam.esameweb24_backend.persistence.DBManager;
 import com.exam.esameweb24_backend.persistence.model.Azienda;
 import com.exam.esameweb24_backend.persistence.model.User;
 import jakarta.servlet.http.HttpServletRequest;
@@ -56,14 +55,14 @@ public class AziendaService {
         return user.aggiungiAzienda(json, file);
     }
 
-    @PostMapping("/modifica-azienda")
-    public ResponseEntity<String> modificaAzienda(HttpServletRequest req, @RequestParam("azienda") MultipartFile json, @RequestParam("file") MultipartFile file){
+    @PostMapping("/modifica-profilo")
+    public ResponseEntity<String> modificaProfilo(HttpServletRequest req, @RequestParam("azienda") MultipartFile json, @RequestParam("file") MultipartFile file){
 
         User user = Utility.getRequestUser(req);
 
         if (user == null) return null;
 
-        return user.modificaAzienda(json, file);
+        return user.modificaProfilo(json, file);
     }
 
     @DeleteMapping("/rimuovi-azienda")

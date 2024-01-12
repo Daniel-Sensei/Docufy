@@ -54,7 +54,7 @@ public class User {
 
     public ResponseEntity<String> aggiungiAzienda(MultipartFile json, MultipartFile file){return null;}
 
-    public ResponseEntity<String> modificaAzienda(MultipartFile json, MultipartFile file){return null;}
+    public ResponseEntity<String> modificaProfilo(MultipartFile json, MultipartFile file){return null;}
 
     public ResponseEntity<String> rimuoviAzienda(String pIva){return null;}
 
