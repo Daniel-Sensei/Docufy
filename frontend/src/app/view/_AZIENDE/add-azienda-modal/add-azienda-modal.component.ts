@@ -1,9 +1,10 @@
-import { Component } from '@angular/core';
+import { Component, Output } from '@angular/core';
 import { NgbActiveModal, NgbDateStruct } from '@ng-bootstrap/ng-bootstrap';
 import { FormBuilder, FormGroup, Validators } from '@angular/forms';
 import { AlertService } from '../../../service/alert/alert.service';
 import { FormCheck } from '../../../FormCheck';
 import { AziendeService } from '../../../service/aziende/aziende.service';
+import { EventEmitter } from '@angular/core';
 
 @Component({
   selector: 'app-add-azienda-modal',
@@ -16,6 +17,8 @@ export class AddAziendaModalComponent {
 
   addAziendaForm: FormGroup;
   model: NgbDateStruct | undefined;
+
+  @Output() refreshData: EventEmitter<void> = new EventEmitter<void>();
 
   constructor(
     public activeModal: NgbActiveModal,
@@ -77,6 +80,7 @@ export class AddAziendaModalComponent {
       response => {
         console.log("Azienda aggiunta con successo")
         console.log(response);
+        this.refreshData.emit();
       },
       error => {
         console.log(error);

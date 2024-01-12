@@ -7,8 +7,16 @@
                     <th mat-header-cell *matHeaderCellDef mat-sort-header> Ragione Sociale </th>
                     <td mat-cell *matCellDef="let row">
                         <div class="d-flex align-items-center">
-                            <img src="https://mdbootstrap.com/img/new/avatars/8.jpg" alt=""
-                                style="width: 45px; height: 45px" class="rounded-circle" />
+
+                            <ng-container *ngIf="row.img && row.img.startsWith('blob'); else defaultImg">
+                                <img [src]="row.img" alt="" style="width: 45px; height: 45px" class="rounded-circle" />
+                            </ng-container>
+
+                            <ng-template #defaultImg>
+                                <img src="https://cdn4.iconfinder.com/data/icons/basic-flat-ui-extra-set-200-item/76/ui_ux_minimalist_button_office_building_headquarter-512.png"
+                                    alt="" style="width: 45px; height: 45px; background-color: #f0f0f0;" class="rounded-circle" />
+                            </ng-template>
+
                             <div class="ms-3">
                                 <p class="fw-bold mb-1">{{row.ragioneSociale}}</p>
                                 <p class="text-muted mb-0">{{row.email}}</p>
