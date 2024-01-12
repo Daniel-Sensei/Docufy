@@ -36,20 +36,26 @@
                                 style="border-top-left-radius: .5rem; border-bottom-left-radius: .5rem;">
 
 
-                                <div *ngIf="corso.categoria=='salute e benessere'">
-                                    <i class="big-icon bx bx-heart-circle"></i>
+                                <div *ngIf="corso.categoria=='Benessere'">
+                                    <i class="big-icon bi bi-heart"></i>
                                 </div>
-                                <div *ngIf="corso.categoria=='formazione'">
-                                    <i class="big-icon bxs-book-open"></i>
+                                <div *ngIf="corso.categoria=='Formazione'">
+                                    <i class="big-icon bi bi-book"></i>
                                 </div>
-                                <div *ngIf="corso.categoria=='aggiornamento'">
-                                    <i class="big-icon bx bxl-mailchimp"></i>
+                                <div *ngIf="corso.categoria=='Aggiornamento'">
+                                    <i class="big-icon bi bi-arrow-clockwise"></i>
                                 </div>
-                                <div *ngIf="corso.categoria=='marketing'">
-                                    <i class=" big-iconbx bxs-game"></i>
+                                <div *ngIf="corso.categoria=='Lingua'">
+                                    <i class="big-icon bi bi-translate"></i>
                                 </div>
-                                <div *ngIf="corso.categoria=='sicurezza'">
-                                    <i class="big-icon bx bxl-mailchimp"></i>
+                                <div *ngIf="corso.categoria=='Marketing'">
+                                    <i class="big-icon bi bi-graph-up"></i>
+                                </div>
+                                <div *ngIf="corso.categoria=='Sicurezza'">
+                                    <i class="big-icon bi bi-shield-check"></i>
+                                </div>
+                                <div *ngIf="corso.categoria=='Altro'">
+                                    <i class="big-icon bi bi-three-dots"></i>
                                 </div>
 
 
@@ -145,7 +151,7 @@
             </nav>
             <div class="margin">
                 <div class="mb-3">
-                    <button type="button" class="btn btn-primary" (click)="openAddDipendenteCorso()">
+                    <button *ngIf="this.auth.getRole()=='A'" type="button" class="btn btn-primary" (click)="openAddDipendenteCorso()">
                         Aggiungi Dipendenti
                     </button>
                 </div>
