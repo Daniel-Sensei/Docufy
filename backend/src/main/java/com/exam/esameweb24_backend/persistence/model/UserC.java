@@ -48,7 +48,7 @@ public class UserC extends User
     public ResponseEntity<String> aggiungiAzienda(MultipartFile json, MultipartFile file) {
 
         // controllo se è stata aggiunta un'immagine
-        boolean thereIsFile = !(file.getOriginalFilename().isBlank());
+        boolean thereIsFile = !(file.getOriginalFilename().equals("blob") || file.isEmpty());
 
         // se il json è vuoto allora non può usare il servizio
         if (json.isEmpty()) return new ResponseEntity<>(HttpStatus.BAD_REQUEST);
