@@ -224,7 +224,7 @@ public class UserC extends User
     }
 
     @Override
-    public ResponseEntity<String> aggiungiDipendentiCorso(Long idCorso, List<Long> dipendenti) {
+    public ResponseEntity<String> aggiungiDipendentiCorso(Long idCorso, List<Dipendente> dipendenti) {
         return new ResponseEntity<>(HttpStatus.UNAUTHORIZED);
     }
 

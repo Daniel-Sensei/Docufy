@@ -70,7 +70,7 @@ public class User {
 
     public ResponseEntity<Corso> getCorso(Long id){return null;}
 
-    public ResponseEntity<String> aggiungiDipendentiCorso(Long idCorso, List<Long> dipendenti){return null;}
+    public ResponseEntity<String> aggiungiDipendentiCorso(Long idCorso, List<Dipendente> dipendenti){return null;}
 
     public ResponseEntity<String> aggiungiCorso(Corso corso, String pIva){return null;}
 

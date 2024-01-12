@@ -194,7 +194,7 @@ public class CorsoDaoPostgres implements CorsoDao {
 
     @Override
     public boolean addDipendente(Long idCorso, Long idDipendente) {
-        String query = "INSERT INTO corsi_dipendenti (corso, dipendente, data_iscrizione) VALUES (?, ?, ?)";
+        String query = "INSERT INTO corsi_dipendenti (corso, dipendente, data_inizio) VALUES (?, ?, ?)";
         try {
             PreparedStatement st = conn.prepareStatement(query);
             st.setLong(1, idCorso);

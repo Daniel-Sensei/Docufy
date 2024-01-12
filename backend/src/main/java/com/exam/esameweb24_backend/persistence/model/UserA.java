@@ -129,16 +129,16 @@ public class UserA extends User
     }
 
     @Override
-    public ResponseEntity<String> aggiungiDipendentiCorso(Long idCorso, List<Long> dipendenti) {
+    public ResponseEntity<String> aggiungiDipendentiCorso(Long idCorso, List<Dipendente> dipendenti) {
 
         Corso c = DBManager.getInstance().getCorsoDao().findById(idCorso);
         if (c==null) return new ResponseEntity<>(HttpStatus.BAD_REQUEST);
 
-        for (Long id : dipendenti) {
-            Dipendente d = DBManager.getInstance().getDipendenteDao().findById(id);
+        for (Dipendente dip : dipendenti) {
+            Dipendente d = DBManager.getInstance().getDipendenteDao().findById(dip.getId());
             if (d==null) return new ResponseEntity<>(HttpStatus.BAD_REQUEST);
             if (!this.pIva.equals(d.getAzienda().getPIva())) return new ResponseEntity<>(HttpStatus.UNAUTHORIZED);
-            DBManager.getInstance().getCorsoDao().addDipendente(idCorso, id);
+            DBManager.getInstance().getCorsoDao().addDipendente(idCorso, dip.getId());
         }
         return new ResponseEntity<>(HttpStatus.OK);
     }

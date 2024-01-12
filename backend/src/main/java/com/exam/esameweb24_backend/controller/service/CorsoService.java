@@ -52,7 +52,7 @@ public class CorsoService {
     }
 
     @PostMapping("/dipendenti-corso")
-    public ResponseEntity<String> aggiungiDipendentiCorso(HttpServletRequest req, @RequestParam Long idCorso, @RequestBody List<Long> dipendenti){
+    public ResponseEntity<String> aggiungiDipendentiCorso(HttpServletRequest req, @RequestParam Long idCorso, @RequestBody List<Dipendente> dipendenti){
         User user = Utility.getRequestUser(req);
 
         if(user == null) return new ResponseEntity<>(HttpStatus.UNAUTHORIZED);
