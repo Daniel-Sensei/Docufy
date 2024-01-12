@@ -1,5 +1,6 @@
 package com.exam.esameweb24_backend.persistence.model;
 
+import com.exam.esameweb24_backend.controller.Utility;
 import com.exam.esameweb24_backend.persistence.DBManager;
 import org.springframework.http.HttpStatus;
 import org.springframework.http.ResponseEntity;
@@ -61,8 +62,9 @@ public class User {
 
     public ResponseEntity<String> rimuoviImmagineAzienda(String pIva){return null;}
 
-    public ResponseEntity<String> cambioPassword(String password) {
-        this.password = password;
+    public ResponseEntity<String> cambioPassword(String oldPw, String newPw) {
+        if(!Utility.checkPassword(oldPw, this)) return new ResponseEntity<>(HttpStatus.UNAUTHORIZED);
+        this.password = newPw;
         if (DBManager.getInstance().getUserDao().updatePassword(this))
             return new ResponseEntity<>(HttpStatus.OK);
         else return new ResponseEntity<>(HttpStatus.INTERNAL_SERVER_ERROR);

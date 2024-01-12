@@ -17,7 +17,7 @@ public class Auth {
         if(storedUser == null){
             return null;
         }
-        if(!checkPassword(user, storedUser)){
+        if(!Utility.checkPassword(user.getPassword(), storedUser)){
             return null;
         }
         user.setPIva(storedUser.getPIva());
@@ -30,17 +30,13 @@ public class Auth {
     }
 
     @PostMapping("/cambio-password")
-    public ResponseEntity<String> cambioPassword(HttpServletRequest req, @RequestBody String password){
+    public ResponseEntity<String> cambioPassword(HttpServletRequest req, @RequestBody String oldPw, @RequestBody String newPw){
 
         User user = Utility.getRequestUser(req);
 
         if (user == null) return null;
 
-        return user.cambioPassword(password);
-    }
-
-    private boolean checkPassword(User user, User storedUser){
-        return BCrypt.checkpw(user.getPassword(), storedUser.getPassword());
+        return user.cambioPassword(oldPw, newPw);
     }
 
     private AuthToken generateToken(User user, String role){

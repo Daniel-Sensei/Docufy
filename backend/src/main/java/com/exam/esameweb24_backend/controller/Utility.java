@@ -9,6 +9,7 @@ import com.exam.esameweb24_backend.persistence.model.User;
 import jakarta.servlet.http.HttpServletRequest;
 import org.springframework.http.HttpStatus;
 import org.springframework.http.ResponseEntity;
+import org.springframework.security.crypto.bcrypt.BCrypt;
 import org.springframework.web.multipart.MultipartFile;
 
 import java.io.File;
@@ -68,7 +69,9 @@ public class Utility {
         return (DBManager.getInstance().getDipendenteDao().findByCF(cf).getAzienda().getPIva().equals(agency));
     }
 
-
+    public static boolean checkPassword(String plainPW, User storedUser){
+        return BCrypt.checkpw(plainPW, storedUser.getPassword());
+    }
     public static User getRequestUser(HttpServletRequest req){
         return DBManager.getInstance().getUserDao().findByToken(getToken(req));
     }
