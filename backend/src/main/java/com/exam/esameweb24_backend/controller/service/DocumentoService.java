@@ -44,6 +44,36 @@ public class DocumentoService {
         return user.getDocumento(id);
     }
 
+    @GetMapping("/documenti-validi")
+    public ResponseEntity<List<Documento>> getDocumentiValidi(HttpServletRequest req, @RequestParam String pIva){
+
+        User user = Utility.getRequestUser(req);
+
+        if (user == null) return new ResponseEntity<>(HttpStatus.UNAUTHORIZED);
+
+        return user.getDocumentiValidi(pIva);
+    }
+
+    @GetMapping("/documenti-in-scadenza")
+    public ResponseEntity<List<Documento>> getDocumentiInScadenza(HttpServletRequest req, @RequestParam String pIva){
+
+        User user = Utility.getRequestUser(req);
+
+        if (user == null) return new ResponseEntity<>(HttpStatus.UNAUTHORIZED);
+
+        return user.getDocumentiInScadenza(pIva);
+    }
+
+    @GetMapping("/documenti-scaduti")
+    public ResponseEntity<List<Documento>> getDocumentiScaduti(HttpServletRequest req, @RequestParam String pIva){
+
+        User user = Utility.getRequestUser(req);
+
+        if (user == null) return new ResponseEntity<>(HttpStatus.UNAUTHORIZED);
+
+        return user.getDocumentiScaduti(pIva);
+    }
+
     @PostMapping("/aggiungi-documento-azienda")
     public ResponseEntity<String> aggiungiDocumentoAzienda(HttpServletRequest req, @RequestParam("documento") MultipartFile json, @RequestParam("file") MultipartFile file, @RequestParam String pIva){
 

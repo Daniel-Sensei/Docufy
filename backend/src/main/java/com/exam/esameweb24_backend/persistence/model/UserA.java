@@ -9,6 +9,7 @@ import org.springframework.web.multipart.MultipartFile;
 import java.io.IOException;
 import java.util.ArrayList;
 import java.util.List;
+import java.util.stream.Collectors;
 
 public class UserA extends User
 {
@@ -147,7 +148,7 @@ public class UserA extends User
     @Override
     public ResponseEntity<List<Corso>> getCorsiByAzienda(String pIva) {
         if(this.pIva.equals(pIva))
-            return new ResponseEntity<>(DBManager.getInstance().getCorsoDao().findByAgency(pIva), HttpStatus.OK);
+            return new ResponseEntity<>(DBManager.getInstance().getCorsoDao().findByAzienda(pIva), HttpStatus.OK);
         return new ResponseEntity<>(HttpStatus.UNAUTHORIZED);
     }
 
@@ -202,7 +203,7 @@ public class UserA extends User
     @Override
     public ResponseEntity<List<Dipendente>> getDipendentiByPIva(String pIva) {
         if(this.pIva.equals(pIva))
-            return new ResponseEntity<>(DBManager.getInstance().getDipendenteDao().findByAgency(pIva), HttpStatus.OK);
+            return new ResponseEntity<>(DBManager.getInstance().getDipendenteDao().findByAzienda(pIva), HttpStatus.OK);
         return new ResponseEntity<>(HttpStatus.UNAUTHORIZED);
     }
 
@@ -231,7 +232,7 @@ public class UserA extends User
         if (corso==null) return new ResponseEntity<>(HttpStatus.BAD_REQUEST);
         if(!this.pIva.equals(corso.getAzienda().getPIva())) return new ResponseEntity<>(HttpStatus.UNAUTHORIZED);
 
-        List<Dipendente> dipendenti = DBManager.getInstance().getDipendenteDao().findByAgency(this.pIva);
+        List<Dipendente> dipendenti = DBManager.getInstance().getDipendenteDao().findByAzienda(this.pIva);
         List<Dipendente> dipendentiCorso = DBManager.getInstance().getDipendenteDao().findByCorsoFrequentato(idCorso);
         dipendenti.removeAll(dipendentiCorso);
         return new ResponseEntity<>(dipendenti, HttpStatus.OK);
@@ -392,6 +393,33 @@ public class UserA extends User
                 (documento.getDipendente()!=null && this.pIva.equals(documento.getDipendente().getAzienda().getPIva())))
             return new ResponseEntity<>(documento, HttpStatus.OK);
         return new ResponseEntity<>(HttpStatus.UNAUTHORIZED);
+    }
+
+    @Override
+    public ResponseEntity<List<Documento>> getDocumentiValidi(String pIva) {
+        if(DBManager.getInstance().getAziendaDao().findByPIva(pIva)==null)
+            return new ResponseEntity<>(HttpStatus.BAD_REQUEST);
+        if(!this.pIva.equals(pIva))
+            return new ResponseEntity<>(HttpStatus.UNAUTHORIZED);
+        return getDocumentiByStato(pIva, "Valido");
+    }
+
+    @Override
+    public ResponseEntity<List<Documento>> getDocumentiInScadenza(String pIva) {
+        if(DBManager.getInstance().getAziendaDao().findByPIva(pIva)==null)
+            return new ResponseEntity<>(HttpStatus.BAD_REQUEST);
+        if(!this.pIva.equals(pIva))
+            return new ResponseEntity<>(HttpStatus.UNAUTHORIZED);
+        return getDocumentiByStato(pIva, "In Scadenza");
+    }
+
+    @Override
+    public ResponseEntity<List<Documento>> getDocumentiScaduti(String pIva) {
+        if(DBManager.getInstance().getAziendaDao().findByPIva(pIva)==null)
+            return new ResponseEntity<>(HttpStatus.BAD_REQUEST);
+        if(!this.pIva.equals(pIva))
+            return new ResponseEntity<>(HttpStatus.UNAUTHORIZED);
+        return getDocumentiByStato(pIva, "Scaduto");
     }
 
     @Override

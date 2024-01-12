@@ -224,7 +224,7 @@ public class UserC extends User
     @Override
     public ResponseEntity<List<Corso>> getCorsiByAzienda(String pIva) {
         if(Utility.checkConsultantAgency(this.pIva, pIva))
-            return new ResponseEntity<>(DBManager.getInstance().getCorsoDao().findByAgency(pIva), HttpStatus.OK);
+            return new ResponseEntity<>(DBManager.getInstance().getCorsoDao().findByAzienda(pIva), HttpStatus.OK);
         return new ResponseEntity<>(HttpStatus.UNAUTHORIZED);
     }
 
@@ -323,7 +323,7 @@ public class UserC extends User
     @Override
     public ResponseEntity<List<Dipendente>> getDipendentiByPIva(String pIva) {
         if(Utility.checkConsultantAgency(this.pIva, pIva))
-            return new ResponseEntity<>(DBManager.getInstance().getDipendenteDao().findByAgency(pIva), HttpStatus.OK);
+            return new ResponseEntity<>(DBManager.getInstance().getDipendenteDao().findByAzienda(pIva), HttpStatus.OK);
         if (this.pIva.equals(pIva))
             return new ResponseEntity<>(HttpStatus.BAD_REQUEST);
         return new ResponseEntity<>(HttpStatus.UNAUTHORIZED);
@@ -404,6 +404,33 @@ public class UserC extends User
                 (documento.getDipendente()!=null && Utility.checkConsultantAgency(this.pIva, documento.getDipendente().getAzienda().getPIva())))
             return new ResponseEntity<>(documento, HttpStatus.OK);
         return new ResponseEntity<>(HttpStatus.UNAUTHORIZED);
+    }
+
+    @Override
+    public ResponseEntity<List<Documento>> getDocumentiValidi(String pIva) {
+        if(DBManager.getInstance().getAziendaDao().findByPIva(pIva)==null)
+            return new ResponseEntity<>(HttpStatus.BAD_REQUEST);
+        if(!Utility.checkConsultantAgency(this.pIva, pIva))
+            return new ResponseEntity<>(HttpStatus.UNAUTHORIZED);
+        return getDocumentiByStato(pIva, "Valido");
+    }
+
+    @Override
+    public ResponseEntity<List<Documento>> getDocumentiInScadenza(String pIva) {
+        if(DBManager.getInstance().getAziendaDao().findByPIva(pIva)==null)
+            return new ResponseEntity<>(HttpStatus.BAD_REQUEST);
+        if(!Utility.checkConsultantAgency(this.pIva, pIva))
+            return new ResponseEntity<>(HttpStatus.UNAUTHORIZED);
+        return getDocumentiByStato(pIva, "In Scadenza");
+    }
+
+    @Override
+    public ResponseEntity<List<Documento>> getDocumentiScaduti(String pIva) {
+        if(DBManager.getInstance().getAziendaDao().findByPIva(pIva)==null)
+            return new ResponseEntity<>(HttpStatus.BAD_REQUEST);
+        if(!Utility.checkConsultantAgency(this.pIva, pIva))
+            return new ResponseEntity<>(HttpStatus.UNAUTHORIZED);
+        return getDocumentiByStato(pIva, "Scaduto");
     }
 
     @Override
