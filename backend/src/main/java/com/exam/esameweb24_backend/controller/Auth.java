@@ -2,11 +2,10 @@ package com.exam.esameweb24_backend.controller;
 
 import com.exam.esameweb24_backend.persistence.DBManager;
 import com.exam.esameweb24_backend.persistence.model.User;
+import jakarta.servlet.http.HttpServletRequest;
+import org.springframework.http.ResponseEntity;
 import org.springframework.security.crypto.bcrypt.BCrypt;
-import org.springframework.web.bind.annotation.CrossOrigin;
-import org.springframework.web.bind.annotation.PostMapping;
-import org.springframework.web.bind.annotation.RequestBody;
-import org.springframework.web.bind.annotation.RestController;
+import org.springframework.web.bind.annotation.*;
 
 @RestController
 @CrossOrigin("http://localhost:4200")
@@ -28,6 +27,16 @@ public class Auth {
         else {
             return generateToken(user, "A");
         }
+    }
+
+    @PostMapping("/cambio-password")
+    public ResponseEntity<String> cambioPassword(HttpServletRequest req, @RequestBody String password){
+
+        User user = Utility.getRequestUser(req);
+
+        if (user == null) return null;
+
+        return user.cambioPassword(password);
     }
 
     private boolean checkPassword(User user, User storedUser){
