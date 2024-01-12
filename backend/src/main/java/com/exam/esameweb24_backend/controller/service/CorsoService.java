@@ -33,6 +33,15 @@ public class CorsoService {
         return user.getCorsiByDipendente(id);
     }
 
+    @GetMapping("/dipendenti-iscritti-corso")
+    public ResponseEntity<List<Dipendente>> getDipendentiByCorso(HttpServletRequest req, @RequestParam Long id){
+        User user = Utility.getRequestUser(req);
+
+        if(user == null) return new ResponseEntity<>(HttpStatus.UNAUTHORIZED);
+
+        return user.getDipendentiByCorso(id);
+    }
+
     @GetMapping("/corso")
     public ResponseEntity<Corso> getCorso(HttpServletRequest req, @RequestParam Long id){
         User user = Utility.getRequestUser(req);
