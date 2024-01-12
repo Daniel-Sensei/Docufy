@@ -13,10 +13,19 @@
     <div class="row">
       <div class="col-xl-4">
 
-        <div class="card" *ngIf="azienda!=null">
+        <div class="card" *ngIf="azienda!=null && isInitialized">
           <div class="card-body profile-card pt-4 d-flex flex-column align-items-center">
 
-            <img src="assets/img/profile-img.jpg" alt="Profile" class="rounded-circle">
+            <ng-container *ngIf="azienda.img && azienda.img.startsWith('blob'); else defaultImg">
+              <img [src]="azienda.img" alt="" class="rounded-circle" />
+            </ng-container>
+
+            <ng-template #defaultImg>
+              <img
+                src="https://cdn4.iconfinder.com/data/icons/basic-flat-ui-extra-set-200-item/76/ui_ux_minimalist_button_office_building_headquarter-512.png"
+                alt="" class="rounded-circle" />
+            </ng-template>
+
             <h2>{{azienda.ragioneSociale}}</h2>
             <h3>{{azienda.piva}}</h3>
           </div>
@@ -86,10 +95,14 @@
                   <div class="row mb-3">
                     <label for="company" class="col-md-4 col-lg-3 col-form-label">Ragione Sociale</label>
                     <div class="col-md-8 col-lg-9">
-                      <input formControlName="ragione_sociale" name="ragioneSociale" type="text" class="form-control"
-                        id="ragioneSociale" (input)="controllaModifiche()" [class.is-invaid]="modificaProfiloForm.get('ragione_sociale')?.invalid && modificaProfiloForm.get('ragione_sociale')">
-                        <div *ngIf="modificaProfiloForm.get('ragione_sociale')?.invalid && modificaProfiloForm.get('ragione_sociale')?.touched" class="invalid-feedback"></div>
-                      
+                      <input formControlName="ragioneSociale" type="text" class="form-control"
+                        [class.is-invalid]="modificaProfiloForm.get('ragioneSociale')?.invalid && modificaProfiloForm.get('ragioneSociale')?.touched">
+                      <div
+                        *ngIf="modificaProfiloForm.get('ragioneSociale')?.invalid && modificaProfiloForm.get('ragioneSociale')?.touched"
+                        class="invalid-feedback">
+                        Campo obbligatorio.
+                      </div>
+
                     </div>
                   </div>
 
@@ -97,19 +110,25 @@
                     <label for="Email" class="col-md-4 col-lg-3 col-form-label">Email</label>
                     <div class="col-md-8 col-lg-9">
                       <input formControlName="email" name="email" type="email" class="form-control" id="Email"
-                        (input)="controllaModifiche()" [class.is-invalid]="modificaProfiloForm.get('email')?.invalid && modificaProfiloForm.get('email')?.touched"> <!--value={{azienda.email}}-->
-                        <div *ngIf="modificaProfiloForm.get('email')?.invalid && modificaProfiloForm.get('email')?.touched" class="invalid-feedback">
-                          Email non valida
-                        </div> 
+                        [class.is-invalid]="modificaProfiloForm.get('email')?.invalid && modificaProfiloForm.get('email')?.touched">
+                      <!--value={{azienda.email}}-->
+                      <div
+                        *ngIf="modificaProfiloForm.get('email')?.invalid && modificaProfiloForm.get('email')?.touched"
+                        class="invalid-feedback">
+                        Email non valida
                       </div>
+                    </div>
                   </div>
 
                   <div class="row mb-3">
                     <label for="Address" class="col-md-4 col-lg-3 col-form-label">Indirizzo</label>
                     <div class="col-md-8 col-lg-9">
                       <input formControlName="indirizzo" name="address" type="text" class="form-control" id="Address"
-                        (input)="controllaModifiche()" [class.is-invalid]="modificaProfiloForm.get('indirizzo')?.invalid && modificaProfiloForm.get('indirizzo')?.touched"> <!--value={{azienda.indirizzo}}-->
-                        <div *ngIf="modificaProfiloForm.get('indirizzo')?.invalid && modificaProfiloForm.get('indirizzo')?.touched" class="invalid-feedback">
+                        [class.is-invalid]="modificaProfiloForm.get('indirizzo')?.invalid && modificaProfiloForm.get('indirizzo')?.touched">
+                      <!--value={{azienda.indirizzo}}-->
+                      <div
+                        *ngIf="modificaProfiloForm.get('indirizzo')?.invalid && modificaProfiloForm.get('indirizzo')?.touched"
+                        class="invalid-feedback">
                         Indirizzo non valido</div>
                     </div>
                   </div>
@@ -118,25 +137,21 @@
                     <label for="Phone" class="col-md-4 col-lg-3 col-form-label">Telefono</label>
                     <div class="col-md-8 col-lg-9">
                       <input formControlName="telefono" name="text" type="text" class="form-control" id="Phone"
-                        (input)="controllaModifiche()" [class.is-invalid]="modificaProfiloForm.get('telefono')?.invalid && modificaProfiloForm.get('telefono')?.touched"> <!--value={{azienda.telefono}}-->
-                        <div *ngIf="modificaProfiloForm.get('telefono')?.invalid && modificaProfiloForm.get('telefono')?.touched"
-                          class="invalid-feedback">
-                          Telefono non valido
-                        </div>
+                        [class.is-invalid]="modificaProfiloForm.get('telefono')?.invalid && modificaProfiloForm.get('telefono')?.touched">
+                      <!--value={{azienda.telefono}}-->
+                      <div
+                        *ngIf="modificaProfiloForm.get('telefono')?.invalid && modificaProfiloForm.get('telefono')?.touched"
+                        class="invalid-feedback">
+                        Telefono non valido
                       </div>
-                   
-                  </div>
-
-                  <div class="row mb-3">
-                    <label for="profileImage" class="col-md-4 col-lg-3 col-form-label">Immagine Profilo</label>
-                    <div class="col-md-8 col-lg-9">
-                      <input formControlName="img" type="file" class="form-control" id="file" accept="image/*" (input)="controllaModifiche()" [class.is-invalid]="modificaProfiloForm.get('img')?.invalid && modificaProfiloForm.get('img')?.touched">
-                      <div *ngIf="modificaProfiloForm.get('img')?.invalid && modificaProfiloForm.get('img')?.touched" class="invalid-feedback"></div>
                     </div>
+
                   </div>
 
                   <div class="text-center">
-                    <button type="submit" class="btn btn-primary" [disabled]="!modificato || modificaProfiloForm.invalid" (click)="salvaModifiche()" >Salva cambiamenti</button> <!-- abilita il bottone solo quando qualche label è stat modificata-->
+                    <button type="submit" class="btn btn-primary" [disabled]="modificaProfiloForm.invalid"
+                      (click)="salvaModifiche()">Salva
+                      cambiamenti</button> <!-- abilita il bottone solo quando qualche label è stat modificata-->
                   </div>
                 </form><!-- End Profile Edit Form -->
 
@@ -144,34 +159,57 @@
 
               <div class="tab-pane fade pt-3" id="profile-change-password">
                 <!-- CHANGE PASSWORD FORM -->
-                <form [formGroup]="modificaPasswordForm" (ngSubmit)="modificaPassword()" novalidate>
+                <form [formGroup]="modificaPasswordForm" novalidate>
+
                   <div class="row mb-3">
                     <label for="currentPassword" class="col-md-4 col-lg-3 col-form-label">Password Attuale</label>
                     <!--confronto con la veccia password-->
                     <div class="col-md-8 col-lg-9">
-                      <input formControlName="password" name="password" type="password" class="form-control" id="currentPassword" [class.is-invalid]="modificaPasswordForm.get('password')?.invalid && modificaPasswordForm.get('passowrd')?.touched">
-                      <div *ngIf="modificaPasswordForm.get('password')?.invalid && modificaPasswordForm.get('password')?.touched" class="invalid-feedback"></div>
+                      <input formControlName="password" name="password" type="password" class="form-control"
+                        id="currentPassword"
+                        [class.is-invalid]="modificaPasswordForm.get('password')?.invalid && modificaPasswordForm.get('password')?.touched">
+                      <div
+                        *ngIf="modificaPasswordForm.get('password')?.invalid && modificaPasswordForm.get('password')?.touched"
+                        class="invalid-feedback">
+                        Vecchia password obbligatoria.
+                      </div>
                     </div>
                   </div>
+
                   <div class="row mb-3">
                     <label for="newPassword" class="col-md-4 col-lg-3 col-form-label">Nuova
                       Password</label><!--confronto con la vecchia password e con tutti i controlli generali sulla password-->
                     <div class="col-md-8 col-lg-9">
-                      <input formControlName="nuova_password" name="newpassword" type="password" class="form-control" id="newPassword" [class.is-invalid]="modificaPasswordForm.get('nuova_password')?.invalid && modificaPasswordForm.get('nuova_password')?.touched">
-                      <div *ngIf="modificaPasswordForm.get('nuova_password')?.invalid && modificaPasswordForm.get('nuova_password')?.touched" class="invalid-feedback"></div>
+                      <input formControlName="nuovaPassword" name="newpassword" type="password" class="form-control"
+                        id="newPassword"
+                        [class.is-invalid]="modificaPasswordForm.get('nuovaPassword')?.invalid && modificaPasswordForm.get('nuovaPassword')?.touched">
+                      <div
+                        *ngIf="modificaPasswordForm.get('nuovaPassword')?.invalid && modificaPasswordForm.get('nuovaPassword')?.touched"
+                        class="invalid-feedback">
+                        La password deve contenere almeno 8 caratteri, una lettera maiuscola, una minuscola, un numero e
+                        un carattere speciale.
+                      </div>
                     </div>
                   </div>
+
                   <div class="row mb-3">
                     <label for="renewPassword" class="col-md-4 col-lg-3 col-form-label">Conferma Password</label>
                     <!--confronto le deu password-->
                     <div class="col-md-8 col-lg-9">
-                      <input formControlName="conferma_password" name="renewpassword" type="password" class="form-control" id="renewPassword" [class.is-invalid]="modificaPasswordForm.get('conferma_password')?.invalid && modificaPasswordForm.get('conferma_password')?.touched">
-                      <div *ngIf="modificaPasswordForm.get('conferma_password')?.invalid && modificaPasswordForm.get('conferma_password')?.touched" class="invalid-feedback"> La password non corrisponde</div>
+                      <input formControlName="confermaPassword" name="renewpassword" type="password"
+                        class="form-control" id="renewPassword"
+                        [class.is-invalid]="modificaPasswordForm.get('confermaPassword')?.invalid && modificaPasswordForm.get('confermaPassword')?.touched">
+                      <div
+                        *ngIf="modificaPasswordForm.get('confermaPassword')?.invalid && modificaPasswordForm.get('confermaPassword')?.touched"
+                        class="invalid-feedback"> Le password non corrispondono.</div>
                     </div>
                   </div>
+
                   <div class="text-center">
-                    <button type="submit" class="btn btn-primary" [disabled]="modificaPasswordForm.invalid" (click)="modificaPassword()">Cambia Password</button>
+                    <button type="submit" class="btn btn-primary" [disabled]="modificaPasswordForm.invalid"
+                      (click)="modificaPassword()">Cambia Password</button>
                   </div>
+
                 </form><!-- End Change Password Form -->
               </div>
 

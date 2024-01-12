@@ -9,6 +9,10 @@ import { FileService } from '../../../service/file/file.service';
 import { FormCheck } from '../../../FormCheck';
 import { AuthService } from '../../../service/auth/auth.service';
 import { Router } from '@angular/router';
+import { Observable, of } from 'rxjs';
+import { catchError, map } from 'rxjs/operators';
+import { throwError } from 'rxjs';
+import { forkJoin } from 'rxjs';
 
 
 @Component({
@@ -17,8 +21,6 @@ import { Router } from '@angular/router';
   styleUrl: './profile.component.css'
 })
 export class ProfileComponent {
-  @Output() refreshData: EventEmitter<void> = new EventEmitter<void>();
-
   success: boolean = true; //PER IL CONTROLLO DELLA PASSWORD
   serverError: boolean = false;
 
@@ -27,8 +29,7 @@ export class ProfileComponent {
   modificaPasswordForm: FormGroup; //modifica
 
   azienda!: Azienda;
-  datiOriginali!: Azienda; //modifica
-  modificato = false;       //modifica
+  isInitialized: boolean = false; // Add the flag
 
   constructor(
     private aziendeService: AziendeService,
@@ -39,50 +40,63 @@ export class ProfileComponent {
     private router: Router,
   ) {
     this.modificaProfiloForm = this.fb.group({
-      ragione_sociale: ['', Validators.required],
+      ragioneSociale: ['', Validators.required],
       email: ['', [Validators.required, Validators.email]],
       telefono: ['', Validators.required],
       indirizzo: ['', Validators.required],
       img: ['']
-    }, { validators: this.customValidationMofidicaProfilo }
+    }, { validators: this.customValidationModificaProfilo }
     );
 
     this.modificaPasswordForm = this.fb.group({
-      password: ['', Validators.required, ],
-      nuova_password: ['', Validators.required],
-      conferma_password: ['', Validators.required]
+      password: ['', Validators.required],
+      nuovaPassword: ['', Validators.required],
+      confermaPassword: ['', Validators.required]
     }, { validators: this.customValidationPassword }
     );
   }
 
   ngOnInit(): void {
     this.getAzienda();
-
   }
 
-  customValidationMofidicaProfilo(group: FormGroup) {
-    const ragione_socialeControl = group.get('ragione_sociale');
+  setAziendaImage(): Observable<void[]> {
+    const observables: Observable<void>[] = [];
+
+    if (this.azienda.img !== '') {
+      const observable = this.fileService.getFile(this.azienda.img).pipe(
+        map((img) => {
+          let objectURL = URL.createObjectURL(img);
+          this.azienda.img = objectURL;
+        }),
+        catchError((err) => {
+          this.azienda.img = '';
+          return [];
+        })
+      );
+      observables.push(observable);
+    }else {
+      // If azienda.img is empty, create an empty observable
+      observables.push(of(null).pipe(map(() => {})));
+    }
+
+    // Use forkJoin to wait for all observables to complete
+    return forkJoin(observables);
+  }
+
+  customValidationModificaProfilo(group: FormGroup) {
     const emailControl = group.get('email');
     const telefonoControl = group.get('telefono');
 
-    if (ragione_socialeControl && emailControl && telefonoControl){
-      const ragione_sociale = ragione_socialeControl.value;
+    if (emailControl && telefonoControl) {
       const email = emailControl.value;
       const telefono = telefonoControl.value;
 
-      // Ragione sociale
-      if (ragione_sociale && !FormCheck.checkRagioneSociale(ragione_sociale) ) {
-        ragione_socialeControl.setErrors({ 'invalidragione_Sociale': true });
-      } else {
-        if (ragione_socialeControl.hasError('invalidragione_Sociale')) {
-          ragione_socialeControl.setErrors(null);
-        }
-      }
       // Email
       if (email && !FormCheck.checkEmail(email)) {
         emailControl.setErrors({ 'invalidEmail': true });
       } else {
-        if (emailControl.hasError('invalidEmail')) { 
+        if (emailControl.hasError('invalidEmail')) {
           emailControl.setErrors(null);
         }
       }
@@ -98,74 +112,49 @@ export class ProfileComponent {
   }
 
   customValidationPassword(group: FormGroup) {
-    const nuova_passwordControl = group.get('nuova_password');
-    const conferma_passwordfControl = group.get('conferma_password');
-    const PasswordControl = group.get('password');
+    const nuovaPasswordControl = group.get('nuovaPassword');
+    const confermaPasswordfControl = group.get('confermaPassword');
 
-    if (nuova_passwordControl && conferma_passwordfControl && PasswordControl){
-      const nuova_password = nuova_passwordControl.value;
-      const conferma_password = conferma_passwordfControl.value;
-      //const password = PasswordControl.value;
+    if (nuovaPasswordControl && confermaPasswordfControl) {
+      const nuovaPassword = nuovaPasswordControl.value;
+      const confermaPassword = confermaPasswordfControl.value;
 
-      // Password
-      //controllato con il service NON SERVE
-      /*if (password && !FormCheck.checkNome(password)) {
-        PasswordControl.setErrors({ 'invalidPassword': true });
+      // Verifica sicurezza password
+      if (nuovaPassword && !FormCheck.checkPassword(nuovaPassword)) {
+        nuovaPasswordControl.setErrors({ 'invalidPassword': true });
       } else {
-        if (PasswordControl.hasError('invalidPassword')) {
-          PasswordControl.setErrors(null);
+        if (nuovaPasswordControl.hasError('invalidPassword')) {
+          nuovaPasswordControl.setErrors(null);
         }
-      }*/
-      // Conferma password NON SERVE
-      /*if (conferma_password && !FormCheck.checkNome(conferma_password)) {
-        conferma_passwordfControl.setErrors({ 'invalidPassword': true });
-      } else {
-        if (conferma_passwordfControl.hasError('invalidPassword')) {
-          conferma_passwordfControl.setErrors(null);
-        }
-      }*/
+      }
+
       // Confronto password
-      if (nuova_password && conferma_password && !FormCheck.compareTwoPasswords(nuova_password, conferma_password)) {
-        conferma_passwordfControl.setErrors({ 'differentPasswords': true });
+      if (nuovaPassword && confermaPassword && !FormCheck.compareTwoPasswords(nuovaPassword, confermaPassword)) {
+        confermaPasswordfControl.setErrors({ 'differentPasswords': true });
       } else {
-        if (conferma_passwordfControl.hasError('differentPasswords')) {
-          conferma_passwordfControl.setErrors(null);
+        if (confermaPasswordfControl.hasError('differentPasswords')) {
+          confermaPasswordfControl.setErrors(null);
         }
       }
     }
   }
 
   getAzienda() {
+    this.azienda = undefined as any;
     this.aziendeService.getProfilo().subscribe(azienda => {
       this.azienda = azienda;
-      this.datiOriginali = { ...azienda }; //modifica
-      console.log(this.azienda)
-      this.setModificaProfiloForm(); //modifica
-    }) 
+      this.setModificaProfiloForm();
+      this.isInitialized = true;
+    })
   }
 
   setModificaProfiloForm() {
     this.modificaProfiloForm.patchValue({
-      ragione_sociale: this.azienda.ragioneSociale,
+      ragioneSociale: this.azienda.ragioneSociale,
       email: this.azienda.email,
+      telefono: this.azienda.telefono.trim(),
       indirizzo: this.azienda.indirizzo,
-      telefono: this.azienda.telefono,
     });
-  }
-
-  controllaModifiche() { // this.modificato = (JSON.stringify(this.azienda) != JSON.stringify(this.datiOriginali)) || this.azienda.img != ""; 
-    console.log("dati precedenti"+this.datiOriginali.ragioneSociale);
-    console.log("controllo"+this.modificaProfiloForm.value);
-    if (this.modificaProfiloForm.value.ragioneSociale != this.datiOriginali.ragioneSociale ||
-      this.modificaProfiloForm.value.email != this.datiOriginali.email ||
-      this.modificaProfiloForm.value.indirizzo != this.datiOriginali.indirizzo ||
-      this.modificaProfiloForm.value.telefono != this.datiOriginali.telefono ||
-      (this.modificaProfiloForm.value.img && this.modificaProfiloForm.value.img !== "") ||
-      this.file) {
-      this.modificato = true;
-    } else {
-      this.modificato = false;
-    }
   }
 
   onFileSelected(event: any) {
@@ -173,66 +162,45 @@ export class ProfileComponent {
   }
 
   salvaModifiche() {
-    console.log("salva modifiche");
     this.modificaAzienda(this.modificaProfiloForm.value, this.file); //modifica
-    this.datiOriginali = { ...this.azienda }; //modifica
-    console.log(this.modificaProfiloForm.value);
-    this.modificato = false;
   }
-  modificaPassword(){
-    console.log("modifica password");
-    this.auth.modificaPassword(this.modificaPasswordForm.get('password')?.value, this.modificaPasswordForm.get('nuova_password')?.value).
-      subscribe(
-        result => {
-          if (result) {
-            this.router.navigate(['/']);
-          }
-          else {
-            this.success = false;
-          }
-        },
-        error => {
-          this.serverError = true;
-          //this.router.navigate(['/profile']);
-        });
-  }
-  
 
   private modificaAzienda(aziendaData: any, file: File | undefined) {
     aziendaData.piva = this.azienda.piva;
-    if (this.file) {
-      this.aziendeService.modificaAzienda(aziendaData, this.file).subscribe(
-        response => {
-          // Imposta la variabile per mostrare l'alert di successo
-          this.alert.setMessage("Dipendente modificato con successo");
-          this.alert.setSuccessAlert();
-          this.refreshData.emit();
-        },
-        error => {
-          // Gestisci eventuali errori
-          this.alert.setMessage("Errore durante la modifica del dipendente");
-          this.alert.setDangerAlert();
-          this.refreshData.emit();
-        });
-    }
+    console.log(aziendaData);
+    this.aziendeService.modificaProfilo(aziendaData, this.file).subscribe(
+      response => {
+        // Imposta la variabile per mostrare l'alert di successo
+        console.log("Azienda modificata con successo")
+        this.alert.setMessage("Dipendente modificato con successo");
+        this.alert.setSuccessAlert();
+        this.getAzienda();
+      },
+      error => {
+        // Gestisci eventuali errori
+        console.log("Errore nella modifica dell'azienda" + error.status);
+        this.alert.setMessage("Errore durante la modifica del dipendente");
+        this.alert.setDangerAlert();
+      });
   }
 
-  //DA CONTINUARE 
-  /*submitForm() {
-    this.auth.modificaPassword(this.modificaPasswordForm.get('password')?.value, this.modificaPasswordForm.get('nuova_password')?.value).
-      subscribe(
-        result => {
-          if (result) {
-            this.router.navigate(['/']);
-          }
-          else {
-            this.success = false;
-          }
-        },
-        error => {
-          this.serverError = true;
-          //this.router.navigate(['/profile']);
-        });
-  }*/
+  modificaPassword() {
+    console.log(this.modificaPasswordForm.value);
+    this.auth.updatePassword(this.modificaPasswordForm.get('password')?.value, this.modificaPasswordForm.get('nuovaPassword')?.value).subscribe(
+      response => {
+        // Imposta la variabile per mostrare l'alert di successo
+        console.log("Password modificata con successo")
+        this.alert.setMessage("Password modificata con successo");
+        this.alert.setSuccessAlert();
+        this.modificaPasswordForm.reset();
+      },
+      error => {
+        // Gestisci eventuali errori
+        console.log("Errore nella modifica della password" + error.status);
+        this.alert.setMessage("Errore durante la modifica della password");
+        this.alert.setDangerAlert();
+      }
+    );
+  }
 
 }

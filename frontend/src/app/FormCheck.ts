@@ -8,11 +8,20 @@ export class FormCheck {
         return regex.test(nome);
     }
 
+    static checkPassword(password: string): boolean {
+        const regex = /^(?=.*[a-z])(?=.*[A-Z])(?=.*\d)(?=.*[@$!%*?&.])[A-Za-z\d@$!%*?&.]{8,}$/;
+        return regex.test(password);
+    }
+    
+    
+
     //ragione sociale
+    /*
     static checkRagioneSociale(ragione_sociale: string): boolean {
         const regex = /^[a-zA-Z0-9 ]+$/;
         return regex.test(ragione_sociale);
     }
+    */
 
     static checkTelefono(telefono: string): boolean {
         // Verifica se il numero contiene almeno 9 cifre (fisso) o 10 cifre (cellulare)

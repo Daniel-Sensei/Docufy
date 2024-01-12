@@ -6,7 +6,7 @@ import { AddDipendenteModalComponent } from '../add-dipendente-modal/add-dipende
 import { Dipendente } from '../../../model/Dipendente';
 import { DipendentiService } from '../../../service/dipendenti/dipendenti.service';
 import { FileService } from '../../../service/file/file.service';
-import { throwError, forkJoin, Observable, map, catchError } from 'rxjs';
+import { throwError, forkJoin, Observable, map, catchError, of } from 'rxjs';
 import { AuthService } from '../../../service/auth/auth.service';
 
 @Component({
@@ -75,6 +75,9 @@ export class DipendentiComponent {
           })
         );
         observables.push(observable);
+      }else {
+        // If azienda.img is empty, create an empty observable
+        observables.push(of(null).pipe(map(() => {})));
       }
     });
 

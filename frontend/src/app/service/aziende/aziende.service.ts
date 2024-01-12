@@ -53,7 +53,7 @@ export class AziendeService {
     return this.http.post(Settings.API_ENDPOINT + 'aggiungi-azienda', formData, { headers: this.auth.headers });
   }
 
-  modificaAzienda(azienda: Azienda, file: File): Observable<any> {
+  modificaProfilo(azienda: Azienda, file: File | undefined): Observable<any> {
     const formData: FormData = new FormData();
 
     formData.append('azienda', new Blob([JSON.stringify(azienda)], { type: 'application/json' }));
@@ -65,7 +65,7 @@ export class AziendeService {
       formData.append('file', new Blob());
     }
 
-    return this.http.post(Settings.API_ENDPOINT + 'modifica-azienda', formData, { headers: this.auth.headers });
+    return this.http.post(Settings.API_ENDPOINT + 'modifica-profilo', formData, { headers: this.auth.headers });
   }
 
   deleteAzienda(pIva: String): Observable<any> {
