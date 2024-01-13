@@ -76,6 +76,16 @@ public class DipendenteService {
         return user.aggiungiDipendete(json, file);
     }
 
+    @PostMapping("/aggiungi-dipendenti-da-file")
+    public ResponseEntity<String> aggiungiDipendentiDaFile(HttpServletRequest req, @RequestParam("file") MultipartFile file, @RequestParam("type") String fileType){
+
+        User user = Utility.getRequestUser(req);
+
+        if (user==null) return new ResponseEntity<>(HttpStatus.UNAUTHORIZED);
+
+        return user.aggiungiDipendentiDaFile(file, fileType);
+    }
+
     // Questo servizio permette di modificare un dipendente
     // Il suo utilizzo è riservato all'azienda per cui lavora il dipendente
     @PostMapping("/modifica-dipendente")

@@ -353,6 +353,16 @@ public class UserC extends User
     }
 
     @Override
+    public ResponseEntity<String> aggiungiDipendentiDaExcel(MultipartFile file){
+        return new ResponseEntity<>(HttpStatus.UNAUTHORIZED);
+    }
+
+    @Override
+    public ResponseEntity<String> aggiungiDipendentiDaCsv(MultipartFile file){
+        return new ResponseEntity<>(HttpStatus.UNAUTHORIZED);
+    }
+
+    @Override
     public ResponseEntity<String> aggiungiDipendete(MultipartFile json, MultipartFile file) {
         return new ResponseEntity<>(HttpStatus.UNAUTHORIZED);
     }
