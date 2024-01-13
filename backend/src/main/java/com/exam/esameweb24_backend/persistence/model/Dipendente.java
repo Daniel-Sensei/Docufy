@@ -1,6 +1,7 @@
 package com.exam.esameweb24_backend.persistence.model;
 
 import java.util.Date;
+import java.util.Objects;
 
 public class Dipendente {
 
@@ -122,5 +123,18 @@ public class Dipendente {
 
     public void setImg(String img) {
         this.img = img;
+    }
+
+    @Override
+    public boolean equals(Object o) {
+        if (this == o) return true;
+        if (o == null || getClass() != o.getClass()) return false;
+        Dipendente that = (Dipendente) o;
+        return Objects.equals(cf, that.cf);
+    }
+
+    @Override
+    public int hashCode() {
+        return Objects.hash(cf);
     }
 }
