@@ -34,7 +34,6 @@ export class AddDipendenteModalComponent {
     private fb: FormBuilder,
     private alert: AlertService,
     private dipendentiService: DipendentiService,
-    private fileService: FileService,
     private router: Router
   ) {
     this.addDipendenteForm = this.fb.group({
@@ -228,18 +227,12 @@ export class AddDipendenteModalComponent {
   private addDipendente(dipendenteData: any) {
     this.dipendentiService.addDipendente(dipendenteData, this.file).subscribe(
       response => {
+        this.alert.setAlertDipendenti("success", `Dipendente <strong>${dipendenteData.nome} ${dipendenteData.cognome}</strong> aggiunto con successo`);
         this.refreshData.emit();
-        // refresh page with the router
-        this.router.navigateByUrl('/', { skipLocationChange: true }).then(() => {
-          this.router.navigate(['/dipendenti']);
-        });
       },
       error => {
+        this.alert.setAlertDipendenti("danger", `Errore durante l'aggiunta del dipendente <strong>${dipendenteData.nome} ${dipendenteData.cognome}</strong>`);
         this.refreshData.emit();
-        // refresh page with the router
-        this.router.navigateByUrl('/', { skipLocationChange: true }).then(() => {
-          this.router.navigate(['/dipendenti']);
-        });
       }
     );
   }
@@ -248,9 +241,11 @@ export class AddDipendenteModalComponent {
     dipendenteData.id = this.dipendente?.id;
     this.dipendentiService.updateDipendente(dipendenteData, this.file).subscribe(
       result => {
+        this.alert.setAlertDipendenti("success", `Dipendente <strong>${dipendenteData.nome} ${dipendenteData.cognome}</strong> modificato con successo`);
         this.refreshData.emit();
       },
       error => {
+        this.alert.setAlertDipendenti("danger", `Errore durante la modifica del dipendente <strong>${dipendenteData.nome} ${dipendenteData.cognome}</strong>`);
         this.refreshData.emit();
       });
   }

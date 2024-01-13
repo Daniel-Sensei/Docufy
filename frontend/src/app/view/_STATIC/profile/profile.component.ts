@@ -172,13 +172,11 @@ export class ProfileComponent {
     console.log(aziendaData);
     this.aziendeService.modificaProfilo(aziendaData, this.file).subscribe(
       response => {
-        // Imposta la variabile per mostrare l'alert di successo
-        console.log("Azienda modificata con successo")
+        this.alert.setAlertProfilo('success', 'Modifiche salvate con successo');
         this.getAzienda();
       },
       error => {
-        // Gestisci eventuali errori
-        console.log("Errore nella modifica dell'azienda" + error.status);
+        this.alert.setAlertProfilo('danger', 'Errore nel salvataggio delle modifiche');
       });
   }
 
@@ -190,13 +188,11 @@ export class ProfileComponent {
     console.log(user);
     this.auth.updatePassword(user.oldPw, user.newPw).subscribe(
       response => {
-        // Imposta la variabile per mostrare l'alert di successo
-        console.log("Password modificata con successo")
+        this.alert.setAlertProfilo('success', 'Password modificata con successo');
         this.modificaPasswordForm.reset();
       },
       error => {
-        // Gestisci eventuali errori
-        console.log("Errore nella modifica della password" + error.status);
+        this.alert.setAlertProfilo('danger', 'Errore nel salvataggio delle modifiche');
       }
     );
   }

@@ -24,10 +24,9 @@
             <button (click)="openDeleteDipendente()" type="button" class="btn btn-danger" data-bs-toggle="modal">
                 Elimina Dipendente
             </button>
-
-            <app-alert></app-alert>
-
         </div>
+
+        <app-alert [page]="'Dipendenti'"></app-alert>
     </div>
 
     <section *ngIf="isInitialized || dipendente != undefined" class="mb-3">
@@ -122,7 +121,7 @@
             </button>
         </div>
 
-        <app-alert></app-alert>
+        <app-alert [page]="'Dipendenti'"></app-alert>
         
     </div> <!-- End Margin -->
 

@@ -78,10 +78,11 @@ export class AddDipendenteCorsoModalComponent implements OnInit {
 
     this.corsiService.addDipendentiCorso(this.idCorso, dipendenti).subscribe(
       (response) => {
-        //this.alert.setMessage("Dipendenti aggiunti con successo");
+        this.alert.setAlertCorsi("success", `Dipendenti aggiunti con successo`);
         this.refreshData.emit();
       },
       (error) => {
+        this.alert.setAlertCorsi("danger", `Errore durante l'aggiunta dei dipendenti`);
       }
     );
   }

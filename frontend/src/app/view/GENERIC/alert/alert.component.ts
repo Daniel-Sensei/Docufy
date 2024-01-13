@@ -1,4 +1,4 @@
-import { Component } from '@angular/core';
+import { Component, Input } from '@angular/core';
 import { AlertService } from '../../../service/alert/alert.service';
 
 @Component({
@@ -8,4 +8,7 @@ import { AlertService } from '../../../service/alert/alert.service';
 })
 export class AlertComponent {
   constructor(public alert: AlertService) { }
+
+  @Input() page!: string;
+
 }

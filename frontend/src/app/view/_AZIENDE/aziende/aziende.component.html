@@ -17,7 +17,7 @@
             </button>
         </div>
 
-        <app-alert></app-alert>
+        <app-alert [page]="'Aziende'"></app-alert>
     </div> <!-- End Margin -->
 
     <app-aziende-tabella *ngIf="isInitialized && aziende && aziende.length > 0" [aziende]="aziende" (refreshData)="updateAziende()"></app-aziende-tabella>

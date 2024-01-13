@@ -111,6 +111,11 @@ export class DipendentiDettagliComponent {
     // Passa il this.dipendente al modal
     modalRef.componentInstance.dipendente = this.dipendente;
     modalRef.componentInstance.function = 'deleteImgDipendente';
+
+    modalRef.componentInstance.refreshData.subscribe(() => {
+      // Aggiorna i dati richiamando nuovamente ngOnInit
+      this.ngOnInit();
+    });
   }
 
   openDeleteDipendente() {
@@ -121,6 +126,11 @@ export class DipendentiDettagliComponent {
     // Passa il this.dipendente al modal
     modalRef.componentInstance.dipendente = this.dipendente;
     modalRef.componentInstance.function = 'deleteDipendente';
+
+    modalRef.componentInstance.refreshData.subscribe(() => {
+      // Aggiorna i dati richiamando nuovamente ngOnInit
+      this.router.navigate(['/dipendenti']);
+    });
   }
 
   private formatItalianDate(date: string): string {

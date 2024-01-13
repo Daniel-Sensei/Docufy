@@ -44,8 +44,7 @@ export class DipendentiComponent {
         });
       },
       error => {
-        console.error('Errore nel recupero dei dipendenti:', error);
-        // Handle the error here, e.g., show a message to the user or redirect to an error page.
+        this.alert.setAlertDipendenti('danger', 'Errore nel recupero dei dipendenti');
       }
     );
   }
@@ -90,10 +89,7 @@ export class DipendentiComponent {
       size: 'md' // 'lg' sta per grande, puoi utilizzare anche 'sm' per piccolo
     });
 
-    // Puoi gestire eventi o dati passati al modale qui
-    // Ascolta l'evento emesso dal componente figlio
     modalRef.componentInstance.refreshData.subscribe(() => {
-      // Aggiorna i dati richiamando nuovamente ngOnInit
       this.dipendenti = [];
       this.ngOnInit();
     });

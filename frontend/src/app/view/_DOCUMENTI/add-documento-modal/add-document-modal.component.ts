@@ -167,9 +167,11 @@ export class AddDocumentModalComponent {
     let pIva = this.auth.getCurrentPIva()!;
     this.documentiService.addDocumentoAzienda(documentoData, this.file, pIva).subscribe(
       response => {
+        this.alert.setAlertDocumenti("success", `Documento <strong>${documentoData.nome}</strong> aggiunto con successo`);
         this.refreshData.emit();
       },
       error => {
+        this.alert.setAlertDocumenti("danger", `Errore durante l'aggiunta del documento <strong>${documentoData.nome}</strong>`);
       }
     );
   }
@@ -178,9 +180,11 @@ export class AddDocumentModalComponent {
     let cf = this.dipendente!.cf;
     this.documentiService.addDocumentoDipendente(documentoData, this.file, cf).subscribe(
       response => {
+        this.alert.setAlertDocumenti("success", `Documento <strong>${documentoData.nome}</strong> aggiunto con successo`);
         this.refreshData.emit();
       },
       error => {
+        this.alert.setAlertDocumenti("danger", `Errore durante l'aggiunta del documento <strong>${documentoData.nome}</strong>`);
       }
     );
   }

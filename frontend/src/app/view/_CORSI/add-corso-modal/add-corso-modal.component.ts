@@ -66,10 +66,9 @@ export class AddCorsoModalComponent {
   }
 
   private addCorso() {
-    console.log(this.addCorsoForm.value);
     this.corsiService.addCorso(this.addCorsoForm.value, this.auth.getCurrentPIva()!).subscribe(
       data => {
-        console.log("Corso aggiunto con successo");
+        this.alert.setAlertCorsi("success", `Corso <strong>${this.addCorsoForm.get("nome")?.value}</strong> aggiunto con successo`);
         this.refreshData.emit();
       },
       error => {
@@ -84,7 +83,7 @@ export class AddCorsoModalComponent {
     this.addCorsoForm.value.id = this.corso?.id;
     this.corsiService.updateCorso(this.addCorsoForm.value, this.auth.getCurrentPIva()!).subscribe(
       data => {
-        console.log("Corso modificato con successo");
+        this.alert.setAlertCorsi("success", `Corso <strong>${this.addCorsoForm.get("nome")?.value}</strong> modificato con successo`);
         this.refreshData.emit();
       },
       error => {

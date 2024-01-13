@@ -56,11 +56,11 @@ export class ConfirmModalComponent {
     if (this.dipendente != undefined ) {
       this.dipendentiService.deleteImgDipendente(this.dipendente.id).subscribe(
         data => {
-          this.router.navigateByUrl('/', { skipLocationChange: true }).then(() => {
-            this.router.navigate(['/dipendenti/' + this.dipendente?.id]);
-          });
+          this.alert.setAlertDipendenti("success", "Immagine rimossa con successo");
+          this.refreshData.emit();
         },
         error => {
+          this.alert.setAlertDipendenti("danger", "Errore durante la rimozione dell'immagine");
         }
       );
     }
@@ -70,12 +70,11 @@ export class ConfirmModalComponent {
     if (this.dipendente != undefined ) {
       this.dipendentiService.deleteDipendente(this.dipendente.id).subscribe(
         data => {
-          this.router.navigateByUrl('/', { skipLocationChange: true }).then(() => {
-            this.router.navigate(['/dipendenti']);
-          });
+          this.alert.setAlertDipendenti("success", `Dipendente <strong>${this.dipendente?.nome} ${this.dipendente?.cognome}</strong> rimosso con successo`);
+          this.refreshData.emit();
         },
         error => {
-
+          this.alert.setAlertDipendenti("danger", `Errore durante la rimozione del dipendente <strong>${this.dipendente?.nome} ${this.dipendente?.cognome}</strong>`);
         }
       );
     }
@@ -85,16 +84,11 @@ export class ConfirmModalComponent {
     if (this.documento != undefined ) {
       this.documentiService.deleteDocumento(this.documento.id).subscribe(
         data => {
+          this.alert.setAlertDocumenti("success", `Documento <strong>${this.documento?.nome}</strong> rimosso con successo`);
           this.refreshData.emit();
-          /*
-          
-          this.router.navigateByUrl('/', { skipLocationChange: true }).then(() => {
-            this.router.navigate(['/documenti']);
-          });
-          */
-          
         },
         error => {
+          this.alert.setAlertDocumenti("danger", `Errore durante la rimozione del documento <strong>${this.documento?.nome}</strong>`);
         }
       );
     }
@@ -104,11 +98,11 @@ export class ConfirmModalComponent {
     if (this.azienda != undefined ) {
       this.aziendeService.deleteAzienda(this.azienda.piva).subscribe(
         data => {
-          console.log("Azienda rimossa con successo");
+          this.alert.setAlertAziende("success", `Azienda <strong>${this.azienda?.ragioneSociale}</strong> rimossa con successo`);
           this.refreshData.emit();
         },
         error => {
-          console.log("Errore durante la rimozione dell'azienda");
+          this.alert.setAlertAziende("danger", `Errore durante la rimozione dell'azienda <strong>${this.azienda?.ragioneSociale}</strong>`);
           this.refreshData.emit();
         }
       );
