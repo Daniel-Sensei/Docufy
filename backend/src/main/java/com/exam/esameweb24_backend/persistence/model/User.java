@@ -104,6 +104,18 @@ public class User {
 
     public ResponseEntity<List<Dipendente>> getDipendentiNonIscritti(Long idCorso){return null;}
 
+    public ResponseEntity<String> aggiungiDipendentiDaFile(MultipartFile file, String fileType){
+        return switch (fileType) {
+            case "excel" -> aggiungiDipendentiDaExcel(file);
+            case "csv" -> aggiungiDipendentiDaCsv(file);
+            default -> new ResponseEntity<>(HttpStatus.BAD_REQUEST);
+        };
+    }
+
+    public ResponseEntity<String> aggiungiDipendentiDaExcel(MultipartFile file){return null;}
+
+    public ResponseEntity<String> aggiungiDipendentiDaCsv(MultipartFile file){return null;}
+
     public ResponseEntity<String> aggiungiDipendete(MultipartFile json, MultipartFile file){return null;}
 
     public ResponseEntity<String> modificaDipendente(MultipartFile json, MultipartFile file){return null;}

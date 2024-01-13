@@ -1,15 +1,17 @@
 package com.exam.esameweb24_backend.persistence.model;
 
+import com.exam.esameweb24_backend.controller.ExcelReader;
+import com.exam.esameweb24_backend.controller.CsvReader;
 import com.exam.esameweb24_backend.controller.Utility;
 import com.exam.esameweb24_backend.persistence.DBManager;
+import com.opencsv.exceptions.CsvValidationException;
 import org.springframework.http.HttpStatus;
 import org.springframework.http.ResponseEntity;
 import org.springframework.web.multipart.MultipartFile;
 
 import java.io.IOException;
-import java.util.ArrayList;
+import java.text.ParseException;
 import java.util.List;
-import java.util.stream.Collectors;
 
 public class UserA extends User
 {
@@ -236,6 +238,32 @@ public class UserA extends User
         List<Dipendente> dipendentiCorso = DBManager.getInstance().getDipendenteDao().findByCorsoFrequentato(idCorso);
         dipendenti.removeAll(dipendentiCorso);
         return new ResponseEntity<>(dipendenti, HttpStatus.OK);
+    }
+
+    @Override
+    public ResponseEntity<String> aggiungiDipendentiDaExcel(MultipartFile file){
+        try {
+            List<Dipendente> dipendenti = ExcelReader.excelFileToDipendenti(file, this.pIva);
+            for (Dipendente d : dipendenti) {
+                DBManager.getInstance().getDipendenteDao().insert(d);
+            }
+            return new ResponseEntity<>(HttpStatus.OK);
+        } catch (IOException | ParseException e) {
+            throw new RuntimeException(e); //TODO: dopo testing sostituire con return new ResponseEntity<>(HttpStatus.INTERNAL_SERVER_ERROR);
+        }
+    }
+
+    @Override
+    public ResponseEntity<String> aggiungiDipendentiDaCsv(MultipartFile file){
+        try {
+            List<Dipendente> dipendenti = CsvReader.csvFileToDipendenti(file, this.pIva);
+            for (Dipendente d : dipendenti) {
+                DBManager.getInstance().getDipendenteDao().insert(d);
+            }
+            return new ResponseEntity<>(HttpStatus.OK);
+        } catch (IOException | CsvValidationException e) {
+            throw new RuntimeException(e); //TODO: dopo testing sostituire con return new ResponseEntity<>(HttpStatus.INTERNAL_SERVER_ERROR);
+        }
     }
 
     @Override
