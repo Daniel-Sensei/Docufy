@@ -21,9 +21,9 @@ export class DashboardComponent {
     private corsiService: CorsiService) { }
 
   aziende?: Azienda[];
-  documentiValidi!: Documento[];
-  documentiInScadenza!: Documento[];
-  documentiScaduti!: Documento[];
+  documentiValidi?: Documento[];
+  documentiInScadenza?: Documento[];
+  documentiScaduti?: Documento[];
 
   documentiNonValidi: Documento[] = [];
   documentiInitiated: boolean = false;
@@ -62,8 +62,10 @@ export class DashboardComponent {
               documentiScaduti => {
                 this.documentiScaduti = documentiScaduti;
                 //aggiungi a this.documentiNonValidi tutti i documenti che non sono validi (in scadenza e scaduti)
-                this.documentiNonValidi = this.documentiNonValidi.concat(this.documentiInScadenza);
-                this.documentiNonValidi = this.documentiNonValidi.concat(this.documentiScaduti);
+                if (this.documentiInScadenza && this.documentiScaduti) {
+                  this.documentiNonValidi = this.documentiNonValidi.concat(this.documentiInScadenza);
+                  this.documentiNonValidi = this.documentiNonValidi.concat(this.documentiScaduti);
+                }
                 //ordina i documenti per data di scadenza
                 this.documentiNonValidi.sort((a, b) => (a.dataScadenza > b.dataScadenza) ? 1 : -1);
                 this.documentiInitiated = true;
@@ -82,6 +84,15 @@ export class DashboardComponent {
     }
 
     this.corsiService.getCorsiAcquistati(pIva).subscribe(corsi => {this.corsi = corsi;});
+  }
+
+  updateDocumenti(){
+    this.documentiValidi = undefined;
+    this.documentiInScadenza = undefined;
+    this.documentiScaduti = undefined;
+    this.documentiNonValidi = [];
+    this.documentiInitiated = false;
+    this.getDocumenti();
   }
 
   updateCorsi(){

@@ -13,7 +13,8 @@ import { EventEmitter } from '@angular/core';
   styleUrl: './operazioni-veloci.component.css'
 })
 export class OperazioniVelociComponent {
-  @Output() refreshData: EventEmitter<void> = new EventEmitter<void>();
+  @Output() refreshCorsi: EventEmitter<void> = new EventEmitter<void>();
+  @Output() refreshDocumenti: EventEmitter<void> = new EventEmitter<void>();
 
 
   constructor(public auth: AuthService,
@@ -36,6 +37,10 @@ export class OperazioniVelociComponent {
     const modalRef = this.modalService.open(AddDocumentModalComponent, {
       size: 'md' // 'lg' sta per grande, puoi utilizzare anche 'sm' per piccolo
     });
+
+    modalRef.componentInstance.refreshData.subscribe(() => {
+      this.refreshDocumenti.emit();
+    });
   }
 
   openAddCorsoModal() {
@@ -44,7 +49,7 @@ export class OperazioniVelociComponent {
     });
 
     modalRef.componentInstance.refreshData.subscribe(() => {
-      this.refreshData.emit();
+      this.refreshCorsi.emit();
     });
   }
 

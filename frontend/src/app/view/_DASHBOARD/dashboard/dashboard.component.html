@@ -27,7 +27,7 @@
 
             <app-selettore-azienda *ngIf="aziende!=undefined" [aziende]="aziende"></app-selettore-azienda>
 
-            <app-reports *ngIf="documentiInitiated"
+            <app-reports *ngIf="documentiInitiated && documentiValidi && documentiInScadenza && documentiScaduti"
              [documentiValidi]="documentiValidi" 
              [documentiInScadenza]="documentiInScadenza"
              [documentiScaduti]="documentiScaduti">
@@ -51,7 +51,7 @@
         <!-- Right side columns -->
         <div class="col-lg-4">
 
-          <app-operazioni-veloci (refreshData)="updateCorsi()"></app-operazioni-veloci>
+          <app-operazioni-veloci (refreshDocumenti)="updateDocumenti()" (refreshCorsi)="updateCorsi()"></app-operazioni-veloci>
             
           <app-riepilogo-corsi *ngIf="corsi && corsi.length>0" [corsi]="corsi"></app-riepilogo-corsi>
           
