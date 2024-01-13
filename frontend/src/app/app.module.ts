@@ -6,7 +6,6 @@ import { AppComponent } from './app.component';
 import { HeaderComponent } from './view/_STATIC/header/header.component';
 import { SidebarComponent } from './view/_STATIC/sidebar/sidebar.component';
 import { ReportsComponent } from './view/_DASHBOARD/reports/reports.component';
-import { RecentActivityComponent } from './view/_DASHBOARD/recent-activity/recent-activity.component';
 import { FooterComponent } from './view/_STATIC/footer/footer.component';
 import { DashboardComponent } from './view/_DASHBOARD/dashboard/dashboard.component';
 import { LoginComponent } from './view/_LOGIN/login/login.component';
@@ -63,6 +62,7 @@ import { ModalModule } from 'ngx-bootstrap/modal';
 import { CorsiIconComponent } from './view/_CORSI/corsi-icon/corsi-icon.component';
 import { DocumentiIconComponent } from './view/_DOCUMENTI/documenti-icon/documenti-icon.component';
 import { AlertComponent } from './view/GENERIC/alert/alert.component';
+import { OperazioniVelociComponent } from './view/_DASHBOARD/operazioni-veloci/operazioni-veloci.component';
 
 
 @NgModule({
@@ -71,7 +71,6 @@ import { AlertComponent } from './view/GENERIC/alert/alert.component';
     HeaderComponent,
     SidebarComponent,
     ReportsComponent,
-    RecentActivityComponent,
     FooterComponent,
     DashboardComponent,
     LoginComponent,
@@ -106,6 +105,7 @@ import { AlertComponent } from './view/GENERIC/alert/alert.component';
     CorsiIconComponent,
     DocumentiIconComponent,
     AlertComponent,
+    OperazioniVelociComponent,
   ],
   imports: [
     BrowserModule,

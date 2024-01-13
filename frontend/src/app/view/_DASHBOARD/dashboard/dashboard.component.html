@@ -9,9 +9,16 @@
         </ol>
       </nav>
     </div><!-- End Page Title -->
+
+    <div class="margin">
+      <app-alert [page]="'Aziende'"></app-alert>
+      <app-alert [page]="'Corsi'"></app-alert>
+      <app-alert [page]="'Documenti'"></app-alert>
+      <app-alert [page]="'Dipendenti'"></app-alert>
+    </div>
   
     <section class="section dashboard">
-      <div class="row">
+      <div class="row"> 
   
         <!-- Left side columns -->
         <div class="col-lg-8">
@@ -43,10 +50,10 @@
   
         <!-- Right side columns -->
         <div class="col-lg-4">
-  
-          <app-recent-activity></app-recent-activity>
-          
-          <app-riepilogo-corsi></app-riepilogo-corsi>
+
+          <app-operazioni-veloci (refreshData)="updateCorsi()"></app-operazioni-veloci>
+            
+          <app-riepilogo-corsi *ngIf="corsi && corsi.length>0" [corsi]="corsi"></app-riepilogo-corsi>
           
         </div><!-- End Right side columns -->
   

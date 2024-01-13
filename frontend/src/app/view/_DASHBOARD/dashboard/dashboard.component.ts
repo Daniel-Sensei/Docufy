@@ -4,6 +4,8 @@ import { Azienda } from '../../../model/Azienda';
 import { Documento } from '../../../model/Documento';
 import { DocumentiService } from '../../../service/documenti/documenti.service';
 import { AuthService } from '../../../service/auth/auth.service';
+import { Corso } from '../../../model/Corso';
+import { CorsiService } from '../../../service/corsi/corsi.service';
 
 @Component({
   selector: 'app-dashboard',
@@ -15,7 +17,8 @@ export class DashboardComponent {
   constructor(
     private aziendeService: AziendeService,
     private documentiService: DocumentiService,
-    private auth: AuthService) { }
+    private auth: AuthService,
+    private corsiService: CorsiService) { }
 
   aziende?: Azienda[];
   documentiValidi!: Documento[];
@@ -25,12 +28,15 @@ export class DashboardComponent {
   documentiNonValidi: Documento[] = [];
   documentiInitiated: boolean = false;
 
+  corsi?: Corso[];
+
   ngOnInit(): void {
     if (this.aziendeService.role == 'C') {
       this.getAziende();
     }
 
     this.getDocumenti();
+    this.getCorsi();
   }
 
   getAziende(): void {
@@ -64,6 +70,23 @@ export class DashboardComponent {
               },);
           },);
       },);
+  }
+
+  getCorsi(): void {
+    var pIva: string = '';
+    if (this.auth.getRole() == 'A') {
+      pIva = this.auth.getCurrentPIva()!;
+    }
+    else {
+      pIva = this.auth.getSelectedPIva()!;
+    }
+
+    this.corsiService.getCorsiAcquistati(pIva).subscribe(corsi => {this.corsi = corsi;});
+  }
+
+  updateCorsi(){
+    this.corsi = undefined;
+    this.getCorsi();
   }
 
 }

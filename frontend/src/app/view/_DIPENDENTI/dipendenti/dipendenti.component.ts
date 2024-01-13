@@ -84,7 +84,7 @@ export class DipendentiComponent {
     return forkJoin(observables);
   }
 
-  openAddDocumentModal() {
+  openAddDipendenteModal() {
     const modalRef = this.modalService.open(AddDipendenteModalComponent, {
       size: 'md' // 'lg' sta per grande, puoi utilizzare anche 'sm' per piccolo
     });

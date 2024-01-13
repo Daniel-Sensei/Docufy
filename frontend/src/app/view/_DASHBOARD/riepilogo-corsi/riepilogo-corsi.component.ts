@@ -1,4 +1,5 @@
-import { Component } from '@angular/core';
+import { Component, Input } from '@angular/core';
+import { Corso } from '../../../model/Corso';
 
 @Component({
   selector: 'app-riepilogo-corsi',
@@ -6,5 +7,5 @@ import { Component } from '@angular/core';
   styleUrl: './riepilogo-corsi.component.css'
 })
 export class RiepilogoCorsiComponent {
-
+  @Input() corsi!: Corso[];
 }
