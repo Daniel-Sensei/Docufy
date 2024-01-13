@@ -18,15 +18,8 @@
             </button>
         </div>
 
-        <div *ngIf="alert.getDocumentSuccess()" class="alert alert-success alert-dismissible fade show" role="alert">
-            {{alert.getMessage()}}
-            <button type="button" class="btn-close" data-bs-dismiss="alert" aria-label="Close"></button>
-        </div>
+        <app-alert></app-alert>
 
-        <div *ngIf="alert.getDocumentDanger()" class="alert alert-danger alert-dismissible fade show" role="alert">
-            {{alert.getMessage()}}
-            <button type="button" class="btn-close" data-bs-dismiss="alert" aria-label="Close"></button>
-        </div> <!-- End Margin -->
     </div>
 
     <app-documenti-tabella *ngIf="documenti && documenti.length>0" [documenti]="documenti" (refreshData)="updateDocumenti()"></app-documenti-tabella>

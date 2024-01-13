@@ -4,90 +4,50 @@ import { Injectable } from '@angular/core';
   providedIn: 'root'
 })
 export class AlertService {
+  timeout: number = 10000;
 
-  showSuccessAlert = false;
-  showWarningAlert = false;
-  showDangerAlert = false;
-
-  message: string = '';
-
-  getMessages() {
-    return this.message;
-  }
-
-  constructor() { }
-
-  documentSuccess = false;
-  documentWarning = false;
-  documentDanger = false;
-
-  getDocumentSuccess() {
-    return this.documentSuccess;
-  }
-
-  getDocumentWarning() {
-    return this.documentWarning;
-  }
-
-  getDocumentDanger() {
-    return this.documentDanger;
-  }
-
-  setDocumentAlert(message: string, type: string) {
-    if (type == 'success') {
-      this.documentSuccess = true;
-    }
-    else if (type == 'warning') {
-      this.documentWarning = true;
-    }
-    else if (type == 'danger') {
-      this.documentDanger = true;
-    }
-    this.setMessage(message);
-
+  // Alert Page Aziende
+  alertAziende = { show: false, type: '', message: '' };
+  setAlertAziende(type: string, message: string) {
+    this.alertAziende = { show: true, type: type, message: message };
     setTimeout(() => {
-      this.documentSuccess = false;
-      this.documentWarning = false;
-      this.documentDanger = false;
-    }, 10000);
+      this.alertAziende = { show: false, type: '', message: '' };
+    }, this.timeout);
   }
 
-  setSuccessAlert() {
-    this.showSuccessAlert = true;
-    //imposta this.showSuccessAlert a false dopo 5 secondi
+  // Alert Page Documenti
+  alertDocumenti = { show: false, type: '', message: '' };
+  setAlertDocumenti(type: string, message: string) {
+    this.alertDocumenti = { show: true, type: type, message: message };
     setTimeout(() => {
-      this.showSuccessAlert = false;
-    }, 10000);
+      this.alertDocumenti = { show: false, type: '', message: '' };
+    }, this.timeout);
   }
 
-  setWarningAlert() {
-    this.showWarningAlert = true;
-  }
-
-  setDangerAlert() {
-    this.showDangerAlert = true;
+  // Alert Page Dipendenti
+  alertDipendenti = { show: false, type: '', message: '' };
+  setAlertDipendenti(type: string, message: string) {
+    this.alertDipendenti = { show: true, type: type, message: message };
     setTimeout(() => {
-      this.showDangerAlert = false;
-    }, 10000);
+      this.alertDipendenti = { show: false, type: '', message: '' };
+    }, this.timeout);
   }
 
-  getSuccessAlert() {
-    return this.showSuccessAlert;
+  // Alert Page Corsi
+  alertCorsi = { show: false, type: '', message: '' };
+  setAlertCorsi(type: string, message: string) {
+    this.alertCorsi = { show: true, type: type, message: message };
+    setTimeout(() => {
+      this.alertCorsi = { show: false, type: '', message: '' };
+    }, this.timeout);
   }
 
-  getWarningAlert() {
-    return this.showWarningAlert;
-  }
-
-  getDangerAlert() {
-    return this.showDangerAlert;
-  }
-
-  setMessage(message: string) {
-    this.message = message;
-  }
-
-  getMessage() {
-    return this.message;
+  // Alert Page Profilo
+  alertProfilo = { show: false, type: '', message: '' };
+  setAlertProfilo(type: string, message: string) {
+    this.alertProfilo = { show: true, type: type, message: message };
+    setTimeout(() => {
+      this.alertProfilo = { show: false, type: '', message: '' };
+    }, this.timeout);
   }
 }

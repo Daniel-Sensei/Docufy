@@ -62,6 +62,7 @@ import { NotAuthorizedComponent } from './view/_STATIC/not-authorized/not-author
 import { ModalModule } from 'ngx-bootstrap/modal';
 import { CorsiIconComponent } from './view/_CORSI/corsi-icon/corsi-icon.component';
 import { DocumentiIconComponent } from './view/_DOCUMENTI/documenti-icon/documenti-icon.component';
+import { AlertComponent } from './view/GENERIC/alert/alert.component';
 
 
 @NgModule({
@@ -104,6 +105,7 @@ import { DocumentiIconComponent } from './view/_DOCUMENTI/documenti-icon/documen
     NotAuthorizedComponent,
     CorsiIconComponent,
     DocumentiIconComponent,
+    AlertComponent,
   ],
   imports: [
     BrowserModule,

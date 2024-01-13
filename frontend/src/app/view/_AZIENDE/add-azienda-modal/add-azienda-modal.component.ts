@@ -24,7 +24,7 @@ export class AddAziendaModalComponent {
     public activeModal: NgbActiveModal,
     private fb: FormBuilder,
     private azienteService: AziendeService,
-    ) {
+    private alert: AlertService) {
     this.addAziendaForm = this.fb.group({
       ragioneSociale: ['', Validators.required],
       piva: ['', Validators.required],
@@ -75,16 +75,13 @@ export class AddAziendaModalComponent {
 
   submitForm() { 
     this.activeModal.close(this.addAziendaForm.value);
-    console.log(this.addAziendaForm.value);
     this.azienteService.addAzienda(this.addAziendaForm.value, this.file).subscribe(
       response => {
-        console.log("Azienda aggiunta con successo")
-        console.log(response);
+        this.alert.setAlertAziende("success", `Azienda <strong>${this.addAziendaForm.get("ragioneSociale")?.value}</strong> aggiunta con successo`);
         this.refreshData.emit();
       },
       error => {
-        console.log(error);
-        console.log("Errore nell'aggiunta dell'azienda" + error.status);
+        this.alert.setAlertAziende("danger", `Errore durante l'aggiunta dell'azienda <strong>${this.addAziendaForm.get("ragioneSociale")?.value}</strong>`);
       }
     );
     //this.alert.success("Azienda aggiunta con successo");

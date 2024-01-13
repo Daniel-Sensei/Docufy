@@ -228,9 +228,6 @@ export class AddDipendenteModalComponent {
   private addDipendente(dipendenteData: any) {
     this.dipendentiService.addDipendente(dipendenteData, this.file).subscribe(
       response => {
-        // Imposta la variabile per mostrare l'alert di successo
-        this.alert.setMessage("Dipedente " + dipendenteData.cf + " aggiunto con successo");
-        this.alert.setSuccessAlert();
         this.refreshData.emit();
         // refresh page with the router
         this.router.navigateByUrl('/', { skipLocationChange: true }).then(() => {
@@ -238,9 +235,6 @@ export class AddDipendenteModalComponent {
         });
       },
       error => {
-        // Gestisci eventuali errori
-        this.alert.setMessage("Errore durante l'aggiunta del dipendente");
-        this.alert.setDangerAlert();
         this.refreshData.emit();
         // refresh page with the router
         this.router.navigateByUrl('/', { skipLocationChange: true }).then(() => {
@@ -254,15 +248,9 @@ export class AddDipendenteModalComponent {
     dipendenteData.id = this.dipendente?.id;
     this.dipendentiService.updateDipendente(dipendenteData, this.file).subscribe(
       result => {
-        // Imposta la variabile per mostrare l'alert di successo
-        this.alert.setMessage("Dipendente modificato con successo");
-        this.alert.setSuccessAlert();
         this.refreshData.emit();
       },
       error => {
-        // Gestisci eventuali errori
-        this.alert.setMessage("Errore durante la modifica del dipendente");
-        this.alert.setDangerAlert();
         this.refreshData.emit();
       });
   }

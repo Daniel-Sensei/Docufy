@@ -56,15 +56,11 @@ export class ConfirmModalComponent {
     if (this.dipendente != undefined ) {
       this.dipendentiService.deleteImgDipendente(this.dipendente.id).subscribe(
         data => {
-          this.alert.setMessage('Immagine rimossa con successo')
-          this.alert.setSuccessAlert();
           this.router.navigateByUrl('/', { skipLocationChange: true }).then(() => {
             this.router.navigate(['/dipendenti/' + this.dipendente?.id]);
           });
         },
         error => {
-          this.alert.setMessage('Errore durante la rimozione dell\'immagine')
-          this.alert.setDangerAlert();
         }
       );
     }
@@ -74,15 +70,12 @@ export class ConfirmModalComponent {
     if (this.dipendente != undefined ) {
       this.dipendentiService.deleteDipendente(this.dipendente.id).subscribe(
         data => {
-          this.alert.setMessage('Dipendente ' + this.dipendente?.cf +  ' rimosso con successo')
-          this.alert.setSuccessAlert();
           this.router.navigateByUrl('/', { skipLocationChange: true }).then(() => {
             this.router.navigate(['/dipendenti']);
           });
         },
         error => {
-          this.alert.setMessage('Errore durante la rimozione del dipendente')
-          this.alert.setDangerAlert();
+
         }
       );
     }
@@ -92,7 +85,6 @@ export class ConfirmModalComponent {
     if (this.documento != undefined ) {
       this.documentiService.deleteDocumento(this.documento.id).subscribe(
         data => {
-          this.alert.setDocumentAlert('Documento ' + this.documento?.nome +  ' rimosso con successo', 'success')
           this.refreshData.emit();
           /*
           
@@ -103,7 +95,6 @@ export class ConfirmModalComponent {
           
         },
         error => {
-          this.alert.setDocumentAlert('Errore durante la rimozione del documento', 'danger')
         }
       );
     }
@@ -114,14 +105,10 @@ export class ConfirmModalComponent {
       this.aziendeService.deleteAzienda(this.azienda.piva).subscribe(
         data => {
           console.log("Azienda rimossa con successo");
-          this.alert.setMessage('Azienda ' + this.azienda?.ragioneSociale +  ' rimossa con successo')
-          this.alert.setSuccessAlert();
           this.refreshData.emit();
         },
         error => {
           console.log("Errore durante la rimozione dell'azienda");
-          this.alert.setMessage('Errore durante la rimozione dell\'azienda')
-          this.alert.setDangerAlert();
           this.refreshData.emit();
         }
       );

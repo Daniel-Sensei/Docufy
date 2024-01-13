@@ -174,15 +174,11 @@ export class ProfileComponent {
       response => {
         // Imposta la variabile per mostrare l'alert di successo
         console.log("Azienda modificata con successo")
-        this.alert.setMessage("Dipendente modificato con successo");
-        this.alert.setSuccessAlert();
         this.getAzienda();
       },
       error => {
         // Gestisci eventuali errori
         console.log("Errore nella modifica dell'azienda" + error.status);
-        this.alert.setMessage("Errore durante la modifica del dipendente");
-        this.alert.setDangerAlert();
       });
   }
 
@@ -196,15 +192,11 @@ export class ProfileComponent {
       response => {
         // Imposta la variabile per mostrare l'alert di successo
         console.log("Password modificata con successo")
-        this.alert.setMessage("Password modificata con successo");
-        this.alert.setSuccessAlert();
         this.modificaPasswordForm.reset();
       },
       error => {
         // Gestisci eventuali errori
         console.log("Errore nella modifica della password" + error.status);
-        this.alert.setMessage("Errore durante la modifica della password");
-        this.alert.setDangerAlert();
       }
     );
   }

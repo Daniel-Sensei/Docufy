@@ -18,15 +18,7 @@
             </button>
         </div>
 
-        <div *ngIf="alert.getSuccessAlert()" class="alert alert-success alert-dismissible fade show" role="alert">
-            <strong>{{alert.getMessage()}}</strong>
-            <button type="button" class="btn-close" data-bs-dismiss="alert" aria-label="Close"></button>
-        </div>
-
-        <div *ngIf="alert.getDangerAlert()" class="alert alert-danger alert-dismissible fade show" role="alert">
-            <strong> {{alert.getMessage()}} </strong>
-            <button type="button" class="btn-close" data-bs-dismiss="alert" aria-label="Close"></button>
-        </div> <!-- End Margin -->
+        <app-alert></app-alert>
 
     </div>
 

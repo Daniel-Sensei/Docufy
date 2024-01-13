@@ -9,16 +9,15 @@
     </nav>
   </div>
   <div class="margin">
+    
     <div class="mb-3" *ngIf="this.auth.getRole()=='C'">
       <button type="button" class="btn btn-primary" (click)="openAddCorsoModal()">
         Aggiungi Corso
       </button>
     </div>
 
-    <!--<div *ngIf="alert.getSuccessAlert()" class="alert alert-success alert-dismissible fade show" role="alert">
-          Dipendente aggiunto con successo
-          <button type="button" class="btn-close" data-bs-dismiss="alert" aria-label="Close"></button>
-      </div>-->
+    <app-alert></app-alert>
+
   </div>
 
   <div class="row row-cols-1 row-cols-md-2 row-cols-xxl-3 g-4" *ngIf="corsi && corsi.length>0">

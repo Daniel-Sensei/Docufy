@@ -167,11 +167,9 @@ export class AddDocumentModalComponent {
     let pIva = this.auth.getCurrentPIva()!;
     this.documentiService.addDocumentoAzienda(documentoData, this.file, pIva).subscribe(
       response => {
-        this.alert.setDocumentAlert("Documento aggiunto con successo", "success");
         this.refreshData.emit();
       },
       error => {
-        this.alert.setDocumentAlert("Errore nell'aggiunta del documento", "danger");
       }
     );
   }
@@ -180,11 +178,9 @@ export class AddDocumentModalComponent {
     let cf = this.dipendente!.cf;
     this.documentiService.addDocumentoDipendente(documentoData, this.file, cf).subscribe(
       response => {
-        this.alert.setDocumentAlert("Documento aggiunto con successo", "success");
         this.refreshData.emit();
       },
       error => {
-        this.alert.setDocumentAlert("Errore nell'aggiunta del documento", "danger");
       }
     );
   }
@@ -198,11 +194,9 @@ export class AddDocumentModalComponent {
     let pIva = this.auth.getCurrentPIva()!;
     this.documentiService.updateDocumentoAzienda(documentoData, this.file, pIva).subscribe(
       response => {
-        this.alert.setDocumentAlert("Documento aggiornato con successo", "success");
         this.refreshData.emit();
       },
       error => {
-        this.alert.setDocumentAlert("Errore nella modifica del documento", "danger");
       }
     );
   }
@@ -211,11 +205,9 @@ export class AddDocumentModalComponent {
     let cf = this.dipendente!.cf;
     this.documentiService.updateDocumentoDipendente(documentoData, this.file, cf).subscribe(
       response => {
-        this.alert.setDocumentAlert("Documento aggiornato con successo", "success");
         this.refreshData.emit();
       },
       error => {
-        this.alert.setDocumentAlert("Errore nella modifica del documento", "danger");
       }
     );
   }

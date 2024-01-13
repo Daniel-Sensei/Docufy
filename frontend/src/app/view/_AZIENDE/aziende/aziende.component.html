@@ -17,10 +17,7 @@
             </button>
         </div>
 
-        <div *ngIf="alert.getSuccessAlert()" class="alert alert-success alert-dismissible fade show" role="alert">
-            Documento aggiunto con successo
-            <button type="button" class="btn-close" data-bs-dismiss="alert" aria-label="Close"></button>
-        </div>
+        <app-alert></app-alert>
     </div> <!-- End Margin -->
 
     <app-aziende-tabella *ngIf="isInitialized && aziende && aziende.length > 0" [aziende]="aziende" (refreshData)="updateAziende()"></app-aziende-tabella>

@@ -1,0 +1,29 @@
+<!-- Alert Page Aziende -->
+<div *ngIf="alert.alertAziende.show" [ngClass]="['alert', 'alert-' + alert.alertAziende.type, 'alert-dismissible', 'fade', 'show']" role="alert">
+    <div [innerHTML]="alert.alertAziende.message"></div>
+    <button type="button" class="btn-close" (click)="alert.alertAziende.show=false" aria-label="Close"></button>
+</div>
+
+<!-- Alert Page Documenti -->
+<div *ngIf="alert.alertDocumenti.show" [ngClass]="['alert', 'alert-' + alert.alertDocumenti.type, 'alert-dismissible', 'fade', 'show']" role="alert">
+    <div [innerHTML]="alert.alertDocumenti.message"></div>
+    <button type="button" class="btn-close" (click)="alert.alertDocumenti.show=false" aria-label="Close"></button>
+</div>
+
+<!-- Alert Page Dipendenti -->
+<div *ngIf="alert.alertDipendenti.show" [ngClass]="['alert', 'alert-' + alert.alertDipendenti.type, 'alert-dismissible', 'fade', 'show']" role="alert">
+    <div [innerHTML]="alert.alertDipendenti.message"></div>
+    <button type="button" class="btn-close" (click)="alert.alertDipendenti.show=false" aria-label="Close"></button>
+</div>
+
+<!-- Alert Page Corsi -->
+<div *ngIf="alert.alertCorsi.show" [ngClass]="['alert', 'alert-' + alert.alertCorsi.type, 'alert-dismissible', 'fade', 'show']" role="alert">
+    <div [innerHTML]="alert.alertCorsi.message"></div>
+    <button type="button" class="btn-close" (click)="alert.alertCorsi.show=false" aria-label="Close"></button>
+</div>
+
+<!-- Alert Page Profilo -->
+<div *ngIf="alert.alertProfilo.show" [ngClass]="['alert', 'alert-' + alert.alertProfilo.type, 'alert-dismissible', 'fade', 'show']" role="alert">
+    <div [innerHTML]="alert.alertProfilo.message"></div>
+    <button type="button" class="btn-close" (click)="alert.alertProfilo.show=false" aria-label="Close"></button>
+</div>
