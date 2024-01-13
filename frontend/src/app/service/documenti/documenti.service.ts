@@ -92,4 +92,16 @@ export class DocumentiService {
     return this.http.delete(Settings.API_ENDPOINT + "rimuovi-documento?id=" + id, { headers: this.auth.headers });
   }
 
+  getDocumentiValidi(pIva: string): Observable<Documento[]> {
+    return this.http.get<Documento[]>(Settings.API_ENDPOINT + "documenti-validi?pIva=" + pIva, { headers: this.auth.headers });
+  }
+
+  getDocumentiInScadenza(pIva: string): Observable<Documento[]> {
+    return this.http.get<Documento[]>(Settings.API_ENDPOINT + "documenti-in-scadenza?pIva=" + pIva, { headers: this.auth.headers });
+  }
+
+  getDocumentiScaduti(pIva: string): Observable<Documento[]> {
+    return this.http.get<Documento[]>(Settings.API_ENDPOINT + "documenti-scaduti?pIva=" + pIva, { headers: this.auth.headers });
+  }
+
 }

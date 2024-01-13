@@ -1,4 +1,4 @@
-import { Directive, ElementRef, OnInit, OnDestroy } from '@angular/core';
+import { Directive, ElementRef, OnInit, OnDestroy, Input } from '@angular/core';
 import Chart from 'chart.js/auto';
 
 @Directive({
@@ -6,6 +6,10 @@ import Chart from 'chart.js/auto';
 })
 export class BarChartDirective implements OnInit, OnDestroy {
   private chart: any; // Aggiungi un campo per mantenere il riferimento al grafico
+
+  @Input() documentiValidi!: number;
+  @Input() documentiInScadenza!: number;
+  @Input() documentiScaduti!: number;
 
   constructor(private el: ElementRef) {}
 
@@ -22,28 +26,39 @@ export class BarChartDirective implements OnInit, OnDestroy {
   private createBarChart(): void {
     const canvas = this.el.nativeElement;
     const ctx = canvas.getContext('2d');
-
+  
     this.chart = new Chart(ctx, {
       type: 'bar',
       data: {
-        labels: ['Red', 'Blue', 'Yellow'],
+        labels: ['Validi', 'In Scadenza', 'Scaduti'],
         datasets: [{
-          label: 'My First Dataset',
-          data: [300, 50, 100],
-          backgroundColor: ['rgb(255, 99, 132)', 'rgb(54, 162, 235)', 'rgb(255, 205, 86)'],
-          borderColor: ['rgb(255, 99, 132)', 'rgb(54, 162, 235)', 'rgb(255, 205, 86)'],
+          label: 'Stato Documenti',
+          data: [this.documentiValidi, this.documentiInScadenza, this.documentiScaduti],
+          backgroundColor: ['rgb(89, 189, 70)', 'rgb(255, 205, 86)', 'rgb(255, 99, 132)'],
+          borderColor: ['rgb(89, 189, 70)', 'rgb(255, 205, 86)', 'rgb(255, 99, 132)'],
           borderWidth: 1
         }]
       },
       options: {
         scales: {
           y: {
-            beginAtZero: true
+            beginAtZero: true,
+            ticks: {
+              callback: (value: any) => {
+                return value.toLocaleString('en-US', { maximumFractionDigits: 0 });
+              }
+            }
+          }
+        },
+        plugins: {
+          legend: {
+            display: false // Nascondi la legenda
           }
         }
       }
     });
   }
+  
 
   private updateChartSize(): void {
     const canvas = this.el.nativeElement;

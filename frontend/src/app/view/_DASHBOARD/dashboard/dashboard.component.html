@@ -20,7 +20,12 @@
 
             <app-selettore-azienda *ngIf="aziende!=undefined" [aziende]="aziende"></app-selettore-azienda>
 
-            <app-reports></app-reports>
+            <app-reports *ngIf="documentiInitiated"
+             [documentiValidi]="documentiValidi" 
+             [documentiInScadenza]="documentiInScadenza"
+             [documentiScaduti]="documentiScaduti">
+            </app-reports>
+
             <div class="pagetitle">
               <h1>Documenti in Scadenza</h1>
               <nav>
@@ -31,7 +36,7 @@
               </nav>
           </div><!-- End Page Title -->
   
-            <app-documenti-tabella></app-documenti-tabella>
+            <app-documenti-tabella *ngIf="documentiInitiated" [documenti]="documentiNonValidi"></app-documenti-tabella>
   
           </div>
         </div><!-- End Left side columns -->

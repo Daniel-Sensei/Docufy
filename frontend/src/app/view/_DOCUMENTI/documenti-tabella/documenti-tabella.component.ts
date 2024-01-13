@@ -13,6 +13,7 @@ import { FileService } from '../../../service/file/file.service';
 import { ActivatedRoute } from '@angular/router';
 import { Dipendente } from '../../../model/Dipendente';
 import { EventEmitter } from '@angular/core';
+import { DatePipe } from '@angular/common';
 
 
 @Component({
@@ -36,7 +37,8 @@ export class DocumentiTabellaComponent implements AfterViewInit {
     private cdr: ChangeDetectorRef,
     public auth: AuthService,
     private modalService: NgbModal,
-    private fileService: FileService) {
+    private fileService: FileService,
+    private datePipe: DatePipe) {
     this.dataSource = new MatTableDataSource(this.documenti);
   }
 
@@ -44,6 +46,10 @@ export class DocumentiTabellaComponent implements AfterViewInit {
     // If necessario per aspettare che il componente sia caricato
     if (this.documenti.length > 0) {
       this.dataSource.data = this.documenti;
+      this.dataSource.data = this.documenti.map(documento => ({
+        ...documento,
+        dataScadenza: this.formatItalianDate(documento.dataScadenza)
+      }));
       this.dataSource.paginator = this.paginator;
       this.dataSource.sort = this.sort;
     }
@@ -115,5 +121,9 @@ export class DocumentiTabellaComponent implements AfterViewInit {
     // Default to generic binary data if the extension is not in the mapping
     return mimeTypes[extension] || 'application/octet-stream';
   }
-  
+
+  private formatItalianDate(date: string): string {
+    const formattedDate = this.datePipe.transform(date, 'dd/MM/yyyy');
+    return formattedDate || '';
+  }
 }
