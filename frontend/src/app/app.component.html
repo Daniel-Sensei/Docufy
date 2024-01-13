@@ -1,4 +1,4 @@
-<app-header *ngIf="!isLoginPage" ></app-header>
+<app-header *ngIf="!isLoginPage" [testString]="testString"></app-header>
 <app-sidebar *ngIf="!isLoginPage"></app-sidebar>
 
 <router-outlet></router-outlet>

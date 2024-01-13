@@ -10,6 +10,8 @@ import { AuthService } from './service/auth/auth.service';
 export class AppComponent {
   isLoginPage: boolean = false;
 
+  testString: string = '';
+
   constructor(
     private router: Router,
     private auth: AuthService) {
@@ -19,5 +21,6 @@ export class AppComponent {
       }
     });
   }
+
   
 }

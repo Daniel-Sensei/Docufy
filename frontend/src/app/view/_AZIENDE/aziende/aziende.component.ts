@@ -56,7 +56,12 @@ export class AziendeComponent {
 
     modalRef.componentInstance.refreshData.subscribe(() => {
       this.updateAziende();
-    });
+      
+    // Aggiungi un ritardo di due secondi prima del reload
+    setTimeout(() => {
+      window.location.reload();
+    }, 2000);
+  });
   }
 
   setAziendeImages(): Observable<void[]> {

@@ -33,6 +33,8 @@ export class HeaderComponent {
   isDashboard: boolean = false;
   isInitialized: boolean = false; // Add the flag
 
+  @Input() testString?: string;
+
   constructor(
     private modalService: NgbModal,
     private router: Router,
@@ -55,6 +57,8 @@ export class HeaderComponent {
   }
 
   ngOnInit(): void {
+    console.log(this.testString);
+
     this.getAzienda();
 
     this.getAziende();
