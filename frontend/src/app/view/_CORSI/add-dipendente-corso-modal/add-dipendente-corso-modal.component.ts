@@ -36,23 +36,26 @@ export class AddDipendenteCorsoModalComponent implements OnInit {
 
 
   ngOnInit() {
-    this.caricaDipendenti();
+    this.getDipendentiNonIscritti();
 
     this.dropdownSettings = {
       singleSelection: false,
       idField: 'item_id',
       textField: 'item_text',
-      selectAllText: 'Select All',
-      unSelectAllText: 'Unselect All',
+      selectAllText: 'Seleziona Tutto',
+      unSelectAllText: 'Deseleziona Tutto',
+      searchPlaceholderText: 'Cerca',
+      noDataAvailablePlaceholderText: 'Nessun dipendente disponibile',
+      noFilteredDataAvailablePlaceholderText: 'Nessun dipendente trovato',
       itemsShowLimit: 7,
       allowSearchFilter: true
     };
   }
   pIva: string = this.auth.getCurrentPIva()!;
 
-  caricaDipendenti() {
+  getDipendentiNonIscritti() {
     //TODO: prendere solo di
-    this.dipendentiService.getDipendenti(this.pIva).subscribe((dipendenti: any[]) => {
+    this.dipendentiService.getDipendentiNonIscrittiCorso(this.idCorso).subscribe((dipendenti: any[]) => {
       this.dropdownList = dipendenti.map((dipendente, index) => ({
         item_id: dipendente.id,
         item_text: dipendente.nome + " " + dipendente.cognome,
@@ -83,6 +86,9 @@ export class AddDipendenteCorsoModalComponent implements OnInit {
       },
       (error) => {
         this.alert.setAlertCorsi("danger", `Errore durante l'aggiunta dei dipendenti`);
+        if(error.status == 400){
+          this.alert.setAlertCorsi("danger", `Errore durante l'aggiunta dei dipendenti.</br> Il numero di dipendenti selezionati supera il numero di posti disponibili nel corso`);
+        }
       }
     );
   }
@@ -94,7 +100,4 @@ export class AddDipendenteCorsoModalComponent implements OnInit {
     });
     return dipendenti;
   }
-
-
-
 }

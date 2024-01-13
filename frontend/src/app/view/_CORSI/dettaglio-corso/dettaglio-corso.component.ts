@@ -11,6 +11,7 @@ import { CorsiService } from '../../../service/corsi/corsi.service';
 import { Router, ActivatedRoute } from '@angular/router';
 import { AuthService } from '../../../service/auth/auth.service';
 import { AddCorsoModalComponent } from '../add-corso-modal/add-corso-modal.component';
+import { ConfirmModalComponent } from '../../_STATIC/confirm-modal/confirm-modal.component';
 
 
 @Component({
@@ -76,8 +77,24 @@ export class DettaglioCorsoComponent {
 
     modalRef.componentInstance.refreshData.subscribe(() => {
       // Aggiorna i dati richiamando nuovamente ngOnInit
+      this.corso = undefined;
       this.dipendentiIscritti = [];
-      this.getDipendentiIscritti();
+      this.ngOnInit();
+    });
+  }
+
+  openDeleteCorso() {
+    const modalRef = this.modalService.open(ConfirmModalComponent, {
+      size: 'md' // 'lg' sta per grande, puoi utilizzare anche 'sm' per piccolo
+    });
+
+    // Passa il this.dipendente al modal
+    modalRef.componentInstance.corso = this.corso;
+    modalRef.componentInstance.function = 'deleteCorso';
+
+    modalRef.componentInstance.refreshData.subscribe(() => {
+      // Aggiorna i dati richiamando nuovamente ngOnInit
+      this.router.navigate(['/corsi']);
     });
   }
 

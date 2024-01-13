@@ -9,7 +9,7 @@
     <!-- Angular Reactive Form Validation -->
     <form [formGroup]="addCorsoForm" class="row g-3" (ngSubmit)="submitForm()" novalidate>
         <div class="col-md-6">
-            <label for="nome" class="form-label">Nome corso</label>
+            <label for="nome" class="form-label">Nome</label>
             <input formControlName="nome" type="text" class="form-control"
                 [class.is-invalid]="addCorsoForm.get('nome')?.invalid && addCorsoForm.get('nome')?.touched">
             <div *ngIf="addCorsoForm.get('nome')?.invalid && addCorsoForm.get('nome')?.touched"
@@ -76,7 +76,7 @@
             </div>
         </div>
 
-        <div class="col-md-6">
+        <div class="col-md-12" *ngIf="corso == undefined">
             <label for="posti" class="form-label">Posti</label>
             <input formControlName="posti" type="number" class="form-control" min="0" step="5"
                 [class.is-invalid]="addCorsoForm.get('posti')?.invalid && addCorsoForm.get('posti')?.touched">

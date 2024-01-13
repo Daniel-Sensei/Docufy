@@ -37,7 +37,7 @@ export class CorsiService {
   }
 
   addDipendentiCorso(id: number, dipendenti: Dipendente[]): Observable<any>{
-    return this.http.post(Settings.API_ENDPOINT + "dipendenti-corso?idCorso=" + id, dipendenti, { headers: this.auth.headers });
+    return this.http.post(Settings.API_ENDPOINT + "aggiungi-dipendenti-corso?idCorso=" + id, dipendenti, { headers: this.auth.headers });
   }
 
   addCorso(corso: Corso, pIva: string): Observable<any>{

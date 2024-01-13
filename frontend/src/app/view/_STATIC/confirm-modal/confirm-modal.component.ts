@@ -11,6 +11,8 @@ import { DocumentiService } from '../../../service/documenti/documenti.service';
 import { Output, EventEmitter } from '@angular/core';
 import { Azienda } from '../../../model/Azienda';
 import { AziendeService } from '../../../service/aziende/aziende.service';
+import { Corso } from '../../../model/Corso';
+import { CorsiService } from '../../../service/corsi/corsi.service';
 
 @Component({
   selector: 'app-confirm-modal',
@@ -25,6 +27,7 @@ export class ConfirmModalComponent {
   @Input() dipendente?: Dipendente;
   @Input() documento?: Documento;
   @Input() azienda?: Azienda;
+  @Input() corso?: Corso;
 
   constructor(
     public activeModal: NgbActiveModal,
@@ -32,7 +35,8 @@ export class ConfirmModalComponent {
     private alert: AlertService,
     private dipendentiService: DipendentiService,
     private documentiService: DocumentiService,
-    private aziendeService: AziendeService) { }
+    private aziendeService: AziendeService,
+    private corsiService: CorsiService) { }
 
   submit() {
     if (this.function == 'deleteImgDipendente') {
@@ -46,6 +50,9 @@ export class ConfirmModalComponent {
     }
     else if (this.function == 'deleteAzienda') {
       this.deleteAzienda();
+    }
+    else if (this.function == 'deleteCorso') {
+      this.deleteCorso();
     }
 
 
@@ -103,7 +110,20 @@ export class ConfirmModalComponent {
         },
         error => {
           this.alert.setAlertAziende("danger", `Errore durante la rimozione dell'azienda <strong>${this.azienda?.ragioneSociale}</strong>`);
+        }
+      );
+    }
+  }
+
+  private deleteCorso() {
+    if (this.corso != undefined ) {
+      this.corsiService.deleteCorso(this.corso.id).subscribe(
+        data => {
+          this.alert.setAlertCorsi("success", `Corso <strong>${this.corso?.nome}</strong> rimosso con successo`);
           this.refreshData.emit();
+        },
+        error => {
+          this.alert.setAlertCorsi("danger", `Errore durante la rimozione del corso <strong>${this.corso?.nome}</strong>`);
         }
       );
     }

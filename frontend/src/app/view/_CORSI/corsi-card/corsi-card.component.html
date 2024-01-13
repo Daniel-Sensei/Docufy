@@ -24,14 +24,16 @@
             <div class="mt-5">
                 <div class="progress">
                     <div class="progress-bar" role="progressbar"
-                        [style.width.%]="[(corso.postiDisponibili/corso.posti)*100]"
-                        [attr.aria-valuenow]="(corso.postiDisponibili/corso.posti)*100" aria-valuemin="0"
+                        [style.width.%]="(1 - corso.postiDisponibili/corso.posti)*100"
+                        [attr.aria-valuenow]="(1 - corso.postiDisponibili/corso.posti)*100" aria-valuemin="0"
                         aria-valuemax="100"></div>
                 </div>
-                <div class="mt-3"> <span class="text1">32 Iscritti <span class="text2">su 50
-                            posti disponibili</span></span> </div>
+                <div class="mt-3">
+                    <span class="text1">{{corso.posti - corso.postiDisponibili}} Iscritti <span class="text2">su {{corso.posti}} posti disponibili</span></span>
+                </div>
             </div>
         </div>
+        
 
     </div>
 </div>

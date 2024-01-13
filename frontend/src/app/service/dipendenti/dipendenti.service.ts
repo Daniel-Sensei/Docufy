@@ -73,4 +73,8 @@ export class DipendentiService {
     return this.http.delete(Settings.API_ENDPOINT + 'rimuovi-dipendente?id=' + id, { headers: this.auth.headers });
   }
 
+  getDipendentiNonIscrittiCorso(idCorso: number): Observable<Dipendente[]> {
+    return this.http.get<Dipendente[]>(Settings.API_ENDPOINT + 'dipendenti-non-iscritti-corso?id=' + idCorso, { headers: this.auth.headers });
+  }
+
 }
