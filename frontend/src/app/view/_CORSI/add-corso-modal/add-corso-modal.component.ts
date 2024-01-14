@@ -24,7 +24,7 @@ export class AddCorsoModalComponent {
   addCorsoForm: FormGroup;
   model: NgbDateStruct | undefined;
 
-  categorie: string[] = ["Benessere", "Formazione", "Aggiornamento", "Lingua", "Marketing", "Sicurezza", "Altro"];
+  categorie: string[] = [ "Aggiornamento","Benessere", "Formazione", "Lingua", "Marketing", "Sicurezza", "Altro"];
 
 
   constructor(
