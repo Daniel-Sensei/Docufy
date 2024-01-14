@@ -8,7 +8,7 @@ import { MatTableDataSource } from '@angular/material/table';
 import { AuthService } from '../../../service/auth/auth.service';
 import { NgbModal } from '@ng-bootstrap/ng-bootstrap';
 import { AddDocumentModalComponent } from '../add-documento-modal/add-document-modal.component';
-import { ConfirmModalComponent } from '../../_STATIC/confirm-modal/confirm-modal.component';
+import { ConfirmModalComponent } from '../../GENERIC/confirm-modal/confirm-modal.component';
 import { FileService } from '../../../service/file/file.service';
 import { ActivatedRoute } from '@angular/router';
 import { Dipendente } from '../../../model/Dipendente';

@@ -6,7 +6,7 @@ import { MatPaginator } from '@angular/material/paginator';
 import { MatSort } from '@angular/material/sort';
 import { MatTableDataSource } from '@angular/material/table';
 import { NgbModal } from '@ng-bootstrap/ng-bootstrap';
-import { ConfirmModalComponent } from '../../_STATIC/confirm-modal/confirm-modal.component';
+import { ConfirmModalComponent } from '../../GENERIC/confirm-modal/confirm-modal.component';
 import { EventEmitter } from '@angular/core';
 import { Output } from '@angular/core';
 

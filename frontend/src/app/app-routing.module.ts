@@ -14,8 +14,8 @@ import { DipendentiDettagliComponent } from './view/_DIPENDENTI/dipendenti-detta
 import { AuthGuard } from './auth.guard';
 import { AziendeComponent } from './view/_AZIENDE/aziende/aziende.component';
 import { RicercaComponent } from './view/_RICERCA/ricerca/ricerca.component';
-import { NotFoundComponent } from './view/_STATIC/not-found/not-found.component';
-import { NotAuthorizedComponent } from './view/_STATIC/not-authorized/not-authorized.component';
+import { NotFoundComponent } from './view/GENERIC/not-found/not-found.component';
+import { NotAuthorizedComponent } from './view/GENERIC/not-authorized/not-authorized.component';
 import { CopyrightComponent } from './view/_STATIC/copyright/copyright.component';
 
 const routes: Routes = [

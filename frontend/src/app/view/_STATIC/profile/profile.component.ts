@@ -14,7 +14,7 @@ import { catchError, map } from 'rxjs/operators';
 import { throwError } from 'rxjs';
 import { forkJoin } from 'rxjs';
 import { NgbModal } from '@ng-bootstrap/ng-bootstrap';
-import { ConfirmModalComponent } from '../../_STATIC/confirm-modal/confirm-modal.component';
+import { ConfirmModalComponent } from '../../GENERIC/confirm-modal/confirm-modal.component';
 
 
 @Component({

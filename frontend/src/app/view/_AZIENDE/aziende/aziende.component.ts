@@ -68,7 +68,7 @@ export class AziendeComponent {
     const observables: Observable<void>[] = [];
 
     this.aziende.forEach((azienda) => {
-      if (azienda.img !== '') {
+      if (azienda.img !== '' && azienda.img !== null) {
         const observable = this.fileService.getFile(azienda.img).pipe(
           map((img) => {
             let objectURL = URL.createObjectURL(img);

@@ -11,7 +11,7 @@ import { CorsiService } from '../../../service/corsi/corsi.service';
 import { Router, ActivatedRoute } from '@angular/router';
 import { AuthService } from '../../../service/auth/auth.service';
 import { AddCorsoModalComponent } from '../add-corso-modal/add-corso-modal.component';
-import { ConfirmModalComponent } from '../../_STATIC/confirm-modal/confirm-modal.component';
+import { ConfirmModalComponent } from '../../GENERIC/confirm-modal/confirm-modal.component';
 
 
 @Component({

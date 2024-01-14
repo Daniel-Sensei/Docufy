@@ -51,11 +51,11 @@ import { AddAziendaModalComponent } from './view/_AZIENDE/add-azienda-modal/add-
 import { AddCorsoModalComponent } from './view/_CORSI/add-corso-modal/add-corso-modal.component';
 import { LogoutModalComponent } from './view/_LOGIN/logout-modal/logout-modal.component';
 import { RicercaComponent } from './view/_RICERCA/ricerca/ricerca.component';
-import { NotFoundComponent } from './view/_STATIC/not-found/not-found.component';
+import { NotFoundComponent } from './view/GENERIC/not-found/not-found.component';
 
 import { DatePipe } from '@angular/common';
-import { ConfirmModalComponent } from './view/_STATIC/confirm-modal/confirm-modal.component';
-import { NotAuthorizedComponent } from './view/_STATIC/not-authorized/not-authorized.component';
+import { ConfirmModalComponent } from './view/GENERIC/confirm-modal/confirm-modal.component';
+import { NotAuthorizedComponent } from './view/GENERIC/not-authorized/not-authorized.component';
 
 import { ModalModule } from 'ngx-bootstrap/modal';
 import { CorsiIconComponent } from './view/_CORSI/corsi-icon/corsi-icon.component';

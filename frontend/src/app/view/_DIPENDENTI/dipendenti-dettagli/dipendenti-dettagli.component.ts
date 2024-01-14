@@ -9,7 +9,7 @@ import { AddDipendenteModalComponent } from '../add-dipendente-modal/add-dipende
 import { FileService } from '../../../service/file/file.service';
 import { AlertService } from '../../../service/alert/alert.service';
 import { DatePipe } from '@angular/common';
-import { ConfirmModalComponent } from '../../_STATIC/confirm-modal/confirm-modal.component';
+import { ConfirmModalComponent } from '../../GENERIC/confirm-modal/confirm-modal.component';
 
 import { forkJoin, Observable, map } from 'rxjs';
 import { AuthService } from '../../../service/auth/auth.service';
