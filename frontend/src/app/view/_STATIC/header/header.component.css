@@ -31,3 +31,8 @@
     border-color: #fff;
     box-shadow: none; /* material non ha box-shadow */
 }
+
+.logo img {
+    max-height: 38px;
+    margin-right: 6px;
+  }
