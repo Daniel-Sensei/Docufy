@@ -71,7 +71,7 @@ public class UserC extends User
         // inserisco il nuovo utente nel database
         if (DBManager.getInstance().getUserDao().insert(newUser)) {
 
-            String body = "INSERIRE BODY MAIL REGISTRAZIONE CON CREDENZIALI TEMPORANEE CHE SI CONSIGLIA DI CAMBIARE AL PRIMO ACCESSO\npassword = "+tempPassword;
+            String body = "registration:"+azienda.getEmail()+":"+tempPassword;
 
             EmailServiceImpl eSI = new EmailServiceImpl();
             eSI.sendMail(azienda.getEmail(), null, "Credenziali di accesso piattaforma Docufy", body);
