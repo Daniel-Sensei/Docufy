@@ -72,6 +72,19 @@ export class AziendeService {
     return this.http.delete(Settings.API_ENDPOINT + 'rimuovi-azienda?pIva=' + pIva, { headers: this.auth.headers });
   }
 
+  addImgAzienda(pIva: String, file: File | undefined): Observable<any> {
+    const formData: FormData = new FormData();
+
+    if(file){
+      formData.append('file', file, file.name);
+    }
+    else{
+      formData.append('file', new Blob());
+    }
+
+    return this.http.post(Settings.API_ENDPOINT + 'modifica-immagine-azienda?pIva=' + pIva, formData, { headers: this.auth.headers });
+  }
+
   deleteImgAzienda(pIva: String): Observable<any> {
     return this.http.delete(Settings.API_ENDPOINT + 'rimuovi-immagine-azienda?pIva=' + pIva, { headers: this.auth.headers });
   }

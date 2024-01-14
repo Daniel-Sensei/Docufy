@@ -54,6 +54,9 @@ export class ConfirmModalComponent {
     else if (this.function == 'deleteCorso') {
       this.deleteCorso();
     }
+    else if(this.function == 'deleteImgAzienda'){
+      this.deleteImgAzienda();
+    }
 
 
     this.activeModal.close();
@@ -124,6 +127,20 @@ export class ConfirmModalComponent {
         },
         error => {
           this.alert.setAlertCorsi("danger", `Errore durante la rimozione del corso <strong>${this.corso?.nome}</strong>`);
+        }
+      );
+    }
+  }
+
+  private deleteImgAzienda() {
+    if (this.azienda != undefined ) {
+      this.aziendeService.deleteImgAzienda(this.azienda.piva).subscribe(
+        data => {
+          this.alert.setAlertAziende("success", `Immagine rimossa con successo`);
+          this.refreshData.emit();
+        },
+        error => {
+          this.alert.setAlertAziende("danger", `Errore durante la rimozione dell'immagine`);
         }
       );
     }
