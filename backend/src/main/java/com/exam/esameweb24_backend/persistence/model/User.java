@@ -106,7 +106,7 @@ public class User {
 
     public ResponseEntity<String> aggiungiDipendentiDaFile(MultipartFile file, String fileType){
         return switch (fileType) {
-            case "excel" -> aggiungiDipendentiDaExcel(file);
+            case "xlsx" -> aggiungiDipendentiDaExcel(file);
             case "csv" -> aggiungiDipendentiDaCsv(file);
             default -> new ResponseEntity<>(HttpStatus.BAD_REQUEST);
         };
