@@ -9,9 +9,9 @@
     </nav>
   </div><!-- End Page Title -->
 
-  <section class="section profile">
+  <section class="section profile" *ngIf="azienda">
     <div class="row">
-      
+
       <app-alert [page]="'Profilo'"></app-alert>
 
       <div class="col-xl-4">
@@ -34,7 +34,23 @@
           </div>
         </div>
 
+        <div class="pt-2 d-flex justify-content-center mb-4"> <!-- Center-align the buttons with added spacing -->
+          <label for="file-upload" class="btn btn-primary btn-sm me-2" title="Carica nuova immagine profilo">
+            <i class="bi bi-upload"></i> Carica immagine
+          </label>
+          <input type="file" id="file-upload" style="display: none;" accept="image/*"
+            (change)="onFileSelected($event)" />
+
+          <button class="btn btn-danger btn-sm ms-2" title="Rimuovi immagine profilo" (click)="openDeleteImg()"
+            [disabled]="azienda.img === '' || azienda.img === null">
+            <i class="bi bi-trash"></i> Elimina immagine
+          </button>
+        </div>
+
+
+
       </div>
+
 
       <div class="col-xl-8">
 

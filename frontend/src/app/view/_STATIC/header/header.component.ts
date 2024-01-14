@@ -77,7 +77,7 @@ export class HeaderComponent {
   setAziendaImage(): Observable<void[]> {
     const observables: Observable<void>[] = [];
 
-    if (this.azienda.img !== '') {
+    if (this.azienda.img !== '' && this.azienda.img !== null) {
       const observable = this.fileService.getFile(this.azienda.img).pipe(
         map((img) => {
           let objectURL = URL.createObjectURL(img);

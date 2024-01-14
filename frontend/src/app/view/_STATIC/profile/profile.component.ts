@@ -13,6 +13,8 @@ import { Observable, of } from 'rxjs';
 import { catchError, map } from 'rxjs/operators';
 import { throwError } from 'rxjs';
 import { forkJoin } from 'rxjs';
+import { NgbModal } from '@ng-bootstrap/ng-bootstrap';
+import { ConfirmModalComponent } from '../../_STATIC/confirm-modal/confirm-modal.component';
 
 
 @Component({
@@ -38,6 +40,7 @@ export class ProfileComponent {
     private fileService: FileService,
     private auth: AuthService,
     private router: Router,
+    private modalService: NgbModal
   ) {
     this.modificaProfiloForm = this.fb.group({
       ragioneSociale: ['', Validators.required],
@@ -63,7 +66,7 @@ export class ProfileComponent {
   setAziendaImage(): Observable<void[]> {
     const observables: Observable<void>[] = [];
 
-    if (this.azienda.img !== '') {
+    if (this.azienda.img !== '' && this.azienda.img !== null) {
       const observable = this.fileService.getFile(this.azienda.img).pipe(
         map((img) => {
           let objectURL = URL.createObjectURL(img);
@@ -161,6 +164,14 @@ export class ProfileComponent {
 
   onFileSelected(event: any) {
     this.file = event.target.files[0];
+    this.aziendeService.addImgAzienda(this.azienda.piva, this.file).subscribe(
+      response => {
+        this.alert.setAlertProfilo('success', 'Immagine aggiornata con successo');
+        this.getAzienda();
+      },
+      error => {
+        this.alert.setAlertProfilo('danger', 'Errore nel salvataggio delle modifiche');
+      });
   }
 
   salvaModifiche() {
@@ -195,6 +206,21 @@ export class ProfileComponent {
         this.alert.setAlertProfilo('danger', 'Errore nel salvataggio delle modifiche');
       }
     );
+  }
+
+  openDeleteImg() {
+    const modalRef = this.modalService.open(ConfirmModalComponent, {
+      size: 'md' // 'lg' sta per grande, puoi utilizzare anche 'sm' per piccolo
+    });
+
+    // Passa il this.dipendente al modal
+    modalRef.componentInstance.azienda = this.azienda;
+    modalRef.componentInstance.function = 'deleteImgAzienda';
+
+    modalRef.componentInstance.refreshData.subscribe(() => {
+      // Aggiorna i dati richiamando nuovamente ngOnInit
+      this.ngOnInit();
+    });
   }
 
 }
