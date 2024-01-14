@@ -11,6 +11,7 @@ import jakarta.mail.internet.MimeMultipart;
 import org.springframework.beans.factory.annotation.Value;
 import org.springframework.stereotype.Service;
 
+import java.io.File;
 import java.io.IOException;
 import java.nio.charset.StandardCharsets;
 import java.nio.file.Files;
@@ -80,28 +81,46 @@ public class EmailServiceImpl implements EmailService {
         String passwordTo = body.split(":")[2];
 
         // Read HTML content from file
-        String htmlContent = readFile("backend/src/main/resources/mailStuff/email.html");
+        String htmlContent = readFile("backend/src/main/resources/mailStuff/emailCredentials.html");
 
         // Replace placeholder with the actual value
-        htmlContent = htmlContent.replace("emaildi@esempio.com", mailTo);
-        htmlContent = htmlContent.replace("255-356-765-45", passwordTo);
+        htmlContent = htmlContent.replace("email@esempio.com", mailTo);
+        htmlContent = htmlContent.replace("HJsnks8!", passwordTo);
 
         //TODO: cambiare anche i link per accettare ecc..
 
         // Read CSS content from file (if needed)
-        String cssContent = readFile("backend/src/main/resources/mailStuff/styleEmail.css");
+        // String cssContent = readFile("backend/src/main/resources/mailStuff/styleEmail.css");
 
         // Create the HTML part
         MimeBodyPart htmlPart = new MimeBodyPart();
-
-        // Incorporate CSS into HTML
-        htmlContent = htmlContent.replace("</head>", "<style>" + cssContent + "</style></head>");
-
         htmlPart.setContent(htmlContent, "text/html; charset=utf-8");
 
         // Create the multipart message
         Multipart multipart = new MimeMultipart();
+        // Aggiungi il contenuto HTML al corpo del messaggio
         multipart.addBodyPart(htmlPart);
+
+        // Aggiungi le immagini come parti del corpo, utilizzando Content-ID per riferirsi ad esse nell'HTML
+        MimeBodyPart imagePartLogo = new MimeBodyPart();
+        File logo = new File("backend/src/main/resources/mailStuff/images/logo.png");
+        imagePartLogo.attachFile(logo);
+        imagePartLogo.setContentID("<logo>");
+        imagePartLogo.setDisposition(MimeBodyPart.INLINE);
+        multipart.addBodyPart(imagePartLogo);
+
+        MimeBodyPart imagePartHost = new MimeBodyPart();
+        File host = new File("backend/src/main/resources/mailStuff/images/image-host.png");
+        imagePartHost.attachFile(host);
+        imagePartHost.setContentID("<host>");
+        imagePartHost.setDisposition(MimeBodyPart.INLINE);
+        multipart.addBodyPart(imagePartHost);
+
+
+
+
+        // Incorporate CSS into HTML
+        // htmlContent = htmlContent.replace("</head>", "<style>" + cssContent + "</style></head>");
 
         return multipart;
     }
