@@ -62,6 +62,7 @@ import { CorsiIconComponent } from './view/_CORSI/corsi-icon/corsi-icon.componen
 import { DocumentiIconComponent } from './view/_DOCUMENTI/documenti-icon/documenti-icon.component';
 import { AlertComponent } from './view/GENERIC/alert/alert.component';
 import { OperazioniVelociComponent } from './view/_DASHBOARD/operazioni-veloci/operazioni-veloci.component';
+import { CopyrightComponent } from './view/_STATIC/copyright/copyright.component';
 
 
 @NgModule({
@@ -104,6 +105,7 @@ import { OperazioniVelociComponent } from './view/_DASHBOARD/operazioni-veloci/o
     DocumentiIconComponent,
     AlertComponent,
     OperazioniVelociComponent,
+    CopyrightComponent,
   ],
   imports: [
     BrowserModule,

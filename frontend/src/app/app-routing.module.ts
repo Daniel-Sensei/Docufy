@@ -16,6 +16,7 @@ import { AziendeComponent } from './view/_AZIENDE/aziende/aziende.component';
 import { RicercaComponent } from './view/_RICERCA/ricerca/ricerca.component';
 import { NotFoundComponent } from './view/_STATIC/not-found/not-found.component';
 import { NotAuthorizedComponent } from './view/_STATIC/not-authorized/not-authorized.component';
+import { CopyrightComponent } from './view/_STATIC/copyright/copyright.component';
 
 const routes: Routes = [
   { path: 'login', component: LoginComponent },
@@ -35,6 +36,7 @@ const routes: Routes = [
   { path: 'contact', component: ContactComponent, canActivate: [AuthGuard] },
   { path: 'question', component: QuestionComponent, canActivate: [AuthGuard] },
   { path: 'profile', component: ProfileComponent, canActivate: [AuthGuard] },
+  { path: 'copyright', component: CopyrightComponent, canActivate: [AuthGuard]},
 
   { path: 'search/:text', component: RicercaComponent, canActivate: [AuthGuard] },
 
