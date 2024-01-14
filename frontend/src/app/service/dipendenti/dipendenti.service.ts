@@ -88,7 +88,7 @@ export class DipendentiService {
       formData.append('file', new Blob());
     }
 
-    return this.http.post(Settings.API_ENDPOINT + 'aggiungi-dipendenti-da-file?fileType=' + fileType, formData, { headers: this.auth.headers });
+    return this.http.post(Settings.API_ENDPOINT + 'aggiungi-dipendenti-da-file?type=' + fileType, formData, { headers: this.auth.headers });
   }
 
 }

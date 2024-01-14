@@ -76,7 +76,7 @@ export class DipendentiDettagliComponent {
   setDipendenteImage(): Observable<void[]> {
     const observables: Observable<void>[] = [];
 
-    if (this.dipendente.img !== '') {
+    if (this.dipendente.img !== '' && this.dipendente.img !== null) {
       const observable = this.fileService.getFile(this.dipendente.img).pipe(
         map(img => {
           let objectURL = URL.createObjectURL(img);

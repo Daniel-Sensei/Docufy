@@ -55,7 +55,7 @@ export class DipendentiComponent {
     const observables: Observable<void>[] = [];
 
     this.dipendenti.forEach((dipendente) => {
-      if (dipendente.img !== '') {
+      if (dipendente.img !== '' && dipendente.img !== null) {
         const observable = this.fileService.getFile(dipendente.img).pipe(
           map((img) => {
             let objectURL = URL.createObjectURL(img);
