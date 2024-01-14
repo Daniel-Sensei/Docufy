@@ -2,7 +2,6 @@ import { NgModule } from '@angular/core';
 import { RouterModule, Routes } from '@angular/router';
 import { LoginComponent } from './view/_LOGIN/login/login.component';
 import { DashboardComponent } from './view/_DASHBOARD/dashboard/dashboard.component';
-import { RegisterComponent } from './view/_LOGIN/register/register.component';
 import { ContactComponent } from './view/_STATIC/contact/contact.component';
 import { QuestionComponent } from './view/_STATIC/question/question.component';
 import { ProfileComponent } from './view/_STATIC/profile/profile.component';
@@ -33,7 +32,6 @@ const routes: Routes = [
   { path: 'corsi', component: CorsiComponent, canActivate: [AuthGuard] },
   { path: 'corsi/:id', component:DettaglioCorsoComponent, canActivate: [AuthGuard] },
 
-  { path: 'register', component: RegisterComponent, canActivate: [AuthGuard] },
   { path: 'contact', component: ContactComponent, canActivate: [AuthGuard] },
   { path: 'question', component: QuestionComponent, canActivate: [AuthGuard] },
   { path: 'profile', component: ProfileComponent, canActivate: [AuthGuard] },

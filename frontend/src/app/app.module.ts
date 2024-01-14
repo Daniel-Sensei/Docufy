@@ -9,7 +9,6 @@ import { ReportsComponent } from './view/_DASHBOARD/reports/reports.component';
 import { FooterComponent } from './view/_STATIC/footer/footer.component';
 import { DashboardComponent } from './view/_DASHBOARD/dashboard/dashboard.component';
 import { LoginComponent } from './view/_LOGIN/login/login.component';
-import { RegisterComponent } from './view/_LOGIN/register/register.component';
 import { ContactComponent } from './view/_STATIC/contact/contact.component';
 import { QuestionComponent } from './view/_STATIC/question/question.component';
 import { ProfileComponent } from './view/_STATIC/profile/profile.component';
@@ -74,7 +73,6 @@ import { OperazioniVelociComponent } from './view/_DASHBOARD/operazioni-veloci/o
     FooterComponent,
     DashboardComponent,
     LoginComponent,
-    RegisterComponent,
     ContactComponent,
     QuestionComponent,
     ProfileComponent,
