@@ -63,6 +63,7 @@ import { DocumentiIconComponent } from './view/_DOCUMENTI/documenti-icon/documen
 import { AlertComponent } from './view/GENERIC/alert/alert.component';
 import { OperazioniVelociComponent } from './view/_DASHBOARD/operazioni-veloci/operazioni-veloci.component';
 import { CopyrightComponent } from './view/_STATIC/copyright/copyright.component';
+import { AddDipendentiListaModalComponent } from './view/_DIPENDENTI/add-dipendenti-lista-modal/add-dipendenti-lista-modal.component';
 
 
 @NgModule({
@@ -106,6 +107,7 @@ import { CopyrightComponent } from './view/_STATIC/copyright/copyright.component
     AlertComponent,
     OperazioniVelociComponent,
     CopyrightComponent,
+    AddDipendentiListaModalComponent,
   ],
   imports: [
     BrowserModule,

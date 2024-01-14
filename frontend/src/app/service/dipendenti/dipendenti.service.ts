@@ -77,4 +77,18 @@ export class DipendentiService {
     return this.http.get<Dipendente[]>(Settings.API_ENDPOINT + 'dipendenti-non-iscritti-corso?id=' + idCorso, { headers: this.auth.headers });
   }
 
+  addListaDipendentiFile(file: File | undefined, fileType: string): Observable<any> {
+    const formData: FormData = new FormData();
+
+    // Assicurati che il file non sia nullo prima di aggiungerlo alla FormData
+    if (file) {
+      formData.append('file', file, file.name);
+    }
+    else {
+      formData.append('file', new Blob());
+    }
+
+    return this.http.post(Settings.API_ENDPOINT + 'aggiungi-dipendenti-da-file?fileType=' + fileType, formData, { headers: this.auth.headers });
+  }
+
 }
