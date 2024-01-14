@@ -57,6 +57,7 @@ public class DocumentoDaoPostgres implements DocumentoDao {
 
         Dipendente d = DBManager.getInstance().getDipendenteDao().findById(idDipendente);
         Dipendente dipendente = new Dipendente();
+        dipendente.setId(d.getId());
         dipendente.setCF(d.getCF());
 
         List<Documento> documenti = new ArrayList<>();
