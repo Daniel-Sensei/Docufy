@@ -43,7 +43,7 @@
               </nav>
           </div><!-- End Page Title -->
   
-            <app-documenti-tabella *ngIf="documentiInitiated" [documenti]="documentiNonValidi"></app-documenti-tabella>
+            <app-documenti-tabella *ngIf="documentiInitiated" [documenti]="documentiNonValidi" [displayDipendente]="true" (refreshData)="updateDocumenti()"></app-documenti-tabella>
   
           </div>
         </div><!-- End Left side columns -->

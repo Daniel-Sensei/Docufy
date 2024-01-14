@@ -154,4 +154,9 @@ export class DipendentiDettagliComponent {
       this.getDocumenti()
     });
   }
+
+  updateDocumenti(){
+    this.documenti = [];
+    this.getDocumenti();
+  }
 }

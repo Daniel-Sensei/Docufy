@@ -33,6 +33,8 @@ export class DocumentiTabellaComponent implements AfterViewInit {
 
   @Output() refreshData: EventEmitter<void> = new EventEmitter<void>();
 
+  @Input() displayDipendente: boolean = false;
+
   constructor(
     private cdr: ChangeDetectorRef,
     public auth: AuthService,
@@ -44,6 +46,9 @@ export class DocumentiTabellaComponent implements AfterViewInit {
 
   ngAfterViewInit() {
     // If necessario per aspettare che il componente sia caricato
+    if(this.displayDipendente){
+      this.displayedColumns = ['nome', 'cf', 'dataScadenza', 'stato', 'formato', 'azioni'];
+    }
     if (this.documenti.length > 0) {
       this.dataSource.data = this.documenti;
       this.dataSource.data = this.documenti.map(documento => ({
@@ -55,6 +60,10 @@ export class DocumentiTabellaComponent implements AfterViewInit {
     }
 
     this.cdr.detectChanges();
+  }
+
+  setDipendente(dipendente: Dipendente) {
+    this.dipendente = dipendente;
   }
 
   openUpdateDocumento(documento: Documento) {

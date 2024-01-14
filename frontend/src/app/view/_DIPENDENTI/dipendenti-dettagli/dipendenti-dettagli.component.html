@@ -125,6 +125,6 @@
         
     </div> <!-- End Margin -->
 
-    <app-documenti-tabella *ngIf="documenti && documenti.length>0" [documenti]="documenti" [dipendente]="dipendente"></app-documenti-tabella>
+    <app-documenti-tabella *ngIf="documenti && documenti.length>0" [documenti]="documenti" [dipendente]="dipendente" (refreshData)="updateDocumenti()"></app-documenti-tabella>
 
 </div><!-- End #main -->
