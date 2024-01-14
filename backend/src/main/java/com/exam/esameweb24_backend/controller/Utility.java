@@ -1,14 +1,11 @@
 package com.exam.esameweb24_backend.controller;
 
-import com.exam.esameweb24_backend.persistence.model.Azienda;
+import com.exam.esameweb24_backend.controller.service.impl.EmailServiceImpl;
 import com.fasterxml.jackson.databind.ObjectMapper;
 
 import com.exam.esameweb24_backend.persistence.DBManager;
-import com.exam.esameweb24_backend.persistence.model.Dipendente;
 import com.exam.esameweb24_backend.persistence.model.User;
 import jakarta.servlet.http.HttpServletRequest;
-import org.springframework.http.HttpStatus;
-import org.springframework.http.ResponseEntity;
 import org.springframework.security.crypto.bcrypt.BCrypt;
 import org.springframework.web.multipart.MultipartFile;
 
@@ -17,6 +14,7 @@ import java.io.IOException;
 import java.nio.file.Files;
 import java.nio.file.Path;
 import java.nio.file.Paths;
+import java.text.SimpleDateFormat;
 import java.util.Base64;
 
 public class Utility {
@@ -51,10 +49,6 @@ public class Utility {
 
     public static Boolean isConsultant(String token) {
         return getTokenRole(token).equals("C");
-    }
-
-    public static Boolean isConsultantQuery(String pIva) {
-        return (DBManager.getInstance().getConsulenteDao().findByPIva(pIva)!=null);
     }
 
 
@@ -115,5 +109,39 @@ public class Utility {
         if (file.exists())
             return file.delete();
         return false;
+    }
+
+    //funzione che aggiorna lo stato di tutti i documenti in base al tempo restante fino alla data di scadenza
+    // oltre 1 mese -> "Valido"
+    // 1 mese o meno -> "In Scadenza"
+    // troppo tardi -> "Scaduto"
+    public static void updateAllDocumentsState(){
+
+        EmailServiceImpl eSI = new EmailServiceImpl();
+
+        DBManager.getInstance().getDocumentoDao().getAll().forEach(documento -> {
+
+            String subject = "Scadenza documento";
+
+            String emailTo = documento.getAzienda().getEmail();
+
+            String[] cc = {emailTo, documento.getAzienda().getConsulente().getEmail()};
+
+            String body = "Attenzione\nsi vuole portare alla VS cortese attenzione che\nil documento: ";
+
+            if(documento.getDataScadenza().getTime() - System.currentTimeMillis() > 2592000000L)
+                documento.setStato("Valido");
+            else if(documento.getDataScadenza().getTime() - System.currentTimeMillis() > 0) {
+                documento.setStato("In Scadenza");
+                body += documento.getNome() + " scadrà in data " + new SimpleDateFormat("dd/MM/yyyy").format(documento.getDataScadenza());
+            }
+            else {
+                documento.setStato("Scaduto");
+                body += documento.getNome() + " è scaduto in data " + new SimpleDateFormat("dd/MM/yyyy").format(documento.getDataScadenza());
+            }
+            DBManager.getInstance().getDocumentoDao().update(documento);
+            if (!documento.getStato().equals("Valido"))
+                eSI.sendMail(emailTo, cc, subject, body);
+        });
     }
 }

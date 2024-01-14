@@ -1,13 +1,12 @@
 package com.exam.esameweb24_backend.controller.service.impl;
 
-import com.exam.esameweb24_backend.controller.SmtpAuthenticator;
 import com.exam.esameweb24_backend.controller.service.EmailService;
+
 import jakarta.mail.*;
 import jakarta.mail.internet.InternetAddress;
 import jakarta.mail.internet.MimeMessage;
-import org.springframework.beans.factory.annotation.Autowired;
+
 import org.springframework.beans.factory.annotation.Value;
-import org.springframework.mail.javamail.JavaMailSender;
 import org.springframework.stereotype.Service;
 
 import java.util.Date;
@@ -18,10 +17,6 @@ public class EmailServiceImpl implements EmailService {
 
     @Value("${spring.mail.username}")
     private String fromEmail;
-
-    @Autowired
-    private JavaMailSender javaMailSender;
-
 
     @Override
     public String sendMail(String to, String[] cc, String subject, String body) {
@@ -44,18 +39,15 @@ public class EmailServiceImpl implements EmailService {
                         return new PasswordAuthentication(
                                 "testforwebapplication@gmail.com", "gfqopfdisafxscpz");
                     }
-                });;
+                });
 
         try{
             Transport transport = session.getTransport();
-            InternetAddress addressFrom = new InternetAddress(fromEmail);
-
             MimeMessage msg = new MimeMessage(session);
-
             msg.addRecipient(Message.RecipientType.TO, new InternetAddress(to));
-
             msg.setFrom(fromEmail);
             msg.setRecipients(Message.RecipientType.TO, InternetAddress.parse(to));
+            msg.setRecipients(Message.RecipientType.CC, InternetAddress.parse(String.join(",", cc)));
             msg.setSubject(subject);
             msg.setSentDate(new Date());
             msg.setText(body);
@@ -64,7 +56,6 @@ public class EmailServiceImpl implements EmailService {
             transport.close();
 
             return "mail sent";
-
         }catch (Exception e){
             throw new RuntimeException(e);
         }

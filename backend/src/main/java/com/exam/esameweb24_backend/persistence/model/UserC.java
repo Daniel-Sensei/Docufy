@@ -2,6 +2,7 @@ package com.exam.esameweb24_backend.persistence.model;
 
 import com.exam.esameweb24_backend.controller.PasswordHelper;
 import com.exam.esameweb24_backend.controller.Utility;
+import com.exam.esameweb24_backend.controller.service.impl.EmailServiceImpl;
 import com.exam.esameweb24_backend.persistence.DBManager;
 import org.springframework.http.HttpStatus;
 import org.springframework.http.ResponseEntity;
@@ -57,6 +58,8 @@ public class UserC extends User
         Azienda azienda = Utility.jsonToObject(json, Azienda.class);
 
         String tempPassword = PasswordHelper.generatePassword(8);
+
+        // STAMPA PASSWORD TEMPORANEA DA ELIMINARE DOPO TEST
         System.out.println("Password temporanea generata: " + tempPassword);
 
         // creo un nuovo utente
@@ -68,7 +71,10 @@ public class UserC extends User
         // inserisco il nuovo utente nel database
         if (DBManager.getInstance().getUserDao().insert(newUser)) {
 
-            // INSERIRE QUI LA FUNZIONE IN CUI SI INVIANO LE CREDENZIALI ALL'EMAIL DELL'AZIENDA
+            String body = "INSERIRE BODY MAIL REGISTRAZIONE CON CREDENZIALI TEMPORANEE CHE SI CONSIGLIA DI CAMBIARE AL PRIMO ACCESSO\npassword = "+tempPassword;
+
+            EmailServiceImpl eSI = new EmailServiceImpl();
+            eSI.sendMail(azienda.getEmail(), null, "Credenziali di accesso piattaforma Docufy", body);
 
             // fornisco la pIva del consulente
             Consulente c = new Consulente();

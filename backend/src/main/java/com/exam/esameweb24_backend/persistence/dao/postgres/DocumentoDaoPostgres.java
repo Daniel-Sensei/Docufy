@@ -25,6 +25,34 @@ public class DocumentoDaoPostgres implements DocumentoDao {
     }
 
     @Override
+    public List<Documento> getAll(){
+        List<Documento> documenti = new ArrayList<>();
+        String query = "SELECT * FROM documenti";
+        try {
+            PreparedStatement st = conn.prepareStatement(query);
+            ResultSet rs = st.executeQuery();
+            while (rs.next()) {
+                Documento documento = new Documento();
+                documento.setId(rs.getLong("id"));
+                documento.setNome(rs.getString("nome"));
+                documento.setFile(rs.getString("url"));
+                documento.setDataRilascio(rs.getDate("rilascio"));
+                documento.setDataScadenza(rs.getDate("scadenza"));
+                if(rs.getInt("dipendente") != 0)
+                    documento.setDipendente(DBManager.getInstance().getDipendenteDao().findById(rs.getLong("dipendente")));
+                if(rs.getString("azienda") != null)
+                    documento.setAzienda(DBManager.getInstance().getAziendaDao().findByPIva(rs.getString("azienda")));
+                documento.setStato(rs.getString("stato"));
+                documento.setFormato(rs.getString("formato"));
+                documenti.add(documento);
+            }
+        } catch (SQLException e) {
+            throw new RuntimeException(e);
+        }
+        return documenti;
+    }
+
+    @Override
     public List<Documento> findByDipendente(Long idDipendente) {
 
         Dipendente d = DBManager.getInstance().getDipendenteDao().findById(idDipendente);
