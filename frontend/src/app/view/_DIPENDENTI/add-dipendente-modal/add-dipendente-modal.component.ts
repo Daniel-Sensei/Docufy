@@ -45,7 +45,7 @@ export class AddDipendenteModalComponent {
       ruolo: ['', Validators.required],
       email: ['', Validators.required],
       residenza: ['',],
-      telefono: ['', Validators.required],
+      telefono: ['',],
       img: ['',],
     }, { validators: this.customValidation });
 

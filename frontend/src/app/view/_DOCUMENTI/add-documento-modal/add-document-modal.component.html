@@ -9,7 +9,7 @@
     <!-- Angular Reactive Form Validation -->
     <form [formGroup]="addDocumentForm" class="row g-3" (ngSubmit)="submitForm()" novalidate>
         <div class="col-md-12">
-            <label for="tipoDocumento" class="form-label">Tipo Documento</label>
+            <label for="tipoDocumento" class="form-label">Tipo Documento*</label>
             <select formControlName="tipoDocumento" class="form-control" id="tipoDocumento">
                 <option value="" disabled [selected]="!addDocumentForm.get('tipoDocumento')?.value">Seleziona tipo...</option>
                 <option *ngFor="let tipoDocumento of arrayTipiDocumento" [value]="tipoDocumento">
@@ -20,7 +20,7 @@
 
         <!-- Seleziona il nome di documento se clicco su altro -->
         <div class="col-md-12" *ngIf="addDocumentForm.get('tipoDocumento')?.value === 'Altro'">
-            <label for="tipoDocumentoAltro" class="form-label">Nome</label>
+            <label for="tipoDocumentoAltro" class="form-label">Nome*</label>
             <input formControlName="tipoDocumentoAltro" type="text" class="form-control" id="tipoDocumentoAltro"
                 [class.is-invalid]="addDocumentForm.get('tipoDocumentoAltro')?.invalid && addDocumentForm.get('tipoDocumentoAltro')?.touched">
             <div *ngIf="addDocumentForm.get('tipoDocumentoAltro')?.invalid && addDocumentForm.get('tipoDocumentoAltro')?.touched"
@@ -31,7 +31,7 @@
 
         <!-- Data di rilascio documento -->
         <div class="col-md-12">
-            <label for="dataRilascio" class="form-label">Data di rilascio</label>
+            <label for="dataRilascio" class="form-label">Data di rilascio*</label>
             <div class="input-group">
                 <input readonly formControlName="dataRilascio" class="form-control" ngbDatepicker
                     #dpRilascio="ngbDatepicker" placeholder="gg-mm-aaaa"
@@ -48,7 +48,7 @@
 
         <!-- Data di scadenza documento -->
         <div class="col-md-12">
-            <label for="dataScadenza" class="form-label">Data di scadenza</label>
+            <label for="dataScadenza" class="form-label">Data di scadenza*</label>
             <div class="input-group">
                 <input readonly formControlName="dataScadenza" class="form-control" ngbDatepicker
                     #dpScadenza="ngbDatepicker" placeholder="gg-mm-aaaa"
@@ -65,7 +65,7 @@
 
         <!-- Carica file -->
         <div class="col-md-12">
-            <label for="file" class="form-label">Carica file</label>
+            <label for="file" class="form-label">Carica file*</label>
             <input (change)="onFileSelected($event)" formControlName="file" type="file" class="form-control" id="file"
                 [class.is-invalid]="addDocumentForm.get('file')?.invalid && addDocumentForm.get('file')?.touched">
             <div *ngIf="addDocumentForm.get('file')?.invalid && addDocumentForm.get('file')?.touched"

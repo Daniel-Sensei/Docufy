@@ -9,7 +9,7 @@
     <!-- Angular Reactive Form Validation -->
     <form [formGroup]="addDipendenteForm" class="row g-3" (ngSubmit)="submitForm()" novalidate>
         <div class="col-md-6">
-            <label for="nome" class="form-label">Nome</label>
+            <label for="nome" class="form-label">Nome*</label>
             <input formControlName="nome" type="text" class="form-control"
                 [class.is-invalid]="addDipendenteForm.get('nome')?.invalid && addDipendenteForm.get('nome')?.touched">
             <div *ngIf="addDipendenteForm.get('nome')?.invalid && addDipendenteForm.get('nome')?.touched"
@@ -20,7 +20,7 @@
         </div>
 
         <div class="col-md-6">
-            <label for="cognome" class="form-label">Cognome</label>
+            <label for="cognome" class="form-label">Cognome*</label>
             <input formControlName="cognome" type="text" class="form-control"
                 [class.is-invalid]="addDipendenteForm.get('cognome')?.invalid && addDipendenteForm.get('cognome')?.touched">
             <div *ngIf="addDipendenteForm.get('cognome')?.invalid && addDipendenteForm.get('cognome')?.touched"
@@ -30,7 +30,7 @@
         </div>
 
         <div class="col-md-6">
-            <label for="dataNascita" class="form-label">Data di Nascita</label>
+            <label for="dataNascita" class="form-label">Data di Nascita*</label>
             <div class="input-group">
                 <input readonly formControlName="dataNascita" class="form-control" ngbDatepicker #dpNascita="ngbDatepicker"
                     placeholder="gg-mm-aaaa" [minDate]="minDate"
@@ -45,7 +45,7 @@
         </div>
 
         <div class="col-md-6">
-            <label for="dataAssunzione" class="form-label">Data di Assunzione</label>
+            <label for="dataAssunzione" class="form-label">Data di Assunzione*</label>
             <div class="input-group">
                 <input readonly formControlName="dataAssunzione" class="form-control" ngbDatepicker #dpAssunzione="ngbDatepicker"
                     placeholder="gg-mm-aaaa" [minDate]="minDate"
@@ -60,7 +60,7 @@
         </div>
 
         <div class="col-md-6">
-            <label for="cf" class="form-label">Codice Fiscale</label>
+            <label for="cf" class="form-label">Codice Fiscale*</label>
             <input formControlName="cf" type="text" class="form-control"
                 [class.is-invalid]="addDipendenteForm.get('cf')?.invalid && addDipendenteForm.get('cf')?.touched">
             <div *ngIf="addDipendenteForm.get('cf')?.invalid && addDipendenteForm.get('cf')?.touched"
@@ -70,7 +70,7 @@
         </div>
 
         <div class="col-md-6">
-            <label for="ruolo" class="form-label">Ruolo</label>
+            <label for="ruolo" class="form-label">Ruolo*</label>
             <input formControlName="ruolo" type="text" class="form-control"
                 [class.is-invalid]="addDipendenteForm.get('ruolo')?.invalid && addDipendenteForm.get('ruolo')?.touched">
             <div *ngIf="addDipendenteForm.get('ruolo')?.invalid && addDipendenteForm.get('ruolo')?.touched"
@@ -80,7 +80,7 @@
         </div>
 
         <div class="col-md-12">
-            <label for="email" class="form-label">Email</label>
+            <label for="email" class="form-label">Email*</label>
             <input formControlName="email" type="email" class="form-control"
                 [class.is-invalid]="addDipendenteForm.get('email')?.invalid && addDipendenteForm.get('email')?.touched">
             <div *ngIf="addDipendenteForm.get('email')?.invalid && addDipendenteForm.get('email')?.touched"
