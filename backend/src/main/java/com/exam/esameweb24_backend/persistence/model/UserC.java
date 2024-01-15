@@ -594,7 +594,7 @@ public class UserC extends User
         if(!Utility.checkConsultantAgency(this.pIva, pIva))
             return new ResponseEntity<>(HttpStatus.UNAUTHORIZED);
 
-        List<String> params = new ArrayList<>(Arrays.asList(q.split("%22")));
+        List<String> params = new ArrayList<>(Arrays.asList(q.split(" ")));
         for(String s : params) s.toLowerCase();
         Ricerca r = new Ricerca();
         r.setAziende(DBManager.getInstance().getAziendaDao().ricerca(params));
