@@ -13,6 +13,8 @@ import { ActivatedRoute } from '@angular/router';
 import { FileService } from '../../../service/file/file.service';
 import { Observable, forkJoin, of } from 'rxjs';
 import { map, catchError } from 'rxjs/operators';
+import { CommunicationService } from '../../../service/communication/communication.service';
+
 
 
 
@@ -41,7 +43,8 @@ export class HeaderComponent {
     private aziendeService: AziendeService,
     private auth: AuthService,
     private route: ActivatedRoute,
-    private fileService: FileService) {
+    private fileService: FileService,
+    private communication: CommunicationService) {
     this.router.events.subscribe(event => {
       if (event instanceof NavigationStart) {
         this.isDashboard = event.url === '/' || event.url === '/aziende' || event.url === '/profile'; //controllo se è login o register 
@@ -157,8 +160,10 @@ export class HeaderComponent {
       this.router.navigate(['/']);
       return;
     }
-    this.router.navigate(['/search/', this.text.value]);
+    this.router.navigate(['/search/', this.text.value ?? '']);
+    this.communication.setSearchText(this.text.value ?? '');
   }
+  
 
   logout() {
     const modalRef = this.modalService.open(LogoutModalComponent, {
