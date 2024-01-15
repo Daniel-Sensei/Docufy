@@ -17,7 +17,7 @@ export class RicercaService {
     private auth: AuthService
   ) { }
 
-  search(text: string): Observable<any>{
-    return this.http.get<any>(Settings.API_ENDPOINT + "search?q=" + text, { headers: this.auth.headers });
+  search(pIva: string, text: string): Observable<any>{
+    return this.http.get<any>(Settings.API_ENDPOINT + "search?pIva=" + pIva + "&q=" + text, { headers: this.auth.headers });
   }
 }
