@@ -19,7 +19,6 @@
 
         <app-alert [page]="'Aziende'"></app-alert>
     </div> <!-- End Margin -->
-
     <app-aziende-tabella *ngIf="isInitialized && aziende && aziende.length > 0" [aziende]="aziende" (refreshData)="updateAziende()"></app-aziende-tabella>
-
+    <app-nessun-componente *ngIf="!isInitialized || aziende && aziende.length === 0" ></app-nessun-componente>
 </div>
