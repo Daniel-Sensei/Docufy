@@ -147,16 +147,16 @@ public class DocumentoDaoPostgres implements DocumentoDao {
         ArrayList<Documento> documenti = new ArrayList<>();
         StringBuilder query = new StringBuilder("SELECT * FROM documenti WHERE ");
         for (int i = 0; i < q.size(); i++) {
-            if (i == q.size() - 1) query.append("nome ILIKE ? OR formato ILIKE ?");
-            else query.append("nome ILIKE ? OR formato ILIKE ? OR ");
+            query.append("nome ILIKE ? OR formato ILIKE ?");
+            if (i < q.size() - 1) query.append(" OR ");
         }
         try {
             PreparedStatement st = conn.prepareStatement(query.toString());
-            for (int i = 0; i < q.size(); i++) {
-                st.setString(i * 3 + 1, "%" + q.get(i) + "%");
-                st.setString(i * 3 + 2, "%" + q.get(i) + "%");
-                st.setString(i * 3 + 3, "%" + q.get(i) + "%");
-            }
+
+            for (int i = 1; i <= q.size(); i++)
+                for (int j = 1; j <= 2; j++)
+                    st.setString(i*j+1, "%"+q.get(i-1)+"%");
+
             ResultSet rs = st.executeQuery();
             while (rs.next()) {
                 Documento documento = new Documento();

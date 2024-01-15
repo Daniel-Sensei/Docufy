@@ -108,10 +108,9 @@ public class AziendaDaoPostgres implements AziendaDao {
         }
         try {
             PreparedStatement st = conn.prepareStatement(query.toString());
-            for (String s : q) {
+            for (int i = 1; i <= q.size(); i++)
                 for (int j = 1; j <= 5; j++)
-                    st.setString(j, "%"+s+"%");
-            }
+                    st.setString(i*j, "%"+q.get(i-1)+"%");
             ResultSet rs = st.executeQuery();
             while (rs.next()){
                 Azienda azienda = new Azienda();

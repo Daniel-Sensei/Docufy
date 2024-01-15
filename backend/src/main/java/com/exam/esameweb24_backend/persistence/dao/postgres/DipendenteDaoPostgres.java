@@ -191,15 +191,11 @@ public class DipendenteDaoPostgres implements DipendenteDao {
         try {
             PreparedStatement st = conn.prepareStatement(query.toString());
             st.setString(1, azienda);
-            for (int i = 0; i < q.size(); i++) {
-                st.setString(i + 2, "%" + q.get(i) + "%");
-                st.setString(i + 2 + q.size(), "%" + q.get(i) + "%");
-                st.setString(i + 2 + q.size() * 2, "%" + q.get(i) + "%");
-                st.setString(i + 2 + q.size() * 3, "%" + q.get(i) + "%");
-                st.setString(i + 2 + q.size() * 4, "%" + q.get(i) + "%");
-                st.setString(i + 2 + q.size() * 5, "%" + q.get(i) + "%");
-                st.setString(i + 2 + q.size() * 6, "%" + q.get(i) + "%");
-            }
+
+            for (int i = 1; i <= q.size(); i++)
+                for (int j = 1; j <= 7; j++)
+                    st.setString(i*j+1, "%"+q.get(i-1)+"%");
+
             ResultSet rs = st.executeQuery();
             while (rs.next()) {
                 Dipendente dipendente = new Dipendente();
