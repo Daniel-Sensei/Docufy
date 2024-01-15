@@ -22,6 +22,6 @@
 
   <div class="row row-cols-1 row-cols-md-2 row-cols-xxl-3 g-4" *ngIf="corsi && corsi.length>0">
     <app-corsi-card *ngFor="let corso of corsi" [corso]="corso"></app-corsi-card>
-    <app-no-data *ngIf=" corsi && corsi.length === 0" ></app-no-data>
   </div>
+  <app-no-data *ngIf="corsi && corsi.length === 0" ></app-no-data>
 </main>
