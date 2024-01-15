@@ -64,6 +64,7 @@ import { AlertComponent } from './view/GENERIC/alert/alert.component';
 import { OperazioniVelociComponent } from './view/_DASHBOARD/operazioni-veloci/operazioni-veloci.component';
 import { CopyrightComponent } from './view/_STATIC/copyright/copyright.component';
 import { AddDipendentiListaModalComponent } from './view/_DIPENDENTI/add-dipendenti-lista-modal/add-dipendenti-lista-modal.component';
+import { NessunComponenteComponent } from './view/GENERIC/nessun-componente/nessun-componente.component';
 
 
 @NgModule({
@@ -108,6 +109,7 @@ import { AddDipendentiListaModalComponent } from './view/_DIPENDENTI/add-dipende
     OperazioniVelociComponent,
     CopyrightComponent,
     AddDipendentiListaModalComponent,
+    NessunComponenteComponent,
   ],
   imports: [
     BrowserModule,

@@ -1,0 +1,20 @@
+.container {
+    display: flex;
+    flex-direction: column;
+    align-items: center;
+    justify-content: center;
+    text-align: center; /* Aggiunto per centrare il testo nel caso di elementi più grandi */
+}
+
+h3 {
+    margin-top: 20px;
+    margin-bottom: 20px;
+    font-size: 20px;
+    font-weight: bold;
+    color: #444;
+}
+
+.img-fluid {
+    width: 300px;
+    margin: auto; /* Centra l'immagine sia orizzontalmente che verticalmente */
+}
