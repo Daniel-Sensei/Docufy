@@ -23,8 +23,7 @@ import java.util.Properties;
 
 public class EmailSender {
 
-    @Value("${spring.mail.username}")
-    private static String fromEmail;
+    private static final String fromEmail = "testforwebapplication@gmail.com";
 
 
     private static Boolean sendMail(String to, String[] cc, String subject, Multipart content) {

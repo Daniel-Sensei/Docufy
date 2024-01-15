@@ -4,7 +4,7 @@ public class Email {
 
     private String nome;
 
-    private String mail;
+    private String email;
 
     private String oggetto;
 
@@ -14,9 +14,9 @@ public class Email {
 
     public void setNome(String nome) {this.nome = nome;}
 
-    public String getMail() {return mail;}
+    public String getEmail() {return email;}
 
-    public void setMail(String mail) {this.mail = mail;}
+    public void setEmail(String email) {this.email = email;}
 
     public String getOggetto() {return oggetto;}
 

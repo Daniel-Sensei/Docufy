@@ -13,7 +13,7 @@ import org.springframework.web.bind.annotation.*;
 @CrossOrigin("http://localhost:4200/")
 public class EmailService {
 
-    @PostMapping("/send-mail")
+    @PostMapping("/send-confirm-mail")
     public ResponseEntity<String> sendConfirmationMail(HttpServletRequest req, @RequestBody Email mail){
 
         User user = Utility.getRequestUser(req);
@@ -24,7 +24,7 @@ public class EmailService {
 
         String body = "Abbiamo preso in carico la Vostra segnalazione, di seguito un riepilogo del messaggio inviato.\n\nOggetto: "+mail.getOggetto()+"\nMessaggio: "+mail.getMessaggio();
 
-        if(EmailSender.sendConfirmationMail(mail.getMail(), null, "Conferma richiesta di contatto", body))
+        if(EmailSender.sendConfirmationMail(mail.getEmail(), null, "Conferma richiesta di contatto", body))
             return new ResponseEntity<>(HttpStatus.OK);
         else
             return new ResponseEntity<>(HttpStatus.INTERNAL_SERVER_ERROR);
