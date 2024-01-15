@@ -28,5 +28,5 @@
     </div>
     <app-dipendenti-tabella *ngIf="isInitialized && dipendenti && dipendenti.length > 0"
         [dipendenti]="dipendenti"></app-dipendenti-tabella>
-    <app-nessun-componente *ngIf="!isInitialized || dipendenti && dipendenti.length === 0" ></app-nessun-componente>
+    <app-no-data *ngIf="!isInitialized || dipendenti && dipendenti.length === 0" ></app-no-data>
 </div>
