@@ -29,12 +29,12 @@ export class AuthService {
       var email = localStorage.getItem('admin-email');
       var password = localStorage.getItem('admin-password');
 
-      if(email == null || password == null){
+      if (email == null || password == null) {
         email = sessionStorage.getItem('admin-email');
         password = sessionStorage.getItem('admin-password');
       }
       //console.log("AUTOLOGIN" + email + password);
-  
+
       if (email && password) {
         return this.login(email, password, false);
       } else {
@@ -136,7 +136,7 @@ export class AuthService {
   login(email: string, password: string, rememberMe: boolean): Observable<boolean> {
     const user = { email: email, password: password };
 
-    return this.http.post<AuthToken>(Settings.API_ENDPOINT + 'login', user)
+    return this.http.post<AuthToken>(Settings.API_ENDPOINT + 'login', user, { withCredentials: true })
       .pipe(
         map(response => {
           if (response == undefined) {
@@ -163,7 +163,25 @@ export class AuthService {
       );
   }
 
-  logout(): void {
+  logout(): Observable<any> {
+    return this.http.post(Settings.API_ENDPOINT + 'logout', { headers: this.headers }, { withCredentials: true }).pipe(
+      map(response => {
+        this.clear();
+        return response;
+      })
+    );
+    /*
+    console.log("LOGOUT");
+    //stampa valori di tutti i token da session sotrage e local storage
+    console.log("TOKEN: " + "Session" + sessionStorage.getItem('admin-token') + " Local" + localStorage.getItem('admin-token'));
+    console.log("ROLE: " + "Session" + sessionStorage.getItem('admin-role') + " Local" + localStorage.getItem('admin-role'));
+    console.log("CURRENTPIVA: " + "Session" + sessionStorage.getItem('admin-currentPIva') + " Local" + localStorage.getItem('admin-currentPIva'));
+    console.log("EMAIL: " + "Session" + sessionStorage.getItem('admin-email') + " Local" +  localStorage.getItem('admin-email'));
+    console.log("PASSWORD: " + "Session" + sessionStorage.getItem('admin-password') + " Local" + localStorage.getItem('admin-password'));
+    */
+  }
+
+  private clear(): void {
     this.token = null;
     sessionStorage.removeItem('admin-token');
     localStorage.removeItem('admin-token');
@@ -180,16 +198,6 @@ export class AuthService {
     localStorage.removeItem('admin-email');
     sessionStorage.removeItem('admin-password');
     localStorage.removeItem('admin-password');
-
-    /*
-    console.log("LOGOUT");
-    //stampa valori di tutti i token da session sotrage e local storage
-    console.log("TOKEN: " + "Session" + sessionStorage.getItem('admin-token') + " Local" + localStorage.getItem('admin-token'));
-    console.log("ROLE: " + "Session" + sessionStorage.getItem('admin-role') + " Local" + localStorage.getItem('admin-role'));
-    console.log("CURRENTPIVA: " + "Session" + sessionStorage.getItem('admin-currentPIva') + " Local" + localStorage.getItem('admin-currentPIva'));
-    console.log("EMAIL: " + "Session" + sessionStorage.getItem('admin-email') + " Local" +  localStorage.getItem('admin-email'));
-    console.log("PASSWORD: " + "Session" + sessionStorage.getItem('admin-password') + " Local" + localStorage.getItem('admin-password'));
-    */
   }
 
   setEmailPassword(email: string, password: string, rememberMe: boolean): void {
@@ -222,9 +230,9 @@ export class AuthService {
     sessionStorage.setItem('admin-password', password);
     sessionStorage.setItem('admin-newPassword', newPpassword);
   }
-  
+
   updatePassword(oldPw: string, newPw: string): Observable<any> {
     const user = { oldPw: oldPw, newPw: newPw };
     return this.http.post(Settings.API_ENDPOINT + 'cambio-password', user, { headers: this.headers })
-  } 
+  }
 }

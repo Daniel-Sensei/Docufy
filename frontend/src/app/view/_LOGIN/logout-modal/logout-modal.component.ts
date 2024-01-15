@@ -16,9 +16,16 @@ export class LogoutModalComponent {
     private router: Router) { }
 
   logout() {
-    this.auth.logout();
     this.activeModal.close();
-    this.router.navigate(['/login']);
+    this.auth.logout().subscribe(
+      res => {
+        this.router.navigate(['/login']);
+      },
+      err => {
+        console.log(err);
+      }
+    );
+
   }
 
 }
