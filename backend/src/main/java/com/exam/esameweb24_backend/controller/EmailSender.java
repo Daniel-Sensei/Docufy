@@ -67,7 +67,6 @@ public class EmailSender {
             return true;
 
         } catch (Exception e){
-            e.printStackTrace(); //TODO: rimuovere dopo test
             return false;
         }
     }
@@ -84,7 +83,6 @@ public class EmailSender {
             return sendMail(to, cc, subject, multipart);
 
         } catch (MessagingException e) {
-            e.printStackTrace();
             return false;
         }
     }
@@ -128,7 +126,6 @@ public class EmailSender {
 
             return sendMail(to, cc, subject, multipart);
         } catch (MessagingException | IOException e) {
-            e.printStackTrace();
             return false;
         }
     }
@@ -223,7 +220,6 @@ public class EmailSender {
 
             return sendMail(to, cc, subject, multipart);
         } catch (Exception e){
-            e.printStackTrace();
             return false;
         }
     }

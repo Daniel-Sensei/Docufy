@@ -595,7 +595,10 @@ public class UserC extends User
         for(String s : params) s.toLowerCase();
         Ricerca r = new Ricerca();
         r.setAziende(DBManager.getInstance().getAziendaDao().ricerca(params));
-        r.setDipendenti(DBManager.getInstance().getDipendenteDao().ricerca(pIva, params));
+        ArrayList<Dipendente> dip = new ArrayList<>();
+        for(Azienda a : DBManager.getInstance().getAziendaDao().findByConsultant(pIva))
+            dip.addAll(DBManager.getInstance().getDipendenteDao().findByAzienda(a.getPIva()));
+        r.setDipendenti(dip);
         List<Documento> documenti = DBManager.getInstance().getDocumentoDao().ricerca(params);
         for(Documento d : documenti){
             if(d.getAzienda()!=null && d.getAzienda().getConsulente().getPIva().equals(pIva)) r.addToDocumenti(d);
