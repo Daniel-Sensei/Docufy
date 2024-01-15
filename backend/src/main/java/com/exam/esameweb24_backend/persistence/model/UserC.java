@@ -590,19 +590,19 @@ public class UserC extends User
     // Ricerca Service
 
     @Override
-    public ResponseEntity<Ricerca> ricerca(String q) {
+    public ResponseEntity<Ricerca> ricerca(String pIva, String q) {
+        if(!Utility.checkConsultantAgency(this.pIva, pIva))
+            return new ResponseEntity<>(HttpStatus.UNAUTHORIZED);
+
         List<String> params = new ArrayList<>(Arrays.asList(q.split("%22")));
         for(String s : params) s.toLowerCase();
         Ricerca r = new Ricerca();
         r.setAziende(DBManager.getInstance().getAziendaDao().ricerca(params));
-        ArrayList<Dipendente> dip = new ArrayList<>();
-        for(Azienda a : DBManager.getInstance().getAziendaDao().findByConsultant(pIva))
-            dip.addAll(DBManager.getInstance().getDipendenteDao().findByAzienda(a.getPIva()));
-        r.setDipendenti(dip);
+        r.setDipendenti(DBManager.getInstance().getDipendenteDao().ricerca(pIva, params));
         List<Documento> documenti = DBManager.getInstance().getDocumentoDao().ricerca(params);
         for(Documento d : documenti){
-            if(d.getAzienda()!=null && d.getAzienda().getConsulente().getPIva().equals(pIva)) r.addToDocumenti(d);
-            else if(d.getDipendente()!=null && d.getDipendente().getAzienda().getConsulente().getPIva().equals(pIva)) r.addToDocumenti(d);
+            if(d.getAzienda()!=null && d.getAzienda().getPIva().equals(pIva)) r.addToDocumenti(d);
+            else if(d.getDipendente()!=null && d.getDipendente().getAzienda().getPIva().equals(pIva)) r.addToDocumenti(d);
         }
         return new ResponseEntity<>(r, HttpStatus.OK);
         }

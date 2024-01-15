@@ -16,12 +16,12 @@ import org.springframework.web.bind.annotation.RestController;
 public class RicercaService {
 
     @GetMapping("/search")
-    public ResponseEntity<Ricerca> ricerca(HttpServletRequest req, @RequestParam String q){
+    public ResponseEntity<Ricerca> ricerca(HttpServletRequest req, @RequestParam String pIva, @RequestParam String q){
 
         User user = Utility.getRequestUser(req);
 
         if(user == null) return new ResponseEntity<>(HttpStatus.UNAUTHORIZED);
 
-        return user.ricerca(q);
+        return user.ricerca(pIva, q);
     }
 }

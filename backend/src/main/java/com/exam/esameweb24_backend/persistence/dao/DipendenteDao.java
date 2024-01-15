@@ -11,9 +11,7 @@ public interface DipendenteDao {
     public Dipendente findById(Long id);
     public Dipendente findByCF(String cf);
     public List<Dipendente> findByCorsoFrequentato(Long idCorso);
-
     public ArrayList<Dipendente> ricerca(String azienda, List<String> q);
-
     public Long insert(Dipendente dipendente);
     public boolean update(Dipendente dipendente);
     public boolean delete(Long id);

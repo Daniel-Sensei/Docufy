@@ -586,7 +586,7 @@ public class UserA extends User
     // Ricerca Service
 
     @Override
-    public ResponseEntity<Ricerca> ricerca(String q) {
+    public ResponseEntity<Ricerca> ricerca(String pIva, String q) {
         List<String> params = new ArrayList<>(Arrays.asList(q.split("%22")));
         for(String s : params) s.toLowerCase();
         Ricerca r = new Ricerca();

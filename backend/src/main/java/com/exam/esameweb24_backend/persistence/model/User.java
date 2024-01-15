@@ -205,5 +205,5 @@ public class User {
 
     // Ricerca Service
 
-    public ResponseEntity<Ricerca> ricerca(String q) {return null;}
+    public ResponseEntity<Ricerca> ricerca(String pIva, String q) {return null;}
 }
