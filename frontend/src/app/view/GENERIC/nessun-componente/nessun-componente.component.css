@@ -1,3 +1,7 @@
+section{
+    align-items: center;
+    text-align: center;
+}
 .container {
     padding: 20px;
     display: flex;
@@ -16,7 +20,7 @@ h3 {
 
 .img-fluid {
     width: 270px;
-    margin: auto; /* Centra l'immagine sia orizzontalmente che verticalmente */
+    margin: auto;
 }
 
 
