@@ -40,8 +40,7 @@ public class DipendentiServlet extends HttpServlet {
                 }
 
                 //TODO: user.getDipendenti()
-                // Se esegue userA --> restituisce i suoi dipendenti
-                // Se esegue userC --> restituisce i dipendenti di tutte le sue sottoaziende
+                // implementazione completata, che bisognerebbe fare, rimuovere il commento ed eseguire la funzione?
             }
 
             // Reindirizza a dipendenti.html;

@@ -9,6 +9,7 @@ import org.springframework.http.ResponseEntity;
 import org.springframework.web.multipart.MultipartFile;
 
 import java.io.IOException;
+import java.util.ArrayList;
 import java.util.List;
 
 public class UserC extends User
@@ -325,6 +326,15 @@ public class UserC extends User
 
 
     // Dipendente Service
+
+    @Override
+    public ResponseEntity<List<Dipendente>> getDipendenti() {
+        List <Azienda> aziende = DBManager.getInstance().getAziendaDao().findByConsultant(pIva);
+        List <Dipendente> dipendenti = new ArrayList<>();
+        for (Azienda a : aziende)
+            dipendenti.addAll(DBManager.getInstance().getDipendenteDao().findByAzienda(a.getPIva()));
+        return new ResponseEntity<>(dipendenti, HttpStatus.OK);
+    }
 
     @Override
     public ResponseEntity<List<Dipendente>> getDipendentiByPIva(String pIva) {

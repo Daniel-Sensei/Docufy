@@ -203,6 +203,11 @@ public class UserA extends User
     // Dipendente Service
 
     @Override
+    public ResponseEntity<List<Dipendente>> getDipendenti() {
+        return new ResponseEntity<>(DBManager.getInstance().getDipendenteDao().findByAzienda(pIva), HttpStatus.OK);
+    }
+
+    @Override
     public ResponseEntity<List<Dipendente>> getDipendentiByPIva(String pIva) {
         if(this.pIva.equals(pIva))
             return new ResponseEntity<>(DBManager.getInstance().getDipendenteDao().findByAzienda(pIva), HttpStatus.OK);
@@ -249,7 +254,7 @@ public class UserA extends User
             }
             return new ResponseEntity<>(HttpStatus.OK);
         } catch (IOException | ParseException e) {
-            throw new RuntimeException(e); //TODO: dopo testing sostituire con return new ResponseEntity<>(HttpStatus.INTERNAL_SERVER_ERROR);
+            return new ResponseEntity<>(HttpStatus.INTERNAL_SERVER_ERROR);
         }
     }
 
@@ -262,7 +267,7 @@ public class UserA extends User
             }
             return new ResponseEntity<>(HttpStatus.OK);
         } catch (IOException | CsvValidationException e) {
-            throw new RuntimeException(e); //TODO: dopo testing sostituire con return new ResponseEntity<>(HttpStatus.INTERNAL_SERVER_ERROR);
+            return new ResponseEntity<>(HttpStatus.INTERNAL_SERVER_ERROR);
         }
     }
 
