@@ -377,7 +377,8 @@ public class UserA extends User
         //controllo che l'azienda sia associata al dipendente da rimuovere
         if (this.pIva.equals(d.getAzienda().getPIva())) {
             // elimino il dipendente dal database
-            rimuoviImmagineDipendente(id);
+            if (d.getImg()!=null)
+                rimuoviImmagineDipendente(id);
             if (DBManager.getInstance().getDipendenteDao().delete(id)) return new ResponseEntity<>(HttpStatus.OK);
             else return new ResponseEntity<>(HttpStatus.INTERNAL_SERVER_ERROR);
         }

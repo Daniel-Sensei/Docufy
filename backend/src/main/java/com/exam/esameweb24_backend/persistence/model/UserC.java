@@ -2,7 +2,7 @@ package com.exam.esameweb24_backend.persistence.model;
 
 import com.exam.esameweb24_backend.controller.PasswordHelper;
 import com.exam.esameweb24_backend.controller.Utility;
-import com.exam.esameweb24_backend.controller.service.impl.EmailServiceImpl;
+import com.exam.esameweb24_backend.controller.EmailSender;
 import com.exam.esameweb24_backend.persistence.DBManager;
 import org.springframework.http.HttpStatus;
 import org.springframework.http.ResponseEntity;
@@ -71,9 +71,6 @@ public class UserC extends User
 
         String tempPassword = PasswordHelper.generatePassword(8);
 
-        // STAMPA PASSWORD TEMPORANEA DA ELIMINARE DOPO TEST
-        System.out.println("Password temporanea generata: " + tempPassword);
-
         // creo un nuovo utente
         User newUser = new User();
         newUser.setEmail(azienda.getEmail());
@@ -82,11 +79,6 @@ public class UserC extends User
 
         // inserisco il nuovo utente nel database
         if (DBManager.getInstance().getUserDao().insert(newUser)) {
-
-            String body = "registration:"+azienda.getEmail()+":"+tempPassword;
-
-            EmailServiceImpl eSI = new EmailServiceImpl();
-            eSI.sendMail(azienda.getEmail(), null, "Credenziali di accesso piattaforma Docufy", body);
 
             // fornisco la pIva del consulente
             Consulente c = new Consulente();
@@ -105,10 +97,13 @@ public class UserC extends User
                     }
                     azienda.setImg(filePath);
                     // aggiorno il dipendente nel database
-                    if (!DBManager.getInstance().getAziendaDao().update(azienda)) {
+                    if (!DBManager.getInstance().getAziendaDao().update(azienda))
                         return new ResponseEntity<>(HttpStatus.INTERNAL_SERVER_ERROR);
-                    }
                 }
+
+                String body = "registration:"+azienda.getEmail()+":"+tempPassword;
+                EmailSender.sendMail(azienda.getEmail(), null, "Credenziali di accesso piattaforma Docufy", body);
+
                 return new ResponseEntity<>(HttpStatus.OK);
             }
         }
@@ -171,7 +166,8 @@ public class UserC extends User
         // controllo che il consulente sia associato all'azienda da eliminare
         if(this.pIva.equals(a.getConsulente().getPIva())){
             // elimino il file dell'immagine del dipendente
-            rimuoviImmagineAzienda(pIva);
+            if(a.getImg()!=null) Utility.deleteFile(a.getImg());
+                rimuoviImmagineAzienda(pIva);
             // elimino l'utente dal database e a cascata anche l'azienda
             if (DBManager.getInstance().getUserDao().delete(pIva)) return new ResponseEntity<>(HttpStatus.OK);
             else return new ResponseEntity<>(HttpStatus.INTERNAL_SERVER_ERROR);
