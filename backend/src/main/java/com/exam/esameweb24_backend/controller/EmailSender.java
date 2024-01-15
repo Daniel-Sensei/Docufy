@@ -143,29 +143,66 @@ public class EmailSender {
 
         try{
             // Read HTML content from file
-            String htmlContent = readFile("backend/src/main/resources/mailStuff/page.html");
+            String htmlContent = readFile("backend/src/main/resources/mailStuff/avviso-scadenza.html");
 
             if(!inScadenza.isEmpty()) {
+                List<String> id = new ArrayList<>();
                 List<String> nomi = new ArrayList<>();
                 List<String> scadenze = new ArrayList<>();
                 inScadenza.forEach(documento -> {
+                    if(documento.getAzienda()==null)
+                        id.add(documento.getDipendente().getCF());
+                    else
+                        id.add(documento.getAzienda().getPIva());
                     nomi.add(documento.getNome());
                     scadenze.add(new SimpleDateFormat("dd/MM/yyyy").format(documento.getDataScadenza()));
                 });
 
-                // caricamento rispettivo pezzo html
-                // sostituzione placeholder
+                String inScadHTML = readFile("backend/src/main/resources/mailStuff/in-scadenza.html");
+                StringBuilder inScadTable = new StringBuilder();
+                for(int i = 0; i < nomi.size(); i++){
+                    inScadTable.append("<tr>\n"+
+                            "<td class=\"pad\"\n"+
+                            "style=\"padding-bottom:10px;padding-left:50px;padding-right:50px;padding-top:10px;\">\n"+
+                            "<div\n"+
+                            "style=\"color:#393d47;font-family:'Helvetica Neue', Helvetica, Arial, sans-serif;font-size:13px;font-weight:400;line-height:150%;text-align:left;mso-line-height-alt:19.5px;\">\n"+
+                            "<p style=\"margin: 0;\"><span\n"+
+                            "style=\"color: #000000;\">"
+                    ).append(id.get(i)).append(" - ").append(nomi.get(i)).append(" - ").append(scadenze.get(i))
+                            .append("</span></p>\n").append("</div>\n").append("</td>\n");
+                }
+                inScadHTML = inScadHTML.replace("<!-- DOCUMENTI_IN_SCADENZA -->", inScadTable.toString());
+                htmlContent = htmlContent.replace("<!-- BLOCCO_IN_SCADENZA -->", inScadHTML);
             }
+
             if(!scaduto.isEmpty()) {
+                List<String> id = new ArrayList<>();
                 List<String> nomi = new ArrayList<>();
                 List<String> scadenze = new ArrayList<>();
                 scaduto.forEach(documento -> {
+                    if(documento.getAzienda()==null)
+                        id.add(documento.getDipendente().getCF());
+                    else
+                        id.add(documento.getAzienda().getPIva());
                     nomi.add(documento.getNome());
                     scadenze.add(new SimpleDateFormat("dd/MM/yyyy").format(documento.getDataScadenza()));
                 });
 
-                // caricamento del pezzo di html
-                // sostituzione placeholder
+                String scadHTML = readFile("backend/src/main/resources/mailStuff/in-scadenza.html");
+                StringBuilder scadTable = new StringBuilder();
+                for(int i = 0; i < nomi.size(); i++){
+                    scadTable.append("<tr>\n"+
+                                    "<td class=\"pad\"\n"+
+                                    "style=\"padding-bottom:10px;padding-left:50px;padding-right:50px;padding-top:10px;\">\n"+
+                                    "<div\n"+
+                                    "style=\"color:#393d47;font-family:'Helvetica Neue', Helvetica, Arial, sans-serif;font-size:13px;font-weight:400;line-height:150%;text-align:left;mso-line-height-alt:19.5px;\">\n"+
+                                    "<p style=\"margin: 0;\"><span\n"+
+                                    "style=\"color: #000000;\">"
+                            ).append(id.get(i)).append(" - ").append(nomi.get(i)).append(" - ").append(scadenze.get(i))
+                            .append("</span></p>\n").append("</div>\n").append("</td>\n");
+                }
+                scadHTML = scadHTML.replace("<!-- DOCUMENTI_SCADUTI -->", scadTable.toString());
+                htmlContent = htmlContent.replace("<!-- BLOCCO_SCADUTI -->", scadHTML);
             }
 
             // Create the HTML part
