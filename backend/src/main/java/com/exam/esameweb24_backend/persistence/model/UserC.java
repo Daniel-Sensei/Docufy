@@ -328,12 +328,12 @@ public class UserC extends User
     // Dipendente Service
 
     @Override
-    public ResponseEntity<List<Dipendente>> getDipendenti() {
+    public List<Dipendente> getDipendenti() {
         List <Azienda> aziende = DBManager.getInstance().getAziendaDao().findByConsultant(pIva);
         List <Dipendente> dipendenti = new ArrayList<>();
         for (Azienda a : aziende)
             dipendenti.addAll(DBManager.getInstance().getDipendenteDao().findByAzienda(a.getPIva()));
-        return new ResponseEntity<>(dipendenti, HttpStatus.OK);
+        return dipendenti;
     }
 
     @Override

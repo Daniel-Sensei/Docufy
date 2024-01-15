@@ -203,8 +203,8 @@ public class UserA extends User
     // Dipendente Service
 
     @Override
-    public ResponseEntity<List<Dipendente>> getDipendenti() {
-        return new ResponseEntity<>(DBManager.getInstance().getDipendenteDao().findByAzienda(pIva), HttpStatus.OK);
+    public List<Dipendente> getDipendenti() {
+        return DBManager.getInstance().getDipendenteDao().findByAzienda(pIva);
     }
 
     @Override

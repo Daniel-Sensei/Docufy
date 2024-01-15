@@ -96,7 +96,7 @@ public class User {
 
     // Dipendente Service
 
-    public ResponseEntity<List<Dipendente>> getDipendenti(){return null;}
+    public List<Dipendente> getDipendenti(){return null;}
     public ResponseEntity<List<Dipendente>> getDipendentiByPIva(String pIva){return null;}
 
     public ResponseEntity<Dipendente> getDipendente(Long id){return null;}
