@@ -1,5 +1,6 @@
 package com.exam.esameweb24_backend.controller;
 
+import com.exam.esameweb24_backend.persistence.model.Documento;
 import com.fasterxml.jackson.databind.ObjectMapper;
 
 import com.exam.esameweb24_backend.persistence.DBManager;
@@ -13,8 +14,10 @@ import java.io.IOException;
 import java.nio.file.Files;
 import java.nio.file.Path;
 import java.nio.file.Paths;
-import java.text.SimpleDateFormat;
+import java.util.ArrayList;
 import java.util.Base64;
+import java.util.Iterator;
+import java.util.List;
 
 public class Utility {
 
@@ -116,29 +119,80 @@ public class Utility {
     // troppo tardi -> "Scaduto"
     public static void updateAllDocumentsState(){
 
+        List<Documento> inScadenza = new ArrayList<>();
+        List<Documento> scaduto = new ArrayList<>();
+
         DBManager.getInstance().getDocumentoDao().getAll().forEach(documento -> {
-
-            String subject = "Scadenza documento";
-
-            String emailTo = documento.getAzienda().getEmail();
-
-            String[] cc = {emailTo, documento.getAzienda().getConsulente().getEmail()};
-
-            String body = "documentExpiration:";
 
             if(documento.getDataScadenza().getTime() - System.currentTimeMillis() > 2592000000L)
                 documento.setStato("Valido");
             else if(documento.getDataScadenza().getTime() - System.currentTimeMillis() > 0) {
                 documento.setStato("In Scadenza");
-                body += "expiring:" + documento.getNome() + ":" + new SimpleDateFormat("dd/MM/yyyy").format(documento.getDataScadenza());
+                inScadenza.add(documento);
             }
             else {
                 documento.setStato("Scaduto");
-                body += "expired:" + documento.getNome() + ":" + new SimpleDateFormat("dd/MM/yyyy").format(documento.getDataScadenza());
+                scaduto.add(documento);
             }
             DBManager.getInstance().getDocumentoDao().update(documento);
-            if (!documento.getStato().equals("Valido"))
-                EmailSender.sendDocumentExpirationMail(emailTo, cc, subject, null, null);
         });
+
+        while (!inScadenza.isEmpty() || !scaduto.isEmpty()) {
+
+            List<Documento> inScadenzaSend = new ArrayList<>();
+            List<Documento> scadutoSend = new ArrayList<>();
+
+            String emailTo = "";
+            String[] cc = new String[2];
+            String subject = "Notifica Scadenza Documenti";
+
+            if (!inScadenza.isEmpty()) {
+                inScadenzaSend.add(inScadenza.get(0));
+                emailTo = inScadenza.get(0).getAzienda().getEmail();
+                cc[0] = inScadenza.get(0).getAzienda().getEmail();
+                cc[1] = inScadenza.get(0).getAzienda().getConsulente().getEmail();
+
+                // Creazione di un iteratore per evitare IndexOutOfBoundsException
+                Iterator<Documento> iterator = inScadenza.iterator();
+                if (iterator.hasNext()) {
+                    iterator.next();
+                    do {
+                        Documento documento = iterator.next();
+                        if (inScadenza.get(0).getAzienda().equals(documento.getAzienda())) {
+                            inScadenzaSend.add(documento);
+                            iterator.remove(); // Rimuove l'elemento corrente in modo sicuro
+                        }
+                    } while (iterator.hasNext());
+                }
+                Iterator<Documento> iterator2 = scaduto.iterator();
+                while (iterator2.hasNext()) {
+                    Documento documento = iterator2.next();
+                    if (inScadenza.get(0).getAzienda().equals(documento.getAzienda())) {
+                        scadutoSend.add(documento);
+                        iterator2.remove(); // Rimuove l'elemento corrente in modo sicuro
+                    }
+                }
+            } else {
+                scadutoSend.add(scaduto.get(0));
+                emailTo = scaduto.get(0).getAzienda().getEmail();
+                cc[0] = scaduto.get(0).getAzienda().getEmail();
+                cc[1] = scaduto.get(0).getAzienda().getConsulente().getEmail();
+
+                // Creazione di un iteratore per evitare IndexOutOfBoundsException
+                Iterator<Documento> iterator = scaduto.iterator();
+                if (iterator.hasNext()) {
+                    iterator.next();
+                    do {
+                        Documento documento = iterator.next();
+                        if (scaduto.get(0).getAzienda().equals(documento.getAzienda())) {
+                            scadutoSend.add(documento);
+                            iterator.remove(); // Rimuove l'elemento corrente in modo sicuro
+                        }
+                    } while (iterator.hasNext());
+                }
+            }
+
+            EmailSender.sendDocumentExpirationMail(emailTo, cc, subject, inScadenzaSend, scadutoSend);
+        }
     }
 }

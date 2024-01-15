@@ -134,7 +134,18 @@ public class EmailSender {
 
     // funzione per inviare una mail di scadenza documento
     public static Boolean sendDocumentExpirationMail(String to, String[] cc, String subject, List<Documento> inScadenza, List<Documento> scaduto){
-        return false;
+
+        // TODO: implementare funzione
+
+        if(inScadenza.isEmpty() && scaduto.isEmpty()) return false;
+
+        try{
+
+            return true;
+        } catch (Exception e){
+            e.printStackTrace();
+            return false;
+        }
     }
 
 

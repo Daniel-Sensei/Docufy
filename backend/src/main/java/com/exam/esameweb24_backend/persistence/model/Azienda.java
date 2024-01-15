@@ -1,5 +1,7 @@
 package com.exam.esameweb24_backend.persistence.model;
 
+import java.util.Objects;
+
 public class Azienda {
 
     public Azienda() {}
@@ -72,5 +74,18 @@ public class Azienda {
 
     public void setConsulente(Consulente consulente) {
         this.consulente = consulente;
+    }
+
+    @Override
+    public boolean equals(Object o) {
+        if (this == o) return true;
+        if (o == null || getClass() != o.getClass()) return false;
+        Azienda azienda = (Azienda) o;
+        return Objects.equals(pIva, azienda.pIva);
+    }
+
+    @Override
+    public int hashCode() {
+        return Objects.hash(pIva);
     }
 }
