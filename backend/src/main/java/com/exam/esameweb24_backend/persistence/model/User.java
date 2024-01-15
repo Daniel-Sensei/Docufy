@@ -199,4 +199,11 @@ public class User {
         else if (documento.getDataScadenza().before(new Date(new Date().getTime() + 2592000000L))) return "In Scadenza";
         else return "Valido";
     }
+
+
+
+
+    // Ricerca Service
+
+    public ResponseEntity<Ricerca> ricerca(String q) {return null;}
 }
