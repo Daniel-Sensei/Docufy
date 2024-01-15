@@ -97,6 +97,38 @@ public class AziendaDaoPostgres implements AziendaDao {
         return aziende;
     }
 
+    public ArrayList<Azienda> ricerca (List<String> q){
+        ArrayList<Azienda> aziende = new ArrayList<>();
+        StringBuilder query = new StringBuilder("SELECT * FROM aziende WHERE ");
+        for (int i = 0; i < q.size(); i++) {
+            if (i == q.size() - 1)
+                query.append("piva ILIKE ? OR ragionesociale ILIKE ? OR indirizzo ILIKE ? OR email ILIKE ? OR telefono ILIKE ?");
+            else
+                query.append("piva ILIKE ? OR ragionesociale ILIKE ? OR indirizzo ILIKE ? OR email ILIKE ? OR telefono ILIKE ? OR ");
+        }
+        try {
+            PreparedStatement st = conn.prepareStatement(query.toString());
+            for (String s : q) {
+                for (int j = 1; j <= 5; j++)
+                    st.setString(j, "%"+s+"%");
+            }
+            ResultSet rs = st.executeQuery();
+            while (rs.next()){
+                Azienda azienda = new Azienda();
+                azienda.setPIva(rs.getString("piva"));
+                azienda.setRagioneSociale(rs.getString("ragionesociale"));
+                azienda.setEmail(rs.getString("email"));
+                azienda.setTelefono(rs.getString("telefono"));
+                azienda.setIndirizzo(rs.getString("indirizzo"));
+                azienda.setImg(rs.getString("immagine"));
+                aziende.add(azienda);
+            }
+        } catch (SQLException e) {
+            throw new RuntimeException(e);
+        }
+        return aziende;
+    }
+
     @Override
     public boolean insert(Azienda azienda) {
         String query = "INSERT INTO aziende (piva, ragionesociale, email, telefono, indirizzo, immagine, consulente) VALUES (?, ?, ?, ?, ?, ?, ?)";

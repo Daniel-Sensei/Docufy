@@ -2,7 +2,6 @@ package com.exam.esameweb24_backend.persistence.dao.postgres;
 
 import com.exam.esameweb24_backend.persistence.DBManager;
 import com.exam.esameweb24_backend.persistence.dao.DipendenteDao;
-import com.exam.esameweb24_backend.persistence.model.Azienda;
 import com.exam.esameweb24_backend.persistence.model.Dipendente;
 
 import java.sql.Connection;
@@ -158,6 +157,49 @@ public class DipendenteDaoPostgres implements DipendenteDao {
         try {
             PreparedStatement st = conn.prepareStatement(query);
             st.setLong(1, idCorso);
+            ResultSet rs = st.executeQuery();
+            while (rs.next()) {
+                Dipendente dipendente = new Dipendente();
+                dipendente.setId(rs.getLong("id"));
+                dipendente.setCF(rs.getString("cf"));
+                dipendente.setNome(rs.getString("nome"));
+                dipendente.setCognome(rs.getString("cognome"));
+                dipendente.setDataNascita(rs.getDate("data_nascita"));
+                dipendente.setEmail(rs.getString("email"));
+                dipendente.setTelefono(rs.getString("telefono"));
+                dipendente.setResidenza(rs.getString("indirizzo"));
+                dipendente.setDataAssunzione(rs.getDate("data_assunzione"));
+                dipendente.setRuolo(rs.getString("ruolo"));
+                dipendente.setImg(rs.getString("foto"));
+                dipendenti.add(dipendente);
+            }
+        } catch (SQLException e) {
+            throw new RuntimeException(e);
+        }
+        return dipendenti;
+    }
+
+    @Override
+    public ArrayList<Dipendente> ricerca(String azienda, List<String> q){
+        ArrayList<Dipendente> dipendenti = new ArrayList<>();
+        StringBuilder query = new StringBuilder("SELECT * FROM dipendenti WHERE azienda = ? AND (");
+        for (int i = 0; i < q.size(); i++) {
+            query.append("cf ILIKE ? OR nome ILIKE ? OR cognome ILIKE ? OR email ILIKE ? OR telefono ILIKE ? OR indirizzo ILIKE ? OR ruolo ILIKE ?");
+            if (i < q.size() - 1) query.append(" OR ");
+        }
+        query.append(") ORDER BY cognome ASC");
+        try {
+            PreparedStatement st = conn.prepareStatement(query.toString());
+            st.setString(1, azienda);
+            for (int i = 0; i < q.size(); i++) {
+                st.setString(i + 2, "%" + q.get(i) + "%");
+                st.setString(i + 2 + q.size(), "%" + q.get(i) + "%");
+                st.setString(i + 2 + q.size() * 2, "%" + q.get(i) + "%");
+                st.setString(i + 2 + q.size() * 3, "%" + q.get(i) + "%");
+                st.setString(i + 2 + q.size() * 4, "%" + q.get(i) + "%");
+                st.setString(i + 2 + q.size() * 5, "%" + q.get(i) + "%");
+                st.setString(i + 2 + q.size() * 6, "%" + q.get(i) + "%");
+            }
             ResultSet rs = st.executeQuery();
             while (rs.next()) {
                 Dipendente dipendente = new Dipendente();

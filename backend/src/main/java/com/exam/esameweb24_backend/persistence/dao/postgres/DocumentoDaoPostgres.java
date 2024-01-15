@@ -143,6 +143,43 @@ public class DocumentoDaoPostgres implements DocumentoDao {
     }
 
     @Override
+    public ArrayList<Documento> ricerca(List<String> q) {
+        ArrayList<Documento> documenti = new ArrayList<>();
+        StringBuilder query = new StringBuilder("SELECT * FROM documenti WHERE ");
+        for (int i = 0; i < q.size(); i++) {
+            if (i == q.size() - 1) query.append("nome ILIKE ? OR formato ILIKE ?");
+            else query.append("nome ILIKE ? OR formato ILIKE ? OR ");
+        }
+        try {
+            PreparedStatement st = conn.prepareStatement(query.toString());
+            for (int i = 0; i < q.size(); i++) {
+                st.setString(i * 3 + 1, "%" + q.get(i) + "%");
+                st.setString(i * 3 + 2, "%" + q.get(i) + "%");
+                st.setString(i * 3 + 3, "%" + q.get(i) + "%");
+            }
+            ResultSet rs = st.executeQuery();
+            while (rs.next()) {
+                Documento documento = new Documento();
+                documento.setId(rs.getLong("id"));
+                documento.setNome(rs.getString("nome"));
+                documento.setFile(rs.getString("url"));
+                documento.setDataRilascio(rs.getDate("rilascio"));
+                documento.setDataScadenza(rs.getDate("scadenza"));
+                if(rs.getInt("dipendente") != 0)
+                    documento.setDipendente(DBManager.getInstance().getDipendenteDao().findById(rs.getLong("dipendente")));
+                if(rs.getString("azienda") != null)
+                    documento.setAzienda(DBManager.getInstance().getAziendaDao().findByPIva(rs.getString("azienda")));
+                documento.setStato(rs.getString("stato"));
+                documento.setFormato(rs.getString("formato"));
+                documenti.add(documento);
+            }
+        } catch (SQLException e) {
+            throw new RuntimeException(e);
+        }
+        return documenti;
+    }
+
+    @Override
     public Long insert(Documento documento) {
         String query = "INSERT INTO documenti (nome, url, rilascio, scadenza, dipendente, azienda, stato, formato) VALUES (?, ?, ?, ?, ?, ?, ?, ?) RETURNING id";
         try {

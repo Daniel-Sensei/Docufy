@@ -10,6 +10,7 @@ import org.springframework.web.multipart.MultipartFile;
 
 import java.io.IOException;
 import java.util.ArrayList;
+import java.util.Arrays;
 import java.util.List;
 
 public class UserC extends User
@@ -584,4 +585,22 @@ public class UserC extends User
             }
             return new ResponseEntity<>(HttpStatus.UNAUTHORIZED);
     }
+
+
+    // Ricerca Service
+
+    @Override
+    public ResponseEntity<Ricerca> ricerca(String q) {
+        List<String> params = new ArrayList<>(Arrays.asList(q.split("%22")));
+        for(String s : params) s.toLowerCase();
+        Ricerca r = new Ricerca();
+        r.setAziende(DBManager.getInstance().getAziendaDao().ricerca(params));
+        r.setDipendenti(DBManager.getInstance().getDipendenteDao().ricerca(pIva, params));
+        List<Documento> documenti = DBManager.getInstance().getDocumentoDao().ricerca(params);
+        for(Documento d : documenti){
+            if(d.getAzienda()!=null && d.getAzienda().getConsulente().getPIva().equals(pIva)) r.addToDocumenti(d);
+            else if(d.getDipendente()!=null && d.getDipendente().getAzienda().getConsulente().getPIva().equals(pIva)) r.addToDocumenti(d);
+        }
+        return new ResponseEntity<>(r, HttpStatus.OK);
+        }
 }

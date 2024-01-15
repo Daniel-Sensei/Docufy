@@ -15,6 +15,8 @@ import java.nio.charset.StandardCharsets;
 import java.nio.file.Files;
 import java.nio.file.Path;
 import java.nio.file.Paths;
+import java.text.SimpleDateFormat;
+import java.util.ArrayList;
 import java.util.Date;
 import java.util.List;
 import java.util.Properties;
@@ -139,8 +141,57 @@ public class EmailSender {
         if(inScadenza.isEmpty() && scaduto.isEmpty()) return false;
 
         try{
+            // Read HTML content from file
+            String htmlContent = readFile("backend/src/main/resources/mailStuff/page.html");
 
-            return true;
+            if(!inScadenza.isEmpty()) {
+                List<String> nomi = new ArrayList<>();
+                List<String> scadenze = new ArrayList<>();
+                inScadenza.forEach(documento -> {
+                    nomi.add(documento.getNome());
+                    scadenze.add(new SimpleDateFormat("dd/MM/yyyy").format(documento.getDataScadenza()));
+                });
+
+                // caricamento rispettivo pezzo html
+                // sostituzione placeholder
+            }
+            if(!scaduto.isEmpty()) {
+                List<String> nomi = new ArrayList<>();
+                List<String> scadenze = new ArrayList<>();
+                scaduto.forEach(documento -> {
+                    nomi.add(documento.getNome());
+                    scadenze.add(new SimpleDateFormat("dd/MM/yyyy").format(documento.getDataScadenza()));
+                });
+
+                // caricamento del pezzo di html
+                // sostituzione placeholder
+            }
+
+            // Create the HTML part
+            MimeBodyPart htmlPart = new MimeBodyPart();
+            htmlPart.setContent(htmlContent, "text/html; charset=utf-8");
+
+            // Create the multipart message
+            Multipart multipart = new MimeMultipart();
+            // Aggiungi il contenuto HTML al corpo del messaggio
+            multipart.addBodyPart(htmlPart);
+
+            // Aggiungi le immagini come parti del corpo, utilizzando Content-ID per riferirsi ad esse nell'HTML
+            MimeBodyPart imagePartLogo = new MimeBodyPart();
+            File logo = new File("backend/src/main/resources/mailStuff/images/logo.png");
+            imagePartLogo.attachFile(logo);
+            imagePartLogo.setContentID("<logo>");
+            imagePartLogo.setDisposition(MimeBodyPart.INLINE);
+            multipart.addBodyPart(imagePartLogo);
+
+            MimeBodyPart imagePartHost = new MimeBodyPart();
+            File host = new File("backend/src/main/resources/mailStuff/images/image-host.png");
+            imagePartHost.attachFile(host);
+            imagePartHost.setContentID("<host>");
+            imagePartHost.setDisposition(MimeBodyPart.INLINE);
+            multipart.addBodyPart(imagePartHost);
+
+            return sendMail(to, cc, subject, multipart);
         } catch (Exception e){
             e.printStackTrace();
             return false;
