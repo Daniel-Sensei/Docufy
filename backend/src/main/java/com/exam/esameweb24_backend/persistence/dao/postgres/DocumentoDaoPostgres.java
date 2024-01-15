@@ -153,9 +153,10 @@ public class DocumentoDaoPostgres implements DocumentoDao {
         try {
             PreparedStatement st = conn.prepareStatement(query.toString());
 
+            int index = 1;
             for (int i = 1; i <= q.size(); i++)
                 for (int j = 1; j <= 2; j++)
-                    st.setString(i*j, "%"+q.get(i-1)+"%");
+                    st.setString(index++, "%"+q.get(i-1)+"%");
 
             ResultSet rs = st.executeQuery();
             while (rs.next()) {
