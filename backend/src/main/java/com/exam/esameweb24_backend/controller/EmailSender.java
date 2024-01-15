@@ -187,7 +187,7 @@ public class EmailSender {
                     scadenze.add(new SimpleDateFormat("dd/MM/yyyy").format(documento.getDataScadenza()));
                 });
 
-                String scadHTML = readFile("backend/src/main/resources/mailStuff/in-scadenza.html");
+                String scadHTML = readFile("backend/src/main/resources/mailStuff/scaduti.html");
                 StringBuilder scadTable = new StringBuilder();
                 for(int i = 0; i < nomi.size(); i++){
                     scadTable.append("<tr>\n"+
@@ -220,13 +220,6 @@ public class EmailSender {
             imagePartLogo.setContentID("<logo>");
             imagePartLogo.setDisposition(MimeBodyPart.INLINE);
             multipart.addBodyPart(imagePartLogo);
-
-            MimeBodyPart imagePartHost = new MimeBodyPart();
-            File host = new File("backend/src/main/resources/mailStuff/images/image-host.png");
-            imagePartHost.attachFile(host);
-            imagePartHost.setContentID("<host>");
-            imagePartHost.setDisposition(MimeBodyPart.INLINE);
-            multipart.addBodyPart(imagePartHost);
 
             return sendMail(to, cc, subject, multipart);
         } catch (Exception e){

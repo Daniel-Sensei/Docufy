@@ -14,10 +14,7 @@ import java.io.IOException;
 import java.nio.file.Files;
 import java.nio.file.Path;
 import java.nio.file.Paths;
-import java.util.ArrayList;
-import java.util.Base64;
-import java.util.Iterator;
-import java.util.List;
+import java.util.*;
 
 public class Utility {
 
@@ -126,11 +123,11 @@ public class Utility {
 
             if(documento.getDataScadenza().getTime() - System.currentTimeMillis() > 2592000000L)
                 documento.setStato("Valido");
-            else if(documento.getDataScadenza().getTime() - System.currentTimeMillis() > 0) {
+            else if(!Objects.equals(documento.getStato(), "In Scadenza") && documento.getDataScadenza().getTime() - System.currentTimeMillis() > 0) {
                 documento.setStato("In Scadenza");
                 inScadenza.add(documento);
             }
-            else {
+            else if (!Objects.equals(documento.getStato(), "Scaduto") &&documento.getDataScadenza().getTime() - System.currentTimeMillis() <= 0) {
                 documento.setStato("Scaduto");
                 scaduto.add(documento);
             }
@@ -149,48 +146,96 @@ public class Utility {
             if (!inScadenza.isEmpty()) {
                 inScadenzaSend.add(inScadenza.get(0));
                 inScadenza.remove(0);
-                emailTo = inScadenzaSend.get(0).getAzienda().getEmail();
-                cc[0] = inScadenzaSend.get(0).getAzienda().getEmail();
-                cc[1] = inScadenzaSend.get(0).getAzienda().getConsulente().getEmail();
+                if(inScadenzaSend.get(0).getAzienda()!=null) {
+                    emailTo = inScadenzaSend.get(0).getAzienda().getEmail();
+                    cc[0] = inScadenzaSend.get(0).getAzienda().getEmail();
+                    cc[1] = inScadenzaSend.get(0).getAzienda().getConsulente().getEmail();
+                } else {
+                    emailTo = inScadenzaSend.get(0).getDipendente().getAzienda().getEmail();
+                    cc[0] = inScadenzaSend.get(0).getDipendente().getAzienda().getEmail();
+                    cc[1] = inScadenzaSend.get(0).getDipendente().getAzienda().getConsulente().getEmail();
+                }
 
-                // Creazione di un iteratore per evitare IndexOutOfBoundsException
                 Iterator<Documento> iterator = inScadenza.iterator();
                 if (iterator.hasNext()) {
                     do {
                         Documento documento = iterator.next();
-                        if (inScadenzaSend.get(0).getAzienda().equals(documento.getAzienda())) {
+                        if (inScadenzaSend.get(0).getAzienda()!=null && documento.getAzienda() != null && inScadenzaSend.get(0).getAzienda().equals(documento.getAzienda())) {
+                            inScadenzaSend.add(documento);
+                            iterator.remove(); // Rimuove l'elemento corrente in modo sicuro
+                        } else if (inScadenzaSend.get(0).getDipendente()!=null && documento.getDipendente() != null && inScadenzaSend.get(0).getDipendente().getAzienda().equals(documento.getDipendente().getAzienda())) {
+                            inScadenzaSend.add(documento);
+                            iterator.remove(); // Rimuove l'elemento corrente in modo sicuro
+                        } else if (inScadenzaSend.get(0).getDipendente()!=null && documento.getAzienda() != null && inScadenzaSend.get(0).getDipendente().getAzienda().equals(documento.getAzienda())) {
+                            inScadenzaSend.add(documento);
+                            iterator.remove(); // Rimuove l'elemento corrente in modo sicuro
+                        } else if (inScadenzaSend.get(0).getAzienda()!=null && documento.getDipendente() != null && inScadenzaSend.get(0).getAzienda().equals(documento.getDipendente().getAzienda())) {
                             inScadenzaSend.add(documento);
                             iterator.remove(); // Rimuove l'elemento corrente in modo sicuro
                         }
                     } while (iterator.hasNext());
                 }
+
                 Iterator<Documento> iterator2 = scaduto.iterator();
-                while (iterator2.hasNext()) {
-                    Documento documento = iterator2.next();
-                    if (inScadenza.get(0).getAzienda().equals(documento.getAzienda())) {
-                        scadutoSend.add(documento);
-                        iterator2.remove(); // Rimuove l'elemento corrente in modo sicuro
-                    }
+                if (iterator2.hasNext()) {
+                    do {
+                        Documento documento = iterator2.next();
+                        if (inScadenzaSend.get(0).getAzienda()!=null && documento.getAzienda() != null && inScadenzaSend.get(0).getAzienda().equals(documento.getAzienda())) {
+                            scadutoSend.add(documento);
+                            iterator2.remove(); // Rimuove l'elemento corrente in modo sicuro
+                        } else if (inScadenzaSend.get(0).getDipendente()!=null && documento.getDipendente() != null && inScadenzaSend.get(0).getDipendente().getAzienda().equals(documento.getDipendente().getAzienda())) {
+                            scadutoSend.add(documento);
+                            iterator2.remove(); // Rimuove l'elemento corrente in modo sicuro
+                        } else if (inScadenzaSend.get(0).getDipendente()!=null && documento.getAzienda() != null && inScadenzaSend.get(0).getDipendente().getAzienda().equals(documento.getAzienda())) {
+                            scadutoSend.add(documento);
+                            iterator2.remove(); // Rimuove l'elemento corrente in modo sicuro
+                        } else if (inScadenzaSend.get(0).getAzienda()!=null && documento.getDipendente() != null && inScadenzaSend.get(0).getAzienda().equals(documento.getDipendente().getAzienda())) {
+                            scadutoSend.add(documento);
+                            iterator2.remove(); // Rimuove l'elemento corrente in modo sicuro
+                        }
+                    } while (iterator2.hasNext());
                 }
+
             } else {
                 scadutoSend.add(scaduto.get(0));
                 scaduto.remove(0);
-                emailTo = scadutoSend.get(0).getAzienda().getEmail();
-                cc[0] = scadutoSend.get(0).getAzienda().getEmail();
-                cc[1] = scadutoSend.get(0).getAzienda().getConsulente().getEmail();
+                if(scadutoSend.get(0).getAzienda()!=null) {
+                    emailTo = scadutoSend.get(0).getAzienda().getEmail();
+                    cc[0] = scadutoSend.get(0).getAzienda().getEmail();
+                    cc[1] = scadutoSend.get(0).getAzienda().getConsulente().getEmail();
+                } else {
+                    emailTo = scadutoSend.get(0).getDipendente().getAzienda().getEmail();
+                    cc[0] = scadutoSend.get(0).getDipendente().getAzienda().getEmail();
+                    cc[1] = scadutoSend.get(0).getDipendente().getAzienda().getConsulente().getEmail();
+                }
 
                 // Creazione di un iteratore per evitare IndexOutOfBoundsException
                 Iterator<Documento> iterator = scaduto.iterator();
                 if (iterator.hasNext()) {
                     do {
                         Documento documento = iterator.next();
-                        if (scadutoSend.get(0).getAzienda().equals(documento.getAzienda())) {
+                        if (scadutoSend.get(0).getAzienda()!=null && documento.getAzienda() != null && scadutoSend.get(0).getAzienda().equals(documento.getAzienda())) {
+                            scadutoSend.add(documento);
+                            iterator.remove(); // Rimuove l'elemento corrente in modo sicuro
+                        } else if (scadutoSend.get(0).getDipendente()!=null && documento.getDipendente() != null && scadutoSend.get(0).getDipendente().getAzienda().equals(documento.getDipendente().getAzienda())) {
+                            scadutoSend.add(documento);
+                            iterator.remove(); // Rimuove l'elemento corrente in modo sicuro
+                        } else if (scadutoSend.get(0).getDipendente()!=null && documento.getAzienda() != null && scadutoSend.get(0).getDipendente().getAzienda().equals(documento.getAzienda())) {
+                            scadutoSend.add(documento);
+                            iterator.remove(); // Rimuove l'elemento corrente in modo sicuro
+                        } else if (scadutoSend.get(0).getAzienda()!=null && documento.getDipendente() != null && scadutoSend.get(0).getAzienda().equals(documento.getDipendente().getAzienda())) {
                             scadutoSend.add(documento);
                             iterator.remove(); // Rimuove l'elemento corrente in modo sicuro
                         }
                     } while (iterator.hasNext());
                 }
             }
+
+            System.out.println("Email to: " + emailTo);
+            System.out.println("CC: " + cc[0] + " " + cc[1]);
+            System.out.println("Subject: " + subject);
+            System.out.println("In Scadenza: " + inScadenzaSend);
+            System.out.println("Scaduto: " + scadutoSend);
             EmailSender.sendDocumentExpirationMail(emailTo, cc, subject, inScadenzaSend, scadutoSend);
         }
     }
