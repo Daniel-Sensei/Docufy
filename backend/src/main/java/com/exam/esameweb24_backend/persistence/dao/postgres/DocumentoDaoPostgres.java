@@ -144,7 +144,7 @@ public class DocumentoDaoPostgres implements DocumentoDao {
 
     @Override
     public ArrayList<Documento> ricerca(List<String> q) {
-        List<Documento> documenti = new ArrayList<>();
+        ArrayList<Documento> documenti = new ArrayList<>();
         StringBuilder query = new StringBuilder("SELECT * FROM documenti WHERE ");
         for (int i = 0; i < q.size(); i++) {
             if (i == q.size() - 1) query.append("nome ILIKE ? OR formato ILIKE ?");

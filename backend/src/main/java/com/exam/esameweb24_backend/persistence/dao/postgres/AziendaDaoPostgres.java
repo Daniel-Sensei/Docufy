@@ -98,7 +98,7 @@ public class AziendaDaoPostgres implements AziendaDao {
     }
 
     public ArrayList<Azienda> ricerca (List<String> q){
-        List<Azienda> aziende = new ArrayList<>();
+        ArrayList<Azienda> aziende = new ArrayList<>();
         StringBuilder query = new StringBuilder("SELECT * FROM aziende WHERE ");
         for (int i = 0; i < q.size(); i++) {
             if (i == q.size() - 1)

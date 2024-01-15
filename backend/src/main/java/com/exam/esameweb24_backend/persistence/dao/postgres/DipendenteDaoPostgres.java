@@ -181,7 +181,7 @@ public class DipendenteDaoPostgres implements DipendenteDao {
 
     @Override
     public ArrayList<Dipendente> ricerca(String azienda, List<String> q){
-        List<Dipendente> dipendenti = new ArrayList<>();
+        ArrayList<Dipendente> dipendenti = new ArrayList<>();
         StringBuilder query = new StringBuilder("SELECT * FROM dipendenti WHERE azienda = ? AND (");
         for (int i = 0; i < q.size(); i++) {
             query.append("cf ILIKE ? OR nome ILIKE ? OR cognome ILIKE ? OR email ILIKE ? OR telefono ILIKE ? OR indirizzo ILIKE ? OR ruolo ILIKE ?");
