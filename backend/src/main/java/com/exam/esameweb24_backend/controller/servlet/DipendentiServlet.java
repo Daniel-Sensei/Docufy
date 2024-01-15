@@ -1,6 +1,7 @@
 package com.exam.esameweb24_backend.controller.servlet;
 
 import com.exam.esameweb24_backend.persistence.DBManager;
+import com.exam.esameweb24_backend.persistence.model.Dipendente;
 import com.exam.esameweb24_backend.persistence.model.User;
 import com.exam.esameweb24_backend.persistence.model.UserA;
 import com.exam.esameweb24_backend.persistence.model.UserC;
@@ -13,9 +14,11 @@ import jakarta.servlet.http.HttpServletResponse;
 import jakarta.servlet.http.HttpSession;
 
 import java.io.IOException;
+import java.util.List;
 
 @WebServlet("/all-dipendenti")
 public class DipendentiServlet extends HttpServlet {
+
     @Override
     protected void doGet(HttpServletRequest req, HttpServletResponse resp) throws ServletException, IOException {
         HttpSession session = req.getSession(false);
@@ -33,14 +36,15 @@ public class DipendentiServlet extends HttpServlet {
             }
             else{
                 if(DBManager.getInstance().getUserDao().isConsultant(user)){
-                    user = (UserC) user;
+                    user = new UserC(user);
                 }
                 else{
-                    user = (UserA) user;
+                    user = new UserA(user);
                 }
 
-                //TODO: user.getDipendenti()
-                // implementazione completata, che bisognerebbe fare, rimuovere il commento ed eseguire la funzione?
+                List<Dipendente> dipendenti = user.getDipendenti();
+
+                System.out.println("Dipendenti: " + dipendenti);
             }
 
             // Reindirizza a dipendenti.html;

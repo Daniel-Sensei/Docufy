@@ -19,6 +19,14 @@ public class User {
 
     protected String pIva;
 
+    public User() {}
+
+    public User(String email, String password, String pIva) {
+        this.email = email;
+        this.password = password;
+        this.pIva = pIva;
+    }
+
     public String getEmail() {
         return email;
     }

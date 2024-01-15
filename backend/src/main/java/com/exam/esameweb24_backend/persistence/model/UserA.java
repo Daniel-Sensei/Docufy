@@ -16,6 +16,17 @@ import java.util.List;
 public class UserA extends User
 {
 
+    public UserA() {
+        super();
+    }
+
+    public UserA(String email, String password, String pIva) {
+        super(email, password, pIva);
+    }
+
+    public UserA(User user) {
+        super(user.email, user.password, user.pIva);
+    }
 
     // Azienda Service
 

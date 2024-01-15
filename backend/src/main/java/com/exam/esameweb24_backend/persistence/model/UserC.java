@@ -15,6 +15,17 @@ import java.util.List;
 public class UserC extends User
 {
 
+    public UserC() {
+        super();
+    }
+
+    public UserC(String email, String password, String pIva) {
+        super(email, password, pIva);
+    }
+
+    public UserC(User user) {
+        super(user.email, user.password, user.pIva);
+    }
 
     // Azienda Service
 
