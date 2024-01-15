@@ -181,25 +181,32 @@ public class DocumentoDaoPostgres implements DocumentoDao {
 
     @Override
     public Long insert(Documento documento) {
-        String query = "INSERT INTO documenti (nome, url, rilascio, scadenza, dipendente, azienda, stato, formato) VALUES (?, ?, ?, ?, ?, ?, ?, ?) RETURNING id";
+        String query = "INSERT INTO documenti (nome, url, rilascio, scadenza, ";
+        String query2 = "stato, formato) VALUES (?, ?, ?, ?, ?, ?, ?) RETURNING id";
+        if(documento.getDipendente() != null) {
+            query += "dipendente, ";
+        } else {
+            if (documento.getAzienda() != null) {
+                query += "azienda, ";
+            }
+            else return null;
+        }
         try {
-            PreparedStatement st = conn.prepareStatement(query);
+            PreparedStatement st = conn.prepareStatement(query+query2);
             st.setString(1, documento.getNome());
             st.setString(2, documento.getFile());
             st.setDate(3,  new java.sql.Date(documento.getDataRilascio().getTime()));
             st.setDate(4, new java.sql.Date(documento.getDataScadenza().getTime()));
             if(documento.getDipendente() != null) {
                 st.setLong(5, documento.getDipendente().getId());
-                st.setString(6, null);
             } else {
-                if (documento.getAzienda() != null) {
-                    st.setLong(5, 0);
-                    st.setString(6, documento.getAzienda().getPIva());
-                }
-                else return null;
+                st.setString(5, documento.getAzienda().getPIva());
             }
-            st.setString(7, documento.getStato());
-            st.setString(8, documento.getFormato());
+            st.setString(6, documento.getStato());
+            st.setString(7, documento.getFormato());
+
+            System.out.println(st);
+
             ResultSet rs = st.executeQuery();
             if (rs.next()) {
                 return rs.getLong("id");

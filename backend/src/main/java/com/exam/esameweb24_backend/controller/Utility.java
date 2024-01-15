@@ -148,17 +148,17 @@ public class Utility {
 
             if (!inScadenza.isEmpty()) {
                 inScadenzaSend.add(inScadenza.get(0));
-                emailTo = inScadenza.get(0).getAzienda().getEmail();
-                cc[0] = inScadenza.get(0).getAzienda().getEmail();
-                cc[1] = inScadenza.get(0).getAzienda().getConsulente().getEmail();
+                inScadenza.remove(0);
+                emailTo = inScadenzaSend.get(0).getAzienda().getEmail();
+                cc[0] = inScadenzaSend.get(0).getAzienda().getEmail();
+                cc[1] = inScadenzaSend.get(0).getAzienda().getConsulente().getEmail();
 
                 // Creazione di un iteratore per evitare IndexOutOfBoundsException
                 Iterator<Documento> iterator = inScadenza.iterator();
                 if (iterator.hasNext()) {
-                    iterator.next();
                     do {
                         Documento documento = iterator.next();
-                        if (inScadenza.get(0).getAzienda().equals(documento.getAzienda())) {
+                        if (inScadenzaSend.get(0).getAzienda().equals(documento.getAzienda())) {
                             inScadenzaSend.add(documento);
                             iterator.remove(); // Rimuove l'elemento corrente in modo sicuro
                         }
@@ -174,24 +174,23 @@ public class Utility {
                 }
             } else {
                 scadutoSend.add(scaduto.get(0));
-                emailTo = scaduto.get(0).getAzienda().getEmail();
-                cc[0] = scaduto.get(0).getAzienda().getEmail();
-                cc[1] = scaduto.get(0).getAzienda().getConsulente().getEmail();
+                scaduto.remove(0);
+                emailTo = scadutoSend.get(0).getAzienda().getEmail();
+                cc[0] = scadutoSend.get(0).getAzienda().getEmail();
+                cc[1] = scadutoSend.get(0).getAzienda().getConsulente().getEmail();
 
                 // Creazione di un iteratore per evitare IndexOutOfBoundsException
                 Iterator<Documento> iterator = scaduto.iterator();
                 if (iterator.hasNext()) {
-                    iterator.next();
                     do {
                         Documento documento = iterator.next();
-                        if (scaduto.get(0).getAzienda().equals(documento.getAzienda())) {
+                        if (scadutoSend.get(0).getAzienda().equals(documento.getAzienda())) {
                             scadutoSend.add(documento);
                             iterator.remove(); // Rimuove l'elemento corrente in modo sicuro
                         }
                     } while (iterator.hasNext());
                 }
             }
-
             EmailSender.sendDocumentExpirationMail(emailTo, cc, subject, inScadenzaSend, scadutoSend);
         }
     }
