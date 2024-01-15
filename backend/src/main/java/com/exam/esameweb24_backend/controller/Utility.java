@@ -123,11 +123,11 @@ public class Utility {
 
             if(documento.getDataScadenza().getTime() - System.currentTimeMillis() > 2592000000L)
                 documento.setStato("Valido");
-            else if(!Objects.equals(documento.getStato(), "In Scadenza") && documento.getDataScadenza().getTime() - System.currentTimeMillis() > 0) {
+            else if(documento.getDataScadenza().getTime() - System.currentTimeMillis() > 0) {
                 documento.setStato("In Scadenza");
                 inScadenza.add(documento);
             }
-            else if (!Objects.equals(documento.getStato(), "Scaduto") &&documento.getDataScadenza().getTime() - System.currentTimeMillis() <= 0) {
+            else if (documento.getDataScadenza().getTime() - System.currentTimeMillis() <= 0) {
                 documento.setStato("Scaduto");
                 scaduto.add(documento);
             }
@@ -231,11 +231,6 @@ public class Utility {
                 }
             }
 
-            System.out.println("Email to: " + emailTo);
-            System.out.println("CC: " + cc[0] + " " + cc[1]);
-            System.out.println("Subject: " + subject);
-            System.out.println("In Scadenza: " + inScadenzaSend);
-            System.out.println("Scaduto: " + scadutoSend);
             EmailSender.sendDocumentExpirationMail(emailTo, cc, subject, inScadenzaSend, scadutoSend);
         }
     }
