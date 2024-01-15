@@ -1,6 +1,6 @@
 <main id="main" class="main">
   <div class="pagetitle">
-    <h1>Contatti / <a href="http://localhost:8080/contact.html" target="_blank">Contatti Servlet</a></h1>
+    <h1>Contatti / <a href="http://localhost:8080/contact.html" target="_blank">Contatti Validazione Form JS</a></h1>
     <nav>
       <ol class="breadcrumb">
         <li class="breadcrumb-item"><a routerLink="/">Dashboard</a></li>
@@ -56,26 +56,55 @@
       </div>
 
       <div class="col-xl-12">
+        <div class="margin">
+          <app-alert [page]="'Contatti'"></app-alert>
+        </div>
+        
         <div class="card p-4">
-          <form [formGroup]="contactForm" action="https://api.web3forms.com/submit" method="POST" (ngSubmit)="submitForm()" novalidate class="php-email-form">
-            <input type="hidden" name="access_key" value="68f2d4ad-9976-490f-a5bd-ea8af953aba3" />
+          <form [formGroup]="contactForm" (ngSubmit)="submitForm()" novalidate class="php-email-form">
 
             <div class="row gy-4">
 
               <div class="col-md-6">
-                <input formControlName="nome" type="text" name="name" class="form-control" placeholder="Nome e Cognome" required>
+                <input formControlName="nome" type="text" name="name" class="form-control" placeholder="Nome e Cognome*"
+                  required [class.is-invalid]="contactForm.get('nome')?.invalid && contactForm.get('nome')?.touched">
+                <div *ngIf="contactForm.get('nome')?.invalid && contactForm.get('nome')?.touched"
+                  class="invalid-feedback">
+                  Nome è obbligatorio
+                  <p *ngIf="contactForm.get('nome')?.hasError('invalidName')">Il nome non può contenere
+                    numeri.</p>
+                </div>
               </div>
 
               <div class="col-md-6 ">
-                <input formControlName="email" type="email" class="form-control" name="email" placeholder="Email" required>
+                <input formControlName="email" type="email" class="form-control" name="email" placeholder="Email*"
+                  required [class.is-invalid]="contactForm.get('email')?.invalid && contactForm.get('email')?.touched">
+                <div *ngIf="contactForm.get('email')?.invalid && contactForm.get('email')?.touched"
+                  class="invalid-feedback">
+                  Email è obbligatoria
+                  <p *ngIf="contactForm.get('email')?.hasError('invalidEmail')">Email non valida.</p>
+                </div>
               </div>
 
               <div class="col-md-12">
-                <input formControlName="oggetto" type="text" class="form-control" name="subject" placeholder="Oggetto della richiesta" required>
+                <input formControlName="oggetto" type="text" class="form-control" name="subject"
+                  placeholder="Oggetto della richiesta*" required
+                  [class.is-invalid]="contactForm.get('oggetto')?.invalid && contactForm.get('oggetto')?.touched">
+                <div *ngIf="contactForm.get('oggetto')?.invalid && contactForm.get('oggetto')?.touched"
+                  class="invalid-feedback">
+                  Oggetto è obbligatorio
+                </div>
               </div>
 
               <div class="col-md-12">
-                <textarea formControlName="messaggio" class="form-control" name="message" rows="6" placeholder="Messaggio" required></textarea>
+                <textarea formControlName="messaggio" class="form-control" name="message" rows="6"
+                  placeholder="Messaggio*" required
+                  [class.is-invalid]="contactForm.get('messaggio')?.invalid && contactForm.get('messaggio')?.touched">
+                </textarea>
+                <div *ngIf="contactForm.get('messaggio')?.invalid && contactForm.get('messaggio')?.touched"
+                  class="invalid-feedback">
+                  Messaggio è obbligatorio
+                </div>
               </div>
 
               <div class="col-md-12 text-center">

@@ -50,4 +50,13 @@ export class AlertService {
       this.alertProfilo = { show: false, type: '', message: '' };
     }, this.timeout);
   }
+
+  // Alert Page Contatti
+  alertContatti = { show: false, type: '', message: '' };
+  setAlertContatti(type: string, message: string) {
+    this.alertContatti = { show: true, type: type, message: message };
+    setTimeout(() => {
+      this.alertContatti = { show: false, type: '', message: '' };
+    }, this.timeout);
+  }
 }

@@ -27,3 +27,8 @@
     <div [innerHTML]="alert.alertProfilo.message"></div>
     <button type="button" class="btn-close" (click)="alert.alertProfilo.show=false" aria-label="Close"></button>
 </div>
+
+<!-- Alert Page Contatti -->
+<div *ngIf="alert.alertContatti.show && page == 'Contatti'" [ngClass]="['alert', 'alert-' + alert.alertContatti.type, 'alert-dismissible', 'fade', 'show']" role="alert">
+    <div [innerHTML]="alert.alertContatti.message"></div>
+    <button type="button" class="btn-close" (click)="alert.alertContatti.show=false" aria-label="Close"></button>
