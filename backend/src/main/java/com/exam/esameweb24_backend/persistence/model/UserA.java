@@ -587,7 +587,7 @@ public class UserA extends User
 
     @Override
     public ResponseEntity<Ricerca> ricerca(String pIva, String q) {
-        List<String> params = new ArrayList<>(Arrays.asList(q.split("%22")));
+        List<String> params = new ArrayList<>(Arrays.asList(q.split(" ")));
         for(String s : params) s.toLowerCase();
         Ricerca r = new Ricerca();
         //r.setAziende(DBManager.getInstance().getAziendaDao().ricerca(params));
