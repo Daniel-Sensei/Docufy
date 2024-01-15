@@ -57,7 +57,9 @@
 
       <div class="col-xl-12">
         <div class="card p-4">
-          <form [formGroup]="contactForm" (ngSubmit)="submitForm()" novalidate class="php-email-form">
+          <form [formGroup]="contactForm" action="https://api.web3forms.com/submit" method="POST" (ngSubmit)="submitForm()" novalidate class="php-email-form">
+            <input type="hidden" name="access_key" value="68f2d4ad-9976-490f-a5bd-ea8af953aba3" />
+
             <div class="row gy-4">
 
               <div class="col-md-6">

@@ -1,7 +1,7 @@
 <div id="main" class="main ">
 
     <div class="pagetitle">
-        <h1>Dipendenti</h1>
+        <h1>Dipendenti / <a href="http://localhost:8080/all-dipendenti" target="_blank">Dipendenti Servlet</a></h1>
         <nav>
             <ol class="breadcrumb">
                 <li class="breadcrumb-item"><a routerLink="/">Dashboard</a></li>
@@ -13,8 +13,7 @@
     <div class="margin">
 
         <div class="mb-3 d-flex gap-2" *ngIf="this.auth.getRole()=='A'">
-            <button type="button" class="btn btn-primary"
-                (click)="openAddDipendenteModal()">
+            <button type="button" class="btn btn-primary" (click)="openAddDipendenteModal()">
                 Aggiungi Dipendente
             </button>
 
@@ -28,5 +27,5 @@
     </div>
     <app-dipendenti-tabella *ngIf="isInitialized && dipendenti && dipendenti.length > 0"
         [dipendenti]="dipendenti"></app-dipendenti-tabella>
-    <app-no-data *ngIf="!isInitialized || dipendenti && dipendenti.length === 0" ></app-no-data>
+    <app-no-data *ngIf="!isInitialized || dipendenti && dipendenti.length === 0"></app-no-data>
 </div>
