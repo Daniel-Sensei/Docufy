@@ -138,7 +138,7 @@ public class Utility {
             }
             DBManager.getInstance().getDocumentoDao().update(documento);
             if (!documento.getStato().equals("Valido"))
-                EmailSender.sendMail(emailTo, cc, subject, body);
+                EmailSender.sendDocumentExpirationMail(emailTo, cc, subject, null, null);
         });
     }
 }

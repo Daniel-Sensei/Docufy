@@ -1,5 +1,6 @@
 package com.exam.esameweb24_backend.controller;
 
+import com.exam.esameweb24_backend.persistence.model.Documento;
 import jakarta.mail.*;
 import jakarta.mail.internet.InternetAddress;
 import jakarta.mail.internet.MimeBodyPart;
@@ -15,6 +16,7 @@ import java.nio.file.Files;
 import java.nio.file.Path;
 import java.nio.file.Paths;
 import java.util.Date;
+import java.util.List;
 import java.util.Properties;
 
 public class EmailSender {
@@ -23,7 +25,7 @@ public class EmailSender {
     private static String fromEmail;
 
 
-    public static Boolean sendMail(String to, String[] cc, String subject, String body) {
+    private static Boolean sendMail(String to, String[] cc, String subject, Multipart content) {
         Properties props = new Properties();
 
         props.setProperty("mail.transport.protocol", "smtp");
@@ -53,12 +55,7 @@ public class EmailSender {
                 msg.setRecipients(Message.RecipientType.CC, InternetAddress.parse(String.join(",", cc)));
             msg.setSubject(subject);
             msg.setSentDate(new Date());
-
-            switch (body.split(":")[0]) {
-                case "confirm" ->  msg.setContent(sendConfirmationMail(body));
-                case "registration" -> msg.setContent(sendRegistrationMail(body));
-                case "documentExpiration" -> msg.setContent(sendDocumentExpirationMail(body));
-            }
+            msg.setContent(content);
 
             //other else if for other types of mail
 
@@ -75,66 +72,69 @@ public class EmailSender {
     }
 
     // funzione per inviare una mail di conferma ricezione
-    private static Multipart sendConfirmationMail(String body) {
-        String bodyText = body.substring(body.indexOf(":")+1);
-
-        Multipart multipart = new MimeMultipart();
-        BodyPart messageBodyPart = new MimeBodyPart();
+    public static Boolean sendConfirmationMail(String to, String[] cc, String subject, String body){
         try {
-            messageBodyPart.setText(bodyText);
+            Multipart multipart = new MimeMultipart();
+            BodyPart messageBodyPart = new MimeBodyPart();
+
+            messageBodyPart.setText(body);
             multipart.addBodyPart(messageBodyPart);
+
+            return sendMail(to, cc, subject, multipart);
+
         } catch (MessagingException e) {
             e.printStackTrace();
+            return false;
         }
-        return multipart;
     }
 
     // funzione per inviare una mail di registrazione
-    private static Multipart sendRegistrationMail(String body) throws MessagingException, IOException {
-        String mailTo = body.split(":")[1];
-        String passwordTo = body.split(":")[2];
+    public static Boolean sendRegistrationMail(String to, String[] cc, String subject, String body){
+        try {
+            String mailTo = body.split(":")[0];
+            String passwordTo = body.split(":")[1];
 
-        // Read HTML content from file
-        String htmlContent = readFile("backend/src/main/resources/mailStuff/emailCredentials.html");
+            // Read HTML content from file
+            String htmlContent = readFile("backend/src/main/resources/mailStuff/emailCredentials.html");
 
-        // Replace placeholder with the actual value
-        htmlContent = htmlContent.replace("email@esempio.com", mailTo);
-        htmlContent = htmlContent.replace("HJsnks8!", passwordTo);
+            // Replace placeholder with the actual value
+            htmlContent = htmlContent.replace("email@esempio.com", mailTo);
+            htmlContent = htmlContent.replace("HJsnks8!", passwordTo);
 
-        // Create the HTML part
-        MimeBodyPart htmlPart = new MimeBodyPart();
-        htmlPart.setContent(htmlContent, "text/html; charset=utf-8");
+            // Create the HTML part
+            MimeBodyPart htmlPart = new MimeBodyPart();
+            htmlPart.setContent(htmlContent, "text/html; charset=utf-8");
 
-        // Create the multipart message
-        Multipart multipart = new MimeMultipart();
-        // Aggiungi il contenuto HTML al corpo del messaggio
-        multipart.addBodyPart(htmlPart);
+            // Create the multipart message
+            Multipart multipart = new MimeMultipart();
+            // Aggiungi il contenuto HTML al corpo del messaggio
+            multipart.addBodyPart(htmlPart);
 
-        // Aggiungi le immagini come parti del corpo, utilizzando Content-ID per riferirsi ad esse nell'HTML
-        MimeBodyPart imagePartLogo = new MimeBodyPart();
-        File logo = new File("backend/src/main/resources/mailStuff/images/logo.png");
-        imagePartLogo.attachFile(logo);
-        imagePartLogo.setContentID("<logo>");
-        imagePartLogo.setDisposition(MimeBodyPart.INLINE);
-        multipart.addBodyPart(imagePartLogo);
+            // Aggiungi le immagini come parti del corpo, utilizzando Content-ID per riferirsi ad esse nell'HTML
+            MimeBodyPart imagePartLogo = new MimeBodyPart();
+            File logo = new File("backend/src/main/resources/mailStuff/images/logo.png");
+            imagePartLogo.attachFile(logo);
+            imagePartLogo.setContentID("<logo>");
+            imagePartLogo.setDisposition(MimeBodyPart.INLINE);
+            multipart.addBodyPart(imagePartLogo);
 
-        MimeBodyPart imagePartHost = new MimeBodyPart();
-        File host = new File("backend/src/main/resources/mailStuff/images/image-host.png");
-        imagePartHost.attachFile(host);
-        imagePartHost.setContentID("<host>");
-        imagePartHost.setDisposition(MimeBodyPart.INLINE);
-        multipart.addBodyPart(imagePartHost);
+            MimeBodyPart imagePartHost = new MimeBodyPart();
+            File host = new File("backend/src/main/resources/mailStuff/images/image-host.png");
+            imagePartHost.attachFile(host);
+            imagePartHost.setContentID("<host>");
+            imagePartHost.setDisposition(MimeBodyPart.INLINE);
+            multipart.addBodyPart(imagePartHost);
 
-        return multipart;
+            return sendMail(to, cc, subject, multipart);
+        } catch (MessagingException | IOException e) {
+            e.printStackTrace();
+            return false;
+        }
     }
 
     // funzione per inviare una mail di scadenza documento
-    private static Multipart sendDocumentExpirationMail(String body){
-        String state = body.split(":")[1];
-        String name = body.split(":")[2];
-        String date = body.split(":")[3];
-
-        return null;
+    public static Boolean sendDocumentExpirationMail(String to, String[] cc, String subject, List<Documento> inScadenza, List<Documento> scaduto){
+        return false;
     }
 
 

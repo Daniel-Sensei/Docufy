@@ -22,9 +22,9 @@ public class EmailService {
 
         if(mail == null) return new ResponseEntity<>(HttpStatus.BAD_REQUEST);
 
-        String body = "confirm:Abbiamo preso in carico la Vostra segnalazione, di seguito un riepilogo del messaggio inviato.\n\nOggetto: "+mail.getOggetto()+"\nMessaggio: "+mail.getMessaggio();
+        String body = "Abbiamo preso in carico la Vostra segnalazione, di seguito un riepilogo del messaggio inviato.\n\nOggetto: "+mail.getOggetto()+"\nMessaggio: "+mail.getMessaggio();
 
-        if(EmailSender.sendMail(mail.getMail(), null, "Conferma richiesta di contatto", body))
+        if(EmailSender.sendConfirmationMail(mail.getMail(), null, "Conferma richiesta di contatto", body))
             return new ResponseEntity<>(HttpStatus.OK);
         else
             return new ResponseEntity<>(HttpStatus.INTERNAL_SERVER_ERROR);

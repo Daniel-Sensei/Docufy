@@ -101,8 +101,8 @@ public class UserC extends User
                         return new ResponseEntity<>(HttpStatus.INTERNAL_SERVER_ERROR);
                 }
 
-                String body = "registration:"+azienda.getEmail()+":"+tempPassword;
-                EmailSender.sendMail(azienda.getEmail(), null, "Credenziali di accesso piattaforma Docufy", body);
+                String body = azienda.getEmail()+":"+tempPassword;
+                EmailSender.sendRegistrationMail(azienda.getEmail(), null, "Credenziali di accesso piattaforma Docufy", body);
 
                 return new ResponseEntity<>(HttpStatus.OK);
             }
