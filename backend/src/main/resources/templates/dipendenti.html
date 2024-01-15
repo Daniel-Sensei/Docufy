@@ -44,14 +44,17 @@
                                     </tr>
                                     </thead>
                                     <tbody>
-                                    <tr>
+                                    <!-- Use Thymeleaf each loop to iterate over the list of employees -->
+                                    <tr th:each="dipendente : ${dipendenti}">
                                         <td>
-                                            <p class="fw-bold mb-1">Rossi Mario</p>
-                                            <p class="text-muted mb-0">mario.rossi@gmail.com</p>
+                                            <p class="fw-bold mb-1" th:text="${dipendente.cognome} + ' ' + ${dipendente.nome}"></p>
+                                            <p class="text-muted mb-0" th:text="${dipendente.email}"></p>
                                         </td>
-                                        <td>Programmatore</td>
-                                        <td>01/01/2022</td>
-                                        <td><a href="#">Elimina</a></td>
+                                        <td th:text="${dipendente.ruolo}"></td>
+                                        <td th:text="${#dates.format(dipendente.dataAssunzione, 'dd/MM/yyyy')}"></td>
+                                        <td>
+                                            <a href="#" th:onclick="'eliminaDipendente(\'' + ${dipendente.id} + '\'); return false;'">Elimina</a>
+                                        </td>
                                     </tr>
                                     </tbody>
                                 </table>
@@ -65,6 +68,37 @@
 
 <!-- Vendor JS Files -->
 <script src="/script.js"></script>
+
+<script>
+    function eliminaDipendente(dipendenteId) {
+        var conferma = confirm("Sei sicuro di voler eliminare questo dipendente?");
+        if (conferma) {
+            // Invia la richiesta di eliminazione al servlet usando fetch
+            fetch('/all-dipendenti', {
+                method: 'POST',
+                headers: {
+                    'Content-Type': 'application/x-www-form-urlencoded',
+                },
+                body: 'action=elimina&dipendenteId=' + dipendenteId,
+            })
+                .then(response => {
+                    if (response.ok) {
+                        console.log('Eliminazione riuscita');
+                        window.location.reload();
+                    } else {
+                        console.error('Errore durante l\'eliminazione');
+                        window.location.href = '/not-authorized.html';
+                    }
+                })
+                .catch(error => {
+                    console.error('Errore durante la richiesta:', error);
+                });
+        }
+    }
+</script>
+
+
+
 </body>
 
 <footer id="footer" class="footer">

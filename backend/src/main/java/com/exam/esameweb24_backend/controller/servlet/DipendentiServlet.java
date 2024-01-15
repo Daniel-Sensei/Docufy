@@ -24,15 +24,12 @@ public class DipendentiServlet extends HttpServlet {
         HttpSession session = req.getSession(false);
 
         if (session != null) {
-            System.out.println("Sessione valida");
             // get user from session
             User user = (User) session.getAttribute("user");
 
             if(user == null) {
-                System.out.println("User null");
                 RequestDispatcher dispatcher = req.getRequestDispatcher("/not-authorized.html");
                 dispatcher.forward(req, resp);
-                return;
             }
             else{
                 if(DBManager.getInstance().getUserDao().isConsultant(user)){
@@ -43,17 +40,62 @@ public class DipendentiServlet extends HttpServlet {
                 }
 
                 List<Dipendente> dipendenti = user.getDipendenti();
+                req.setAttribute("dipendenti", dipendenti);
 
-                System.out.println("Dipendenti: " + dipendenti);
+                // Reindirizza a dipendenti.html;
+                RequestDispatcher dispatcher = req.getRequestDispatcher("/views/dipendenti.html");
+                dispatcher.forward(req, resp);
             }
-
-            // Reindirizza a dipendenti.html;
-            RequestDispatcher dispatcher = req.getRequestDispatcher("/views/dipendenti.html");
-            dispatcher.forward(req, resp);
         } else {
-            System.out.println("Sessione non valida");
             RequestDispatcher dispatcher = req.getRequestDispatcher("/not-authorized.html");
             dispatcher.forward(req, resp);
         }
     }
+
+    @Override
+    protected void doPost(HttpServletRequest req, HttpServletResponse resp) throws ServletException, IOException {
+        String action = req.getParameter("action");
+
+        if ("elimina".equals(action)) {
+            HttpSession session = req.getSession(false);
+            if (session != null) {
+                // get user from session
+                User user = (User) session.getAttribute("user");
+
+                if(user == null) {
+                    RequestDispatcher dispatcher = req.getRequestDispatcher("/not-authorized.html");
+                    dispatcher.forward(req, resp);
+                }
+                else {
+                    if (DBManager.getInstance().getUserDao().isConsultant(user)) {
+                        //user = new UserC(user);
+                        resp.sendError(HttpServletResponse.SC_FORBIDDEN, "Non sei autorizzato ad accedere a questa risorsa");
+                        return;
+                    } else {
+                        user = new UserA(user);
+                    }
+
+                    // Ottieni l'ID del dipendente da eliminare dalla richiesta
+                    String dipendenteIdParam = req.getParameter("dipendenteId");
+
+                    // Verifica che l'ID sia presente e sia un numero valido
+                    if (dipendenteIdParam != null && dipendenteIdParam.matches("\\d+")) {
+                        long dipendenteId = Long.parseLong(dipendenteIdParam);
+                        user.rimuoviDipendente(dipendenteId);
+
+                        // Reindirizza a dipendenti.html
+                        resp.sendRedirect(req.getContextPath() + "/all-dipendenti");
+                    } else {
+                        // Gestisci l'errore quando l'ID del dipendente non è valido
+                        resp.sendError(HttpServletResponse.SC_BAD_REQUEST, "ID del dipendente non valido");
+                        return; // Termina il metodo qui per evitare di continuare con il forward
+                    }
+                }
+            } else {
+                RequestDispatcher dispatcher = req.getRequestDispatcher("/not-authorized.html");
+                dispatcher.forward(req, resp);
+            }
+        }
+    }
+
 }
