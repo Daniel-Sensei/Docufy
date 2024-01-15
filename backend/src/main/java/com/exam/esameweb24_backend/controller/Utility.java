@@ -1,6 +1,5 @@
 package com.exam.esameweb24_backend.controller;
 
-import com.exam.esameweb24_backend.controller.service.impl.EmailServiceImpl;
 import com.fasterxml.jackson.databind.ObjectMapper;
 
 import com.exam.esameweb24_backend.persistence.DBManager;
@@ -117,8 +116,6 @@ public class Utility {
     // troppo tardi -> "Scaduto"
     public static void updateAllDocumentsState(){
 
-        EmailServiceImpl eSI = new EmailServiceImpl();
-
         DBManager.getInstance().getDocumentoDao().getAll().forEach(documento -> {
 
             String subject = "Scadenza documento";
@@ -127,21 +124,21 @@ public class Utility {
 
             String[] cc = {emailTo, documento.getAzienda().getConsulente().getEmail()};
 
-            String body = "Attenzione\nsi vuole portare alla VS cortese attenzione che\nil documento: ";
+            String body = "documentExpiration:";
 
             if(documento.getDataScadenza().getTime() - System.currentTimeMillis() > 2592000000L)
                 documento.setStato("Valido");
             else if(documento.getDataScadenza().getTime() - System.currentTimeMillis() > 0) {
                 documento.setStato("In Scadenza");
-                body += documento.getNome() + " scadrà in data " + new SimpleDateFormat("dd/MM/yyyy").format(documento.getDataScadenza());
+                body += "expiring:" + documento.getNome() + ":" + new SimpleDateFormat("dd/MM/yyyy").format(documento.getDataScadenza());
             }
             else {
                 documento.setStato("Scaduto");
-                body += documento.getNome() + " è scaduto in data " + new SimpleDateFormat("dd/MM/yyyy").format(documento.getDataScadenza());
+                body += "expired:" + documento.getNome() + ":" + new SimpleDateFormat("dd/MM/yyyy").format(documento.getDataScadenza());
             }
             DBManager.getInstance().getDocumentoDao().update(documento);
             if (!documento.getStato().equals("Valido"))
-                eSI.sendMail(emailTo, cc, subject, body);
+                EmailSender.sendMail(emailTo, cc, subject, body);
         });
     }
 }

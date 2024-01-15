@@ -166,7 +166,7 @@ public class UserC extends User
         // controllo che il consulente sia associato all'azienda da eliminare
         if(this.pIva.equals(a.getConsulente().getPIva())){
             // elimino il file dell'immagine del dipendente
-            if(a.getImg()!=null) Utility.deleteFile(a.getImg());
+            if(a.getImg()!=null)
                 rimuoviImmagineAzienda(pIva);
             // elimino l'utente dal database e a cascata anche l'azienda
             if (DBManager.getInstance().getUserDao().delete(pIva)) return new ResponseEntity<>(HttpStatus.OK);
