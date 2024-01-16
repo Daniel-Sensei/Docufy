@@ -21,13 +21,13 @@ export class DipendentiTabellaComponent implements AfterViewInit {
 
   constructor(
     private cdr: ChangeDetectorRef,
-    private datePipe: DatePipe // Inject the DatePipe
+    private datePipe: DatePipe
   ) {
     this.dataSource = new MatTableDataSource(this.dipendenti);
   }
 
   ngAfterViewInit() {
-    // If necessary to wait for the component to be loaded
+    // Wait for the component to be loaded
     if (this.dipendenti.length > 0) {
       this.dataSource.data = this.dipendenti.map(dipendente => ({
         ...dipendente,

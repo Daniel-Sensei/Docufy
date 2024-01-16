@@ -3,7 +3,6 @@ import { Azienda } from '../../../model/Azienda';
 import { AziendeService } from '../../../service/aziende/aziende.service';
 import { AlertService } from '../../../service/alert/alert.service';
 
-import { Output, EventEmitter } from '@angular/core'; //modifica
 import { FormGroup, FormBuilder, Validators } from '@angular/forms';
 import { FileService } from '../../../service/file/file.service';
 import { FormCheck } from '../../../FormCheck';
@@ -11,7 +10,6 @@ import { AuthService } from '../../../service/auth/auth.service';
 import { Router } from '@angular/router';
 import { Observable, of } from 'rxjs';
 import { catchError, map } from 'rxjs/operators';
-import { throwError } from 'rxjs';
 import { forkJoin } from 'rxjs';
 import { NgbModal } from '@ng-bootstrap/ng-bootstrap';
 import { ConfirmModalComponent } from '../../GENERIC/confirm-modal/confirm-modal.component';
@@ -39,7 +37,6 @@ export class ProfileComponent {
     private fb: FormBuilder, //modifica
     private fileService: FileService,
     private auth: AuthService,
-    private router: Router,
     private modalService: NgbModal
   ) {
     this.modificaProfiloForm = this.fb.group({
@@ -175,7 +172,7 @@ export class ProfileComponent {
   }
 
   salvaModifiche() {
-    this.modificaAzienda(this.modificaProfiloForm.value, this.file); //modifica
+    this.modificaAzienda(this.modificaProfiloForm.value, this.file);
   }
 
   private modificaAzienda(aziendaData: any, file: File | undefined) {
@@ -196,7 +193,6 @@ export class ProfileComponent {
       oldPw: this.modificaPasswordForm.value.password,
       newPw: this.modificaPasswordForm.value.nuovaPassword
     }
-    console.log(user);
     this.auth.updatePassword(user.oldPw, user.newPw).subscribe(
       response => {
         this.alert.setAlertProfilo('success', 'Password modificata con successo');
@@ -210,7 +206,7 @@ export class ProfileComponent {
 
   openDeleteImg() {
     const modalRef = this.modalService.open(ConfirmModalComponent, {
-      size: 'md' // 'lg' sta per grande, puoi utilizzare anche 'sm' per piccolo
+      size: 'md'
     });
 
     // Passa il this.dipendente al modal

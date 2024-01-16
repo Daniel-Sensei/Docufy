@@ -11,7 +11,6 @@ import { AuthService } from '../../../service/auth/auth.service';
 import { FileService } from '../../../service/file/file.service';
 import { Observable } from 'rxjs';
 import { catchError, map } from 'rxjs/operators';
-import { throwError } from 'rxjs';
 import { forkJoin } from 'rxjs';
 import { of } from 'rxjs';
 

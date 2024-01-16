@@ -33,7 +33,7 @@ export class HeaderComponent {
   aziendaSelezionata: string = '';  // Aggiunto per memorizzare la selezione
 
   isDashboard: boolean = false;
-  isInitialized: boolean = false; // Add the flag
+  isInitialized: boolean = false;
 
   @Input() testString?: string;
 
@@ -47,7 +47,7 @@ export class HeaderComponent {
     private communication: CommunicationService) {
     this.router.events.subscribe(event => {
       if (event instanceof NavigationStart) {
-        this.isDashboard = event.url === '/' || event.url === '/aziende' || event.url === '/profile'; //controllo se è login o register 
+        this.isDashboard = event.url === '/' || event.url === '/aziende' || event.url === '/profile';
         if (!this.isDashboard) {
           this.selectFirstAzienda();
         }
@@ -60,8 +60,6 @@ export class HeaderComponent {
   }
 
   ngOnInit(): void {
-    console.log(this.testString);
-
     this.getAzienda();
 
     this.getAziende();
@@ -71,9 +69,9 @@ export class HeaderComponent {
     this.aziendeService.getProfilo().subscribe(azienda => {
       this.azienda = azienda;
       this.setAziendaImage().subscribe(() => {
-        this.isInitialized = true; // Set the flag to true after initialization
+        this.isInitialized = true;
       });
-      this.role = this.auth.getRole() as string | undefined; // Fix: Update the type to allow undefined values
+      this.role = this.auth.getRole() as string | undefined;
     });
   }
 
@@ -167,7 +165,7 @@ export class HeaderComponent {
 
   logout() {
     const modalRef = this.modalService.open(LogoutModalComponent, {
-      size: 'md' // 'lg' sta per grande, puoi utilizzare anche 'sm' per piccolo
+      size: 'md'
     });
   }
 }

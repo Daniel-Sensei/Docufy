@@ -10,7 +10,6 @@ import { NgbModal } from '@ng-bootstrap/ng-bootstrap';
 import { AddDocumentModalComponent } from '../add-documento-modal/add-document-modal.component';
 import { ConfirmModalComponent } from '../../GENERIC/confirm-modal/confirm-modal.component';
 import { FileService } from '../../../service/file/file.service';
-import { ActivatedRoute } from '@angular/router';
 import { Dipendente } from '../../../model/Dipendente';
 import { EventEmitter } from '@angular/core';
 import { DatePipe } from '@angular/common';
@@ -68,7 +67,7 @@ export class DocumentiTabellaComponent implements AfterViewInit {
 
   openUpdateDocumento(documento: Documento) {
     const modalRef = this.modalService.open(AddDocumentModalComponent, {
-      size: 'md' // 'lg' sta per grande, puoi utilizzare anche 'sm' per piccolo
+      size: 'md' 
     });
 
     // Passa il this.documento al modal
@@ -84,7 +83,7 @@ export class DocumentiTabellaComponent implements AfterViewInit {
 
   openDeleteDocumento(documento: Documento) {
     const modalRef = this.modalService.open(ConfirmModalComponent, {
-      size: 'md' // 'lg' sta per grande, puoi utilizzare anche 'sm' per piccolo
+      size: 'md'
     });
 
     // Passa il this.dipendente al modal
@@ -124,7 +123,6 @@ export class DocumentiTabellaComponent implements AfterViewInit {
       'pdf': 'application/pdf',
       'doc': 'application/msword',
       'docx': 'application/vnd.openxmlformats-officedocument.wordprocessingml.document',
-      // Add more mappings as needed
     };
   
     // Default to generic binary data if the extension is not in the mapping

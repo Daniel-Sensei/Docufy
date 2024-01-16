@@ -12,24 +12,11 @@ export class FormCheck {
         const regex = /^(?=.*[a-z])(?=.*[A-Z])(?=.*\d)(?=.*[@$!%*?&.])[A-Za-z\d@$!%*?&.]{8,}$/;
         return regex.test(password);
     }
-    
-    
 
-    //ragione sociale
-    /*
-    static checkRagioneSociale(ragione_sociale: string): boolean {
-        const regex = /^[a-zA-Z0-9 ]+$/;
-        return regex.test(ragione_sociale);
-    }
-    */
 
     static checkTelefono(telefono: string): boolean {
         // Verifica se il numero contiene almeno 9 cifre (fisso) o 10 cifre (cellulare)
         return /^\d{9,10}$/.test(telefono);
-
-        // Verifica se il numero contiene almeno 9 cifre (fisso) o 10 cifre (cellulare) a se ha il prefisso +39 allora devono essere 12
-       // return /^\+?39 \d{9,12}$/.test(telefono);  //va modificato il modo in cui si stampa il numero perchè che uno spazio tra +39 e il numero quindi nell'eqauzione c'è
-
     }
 
     static checkEmail(email: string): boolean {
@@ -63,7 +50,7 @@ export class FormCheck {
         return true;
     }
 
-    static compareTwoPasswords(password1: string, password2: string): boolean { //aggiunta controlllo password
+    static compareTwoPasswords(password1: string, password2: string): boolean {
         if (password1 === password2) {
             return true;
         }
@@ -84,7 +71,7 @@ export class FormCheck {
 
     static NgbDateToDateString(ngbDate: NgbDate): string {
         // Converte un oggetto NgbDate in una stringa nel formato 'yyyy-MM-dd'
-        // Aggiungi uno zero davanti al mese e al giorno se sono composti da un solo carattere
+        // Aggiunge uno zero davanti al mese e al giorno se sono composti da un solo carattere
         let month = ngbDate.month.toString();
         let day = ngbDate.day.toString();
         if (ngbDate.month < 10) {

@@ -30,7 +30,7 @@ export class DipendentiDettagliComponent {
   public dataNascitaIT: string = '';
   public dataAssunzioneIT: string = '';
 
-  public isInitialized: boolean = false; // Add the flag
+  public isInitialized: boolean = false;
 
   constructor(
     private route: ActivatedRoute,
@@ -58,7 +58,7 @@ export class DipendentiDettagliComponent {
         this.router.navigate(['/404']);
       }
       this.setDipendenteImage().subscribe(() => {
-        this.isInitialized = true; // Set the flag to true after initialization
+        this.isInitialized = true;
       });
 
       this.dataNascitaIT = this.formatItalianDate(dipendente.dataNascita)
@@ -105,7 +105,7 @@ export class DipendentiDettagliComponent {
 
   openDeleteImg() {
     const modalRef = this.modalService.open(ConfirmModalComponent, {
-      size: 'md' // 'lg' sta per grande, puoi utilizzare anche 'sm' per piccolo
+      size: 'md'
     });
 
     // Passa il this.dipendente al modal
@@ -120,7 +120,7 @@ export class DipendentiDettagliComponent {
 
   openDeleteDipendente() {
     const modalRef = this.modalService.open(ConfirmModalComponent, {
-      size: 'md' // 'lg' sta per grande, puoi utilizzare anche 'sm' per piccolo
+      size: 'md'
     });
 
     // Passa il this.dipendente al modal
@@ -140,12 +140,12 @@ export class DipendentiDettagliComponent {
 
   openAddDocumentoDipendente() {
     const modalRef = this.modalService.open(AddDocumentModalComponent, {
-      size: 'md' // 'lg' sta per grande, puoi utilizzare anche 'sm' per piccolo
+      size: 'md' 
     });
 
     modalRef.componentInstance.dipendente = this.dipendente;
 
-    // Volgio aggiungere un documento del dipendente, quindi passo il dipendente
+    // Voglio aggiungere un documento del dipendente, quindi passo il dipendente
     modalRef.componentInstance.dipendente = this.dipendente;
 
     modalRef.componentInstance.refreshData.subscribe(() => {

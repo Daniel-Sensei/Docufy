@@ -6,7 +6,7 @@ import { AddDipendenteModalComponent } from '../add-dipendente-modal/add-dipende
 import { Dipendente } from '../../../model/Dipendente';
 import { DipendentiService } from '../../../service/dipendenti/dipendenti.service';
 import { FileService } from '../../../service/file/file.service';
-import { throwError, forkJoin, Observable, map, catchError, of } from 'rxjs';
+import { forkJoin, Observable, map, catchError, of } from 'rxjs';
 import { AuthService } from '../../../service/auth/auth.service';
 import { AddDipendentiListaModalComponent } from '../add-dipendenti-lista-modal/add-dipendenti-lista-modal.component';
 
@@ -87,7 +87,7 @@ export class DipendentiComponent {
 
   openAddDipendenteModal() {
     const modalRef = this.modalService.open(AddDipendenteModalComponent, {
-      size: 'md' // 'lg' sta per grande, puoi utilizzare anche 'sm' per piccolo
+      size: 'md'
     });
 
     modalRef.componentInstance.refreshData.subscribe(() => {
@@ -98,7 +98,7 @@ export class DipendentiComponent {
 
   openAddDipendentiLista(){
     const modalRef = this.modalService.open(AddDipendentiListaModalComponent, {
-      size: 'md' // 'lg' sta per grande, puoi utilizzare anche 'sm' per piccolo
+      size: 'md'
     });
 
     modalRef.componentInstance.refreshData.subscribe(() => {

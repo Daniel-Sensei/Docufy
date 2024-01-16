@@ -116,7 +116,6 @@ export class AddCorsoModalComponent {
     return null;
   }
 
-  //validate Integer
   validateInteger(control: AbstractControl): { [key: string]: any } | null {
     const value = control.value;
     if (value === null || value === undefined || value === '') {

@@ -1,4 +1,4 @@
-import { AfterViewInit, Component, ViewChild, Input, ChangeDetectorRef } from '@angular/core';
+import { Component, ViewChild, Input, ChangeDetectorRef } from '@angular/core';
 
 import { Azienda } from '../../../model/Azienda';
 

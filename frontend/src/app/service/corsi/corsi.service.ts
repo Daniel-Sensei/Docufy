@@ -1,13 +1,12 @@
 import { Injectable } from '@angular/core';
 
-import { Observable, of } from 'rxjs';
+import { Observable } from 'rxjs';
 import { Corso } from '../../model/Corso';
 
 import { HttpClient } from '@angular/common/http';
 import { AuthService } from '../auth/auth.service';
 import { Settings } from '../../Settings';
 
-import { CORSI } from '../../model/mocks/mock-corsi';
 import { Dipendente } from '../../model/Dipendente';
 
 @Injectable({

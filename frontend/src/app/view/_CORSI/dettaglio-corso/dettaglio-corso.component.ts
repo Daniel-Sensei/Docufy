@@ -4,7 +4,6 @@ import { AlertService } from '../../../service/alert/alert.service';
 import { AddDipendenteCorsoModalComponent } from '../add-dipendente-corso-modal/add-dipendente-corso-modal.component';
 
 import { Dipendente } from '../../../model/Dipendente';
-import { DipendentiService } from '../../../service/dipendenti/dipendenti.service';
 
 import { Corso } from '../../../model/Corso';
 import { CorsiService } from '../../../service/corsi/corsi.service';

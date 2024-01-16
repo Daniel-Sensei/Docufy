@@ -1,7 +1,7 @@
 import { Injectable, Inject, PLATFORM_ID } from '@angular/core';
 
 import { Settings } from '../../Settings'
-import { AuthToken, Azienda } from '../../model/Azienda';
+import { AuthToken } from '../../model/Azienda';
 import { HttpClient } from '@angular/common/http';
 import { Observable, of } from 'rxjs';
 import { map } from 'rxjs/operators';
@@ -33,7 +33,6 @@ export class AuthService {
         email = sessionStorage.getItem('admin-email');
         password = sessionStorage.getItem('admin-password');
       }
-      //console.log("AUTOLOGIN" + email + password);
 
       if (email && password) {
         return this.login(email, password, false);
@@ -149,15 +148,6 @@ export class AuthService {
           this.setRole(response.role, rememberMe);
           this.setCurrentPIva(rememberMe);
 
-          //stampa valori di tutti i token da session sotrage e local storage
-          /*
-          console.log("LOGIN");
-          console.log("TOKEN: " + "Session" + sessionStorage.getItem('admin-token') + " Local" + localStorage.getItem('admin-token'));
-          console.log("ROLE: " + "Session" + sessionStorage.getItem('admin-role') + " Local" + localStorage.getItem('admin-role'));
-          console.log("CURRENTPIVA: " + "Session" + sessionStorage.getItem('admin-currentPIva') + " Local" + localStorage.getItem('admin-currentPIva'));
-          console.log("EMAIL: " + "Session" + sessionStorage.getItem('admin-email') + " Local" +  localStorage.getItem('admin-email'));
-          console.log("PASSWORD: " + "Session" + sessionStorage.getItem('admin-password') + " Local" + localStorage.getItem('admin-password'));
-          */
           return true;
         })
       );
@@ -170,15 +160,6 @@ export class AuthService {
         return response;
       })
     );
-    /*
-    console.log("LOGOUT");
-    //stampa valori di tutti i token da session sotrage e local storage
-    console.log("TOKEN: " + "Session" + sessionStorage.getItem('admin-token') + " Local" + localStorage.getItem('admin-token'));
-    console.log("ROLE: " + "Session" + sessionStorage.getItem('admin-role') + " Local" + localStorage.getItem('admin-role'));
-    console.log("CURRENTPIVA: " + "Session" + sessionStorage.getItem('admin-currentPIva') + " Local" + localStorage.getItem('admin-currentPIva'));
-    console.log("EMAIL: " + "Session" + sessionStorage.getItem('admin-email') + " Local" +  localStorage.getItem('admin-email'));
-    console.log("PASSWORD: " + "Session" + sessionStorage.getItem('admin-password') + " Local" + localStorage.getItem('admin-password'));
-    */
   }
 
   private clear(): void {

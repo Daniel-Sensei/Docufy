@@ -57,7 +57,6 @@ import { DatePipe } from '@angular/common';
 import { ConfirmModalComponent } from './view/GENERIC/confirm-modal/confirm-modal.component';
 import { NotAuthorizedComponent } from './view/GENERIC/not-authorized/not-authorized.component';
 
-import { ModalModule } from 'ngx-bootstrap/modal';
 import { CorsiIconComponent } from './view/_CORSI/corsi-icon/corsi-icon.component';
 import { DocumentiIconComponent } from './view/_DOCUMENTI/documenti-icon/documenti-icon.component';
 import { AlertComponent } from './view/GENERIC/alert/alert.component';

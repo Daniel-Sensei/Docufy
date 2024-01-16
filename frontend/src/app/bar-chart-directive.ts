@@ -47,7 +47,7 @@ export class BarChartDirective implements OnInit, OnDestroy {
               callback: (value: any) => {
                 return value.toLocaleString('en-US', { maximumFractionDigits: 0 });
               },
-              stepSize: 1  // Imposta l'intervallo desiderato tra i tagli sull'asse y
+              stepSize: 1  // Imposta l'intervallo
             }
           }
         },

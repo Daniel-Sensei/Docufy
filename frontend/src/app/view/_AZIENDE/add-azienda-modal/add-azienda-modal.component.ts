@@ -84,7 +84,6 @@ export class AddAziendaModalComponent {
         this.alert.setAlertAziende("danger", `Errore durante l'aggiunta dell'azienda <strong>${this.addAziendaForm.get("ragioneSociale")?.value}</strong>`);
       }
     );
-    //this.alert.success("Azienda aggiunta con successo");
   }
 
   onFileSelected(event: any) {

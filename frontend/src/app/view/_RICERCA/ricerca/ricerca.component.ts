@@ -9,7 +9,7 @@ import { RicercaService } from '../../../service/ricerca/ricerca.service';
 import { AuthService } from '../../../service/auth/auth.service';
 
 import { FileService } from '../../../service/file/file.service';
-import { throwError, forkJoin, Observable, map, catchError, of } from 'rxjs';
+import { forkJoin, Observable, map, catchError, of } from 'rxjs';
 
 @Component({
   selector: 'app-ricerca',
@@ -54,7 +54,6 @@ export class RicercaComponent {
 
   search(text: string) {
     this.clear();
-    console.log(text);
     this.ricercaService.search(this.pIva, text).subscribe((data) => {
       this.aziende = data.aziende;
       this.setAziendeImages().subscribe(() => {

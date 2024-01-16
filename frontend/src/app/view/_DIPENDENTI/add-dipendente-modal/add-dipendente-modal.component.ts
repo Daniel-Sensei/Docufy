@@ -84,12 +84,6 @@ export class AddDipendenteModalComponent {
       telefono: dipendente.telefono,
     });
 
-    // Puoi anche inizializzare il campo dataNascita come segue (se il tuo modello usa NgbDateStruct):
-    // this.addDipendenteForm.patchValue({
-    //   dataNascita: { year: dipendente.dataNascita.getFullYear(), month: dipendente.dataNascita.getMonth() + 1, day: dipendente.dataNascita.getDate() }
-    // });
-
-    // E così via...
   }
 
   customValidation(group: FormGroup) {
@@ -213,7 +207,6 @@ export class AddDipendenteModalComponent {
   }
 
   submitForm() {
-    // Puoi anche aggiungere qui la logica per chiudere la finestra modale, se necessario
     this.activeModal.close('Save click');
 
     const dipendenteData = this.formatData();
@@ -252,7 +245,6 @@ export class AddDipendenteModalComponent {
 
   NgbDateToDateString(ngbDate: NgbDate): string {
     // Converte un oggetto NgbDate in una stringa nel formato 'yyyy-MM-dd'
-    // Aggiungi uno zero davanti al mese e al giorno se sono composti da un solo carattere
     let month = ngbDate.month.toString();
     let day = ngbDate.day.toString();
     if (ngbDate.month < 10) {

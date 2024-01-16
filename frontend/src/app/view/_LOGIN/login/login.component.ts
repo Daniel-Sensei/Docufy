@@ -64,7 +64,6 @@ export class LoginComponent {
         },
         error => {
           this.serverError = true;
-          //this.router.navigate(['/login']);
         });
   }
 

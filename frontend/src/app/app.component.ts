@@ -8,6 +8,8 @@ import { AuthService } from './service/auth/auth.service';
   styleUrls: ['./app.component.css']
 })
 export class AppComponent {
+  title?: string;
+
   isLoginPage: boolean = false;
 
   testString: string = '';

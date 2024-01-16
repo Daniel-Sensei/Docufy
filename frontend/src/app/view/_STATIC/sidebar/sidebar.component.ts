@@ -17,12 +17,12 @@ export class SidebarComponent {
     private auth: AuthService) { }
 
   ngOnInit(): void {
-    this.role = this.auth.getRole() as string | undefined; // Fix: Update the type to allow undefined values
+    this.role = this.auth.getRole() as string | undefined;
   }
 
   logout() {
     const modalRef = this.modalService.open(LogoutModalComponent, {
-      size: 'md' // 'lg' sta per grande, puoi utilizzare anche 'sm' per piccolo
+      size: 'md'
     });
   }
 }

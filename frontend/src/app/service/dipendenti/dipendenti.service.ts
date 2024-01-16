@@ -3,10 +3,9 @@ import { Injectable } from '@angular/core';
 import { Observable, tap } from 'rxjs';
 import { Dipendente } from '../../model/Dipendente';
 
-import { HttpClient, HttpHeaders } from '@angular/common/http';
+import { HttpClient } from '@angular/common/http';
 import { AuthService } from '../auth/auth.service';
 import { Settings } from '../../Settings';
-import { PI } from '../../../assets/vendor/chart.js/helpers';
 
 @Injectable({
   providedIn: 'root'

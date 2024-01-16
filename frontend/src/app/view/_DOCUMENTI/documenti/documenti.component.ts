@@ -36,10 +36,10 @@ export class DocumentiComponent {
 
   openAddDocumentModal() {
     const modalRef = this.modalService.open(AddDocumentModalComponent, {
-      size: 'md' // 'lg' sta per grande, puoi utilizzare anche 'sm' per piccolo
+      size: 'md'
     });
 
-    // Volgio aggiungere un documento aziendale, quindi non passo il dipendente
+    // Voglio aggiungere un documento aziendale, quindi NON passo il dipendente
     //modalRef.componentInstance.dipendente = false;
 
     modalRef.componentInstance.refreshData.subscribe(() => {

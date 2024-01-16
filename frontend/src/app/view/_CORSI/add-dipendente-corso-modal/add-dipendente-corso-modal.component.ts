@@ -1,9 +1,7 @@
 import { Component, Input, OnInit, Output } from '@angular/core';
 import { IDropdownSettings } from 'ng-multiselect-dropdown';
 import { NgbActiveModal } from '@ng-bootstrap/ng-bootstrap';
-import { NgFor } from '@angular/common';
 
-import { Dipendente } from '../../../model/Dipendente';
 import { DipendentiService } from '../../../service/dipendenti/dipendenti.service';
 import { AuthService } from '../../../service/auth/auth.service';
 import { CorsiService } from '../../../service/corsi/corsi.service';
@@ -73,7 +71,6 @@ export class AddDipendenteCorsoModalComponent implements OnInit {
   }
 
   submit() {
-    //console.log(this.selectedItems);
     this.activeModal.close();
 
 
