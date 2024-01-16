@@ -20,19 +20,22 @@
 
 /* Aggiungi bordi e sfondi alle opzioni durante l'hover */
 .form-select option:hover {
-    background-color: #f5f5f5; /* sfondo di material */
+    background-color: #f5f5f5;
+    /* sfondo di material */
     border: none;
-    border-radius: 4px; /* angolo di material */
+    border-radius: 4px;
+    /* angolo di material */
 }
 
 /* Rimuovi bordi e sfondi dal tag select durante l'hover */
 .form-select:hover {
     outline: none;
     border-color: #fff;
-    box-shadow: none; /* material non ha box-shadow */
+    box-shadow: none;
+    /* material non ha box-shadow */
 }
 
 .logo img {
     max-height: 38px;
     margin-right: 6px;
-  }
+}

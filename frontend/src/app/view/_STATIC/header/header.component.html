@@ -42,13 +42,13 @@
         <a class="nav-link nav-profile d-flex align-items-center pe-0" href="#" data-bs-toggle="dropdown">
 
           <ng-container *ngIf="azienda.img && azienda.img.startsWith('blob'); else defaultImg">
-            <img [src]="azienda.img" alt="" class="rounded-circle" />
+            <img [src]="azienda.img" alt="" style="width: 40px; height: 40px" class="rounded-circle" />
           </ng-container>
 
           <ng-template #defaultImg>
             <img
               src="https://cdn4.iconfinder.com/data/icons/basic-flat-ui-extra-set-200-item/76/ui_ux_minimalist_button_office_building_headquarter-512.png"
-              alt="" class="rounded-circle" />
+              alt="" style="width: 40px; height: 40px" class="rounded-circle" />
           </ng-template>
 
           <span *ngIf="azienda != undefined"

@@ -20,13 +20,13 @@
           <div class="card-body profile-card pt-4 d-flex flex-column align-items-center">
 
             <ng-container *ngIf="azienda.img && azienda.img.startsWith('blob'); else defaultImg">
-              <img [src]="azienda.img" alt="" class="rounded-circle" />
+              <img [src]="azienda.img" alt=""  style="width: 100px; height: 100px" class="rounded-circle" />
             </ng-container>
 
             <ng-template #defaultImg>
               <img
                 src="https://cdn4.iconfinder.com/data/icons/basic-flat-ui-extra-set-200-item/76/ui_ux_minimalist_button_office_building_headquarter-512.png"
-                alt="" class="rounded-circle" />
+                alt="" style="width: 100px; height: 100px" class="rounded-circle" />
             </ng-template>
 
             <h2>{{azienda.ragioneSociale}}</h2>

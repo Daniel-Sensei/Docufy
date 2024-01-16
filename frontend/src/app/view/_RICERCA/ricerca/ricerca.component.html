@@ -1,7 +1,7 @@
 <div id="main" class="main ">
 
     <!-- Aziende -->
-    <div *ngIf="aziende && aziende.length>0">
+    <div *ngIf="aziende && aziende.length>0 && aziendeInitialized">
         <div class="pagetitle">
             <h1>Aziende</h1>
             <nav>
@@ -30,7 +30,7 @@
     </div>
 
     <!-- Dipendenti -->
-    <div *ngIf="dipendenti && dipendenti.length>0">
+    <div *ngIf="dipendenti && dipendenti.length>0 && dipendentiInitialized">
 
         <div class="pagetitle">
             <h1>Dipendenti</h1>
