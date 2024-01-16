@@ -183,25 +183,25 @@ public class UserC extends User
         if (file.isEmpty()) return new ResponseEntity<>(HttpStatus.BAD_REQUEST);
 
         // controllo se l'azienda esiste
-        Azienda a = DBManager.getInstance().getAziendaDao().findByPIva(pIva);
-        if (a==null) return new ResponseEntity<>(HttpStatus.BAD_REQUEST);
+        Consulente c = DBManager.getInstance().getConsulenteDao().findByPIva(pIva);
+        if (c==null) return new ResponseEntity<>(HttpStatus.BAD_REQUEST);
 
         // controllo che il consulente sia associato all'azienda da modificare
-        if(this.pIva.equals(a.getConsulente().getPIva())){
+        if(this.pIva.equals(c.getPIva())){
             String filePath;
             try {
                 //salvo il file nella cartella dei files
                 filePath = Utility.uploadFile(pIva, file);
                 // elimino il vecchio file se esiste
-                if(a.getImg()!=null) Utility.deleteFile(a.getImg());
+                if(c.getImg()!=null) Utility.deleteFile(c.getImg());
             } catch (IOException e) {
                 return new ResponseEntity<>(HttpStatus.INTERNAL_SERVER_ERROR);
             }
             // salvo il path del nuovo file nell'azienda
-            a.setImg(filePath);
+            c.setImg(filePath);
 
             // modifico l'azienda nel database
-            if (DBManager.getInstance().getAziendaDao().update(a))
+            if (DBManager.getInstance().getConsulenteDao().update(c))
                 return new ResponseEntity<>(HttpStatus.OK);
             else return new ResponseEntity<>(HttpStatus.INTERNAL_SERVER_ERROR);
         }
@@ -212,19 +212,19 @@ public class UserC extends User
     public ResponseEntity<String> rimuoviImmagineAzienda(String pIva) {
 
             // controllo se l'azienda esiste
-            Azienda a = DBManager.getInstance().getAziendaDao().findByPIva(pIva);
-            if (a==null) return new ResponseEntity<>(HttpStatus.BAD_REQUEST);
+            Consulente c = DBManager.getInstance().getConsulenteDao().findByPIva(pIva);
+            if (c==null) return new ResponseEntity<>(HttpStatus.BAD_REQUEST);
 
             // controllo che il consulente sia associato all'azienda da modificare
-            if(this.pIva.equals(a.getConsulente().getPIva())){
+            if(this.pIva.equals(c.getPIva())){
                 // elimino il vecchio file se esiste
-                if(a.getImg()!=null) Utility.deleteFile(a.getImg());
+                if(c.getImg()!=null) Utility.deleteFile(c.getImg());
                 else return new ResponseEntity<>(HttpStatus.BAD_REQUEST);
                 // salvo il path null nell'azienda da modificare
-                a.setImg(null);
+                c.setImg(null);
 
                 // modifico l'azienda nel database
-                if (DBManager.getInstance().getAziendaDao().update(a))
+                if (DBManager.getInstance().getConsulenteDao().update(c))
                     return new ResponseEntity<>(HttpStatus.OK);
                 else return new ResponseEntity<>(HttpStatus.INTERNAL_SERVER_ERROR);
             }

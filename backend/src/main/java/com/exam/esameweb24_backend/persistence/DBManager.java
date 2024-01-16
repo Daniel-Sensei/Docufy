@@ -52,15 +52,51 @@ public class DBManager {
         return properties;
     }
 
+    /**
+     * Returns the implementation of the {@link AziendaDao} interface
+     * for the hardcoded language.
+     *
+     * @return the dao implementation
+     */
     public AziendaDao getAziendaDao() {return AziendaDaoPostgres.getInstance();}
 
+    /**
+     * Returns the implementation of the {@link ConsulenteDao} interface
+     * for the hardcoded language.
+     *
+     * @return the dao implementation
+     */
     public ConsulenteDao getConsulenteDao() {return ConsulenteDaoPostgres.getInstance();}
 
+    /**
+     * Returns the implementation of the {@link CorsoDao} interface
+     * for the hardcoded language.
+     *
+     * @return the dao implementation
+     */
     public CorsoDao getCorsoDao() {return CorsoDaoPostgres.getInstance();}
 
+    /**
+     * Returns the implementation of the {@link DocumentoDao} interface
+     * for the hardcoded language.
+     *
+     * @return the dao implementation
+     */
     public DocumentoDao getDocumentoDao() {return DocumentoDaoPostgres.getInstance();}
 
+    /**
+     * Returns the implementation of the {@link DipendenteDao} interface
+     * for the hardcoded language.
+     *
+     * @return the dao implementation
+     */
     public DipendenteDao getDipendenteDao() {return DipendenteDaoPostgres.getInstance();}
 
+    /**
+     * Returns the implementation of the {@link UserDao} interface
+     * for the hardcoded language.
+     *
+     * @return the dao implementation
+     */
     public UserDao getUserDao() {return UserDaoPostgres.getInstance();}
 }
