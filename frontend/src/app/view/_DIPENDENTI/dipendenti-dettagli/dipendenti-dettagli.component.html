@@ -136,5 +136,6 @@
 
     <app-documenti-tabella *ngIf="documenti && documenti.length>0" [documenti]="documenti" [dipendente]="dipendente"
         (refreshData)="updateDocumenti()"></app-documenti-tabella>
+    <app-no-data *ngIf="documenti && documenti.length === 0" ></app-no-data>
 
 </div><!-- End #main -->

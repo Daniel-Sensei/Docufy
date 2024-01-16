@@ -44,7 +44,7 @@ A seconda della tipologia di utente loggato (azienda/consulente) si presentano d
 - **Partecipazione ai corsi:** Permette l'aggiunta di dipendenti ai corsi aziendali. (N.B I corsi prevedono una capienza massima di iscritti)
 - **Notifiche:** Ricezione di solleciti via e-mail nel caso di documenti aziendali in scadenza.
 
-##Nota sull'aggiunta e modifica dei dati
+### Nota sull'aggiunta e modifica dei dati
 Tutti i form riguardanti l'aggiunta e la modifica di dati del database (aziende, documenti, dipendenti, corsi) vengono gestiti attraverso delle finestre modali o pop-up. I pop-up in questione gestiscono dati diversi tra di loro: testi, date, immagini, file, etc. 
 Durante l'operazioni di modifica dei dati, i pop-up vengono ripristinati con le informazioni di quella specifica entità, riducendo notevolmente i tempi per effettuare l'operazione.
 
@@ -70,6 +70,7 @@ Durante l'operazioni di modifica dei dati, i pop-up vengono ripristinati con le 
 
 ## Credenziali di Test
 Nel dump del database sono presenti 3 utenti di prova (2 aziende e 1 consulente).
+Per poter accedere ai dati del database è necessario configurare la connessione al database nel file `application.properties` presente nella cartella `src/main/resources`.
 
 ### Azienda Alpha
 - Email: alpha@azienda.com

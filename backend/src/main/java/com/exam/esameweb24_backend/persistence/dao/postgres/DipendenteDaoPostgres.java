@@ -115,7 +115,7 @@ public class DipendenteDaoPostgres implements DipendenteDao {
     @Override
     public List<Dipendente> findByCorsoFrequentato(Long idCorso) {
         List<Dipendente> dipendenti = new ArrayList<>();
-        String query = "SELECT * FROM dipendenti WHERE id IN (SELECT dipendente FROM corsi_dipendenti WHERE corso = ?)";
+        String query = "SELECT * FROM dipendenti WHERE id IN (SELECT dipendente FROM corsi_dipendenti WHERE corso = ?) ORDER BY cognome ASC";
         try {
             PreparedStatement st = conn.prepareStatement(query);
             st.setLong(1, idCorso);
