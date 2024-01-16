@@ -53,7 +53,7 @@ public class FileService {
         if (!checkAuthorization(req, path))
             return new ResponseEntity<>(HttpStatus.UNAUTHORIZED);
 
-        return Utility.deleteFile(path) ? new ResponseEntity<String>(HttpStatus.OK) : new ResponseEntity<String>(HttpStatus.INTERNAL_SERVER_ERROR);
+        return Utility.deleteFile(path) ? new ResponseEntity<>(HttpStatus.OK) : new ResponseEntity<>(HttpStatus.INTERNAL_SERVER_ERROR);
     }
 
     private static boolean checkAuthorization(HttpServletRequest req, String path) {
@@ -65,7 +65,18 @@ public class FileService {
         // - l'utente non è loggato
         // - l'utente è un'azienda, ma non è associato al file
         // - l'utente è un consulente, ma non è associato all'azienda proprietaria del file o non è associato al file
-        if (user == null) return false;
-        else return user.getPIva().equals(pIvaFile) || user.getPIva().equals(DBManager.getInstance().getDipendenteDao().findByCF(pIvaFile).getAzienda().getPIva());
+        if (user == null)
+            return false;
+        else if(user.getPIva().equals(pIvaFile) || user.getPIva().equals(DBManager.getInstance().getDipendenteDao().findByCF(pIvaFile).getAzienda().getPIva()))
+            return true;
+        if(Utility.isConsultant(Utility.getToken(req))){
+            try {
+                Double.parseDouble(pIvaFile);
+                return user.getPIva().equals(DBManager.getInstance().getAziendaDao().findByPIva(pIvaFile).getConsulente().getPIva());
+            } catch (NumberFormatException nfe) {
+                return user.getPIva().equals(DBManager.getInstance().getDipendenteDao().findByCF(pIvaFile).getAzienda().getConsulente().getPIva());
+            }
+        }
+        return false;
     }
 }
