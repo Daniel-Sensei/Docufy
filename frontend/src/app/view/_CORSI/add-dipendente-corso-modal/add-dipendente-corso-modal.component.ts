@@ -56,7 +56,7 @@ export class AddDipendenteCorsoModalComponent implements OnInit {
     this.dipendentiService.getDipendentiNonIscrittiCorso(this.idCorso).subscribe((dipendenti: any[]) => {
       this.dropdownList = dipendenti.map((dipendente, index) => ({
         item_id: dipendente.id,
-        item_text: dipendente.nome + " " + dipendente.cognome,
+        item_text: dipendente.cognome+ " " + dipendente.nome,
       }));
     });
   }

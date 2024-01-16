@@ -158,7 +158,7 @@
 
             </div>
 
-            <app-dipendenti-tabella *ngIf="dipendentiIscritti && dipendentiIscritti.length>0"
+            <app-dipendenti-tabella *ngIf="dipendentiIscritti && dipendentiIscritti.length>0 && isInitialized"
                 [dipendenti]="dipendentiIscritti"></app-dipendenti-tabella>
 
         </div>

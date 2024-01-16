@@ -42,6 +42,7 @@ export class AddDipendentiListaModalComponent {
         },
         error => {
           this.alert.setAlertDipendenti("danger", "Errore durante l'aggiunta della lista dipendenti!");
+          this.refreshData.emit();
         }
       );
 

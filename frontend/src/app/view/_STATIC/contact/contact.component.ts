@@ -72,7 +72,7 @@ export class ContactComponent {
         (response) => {
           this.alert.setAlertContatti('success', 'Messaggio inviato con successo! Una email contenente la tua richiesta è stata inviata al tuo indirizzo email.');
           this.emailService.sendConfirmEmail(this.contactForm.value.nome, this.contactForm.value.email, this.contactForm.value.oggetto, this.contactForm.value.messaggio).subscribe(
-            (response) => { },
+            (response) => { this.contactForm.reset(); },
             (error) => { }
           );
         },

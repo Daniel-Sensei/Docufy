@@ -177,7 +177,6 @@ export class ProfileComponent {
 
   private modificaAzienda(aziendaData: any, file: File | undefined) {
     aziendaData.piva = this.azienda.piva;
-    console.log(aziendaData);
     this.aziendeService.modificaProfilo(aziendaData, this.file).subscribe(
       response => {
         this.alert.setAlertProfilo('success', 'Modifiche salvate con successo');

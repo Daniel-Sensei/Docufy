@@ -78,23 +78,23 @@ export class HeaderComponent {
   setAziendaImage(): Observable<void[]> {
     const observables: Observable<void>[] = [];
 
-    if(this.azienda != null)
-    if (this.azienda.img !== null && this.azienda.img !== '') {
-      const observable = this.fileService.getFile(this.azienda.img).pipe(
-        map((img) => {
-          let objectURL = URL.createObjectURL(img);
-          this.azienda.img = objectURL;
-        }),
-        catchError((err) => {
-          this.azienda.img = '';
-          return [];
-        })
-      );
-      observables.push(observable);
-    }else {
-      // If azienda.img is empty, create an empty observable
-      observables.push(of(null).pipe(map(() => {})));
-    }
+    if (this.azienda != null)
+      if (this.azienda.img !== null && this.azienda.img !== '') {
+        const observable = this.fileService.getFile(this.azienda.img).pipe(
+          map((img) => {
+            let objectURL = URL.createObjectURL(img);
+            this.azienda.img = objectURL;
+          }),
+          catchError((err) => {
+            this.azienda.img = '';
+            return [];
+          })
+        );
+        observables.push(observable);
+      } else {
+        // If azienda.img is empty, create an empty observable
+        observables.push(of(null).pipe(map(() => { })));
+      }
 
     // Use forkJoin to wait for all observables to complete
     return forkJoin(observables);
@@ -147,10 +147,24 @@ export class HeaderComponent {
     // Ricarica la pagina
     this.router.routeReuseStrategy.shouldReuseRoute = () => false;
     const currentUrl = this.router.url + '?';
-    this.router.navigateByUrl(currentUrl).then(() => {
-      this.router.navigated = false;
-      this.router.navigate([this.router.url]);
-    });
+    if (currentUrl.includes('corsi')) {
+      this.router.navigateByUrl(currentUrl).then(() => {
+        this.router.navigated = false;
+        this.router.navigate(['/corsi']);
+      });
+    }
+    else if (currentUrl.includes('dipendenti')) {
+      this.router.navigateByUrl(currentUrl).then(() => {
+        this.router.navigated = false;
+        this.router.navigate(['/dipendenti']);
+      });
+    }
+    else {
+      this.router.navigateByUrl(currentUrl).then(() => {
+        this.router.navigated = false;
+        this.router.navigate([this.router.url]);
+      });
+    }
   }
 
   search() {
@@ -161,7 +175,7 @@ export class HeaderComponent {
     this.router.navigate(['/search/', this.text.value ?? '']);
     this.communication.setSearchText(this.text.value ?? '');
   }
-  
+
 
   logout() {
     const modalRef = this.modalService.open(LogoutModalComponent, {

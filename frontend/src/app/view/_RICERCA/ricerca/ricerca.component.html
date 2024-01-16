@@ -18,15 +18,15 @@
     <div *ngIf="documenti && documenti.length>0">
 
         <div class="pagetitle">
-            <h1>Documenti Aziendali</h1>
+            <h1>Documenti</h1>
             <nav>
                 <ol class="breadcrumb">
                     <li class="breadcrumb-item"><a routerLink="/">Dashboard</a></li>
-                    <li class="breadcrumb-item active">Documenti Aziendali</li>
+                    <li class="breadcrumb-item active">Documenti</li>
                 </ol>
             </nav>
         </div><!-- End Page Title -->
-        <app-documenti-tabella [documenti]="documenti"></app-documenti-tabella>
+        <app-documenti-tabella [documenti]="documenti" [displayDipendente]="true"></app-documenti-tabella>
     </div>
 
     <!-- Dipendenti -->

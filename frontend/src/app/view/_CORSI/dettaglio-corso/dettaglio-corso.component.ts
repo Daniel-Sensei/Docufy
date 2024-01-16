@@ -11,6 +11,12 @@ import { Router, ActivatedRoute } from '@angular/router';
 import { AuthService } from '../../../service/auth/auth.service';
 import { AddCorsoModalComponent } from '../add-corso-modal/add-corso-modal.component';
 import { ConfirmModalComponent } from '../../GENERIC/confirm-modal/confirm-modal.component';
+import { Observable } from 'rxjs';
+import { FileService } from '../../../service/file/file.service';
+import { forkJoin } from 'rxjs';
+import { catchError } from 'rxjs/operators';
+import { map } from 'rxjs/operators';
+import { of } from 'rxjs';
 
 
 @Component({
@@ -23,13 +29,16 @@ export class DettaglioCorsoComponent {
   corso?: Corso;
   dipendentiIscritti?: Dipendente[];
 
+  isInitialized: boolean = false;
+
   constructor(
     private modalService: NgbModal,
     public alert: AlertService,
     private route: ActivatedRoute,
     private router: Router,
     private corsiService: CorsiService,
-    public auth: AuthService
+    public auth: AuthService,
+    private fileService: FileService
   ) { }
 
   ngOnInit(): void {
@@ -52,6 +61,9 @@ export class DettaglioCorsoComponent {
     const id = Number(this.route.snapshot.paramMap.get('id'));
     this.corsiService.getDipendentiIscritti(id).subscribe(dipendentiIscritti => {
       this.dipendentiIscritti = dipendentiIscritti;
+      this.setDipendentiImages().subscribe(() => {
+        this.isInitialized = true; // Set the flag to true after initialization
+      });
     });
   }
 
@@ -95,6 +107,40 @@ export class DettaglioCorsoComponent {
       // Aggiorna i dati richiamando nuovamente ngOnInit
       this.router.navigate(['/corsi']);
     });
+  }
+
+  setDipendentiImages(): Observable<void[]> {
+    const observables: Observable<void>[] = [];
+
+    this.dipendentiIscritti?.forEach((dipendente) => {
+      if (dipendente.img !== '' && dipendente.img !== null) {
+        const observable = this.fileService.getFile(dipendente.img).pipe(
+          map((img) => {
+            let objectURL = URL.createObjectURL(img);
+            dipendente.img = objectURL;
+          }),
+          catchError((error) => {
+            // Handle the 404 error or any other error
+            if (error.status === 404) {
+              // Change the image URL to a default one
+              console.warn(`Image for dipendente ${dipendente.id} not found, using default image instead`);
+              dipendente.img = "";
+            } else {
+              console.error(`Error loading image for dipendente: ${dipendente.id}`, error);
+            }
+            // Continue with the observable by returning an empty observable
+            return [];
+          })
+        );
+        observables.push(observable);
+      }else {
+        // If azienda.img is empty, create an empty observable
+        observables.push(of(null).pipe(map(() => {})));
+      }
+    });
+
+    // Use forkJoin to wait for all observables to complete
+    return forkJoin(observables);
   }
 
 }

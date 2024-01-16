@@ -136,11 +136,11 @@ export class ConfirmModalComponent {
     if (this.azienda != undefined ) {
       this.aziendeService.deleteImgAzienda(this.azienda.piva).subscribe(
         data => {
-          this.alert.setAlertAziende("success", `Immagine rimossa con successo`);
+          this.alert.setAlertProfilo("success", `Immagine rimossa con successo`);
           this.refreshData.emit();
         },
         error => {
-          this.alert.setAlertAziende("danger", `Errore durante la rimozione dell'immagine`);
+          this.alert.setAlertProfilo("danger", `Errore durante la rimozione dell'immagine`);
         }
       );
     }
