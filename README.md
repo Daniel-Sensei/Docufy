@@ -18,6 +18,7 @@ A seconda della tipologia di utente loggato (azienda/consulente) si presentano d
 
 ## Funzionalità Comuni
 - **Login:** Supporta account multipli con possibilità di rimanere collegati per una maggiore comodità.
+- **Ricerca:** Ricerca Globale di aziende, documenti e dipendenti eseguibile comodamente dall'header in ogni momento.
 - **Grafici Documenti In Scadenza:** Consente di avere una panoramica generale dei documenti che si trovano negli stati "In Scadenza" e/o "Scaduti".
 - **Tabella Documenti In Scadenza:** Utile per offrire una visualizzazione alternativa al grafico delle scadenza imminenti.
 - **Documenti**: Consente una visualizzazione agevolate dei propri documenti (sia aziendali che del singolo dipendente) sottoforma tabellare, con la possibilità di ordinare i dati per specifici attributi.
@@ -66,6 +67,21 @@ Durante l'operazioni di modifica dei dati, i pop-up vengono ripristinati con le 
 - **ChartJS:** Grafico riguardante scadenza imminenti di documenti presenti nella dashboard.
 - **JavaMail:** Per l'integrazione del servizio e-mail (invio credenziali di accesso, contattare assistenza, notifiche documenti in scadenza).
 - **Web3Forms:** Per gestire le richieste e-mail di assistenza.
+
+## Credenziali di Test
+Nel dump del database sono presenti 3 utenti di prova (2 aziende e 1 consulente).
+
+### Azienda Alpha
+- Email: alpha@azienda.com
+- Password: Web2324.
+
+### Azienda Beta
+- Email: beta@azienda.com
+- Password: Web2324.
+
+### Azienda Gamma Consulenze
+- Email: gamma@consulente.com
+- Password: Web2324.
 
 ## Autori:
 - Campanella Gianluca
