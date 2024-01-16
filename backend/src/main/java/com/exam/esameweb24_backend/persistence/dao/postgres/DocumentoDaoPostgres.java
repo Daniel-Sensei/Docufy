@@ -206,8 +206,6 @@ public class DocumentoDaoPostgres implements DocumentoDao {
             st.setString(6, documento.getStato());
             st.setString(7, documento.getFormato());
 
-            System.out.println(st);
-
             ResultSet rs = st.executeQuery();
             if (rs.next()) {
                 return rs.getLong("id");

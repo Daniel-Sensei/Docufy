@@ -42,7 +42,6 @@ public class Auth {
 
         if (session != null) {
             session.invalidate(); // Invalida la sessione
-            // System.out.println("Sessione invalidata");
             return ResponseEntity.ok().build();
         } else {
             return ResponseEntity.status(HttpStatus.UNAUTHORIZED).build(); // Non c'è nessuna sessione da invalidare

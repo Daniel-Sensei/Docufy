@@ -506,7 +506,6 @@ public class UserA extends User
 
         Long id = DBManager.getInstance().getDocumentoDao().insert(documento);
         if (id == null) {
-            System.out.println(filePath);
             Utility.deleteFile(filePath);
             return new ResponseEntity<>(HttpStatus.INTERNAL_SERVER_ERROR);
         }

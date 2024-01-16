@@ -54,44 +54,6 @@ public class DipendenteDaoPostgres implements DipendenteDao {
         return dipendenti;
     }
 
-    /**
-     *  UNUSED METHOD TO BE REMOVED BEFORE DELIVERY
-
-    @Override
-    public List<Dipendente> findByConsultant(String consultantPIva) {
-        List<Azienda> aziende = DBManager.getInstance().getAziendaDao().findByConsultant(consultantPIva);
-        List<Dipendente> dipendenti = new ArrayList<>();
-        for (Azienda azienda : aziende) {
-            String query = "SELECT * FROM dipendenti WHERE azienda  = ?";
-            try {
-                PreparedStatement st = conn.prepareStatement(query);
-                st.setString(1, azienda.getPIva());
-                ResultSet rs = st.executeQuery();
-                while (rs.next()) {
-                    Dipendente dipendente = new Dipendente();
-                    dipendente.setId(rs.getLong("id"));
-                    dipendente.setCF(rs.getString("cf"));
-                    dipendente.setNome(rs.getString("nome"));
-                    dipendente.setCognome(rs.getString("cognome"));
-                    dipendente.setDataNascita(rs.getDate("data_nascita"));
-                    dipendente.setEmail(rs.getString("email"));
-                    dipendente.setTelefono(rs.getString("telefono"));
-                    dipendente.setResidenza(rs.getString("indirizzo"));
-                    dipendente.setDataAssunzione(rs.getDate("data_assunzione"));
-                    dipendente.setRuolo(rs.getString("ruolo"));
-                    dipendente.setImg(rs.getString("foto"));
-                    System.out.println(dipendente);
-                    dipendenti.add(dipendente);
-                }
-            } catch (SQLException e) {
-                throw new RuntimeException(e);
-            }
-        }
-        return dipendenti;
-    }
-
-     **/
-
     @Override
     public Dipendente findById(Long id) {
         String query = "SELECT * FROM dipendenti WHERE id  = ?";
