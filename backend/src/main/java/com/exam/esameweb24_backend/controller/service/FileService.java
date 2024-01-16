@@ -1,6 +1,7 @@
 package com.exam.esameweb24_backend.controller.service;
 
 import com.exam.esameweb24_backend.controller.Utility;
+import com.exam.esameweb24_backend.persistence.DBManager;
 import com.exam.esameweb24_backend.persistence.model.User;
 import jakarta.servlet.http.HttpServletRequest;
 import org.springframework.core.io.ByteArrayResource;
@@ -56,7 +57,7 @@ public class FileService {
     }
 
     private static boolean checkAuthorization(HttpServletRequest req, String path) {
-        String token = Utility.getToken(req);
+
         User user = Utility.getRequestUser(req);
         String pIvaFile = path.substring(path.lastIndexOf("/") + 1, path.lastIndexOf("_"));
 
@@ -64,12 +65,7 @@ public class FileService {
         // - l'utente non è loggato
         // - l'utente è un'azienda, ma non è associato al file
         // - l'utente è un consulente, ma non è associato all'azienda proprietaria del file o non è associato al file
-        if (user == null)
-            return false;
-        if (!Utility.isConsultant(token) && !user.getPIva().equals(pIvaFile))
-            return false;
-        if (Utility.isConsultant(token) && !Utility.checkConsultantAgency(user.getPIva(), pIvaFile) && !user.getPIva().equals(pIvaFile))
-            return false;
-        return true;
+        if (user == null) return false;
+        else return user.getPIva().equals(pIvaFile) || user.getPIva().equals(DBManager.getInstance().getDipendenteDao().findByCF(pIvaFile).getAzienda().getPIva());
     }
 }
