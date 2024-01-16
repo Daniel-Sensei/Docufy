@@ -57,16 +57,24 @@ export class AddCorsoModalComponent {
     this.activeModal.close('Save click');
 
     //stampa a console i valori del form
+    var pIva: string = '';
+    if (this.auth.getRole() == 'A') {
+      pIva = this.auth.getCurrentPIva()!;
+    }
+    else {
+      pIva = this.auth.getSelectedPIva()!;
+    }
+
     if(this.corso == undefined){
-      this.addCorso();
+      this.addCorso(pIva);
     }
     else{
-      this.updateCorso();
+      this.updateCorso(pIva);
     }
   }
 
-  private addCorso() {
-    this.corsiService.addCorso(this.addCorsoForm.value, this.auth.getCurrentPIva()!).subscribe(
+  private addCorso(pIva : string) {
+    this.corsiService.addCorso(this.addCorsoForm.value, pIva).subscribe(
       data => {
         this.alert.setAlertCorsi("success", `Corso <strong>${this.addCorsoForm.get("nome")?.value}</strong> aggiunto con successo`);
         this.refreshData.emit();
@@ -79,9 +87,9 @@ export class AddCorsoModalComponent {
     );
   }
 
-  private updateCorso() {
+  private updateCorso(pIva : string) {
     this.addCorsoForm.value.id = this.corso?.id;
-    this.corsiService.updateCorso(this.addCorsoForm.value, this.auth.getCurrentPIva()!).subscribe(
+    this.corsiService.updateCorso(this.addCorsoForm.value, pIva).subscribe(
       data => {
         this.alert.setAlertCorsi("success", `Corso <strong>${this.addCorsoForm.get("nome")?.value}</strong> modificato con successo`);
         this.refreshData.emit();
