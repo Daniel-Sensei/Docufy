@@ -1,0 +1,26 @@
+<div id="main" class="main ">
+
+    <div class="pagetitle">
+        <h1>Documenti Aziendali</h1>
+        <nav>
+            <ol class="breadcrumb">
+                <li class="breadcrumb-item"><a routerLink="/">Dashboard</a></li>
+                <li class="breadcrumb-item active">Documenti Aziendali</li>
+            </ol>
+        </nav>
+    </div><!-- End Page Title -->
+
+
+    <div class="margin">
+        <div class="mb-3" *ngIf="this.auth.getRole()=='A'">
+            <button type="button" class="btn btn-primary" (click)="openAddDocumentModal()">
+                Aggiungi Documento
+            </button>
+        </div>
+
+        <app-alert [page]="'Documenti'"></app-alert>
+
+    </div>
+
+    <app-documenti-tabella *ngIf="documenti && documenti.length>0" [documenti]="documenti" (refreshData)="updateDocumenti()"></app-documenti-tabella>
+    <app-no-data *ngIf="documenti && documenti.length === 0" ></app-no-data>

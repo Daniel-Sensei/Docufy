@@ -1,0 +1,76 @@
+<div class="card">
+    <div class="card-body">
+        <div class="table-responsive">
+            <table class="table align-middle mb-0 bg-white" mat-table [dataSource]="dataSource" matSort>
+                <!-- Nome Column -->
+                <ng-container matColumnDef="nome">
+                    <th mat-header-cell *matHeaderCellDef mat-sort-header> Nome </th>
+                    <td mat-cell *matCellDef="let row">
+                        <div class="d-flex align-items-center">
+
+                            <app-documenti-icon [formato]="row.formato"></app-documenti-icon>
+
+                            <div class="ms-3">
+                                <p class="fw-bold mb-1">{{row.nome}}</p>
+                            </div>
+                        </div>
+                    </td>
+                </ng-container>
+
+                <!-- Dipendente Column -->
+                <ng-container matColumnDef="cf" *ngIf="displayDipendente">
+                    <th mat-header-cell *matHeaderCellDef mat-sort-header> Codice Fiscale </th>
+                    <td mat-cell *matCellDef="let row">
+                        <p *ngIf="row.dipendente != null" class="fw-normal mb-1"><a routerLink="/dipendenti/{{row.dipendente.id}}">{{row.dipendente.cf}}</a></p>
+                        <p *ngIf="row.dipendente == null" class="fw-normal mb-1"><i>/</i></p>
+                    </td>
+                </ng-container>
+
+                <!-- Data Scadenza Column -->
+                <ng-container matColumnDef="dataScadenza">
+                    <th mat-header-cell *matHeaderCellDef mat-sort-header> Data Scadenza </th>
+                    <td mat-cell *matCellDef="let row">
+                        <p class="fw-normal mb-1">{{row.dataScadenza}}</p>
+                    </td>
+                </ng-container>
+
+                <!-- Stato Column -->
+                <ng-container matColumnDef="stato">
+                    <th mat-header-cell *matHeaderCellDef mat-sort-header> Stato </th>
+                    <td mat-cell *matCellDef="let row">
+                        <span *ngIf="row.stato=='Valido'" class="badge badge-pill badge-success">{{row.stato}}</span>
+                        <span *ngIf="row.stato=='Scaduto'" class="badge badge-pill badge-danger">{{row.stato}}</span>
+                        <span *ngIf="row.stato=='In Scadenza'"
+                            class="badge badge-pill badge-warning">{{row.stato}}</span>
+                    </td>
+                </ng-container>
+
+                <!-- Formato Column -->
+                <ng-container matColumnDef="formato">
+                    <th mat-header-cell *matHeaderCellDef mat-sort-header> Formato </th>
+                    <td mat-cell *matCellDef="let row">
+                        <p class="fw-normal mb-1">{{row.formato}}</p>
+                    </td>
+                </ng-container>
+
+                <!-- Azioni Column -->
+                <ng-container matColumnDef="azioni">
+                    <th mat-header-cell *matHeaderCellDef mat-sort-header> Azioni </th>
+                    <td mat-cell *matCellDef="let row">
+
+                        <a *ngIf="!row.dipendente && this.auth.getRole()=='A'" type="button" (click)="openUpdateDocumento(row)" class="fw-bold small" data-mdb-ripple-color="dark">Aggiorna/</a>
+                        <a *ngIf="row.dipendente && this.auth.getRole()=='A'" type="button" (click)="setDipendente(row.dipendente)" (click)="openUpdateDocumento(row)" class="fw-bold small" data-mdb-ripple-color="dark">Aggiorna/</a>
+
+                        <a type="button" (click)="downloadDocumento(row)" class="fw-bold small" data-mdb-ripple-color="dark" >Scarica</a>
+                        <a type="button" (click)="openDeleteDocumento(row)" class="fw-bold small" data-mdb-ripple-color="dark" *ngIf="this.auth.getRole()=='A'">/Elimina</a>
+                    </td>
+                </ng-container>
+
+                <tr mat-header-row *matHeaderRowDef="displayedColumns"></tr>
+                <tr mat-row *matRowDef="let row; columns: displayedColumns;"></tr>
+
+            </table>
+            <mat-paginator [pageSizeOptions]="[5, 10, 25, 100]" aria-label="Select page of users"></mat-paginator>
+        </div>
+    </div>
+</div>

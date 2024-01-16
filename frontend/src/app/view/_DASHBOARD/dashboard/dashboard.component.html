@@ -1,0 +1,62 @@
+<main id="main" class="main">
+
+    <div class="pagetitle">
+      <h1>Dashboard</h1>
+      <nav>
+        <ol class="breadcrumb">
+          <li class="breadcrumb-item active">Dashboard</li>
+        </ol>
+      </nav>
+    </div><!-- End Page Title -->
+
+    <div class="margin">
+      <app-alert [page]="'Aziende'"></app-alert>
+      <app-alert [page]="'Corsi'"></app-alert>
+      <app-alert [page]="'Documenti'"></app-alert>
+      <app-alert [page]="'Dipendenti'"></app-alert>
+    </div>
+  
+    <section class="section dashboard">
+      <div class="row"> 
+  
+        <!-- Left side columns -->
+        <div class="col-lg-8">
+          <div class="row">
+  
+
+            <app-selettore-azienda *ngIf="aziende!=undefined" [aziende]="aziende"></app-selettore-azienda>
+
+            <app-reports *ngIf="documentiInitiated && documentiValidi && documentiInScadenza && documentiScaduti"
+             [documentiValidi]="documentiValidi" 
+             [documentiInScadenza]="documentiInScadenza"
+             [documentiScaduti]="documentiScaduti">
+            </app-reports>
+
+            <div class="pagetitle">
+              <h1>Documenti in Scadenza</h1>
+              <nav>
+                  <ol class="breadcrumb">
+                      <li class="breadcrumb-item"><a routerLink="/">Dashboard</a></li>
+                      <li class="breadcrumb-item active">Documenti in Scadenza</li>
+                  </ol>
+              </nav>
+          </div><!-- End Page Title -->
+  
+            <app-documenti-tabella *ngIf="documentiInitiated" [documenti]="documentiNonValidi" [displayDipendente]="true" (refreshData)="updateDocumenti()"></app-documenti-tabella>
+  
+          </div>
+        </div><!-- End Left side columns -->
+  
+        <!-- Right side columns -->
+        <div class="col-lg-4">
+
+          <app-operazioni-veloci (refreshDocumenti)="updateDocumenti()" (refreshCorsi)="updateCorsi()"></app-operazioni-veloci>
+            
+          <app-riepilogo-corsi *ngIf="corsi && corsi.length>0" [corsi]="corsi"></app-riepilogo-corsi>
+          
+        </div><!-- End Right side columns -->
+  
+      </div>
+    </section>
+  
+  </main><!-- End #main -->

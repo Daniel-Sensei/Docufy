@@ -1,0 +1,84 @@
+<div class="modal-header">
+    <h4 class="modal-title">Aggiungi Nuovo Documento</h4>
+    <button type="button" class="close" aria-label="Close" (click)="activeModal.dismiss('Cross click')">
+        <span aria-hidden="true">&times;</span>
+    </button>
+</div>
+<div class="modal-body">
+    <!-- Contenuto del tuo modulo -->
+    <!-- Angular Reactive Form Validation -->
+    <form [formGroup]="addDocumentForm" class="row g-3" (ngSubmit)="submitForm()" novalidate>
+        <div class="col-md-12">
+            <label for="tipoDocumento" class="form-label">Tipo Documento*</label>
+            <select formControlName="tipoDocumento" class="form-control" id="tipoDocumento">
+                <option value="" disabled [selected]="!addDocumentForm.get('tipoDocumento')?.value">Seleziona tipo...</option>
+                <option *ngFor="let tipoDocumento of arrayTipiDocumento" [value]="tipoDocumento">
+                    {{ tipoDocumento }}
+                </option>
+            </select>
+        </div>
+
+        <!-- Seleziona il nome di documento se clicco su altro -->
+        <div class="col-md-12" *ngIf="addDocumentForm.get('tipoDocumento')?.value === 'Altro'">
+            <label for="tipoDocumentoAltro" class="form-label">Nome*</label>
+            <input formControlName="tipoDocumentoAltro" type="text" class="form-control" id="tipoDocumentoAltro"
+                [class.is-invalid]="addDocumentForm.get('tipoDocumentoAltro')?.invalid && addDocumentForm.get('tipoDocumentoAltro')?.touched">
+            <div *ngIf="addDocumentForm.get('tipoDocumentoAltro')?.invalid && addDocumentForm.get('tipoDocumentoAltro')?.touched"
+                class="invalid-feedback">
+                Nome è obbligatorio
+            </div>
+        </div>
+
+        <!-- Data di rilascio documento -->
+        <div class="col-md-12">
+            <label for="dataRilascio" class="form-label">Data di rilascio*</label>
+            <div class="input-group">
+                <input readonly formControlName="dataRilascio" class="form-control" ngbDatepicker
+                    #dpRilascio="ngbDatepicker" placeholder="gg-mm-aaaa"
+                    [class.is-invalid]="addDocumentForm.get('dataRilascio')?.invalid && addDocumentForm.get('dataRilascio')?.touched"/>
+                <button class="btn btn-outline-secondary bi bi-calendar3" (click)="dpRilascio.toggle()"
+                    type="button"></button>
+
+                <div *ngIf="addDocumentForm.get('dataRilascio')?.invalid && addDocumentForm.get('dataRilascio')?.touched"
+                    class="invalid-feedback">
+                    Data di rilascio non valida.
+                </div>
+            </div>
+        </div>
+
+        <!-- Data di scadenza documento -->
+        <div class="col-md-12">
+            <label for="dataScadenza" class="form-label">Data di scadenza*</label>
+            <div class="input-group">
+                <input readonly formControlName="dataScadenza" class="form-control" ngbDatepicker
+                    #dpScadenza="ngbDatepicker" placeholder="gg-mm-aaaa"
+                    [class.is-invalid]="addDocumentForm.get('dataScadenza')?.invalid && addDocumentForm.get('dataScadenza')?.touched" />
+                <button class="btn btn-outline-secondary bi bi-calendar3" (click)="dpScadenza.toggle()"
+                    type="button"></button>
+
+                <div *ngIf="addDocumentForm.get('dataScadenza')?.invalid && addDocumentForm.get('dataScadenza')?.touched"
+                    class="invalid-feedback">
+                    La data di scadenza non può essere inferiore alla data di rilascio.
+                </div>
+            </div>
+        </div>
+
+        <!-- Carica file -->
+        <div class="col-md-12">
+            <label for="file" class="form-label">Carica file*</label>
+            <input (change)="onFileSelected($event)" formControlName="file" type="file" class="form-control" id="file"
+                [class.is-invalid]="addDocumentForm.get('file')?.invalid && addDocumentForm.get('file')?.touched">
+            <div *ngIf="addDocumentForm.get('file')?.invalid && addDocumentForm.get('file')?.touched"
+                class="invalid-feedback">
+                File è obbligatorio
+            </div>
+        </div>
+
+    </form><!-- End Angular Reactive Form Validation -->
+
+</div>
+<div class="modal-footer">
+    <button type="button" class="btn btn-secondary" (click)="activeModal.dismiss('Cancel click')">Chiudi</button>
+    <button type="button" class="btn btn-primary" [disabled]="addDocumentForm.invalid"
+        (click)="submitForm()">Salva</button>
+</div>

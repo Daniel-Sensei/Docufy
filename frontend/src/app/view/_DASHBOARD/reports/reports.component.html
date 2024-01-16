@@ -1,0 +1,16 @@
+<!-- Reports -->
+<div class="col-12">
+    <div class="card">
+
+      <div class="card-body custom-chart-size">
+        <h5 class="card-title">Stato Documenti<span></span></h5>
+
+        <div id="reportChart" class="echart mb-4">
+          <canvas appBarChart 
+          [documentiValidi]="documentiValidi.length"
+          [documentiInScadenza]="documentiInScadenza.length"
+          [documentiScaduti]="documentiScaduti.length" ></canvas>
+        </div>
+
+    </div>
+  </div><!-- End Reports -->

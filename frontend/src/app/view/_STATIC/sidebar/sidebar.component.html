@@ -1,0 +1,72 @@
+<aside id="sidebar" class="sidebar">
+
+  <ul class="sidebar-nav" id="sidebar-nav">
+
+    <li class="nav-item">
+      <a class="nav-link " routerLink="/">
+        <i class="bi bi-speedometer2"></i>
+        <span>Dashboard</span>
+      </a>
+    </li><!-- End Dashboard Nav -->
+
+    <li class="nav-heading">Pagine</li>
+
+    <li *ngIf="role=='C'" class="nav-item">
+      <a class="nav-link collapsed" routerLink="/aziende">
+        <i class="bi bi-building"></i>
+        <span>Aziende</span>
+      </a>
+    </li><!-- End Aziende Page Nav -->
+
+    <li class="nav-item">
+      <a class="nav-link collapsed" routerLink="/documenti">
+        <i class="bi bi-file-text"></i>
+        <span>Documenti Aziendali</span>
+      </a>
+    </li><!-- End Documenti Page Nav -->
+
+    <li class="nav-item">
+      <a class="nav-link collapsed" routerLink="/dipendenti">
+        <i class="bi bi-people"></i>
+        <span>Dipendenti</span>
+      </a>
+    </li><!-- End Dipendenti Page Nav -->
+
+    <li class="nav-item">
+      <a class="nav-link collapsed" routerLink="/corsi">
+        <i class="bi bi-grid"></i>
+        <span>Corsi</span>
+      </a>
+    </li><!-- End Corsi Page Nav -->
+
+    <li class="nav-item">
+      <a class="nav-link collapsed" routerLink="/profile">
+        <i class="bi bi-person"></i>
+        <span>Profilo</span>
+      </a>
+    </li><!-- End Azienda Page Nav -->
+
+    <li class="nav-item">
+      <a class="nav-link collapsed" routerLink="/question">
+        <i class="bi bi-question-circle"></i>
+        <span>F.A.Q.</span>
+      </a>
+    </li><!-- End F.A.Q Page Nav -->
+
+    <li class="nav-item">
+      <a class="nav-link collapsed" routerLink="/contact">
+        <i class="bi bi-envelope"></i>
+        <span>Contatti</span>
+      </a>
+    </li><!-- End Contact Page Nav -->
+
+    <li class="nav-item">
+      <a class="nav-link collapsed" type="button" (click)="logout()">
+        <i class="bi bi-box-arrow-right"></i>
+        <span>Esci</span>
+      </a>
+    </li><!-- End Login Page Nav -->
+
+  </ul>
+
+</aside><!-- End Sidebar-->
