@@ -20,10 +20,6 @@ public class UserC extends User
         super();
     }
 
-    public UserC(String email, String password, String pIva) {
-        super(email, password, pIva);
-    }
-
     public UserC(User user) {
         super(user.email, user.password, user.pIva);
     }
@@ -284,7 +280,7 @@ public class UserC extends User
     }
 
     @Override
-    public ResponseEntity<String> modificaCorso(Corso corso, String pIva) {
+    public ResponseEntity<String> modificaCorso(Corso corso) {
 
         // controllo che il corso fornito non sia null
         if(corso==null) return new ResponseEntity<>(HttpStatus.BAD_REQUEST);
@@ -293,19 +289,11 @@ public class UserC extends User
         // controllo che il corso esista
         if (c==null) return new ResponseEntity<>(HttpStatus.BAD_REQUEST);
 
-        Azienda a = DBManager.getInstance().getAziendaDao().findByPIva(pIva);
-        // controllo che l'azienda esista
-        if (a==null) return new ResponseEntity<>(HttpStatus.BAD_REQUEST);
-
         // controllo che il consulente sia associato al corso da modificare
         if (!this.pIva.equals(c.getConsulente().getPIva()))
             return new ResponseEntity<>(HttpStatus.UNAUTHORIZED);
 
-        // controllo che l'azienda sia associata al corso da modificare
-        if(!pIva.equals(c.getAzienda().getPIva()))
-            return new ResponseEntity<>(HttpStatus.UNAUTHORIZED);
-
-        if(!Utility.checkConsultantAgency(this.pIva, pIva))
+        if(!Utility.checkConsultantAgency(this.pIva, c.getAzienda().getPIva()))
             return new ResponseEntity<>(HttpStatus.UNAUTHORIZED);
 
         if (DBManager.getInstance().getCorsoDao().update(corso))
@@ -493,7 +481,7 @@ public class UserC extends User
             documento.setAzienda(a);
         }
 
-        documento.setStato(checkDataDocumento(documento));
+        documento.setStato(Utility.setDataDocumento(documento));
 
         String filePath;
         try {
@@ -523,7 +511,7 @@ public class UserC extends User
         // converto il json in un documento
         Documento documento = Utility.jsonToObject(json, Documento.class);
 
-        documento.setStato(checkDataDocumento(documento));
+        documento.setStato(Utility.setDataDocumento(documento));
 
         // controllo che il documento esista
         Documento d = DBManager.getInstance().getDocumentoDao().findById(documento.getId());

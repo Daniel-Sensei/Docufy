@@ -205,7 +205,7 @@ public class UserA extends User
     public ResponseEntity<String> aggiungiCorso(Corso corso, String pIva) {return new ResponseEntity<>(HttpStatus.UNAUTHORIZED);}
 
     @Override
-    public ResponseEntity<String> modificaCorso(Corso corso, String pIva) {return new ResponseEntity<>(HttpStatus.UNAUTHORIZED);}
+    public ResponseEntity<String> modificaCorso(Corso corso) {return new ResponseEntity<>(HttpStatus.UNAUTHORIZED);}
 
     @Override
     public ResponseEntity<String> rimuoviCorso(Long id) {return new ResponseEntity<>(HttpStatus.UNAUTHORIZED);}
@@ -478,7 +478,7 @@ public class UserA extends User
 
         Documento documento = Utility.jsonToObject(json, Documento.class);
 
-        documento.setStato(checkDataDocumento(documento));
+        documento.setStato(Utility.setDataDocumento(documento));
 
         String filePath;
         try {
@@ -524,7 +524,7 @@ public class UserA extends User
         Documento documento = Utility.jsonToObject(json, Documento.class);
 
         // controllo lo stato del documento: Scaduto, Valido o In Scadenza (1 MESE PRIMA SCADENZA)
-        documento.setStato(checkDataDocumento(documento));
+        documento.setStato(Utility.setDataDocumento(documento));
 
         // controllo che il documento esista
         Documento d = DBManager.getInstance().getDocumentoDao().findById(documento.getId());

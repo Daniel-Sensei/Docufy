@@ -64,11 +64,14 @@ public class CorsoService {
     @PostMapping("/modifica-corso")
     public ResponseEntity<String> modificaCorso(HttpServletRequest req, @RequestBody Corso corso, @RequestParam String pIva){
 
+        // Although the pIva parameter is requested to the client, it is not used in the method.
+        // This is because the pIva is already contained in the corso object.
+
         User user = Utility.getRequestUser(req);
 
         if(user == null) return new ResponseEntity<>(HttpStatus.UNAUTHORIZED);
 
-        return user.modificaCorso(corso, pIva);
+        return user.modificaCorso(corso);
     }
 
     @DeleteMapping("/rimuovi-corso")
